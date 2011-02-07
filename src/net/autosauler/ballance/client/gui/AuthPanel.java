@@ -173,6 +173,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 		passwordText = new PasswordTextBox();
 
 		loginText.setText("");
+		loginText.setWidth("150px");
+		loginText.setMaxLength(50);
 		loginText.addKeyPressHandler(new KeyPressHandler() {
 
 			@Override
@@ -198,6 +200,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 		passwordPanel.add(passwordLabel);
 
 		passwordText.setText("");
+		passwordText.setWidth("150px");
+		passwordText.setMaxLength(50);
 		passwordText.addKeyPressHandler(this);
 		passwordPanel.add(passwordText);
 
