@@ -1,4 +1,11 @@
 /** Add css rules here for your application. */
+html,body {
+  background-color: rgb(255,255,255);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  border: none;
+}
 
 
 /** Example rules used by the template application (remove for your app) */
@@ -31,4 +38,42 @@ h1 {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+
+#spinner {
+	width: 390px;
+	height: 60px;
+	vertical-align: bottom;
+	margin: auto;
+	z-order: 999;
+	font-size: 42px;
+	padding-left: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #dbdbdb;
+}
+
+#spinner img {
+	padding-right: 10px;
+}
+
+.authPanel {
+	margin: 2px;
+	background-color: #b5ebff;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #46b0d6;
+}
+
+.leftPanel {
+	background-color: #e8eaed;
+	height: 100%;
+	border-right-width: 2px;
+	border-right-style: solid;
+	border-right-color: #8a8a8a;
+}
+
+.mainPanel {
+	width: 100%;
+	height: 100%;
 }
