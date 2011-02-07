@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Ballance_autosauler_net implements EntryPoint {
 
+	/** The Constant sessionId. */
 	public static final SessionId sessionId = new SessionId();
 
 	/** The isloggedin. */
@@ -54,6 +55,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 				} else if (sessionId.getSessionId().equals(
 						result.getSessionId())) {
 					isloggedin = true;
+					sessionId.setSession(result);
 				}
 
 				mainpanel = new MainPanel();

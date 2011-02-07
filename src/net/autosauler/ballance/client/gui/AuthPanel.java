@@ -4,6 +4,7 @@ import java.util.Date;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.SessionId;
+import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -134,9 +135,38 @@ public class AuthPanel extends Composite implements ClickHandler,
 		cancelButton = null;
 
 		Label helloLabel = new Label();
-		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId.getUsername()));
+		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId
+				.getUsername()));
 		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(helloLabel);
+
+		UserRole userrole = Ballance_autosauler_net.sessionId.getUserrole();
+		StringBuilder sb = new StringBuilder();
+		sb.append('|');
+		if (userrole.isAdmin()) {
+			sb.append("Admin");
+			sb.append('|');
+		}
+		if (userrole.isDocuments()) {
+			sb.append("Documents");
+			sb.append('|');
+		}
+		if (userrole.isFinances()) {
+			sb.append("Finances");
+			sb.append('|');
+		}
+		if (userrole.isManager()) {
+			sb.append("Manager");
+			sb.append('|');
+		}
+		String rolestext = "Guest";
+		if (sb.length() > 0) {
+			rolestext = sb.toString();
+		}
+		Label rolesLabel = new Label(rolestext);
+		rolesLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		rolesLabel.setTitle(l.titleRoles());
+		authPanel.add(rolesLabel);
 
 		logoutButton = new Button();
 		logoutButton.setText(l.btnLogout());
@@ -266,11 +296,15 @@ public class AuthPanel extends Composite implements ClickHandler,
 						if (result != null) {
 							Ballance_autosauler_net.setLoggedInState(true);
 
-							Cookies.setCookie("session", result.getSessionId(), new Date(
-									System.currentTimeMillis() + ONE_HOUR));
+							Cookies.setCookie("session", result.getSessionId(),
+									new Date(System.currentTimeMillis()
+											+ ONE_HOUR));
 							Ballance_autosauler_net.sessionId
 									.setSessionId(result.getSessionId());
-							Ballance_autosauler_net.sessionId.setUsername(result.getUsername());
+							Ballance_autosauler_net.sessionId
+									.setUsername(result.getUsername());
+							Ballance_autosauler_net.sessionId
+									.setUserrole(result.getUserrole());
 							loginAction();
 
 						} else {
@@ -321,8 +355,12 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google.gwt.event.dom.client.KeyPressEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google
+	 * .gwt.event.dom.client.KeyPressEvent)
 	 */
 	@Override
 	public void onKeyPress(KeyPressEvent event) {

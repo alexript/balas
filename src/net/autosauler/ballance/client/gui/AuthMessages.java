@@ -18,4 +18,5 @@ public interface AuthMessages extends Messages {
 	String badFieldValue();
 	String badAuth();
 	String commError();
+	String titleRoles();
 }
