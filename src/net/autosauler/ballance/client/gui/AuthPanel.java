@@ -2,6 +2,7 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -37,7 +38,11 @@ public class AuthPanel extends Composite implements ClickHandler {
 	/** The formname. */
 	private String formname = null;
 	
+	/** The logout button. */
 	private Button logoutButton = null;
+	
+	/** The l18n. */
+	private AuthMessages l = null;
 	
 	/**
 	 * Instantiates a new auth panel.
@@ -45,8 +50,9 @@ public class AuthPanel extends Composite implements ClickHandler {
 	 * @param title the title
 	 */
 	public AuthPanel(String title) {
+		l = GWT.create(AuthMessages.class);
 		formname = title;
-		authPanel.setWidth("242px");
+		authPanel.setWidth("244px");
 		authPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		if(Ballance_autosauler_net.isLoggedIn()) {
@@ -59,6 +65,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 		this.setStyleName("authPanel");
 
 	}
+	
 	
 	/**
 	 * Logoff action.
@@ -85,14 +92,15 @@ public class AuthPanel extends Composite implements ClickHandler {
 		cancelButton = null;
 		
 		Label helloLabel = new Label();
-		helloLabel.setText("Hello, User!!!");
+		helloLabel.setText(l.helloUserMsg("User")); // TODO: use real username
 		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(helloLabel);
 		
 		logoutButton = new Button();
-		logoutButton.setText("Logout");
+		logoutButton.setText(l.btnLogout());
 		logoutButton.addClickHandler(this);
 		authPanel.add(logoutButton);
+		
 	}
 	
 	/**
@@ -115,7 +123,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 		loginPanel.setSpacing(3);
 		
 		Label loginLabel = new Label();
-		loginLabel.setText("Login:");
+		loginLabel.setText(l.labelLogin());
 		loginLabel.setWidth("70px");
 		loginPanel.add(loginLabel);
 		
@@ -130,7 +138,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 		passwordPanel.setSpacing(3);
 		
 		Label passwordLabel = new Label();
-		passwordLabel.setText("Password:");
+		passwordLabel.setText(l.labelPssword());
 		passwordLabel.setWidth("70px");
 		passwordPanel.add(passwordLabel);
 		
@@ -146,16 +154,17 @@ public class AuthPanel extends Composite implements ClickHandler {
 		buttonsPanel.setSpacing(3);
 		
 		okButton = new Button();
-		okButton.setText("Ok");
+		okButton.setText(l.btnLogin());
 		okButton.addClickHandler(this);
 		buttonsPanel.add(okButton);
 		
 		cancelButton = new Button();
-		cancelButton.setText("Cancel");
+		cancelButton.setText(l.btnCancel());
 		cancelButton.addClickHandler(this);
 		buttonsPanel.add(cancelButton);
 		
 		authPanel.add(buttonsPanel);
+
 	}
 	
 	/* (non-Javadoc)
