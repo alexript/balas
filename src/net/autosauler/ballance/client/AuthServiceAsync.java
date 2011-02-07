@@ -19,7 +19,7 @@ public interface AuthServiceAsync {
 	 * @param password the password
 	 * @param callback the callback
 	 */
-	void chkAuth(String login, String password, AsyncCallback<String> callback);
+	void chkAuth(String login, String password, AsyncCallback<SessionId> callback);
 
 	/**
 	 * Logoff.

@@ -3,6 +3,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.SessionId;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -133,7 +134,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		cancelButton = null;
 
 		Label helloLabel = new Label();
-		helloLabel.setText(l.helloUserMsg("User")); // TODO: use real username
+		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId.getUsername()));
 		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(helloLabel);
 
@@ -258,17 +259,18 @@ public class AuthPanel extends Composite implements ClickHandler,
 		messageLabel.setText("");
 		MainPanel.setCommInfo(true);
 		Ballance_autosauler_net.authService.chkAuth(login, password,
-				new AsyncCallback<String>() {
+				new AsyncCallback<SessionId>() {
 
 					@Override
-					public void onSuccess(String result) {
+					public void onSuccess(SessionId result) {
 						if (result != null) {
 							Ballance_autosauler_net.setLoggedInState(true);
 
-							Cookies.setCookie("session", result, new Date(
+							Cookies.setCookie("session", result.getSessionId(), new Date(
 									System.currentTimeMillis() + ONE_HOUR));
 							Ballance_autosauler_net.sessionId
-									.setSessionId(result);
+									.setSessionId(result.getSessionId());
+							Ballance_autosauler_net.sessionId.setUsername(result.getUsername());
 							loginAction();
 
 						} else {

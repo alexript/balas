@@ -27,7 +27,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 	 * @see net.autosauler.ballance.client.AuthService#chkAuth(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String chkAuth(String login, String password) {
+	public SessionId chkAuth(String login, String password) {
 		HttpServletRequest request = getThreadLocalRequest();
 		String urlAddress = request.getRequestURL().toString();
 		try {
@@ -41,10 +41,12 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		boolean valid = false;
 		
 		String hashFromDB = findHashForUser(login);
+		String username = "Anonymous";
 		if(hashFromDB!=null && !hashFromDB.isEmpty()) {
 			valid = BCrypt.checkpw(password, hashFromDB);
 		} else {
 			valid = login.equals("admin@127.0.0.1") && password.equals("admin");
+			username = "Admin The Great";
 		}
 		
 		//String hash = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -52,7 +54,10 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		if(valid) {
 			HttpSession httpSession = getThreadLocalRequest().getSession();
 			httpSession.setMaxInactiveInterval(1000 * 60 *60);
-			return httpSession.getId();
+			SessionId sessionid = new SessionId();
+			sessionid.setSessionId(httpSession.getId());
+			sessionid.setUsername(username);
+			return sessionid;
 		}
 		return null;
 	}

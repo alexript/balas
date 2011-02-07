@@ -6,6 +6,7 @@ public class SessionId implements Serializable {
 
 	private static final long serialVersionUID = -2546318251991425119L;
 	private String sessionId = "";
+	private String username = "";
 
 	public void setSessionId(String sessionId) {
 		if (sessionId == null) {
@@ -18,4 +19,12 @@ public class SessionId implements Serializable {
 	public String getSessionId() {
 		return sessionId;
 	}// end getSessionId
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUsername() {
+		return username;
+	}
 }

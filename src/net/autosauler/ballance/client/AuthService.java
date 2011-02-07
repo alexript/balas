@@ -17,7 +17,7 @@ public interface AuthService extends RemoteService {
 	 * @param password the password
 	 * @return true, if successful
 	 */
-	public String chkAuth(String login, String password);
+	public SessionId chkAuth(String login, String password);
 	
 	/**
 	 * Logoff.
