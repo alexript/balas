@@ -81,6 +81,9 @@ public class LogoutDialog extends DialogBox {
 		buttons.setSpacing(5);
 		
 		setWidget(buttons);
+		
+		no.setFocus(true);
+		
 		setPopupPosition((Ballance_autosauler_net.mainpanel.getOffsetWidth()/2-this.getOffsetWidth()), 300);
 	}
 }
