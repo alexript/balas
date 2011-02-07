@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -96,8 +97,16 @@ public class AuthPanel extends Composite implements ClickHandler {
 	 * Construct message label.
 	 */
 	private void constructMessageLabel() {
+		HorizontalPanel bottomPanel = new HorizontalPanel();
+				
 		messageLabel.setText("");
-		authPanel.add(messageLabel);
+		bottomPanel.add(messageLabel);
+		
+		InlineHTML locales = new InlineHTML("&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\"/></a>&nbsp;");
+		locales.setWidth("40px");
+		bottomPanel.add(locales);
+
+		authPanel.add(bottomPanel);
 	}
 	
 	/**
