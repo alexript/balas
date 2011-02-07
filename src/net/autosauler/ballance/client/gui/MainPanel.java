@@ -14,6 +14,9 @@ public class MainPanel extends Composite {
 	/** The left column panel. */
 	private LeftPanel leftPanel = new LeftPanel();
 	
+	/** The comminfo. */
+	private static CommInfoPanel comminfo = null;
+	
 	/**
 	 * Instantiates a new main panel.
 	 */
@@ -22,5 +25,19 @@ public class MainPanel extends Composite {
 		
 		initWidget(panel);
 		this.setStyleName("mainPanel");
+	}
+	
+	/**
+	 * Sets the comm info.
+	 *
+	 * @param f the new comm info
+	 */
+	public static void setCommInfo(boolean f) {
+		if(f) {
+			comminfo = new CommInfoPanel();
+			comminfo.show();
+		} else {
+			comminfo.hide();
+		}
 	}
 }

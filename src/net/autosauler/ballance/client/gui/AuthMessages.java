@@ -15,4 +15,7 @@ public interface AuthMessages extends Messages {
 	String qtnLogout();
 	String btnYes();
 	String btnNo();
+	String badFieldValue();
+	String badAuth();
+	String commError();
 }

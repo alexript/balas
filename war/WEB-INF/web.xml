@@ -7,13 +7,13 @@
   
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>authServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.AuthServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/greet</url-pattern>
+    <servlet-name>authServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/auth</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

@@ -5,6 +5,7 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -44,6 +45,12 @@ public class AuthPanel extends Composite implements ClickHandler {
 	/** The l18n. */
 	private AuthMessages l = null;
 	
+	/** The message label. */
+	private Label messageLabel = null;
+	
+	/** The Constant errorfieldstyle. */
+	final private static String errorfieldstyle = "errorFieldValue"; 
+	
 	/**
 	 * Instantiates a new auth panel.
 	 *
@@ -54,6 +61,10 @@ public class AuthPanel extends Composite implements ClickHandler {
 		formname = title;
 		authPanel.setWidth("244px");
 		authPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		
+		messageLabel = new Label();
+		messageLabel.setText("");
+		messageLabel.setStyleName("authMessageLabel");
 		
 		if(Ballance_autosauler_net.isLoggedIn()) {
 			constructHelloPane();
@@ -82,6 +93,14 @@ public class AuthPanel extends Composite implements ClickHandler {
 	}
 	
 	/**
+	 * Construct message label.
+	 */
+	private void constructMessageLabel() {
+		messageLabel.setText("");
+		authPanel.add(messageLabel);
+	}
+	
+	/**
 	 * Construct hello pane.
 	 */
 	private void constructHelloPane() {
@@ -101,6 +120,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 		logoutButton.addClickHandler(this);
 		authPanel.add(logoutButton);
 		
+		constructMessageLabel();
 	}
 	
 	/**
@@ -164,6 +184,8 @@ public class AuthPanel extends Composite implements ClickHandler {
 		buttonsPanel.add(cancelButton);
 		
 		authPanel.add(buttonsPanel);
+		
+		constructMessageLabel();
 
 	}
 	
@@ -173,16 +195,64 @@ public class AuthPanel extends Composite implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		if(event.getSource().equals(okButton)) { // let's auth
-			loginAction();
+			String login = loginText.getText().trim();
+			String password = passwordText.getText().trim();
+			boolean fieldsok = true;
+			if(login==null || login.length()<5) {
+				loginText.addStyleName(errorfieldstyle);
+				fieldsok = false;
+			} else {
+				loginText.removeStyleName(errorfieldstyle);
+			}
+
+			if(password==null || password.length()<5) {
+				passwordText.addStyleName(errorfieldstyle);
+				fieldsok = false;
+			} else {
+				passwordText.removeStyleName(errorfieldstyle);
+			}
+
+			if(!fieldsok) {
+				messageLabel.setText(l.badFieldValue());
+				return;
+			}
+			
+			messageLabel.setText("");
+			MainPanel.setCommInfo(true);
+			Ballance_autosauler_net.authService.chkAuth(login, password, new AsyncCallback<Boolean>() {
+				
+				@Override
+				public void onSuccess(Boolean result) {
+					Ballance_autosauler_net.setLoggedInState(result);
+					if(result) {
+						loginAction();
+					} else {
+						logoffAction();
+						messageLabel.setText(l.badAuth());
+					}
+					MainPanel.setCommInfo(false);
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					MainPanel.setCommInfo(false);
+					messageLabel.setText(l.commError());
+				}
+			});
+			
+			
 		} else if (event.getSource().equals(cancelButton)) { // clean form
 			
 			if(passwordText!=null) {
 				passwordText.setText("");
+				passwordText.removeStyleName(errorfieldstyle);
 			}
 			if(loginText!=null) {
 				loginText.setText("");
 				loginText.setFocus(true);
+				loginText.removeStyleName(errorfieldstyle);
 			}
+			messageLabel.setText("");
 		} else if (event.getSource().equals(logoutButton)) {
 			new LogoutDialog().show();
 		}
