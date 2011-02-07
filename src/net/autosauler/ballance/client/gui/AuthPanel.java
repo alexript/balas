@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The Class AuthPanel.
  */
 public class AuthPanel extends Composite implements ClickHandler {
-
+	
 	/** The auth panel. */
 	private VerticalPanel authPanel = new VerticalPanel();
 	
@@ -37,6 +37,8 @@ public class AuthPanel extends Composite implements ClickHandler {
 	/** The formname. */
 	private String formname = null;
 	
+	private Button logoutButton = null;
+	
 	/**
 	 * Instantiates a new auth panel.
 	 *
@@ -44,7 +46,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 	 */
 	public AuthPanel(String title) {
 		formname = title;
-		authPanel.setWidth("200px");
+		authPanel.setWidth("242px");
 		authPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		if(Ballance_autosauler_net.isLoggedIn()) {
@@ -81,9 +83,16 @@ public class AuthPanel extends Composite implements ClickHandler {
 		passwordText = null;
 		okButton = null;
 		cancelButton = null;
+		
 		Label helloLabel = new Label();
 		helloLabel.setText("Hello, User!!!");
+		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(helloLabel);
+		
+		logoutButton = new Button();
+		logoutButton.setText("Logout");
+		logoutButton.addClickHandler(this);
+		authPanel.add(logoutButton);
 	}
 	
 	/**
@@ -91,6 +100,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 	 */
 	private void constructAuthForm() {
 		authPanel.clear();
+		logoutButton = null;
 		
 		if(formname!=null && !formname.isEmpty()) {
 			Label title = new Label();
@@ -154,7 +164,7 @@ public class AuthPanel extends Composite implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		if(event.getSource().equals(okButton)) { // let's auth
-			
+			loginAction();
 		} else if (event.getSource().equals(cancelButton)) { // clean form
 			
 			if(passwordText!=null) {
@@ -164,6 +174,8 @@ public class AuthPanel extends Composite implements ClickHandler {
 				loginText.setText("");
 				loginText.setFocus(true);
 			}
+		} else if (event.getSource().equals(logoutButton)) {
+			new LogoutDialog().show();
 		}
 
 	}
