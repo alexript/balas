@@ -13,20 +13,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface AuthServiceAsync {
 
 	/**
-	 * Checks if is session auth.
-	 *
-	 * @param callback the callback
-	 */
-	void isSessionAuth(AsyncCallback<Boolean> callback);
-
-	/**
 	 * Chk auth.
 	 *
 	 * @param login the login
 	 * @param password the password
 	 * @param callback the callback
 	 */
-	void chkAuth(String login, String password, AsyncCallback<Boolean> callback);
+	void chkAuth(String login, String password, AsyncCallback<String> callback);
 
 	/**
 	 * Logoff.
@@ -34,5 +27,7 @@ public interface AuthServiceAsync {
 	 * @param callback the callback
 	 */
 	void logoff(AsyncCallback<Void> callback);
+
+	void session(SessionId sessionId, AsyncCallback<SessionId> callback);
 
 }

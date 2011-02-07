@@ -1,10 +1,13 @@
 package net.autosauler.ballance.client.gui;
 
+import java.util.Date;
+
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -17,6 +20,8 @@ public class LogoutDialog extends DialogBox {
 	
 	/** The localizator. */
 	private AuthMessages l = null;
+	
+	private final static long ONE_HOUR = 1000 * 60 * 60; 
 	
 	/**
 	 * Instantiates a new logout dialog.
@@ -46,6 +51,9 @@ public class LogoutDialog extends DialogBox {
 					@Override
 					public void onSuccess(Void result) {
 						Ballance_autosauler_net.setLoggedInState(false);
+						Cookies.setCookie("session", "", new Date(System.currentTimeMillis() + ONE_HOUR));
+						Ballance_autosauler_net.sessionId.setSessionId("");
+
 						LeftPanel.authPanel.logoffAction();
 						MainPanel.setCommInfo(false);
 						LogoutDialog.this.hide();

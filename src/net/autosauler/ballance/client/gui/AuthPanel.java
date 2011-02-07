@@ -1,10 +1,13 @@
 package net.autosauler.ballance.client.gui;
 
+import java.util.Date;
+
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,6 +55,8 @@ public class AuthPanel extends Composite implements ClickHandler {
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue"; 
 	
+	private final static long ONE_HOUR = 1000 * 60 * 60; 
+	
 	/**
 	 * Instantiates a new auth panel.
 	 *
@@ -66,6 +71,8 @@ public class AuthPanel extends Composite implements ClickHandler {
 		messageLabel = new Label();
 		messageLabel.setText("");
 		messageLabel.setStyleName("authMessageLabel");
+		
+		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
 		
 		if(Ballance_autosauler_net.isLoggedIn()) {
 			constructHelloPane();
@@ -228,17 +235,23 @@ public class AuthPanel extends Composite implements ClickHandler {
 			
 			messageLabel.setText("");
 			MainPanel.setCommInfo(true);
-			Ballance_autosauler_net.authService.chkAuth(login, password, new AsyncCallback<Boolean>() {
+			Ballance_autosauler_net.authService.chkAuth(login, password, new AsyncCallback<String>() {
 				
 				@Override
-				public void onSuccess(Boolean result) {
-					Ballance_autosauler_net.setLoggedInState(result);
-					if(result) {
+				public void onSuccess(String result) {
+					if(result != null){
+						Ballance_autosauler_net.setLoggedInState(true);
+
+						Cookies.setCookie("session", result, new Date(System.currentTimeMillis() + ONE_HOUR));
+						Ballance_autosauler_net.sessionId.setSessionId(result);
 						loginAction();
-					} else {
+						
+					}else{
+						Ballance_autosauler_net.setLoggedInState(false);
 						logoffAction();
 						messageLabel.setText(l.badAuth());
-					}
+					}//end else
+					
 					MainPanel.setCommInfo(false);
 				}
 				
