@@ -6,13 +6,26 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 
+/**
+ * The Class UserList.
+ */
 public class UserList {
+
+	/**
+	 * Instantiates a new user list.
+	 */
 	public UserList() {
 
 	}
 
+	/**
+	 * Creates the default records.
+	 * 
+	 * @param db
+	 *            the db
+	 */
 	public static void createDefaultRecords(DB db) {
-		
+
 		if (db != null) {
 			DBCollection coll = db.getCollection("registredusers");
 			if (coll.getCount() < 1) {
@@ -25,7 +38,7 @@ public class UserList {
 				user.setUsername("Admin The Great");
 				user.setUserrole(defaultroles);
 				user.create();
-				
+
 				coll.createIndex(new BasicDBObject("login", 1));
 			}
 		}

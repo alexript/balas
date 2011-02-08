@@ -49,9 +49,9 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		Long uid = -1L;
 
 		User user = User.find(login);
-		if(user!=null) {
+		if (user != null) {
 			valid = user.isValidUser(password);
-			if(valid) {
+			if (valid) {
 				username = user.getUsername();
 				userrole.setRole(user.getUserroleAsInt());
 				uid = user.getUid();
@@ -73,8 +73,6 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		}
 		return null;
 	}
-
-	
 
 	/*
 	 * (non-Javadoc)
