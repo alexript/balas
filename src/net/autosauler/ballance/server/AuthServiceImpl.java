@@ -8,15 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.AuthService;
 import net.autosauler.ballance.client.SessionId;
-import net.autosauler.ballance.server.crypt.BCrypt;
-import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.server.model.User;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 
 /**
  * The Class AuthServiceImpl.
@@ -52,63 +47,34 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		String username = "Anonymous";
 		UserRole userrole = new UserRole();
 		Long uid = -1L;
-		String hashFromDB = null;
 
-		DBObject myDoc = findHashForUser(login);
+		User user = User.find(login);
+		if(user!=null) {
+			valid = user.isValidUser(password);
+			if(valid) {
+				username = user.getUsername();
+				userrole.setRole(user.getUserroleAsInt());
+				uid = user.getUid();
 
-		if (myDoc != null) {
-			hashFromDB = (String) myDoc.get("hash");
-			username = (String) myDoc.get("fullname");
-			userrole.setRole((Integer) myDoc.get("roles"));
-			uid = 0L;
-		}
+				HttpSession httpSession = getThreadLocalRequest().getSession();
+				httpSession.setMaxInactiveInterval(1000 * 60 * 60);
+				SessionId sessionid = new SessionId();
+				sessionid.setSessionId(httpSession.getId());
+				sessionid.setUsername(username);
+				httpSession.setAttribute("username", username);
+				sessionid.setUserrole(userrole);
+				httpSession.setAttribute("userrole", userrole.getRole());
+				sessionid.setUid(uid);
+				httpSession.setAttribute("uid", uid);
+				httpSession.setAttribute("login", login);
+				return sessionid;
 
-		if (hashFromDB != null && !hashFromDB.isEmpty()) {
-			valid = BCrypt.checkpw(password, hashFromDB);
-			// } else {
-			// valid = login.equals("admin@127.0.0.1") &&
-			// password.equals("admin");
-			// username = "Admin The Great";
-			// userrole.setAdmin();
-			// uid = 0L;
-		}
-
-		if (valid) {
-			HttpSession httpSession = getThreadLocalRequest().getSession();
-			httpSession.setMaxInactiveInterval(1000 * 60 * 60);
-			SessionId sessionid = new SessionId();
-			sessionid.setSessionId(httpSession.getId());
-			sessionid.setUsername(username);
-			httpSession.setAttribute("username", username);
-			sessionid.setUserrole(userrole);
-			httpSession.setAttribute("userrole", userrole.getRole());
-			sessionid.setUid(uid);
-			httpSession.setAttribute("uid", uid);
-			httpSession.setAttribute("login", login);
-			return sessionid;
+			}
 		}
 		return null;
 	}
 
-	/**
-	 * Find hash for user.
-	 * 
-	 * @param login
-	 *            the login
-	 * @return the string
-	 */
-	private DBObject findHashForUser(String login) {
-		DBObject myDoc = null;
-		DB db = Database.get();
-		if (db != null) {
-			DBCollection coll = db.getCollection("registredusers");
-			BasicDBObject query = new BasicDBObject();
-			query.put("login", login);
-			myDoc = coll.findOne(query);
-
-		}
-		return myDoc;
-	}
+	
 
 	/*
 	 * (non-Javadoc)

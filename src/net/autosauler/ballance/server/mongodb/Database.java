@@ -3,12 +3,9 @@ package net.autosauler.ballance.server.mongodb;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import net.autosauler.ballance.server.crypt.BCrypt;
-import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.server.model.UserList;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
@@ -96,21 +93,7 @@ public class Database {
 				mongodatabase = db;
 
 				// check users and if none - create admin
-				DBCollection coll = db.getCollection("registredusers");
-				if (coll.getCount() < 1) {
-					String defaultpassword = "admin";
-					UserRole defaultroles = new UserRole();
-					defaultroles.setAdmin();
-					
-					BasicDBObject doc = new BasicDBObject();
-
-					doc.put("hash", BCrypt.hashpw(defaultpassword, BCrypt.gensalt()));
-					doc.put("login", "admin@127.0.0.1");
-					doc.put("fullname", "Admin The Great");
-					doc.put("roles", defaultroles.getRole());
-					coll.insert(doc);
-					coll.createIndex(new BasicDBObject("login", 1));
-				}
+				UserList.createDefaultRecords(db);
 
 			}
 		}
