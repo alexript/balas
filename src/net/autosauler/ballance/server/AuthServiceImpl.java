@@ -9,9 +9,14 @@ import javax.servlet.http.HttpSession;
 import net.autosauler.ballance.client.AuthService;
 import net.autosauler.ballance.client.SessionId;
 import net.autosauler.ballance.server.crypt.BCrypt;
+import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 /**
  * The Class AuthServiceImpl.
@@ -42,21 +47,29 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 
 		boolean valid = false;
 
-		String hashFromDB = findHashForUser(login);
 		String username = "Anonymous";
 		UserRole userrole = new UserRole();
 		Long uid = -1L;
+		String hashFromDB = null;
 
-		if (hashFromDB != null && !hashFromDB.isEmpty()) {
-			valid = BCrypt.checkpw(password, hashFromDB);
-		} else {
-			valid = login.equals("admin@127.0.0.1") && password.equals("admin");
-			username = "Admin The Great";
-			userrole.setAdmin();
+		DBObject myDoc = findHashForUser(login);
+
+		if (myDoc != null) {
+			hashFromDB = (String) myDoc.get("hash");
+			username = (String) myDoc.get("fullname");
+			userrole.setRole((Integer) myDoc.get("roles"));
 			uid = 0L;
 		}
 
-		// String hash = BCrypt.hashpw(password, BCrypt.gensalt());
+		if (hashFromDB != null && !hashFromDB.isEmpty()) {
+			valid = BCrypt.checkpw(password, hashFromDB);
+			// } else {
+			// valid = login.equals("admin@127.0.0.1") &&
+			// password.equals("admin");
+			// username = "Admin The Great";
+			// userrole.setAdmin();
+			// uid = 0L;
+		}
 
 		if (valid) {
 			HttpSession httpSession = getThreadLocalRequest().getSession();
@@ -81,9 +94,17 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 	 *            the login
 	 * @return the string
 	 */
-	private String findHashForUser(String login) {
-		// TODO Auto-generated method stub
-		return null;
+	private DBObject findHashForUser(String login) {
+		DBObject myDoc = null;
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection("registredusers");
+			BasicDBObject query = new BasicDBObject();
+			query.put("login", login);
+			myDoc = coll.findOne(query);
+
+		}
+		return myDoc;
 	}
 
 	/*
