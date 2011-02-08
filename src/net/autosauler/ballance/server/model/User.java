@@ -1,5 +1,7 @@
 package net.autosauler.ballance.server.model;
 
+import java.util.Date;
+
 import net.autosauler.ballance.server.crypt.BCrypt;
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.UserRole;
@@ -20,14 +22,23 @@ public class User {
 	/** The hash. */
 	private String hash;
 
-	/** The username. */
+	/** The user full name. */
 	private String username;
 
-	/** The userrole. */
+	/** The user role. */
 	private UserRole userrole;
 
 	/** The uid. */
 	private Long uid;
+
+	/** The user's create date. */
+	private Date createdate;
+
+	/** Is user active. */
+	private boolean active;
+	
+	/** Is user in trash. */
+	private boolean trash;
 
 	/**
 	 * Instantiates a new user.
@@ -37,7 +48,7 @@ public class User {
 	}
 
 	/**
-	 * Instantiates a new user.
+	 * Instantiates a new user from DB record.
 	 * 
 	 * @param myDoc
 	 *            the my doc
@@ -48,15 +59,18 @@ public class User {
 		setHash((String) myDoc.get("hash"));
 		setUsername((String) myDoc.get("fullname"));
 		userrole.setRole((Integer) myDoc.get("roles"));
+		createdate = (Date) myDoc.get("createdate");
+		active = (Boolean) myDoc.get("isactive");
+		trash = (Boolean) myDoc.get("istrash");
 		setUid(0L);
 	}
 
 	/**
-	 * Find.
+	 * Find user by login.
 	 * 
 	 * @param login
 	 *            the login
-	 * @return the user
+	 * @return the user or null if not found
 	 */
 	public static User find(String login) {
 		User user = null;
@@ -77,11 +91,15 @@ public class User {
 	}
 
 	/**
-	 * Creates the.
+	 * Creates the new user record.
 	 */
-	public void create() {
+	private void create() {
 		DB db = Database.get();
 		if (db != null) {
+			createdate = new Date();
+			active = true;
+			trash = false;
+
 			DBCollection coll = db.getCollection("registredusers");
 
 			BasicDBObject doc = new BasicDBObject();
@@ -89,15 +107,31 @@ public class User {
 			doc.put("hash", hash);
 			doc.put("login", login);
 			doc.put("fullname", username);
-			doc.put("roles", userrole);
-
+			doc.put("roles", userrole.getRole());
+			doc.put("createdate", createdate);
+			doc.put("isactive", active);
+			doc.put("istrash", trash);
 			coll.insert(doc);
 
 		}
 	}
 
 	/**
-	 * Checks if is valid user.
+	 * Adds the new user to database. If login exists - false;
+	 * 
+	 * @return true, if successful
+	 */
+	public boolean addNewUser() {
+		User user = User.find(getLogin());
+		if (user != null) {
+			return false;
+		}
+		create();
+		return true;
+	}
+
+	/**
+	 * Checks if is valid user password.
 	 * 
 	 * @param chkpassword
 	 *            the chkpassword
@@ -219,6 +253,51 @@ public class User {
 	 */
 	public void setPassword(String password) {
 		this.hash = BCrypt.hashpw(password, BCrypt.gensalt());
+	}
+
+	/**
+	 * Gets the createdate.
+	 *
+	 * @return the createdate
+	 */
+	public Date getCreatedate() {
+		return createdate;
+	}
+
+	/**
+	 * Sets the active.
+	 *
+	 * @param active the new active
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
+	 * Checks if is active.
+	 *
+	 * @return true, if is active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * Sets the trash.
+	 *
+	 * @param trash the new trash
+	 */
+	public void setTrash(boolean trash) {
+		this.trash = trash;
+	}
+
+	/**
+	 * Checks if is trash.
+	 *
+	 * @return true, if is trash
+	 */
+	public boolean isTrash() {
+		return trash;
 	}
 
 }

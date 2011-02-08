@@ -19,7 +19,7 @@ public class UserList {
 	}
 
 	/**
-	 * Creates the default records.
+	 * Creates the default records if no users in database.
 	 * 
 	 * @param db
 	 *            the db
@@ -37,7 +37,7 @@ public class UserList {
 				user.setLogin("admin@127.0.0.1");
 				user.setUsername("Admin The Great");
 				user.setUserrole(defaultroles);
-				user.create();
+				user.addNewUser();
 
 				coll.createIndex(new BasicDBObject("login", 1));
 			}
