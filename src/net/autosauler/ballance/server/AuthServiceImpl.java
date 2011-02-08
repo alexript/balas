@@ -35,14 +35,16 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public SessionId chkAuth(String login, String password) {
+		login = login.trim();
+		password = password.trim();
 		HttpServletRequest request = getThreadLocalRequest();
 		String urlAddress = request.getRequestURL().toString();
 		try {
 			URL url = new URL(urlAddress);
-			String hostname = url.getHost();
+			String hostname = url.getHost().trim();
 			login = login + "@" + hostname;
 		} catch (MalformedURLException e) {
-
+			login = login + "@127.0.0.1";
 		}
 
 		boolean valid = false;
@@ -82,6 +84,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 			httpSession.setAttribute("userrole", userrole.getRole());
 			sessionid.setUid(uid);
 			httpSession.setAttribute("uid", uid);
+			httpSession.setAttribute("login", login);
 			return sessionid;
 		}
 		return null;
@@ -115,7 +118,10 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void logoff() {
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
-		httpSession.removeAttribute("ttt");
+		httpSession.removeAttribute("login");
+		httpSession.removeAttribute("uid");
+		httpSession.removeAttribute("username");
+		httpSession.removeAttribute("userrole");
 	}
 
 	/*
