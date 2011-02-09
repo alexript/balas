@@ -1,9 +1,13 @@
+/*
+ * 
+ */
 package net.autosauler.ballance.server.mongodb;
 
 import java.net.UnknownHostException;
 import java.util.List;
 
 import net.autosauler.ballance.server.model.UserList;
+import net.autosauler.ballance.server.util.Mutex;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -35,8 +39,11 @@ public class Database {
 	/** The Constant adminpassword. */
 	private static final String adminpassword = "root";
 
+	private static Mongo mongo = null;
 	/** The mongodatabase. */
 	private static DB mongodatabase = null;
+	
+	private static Mutex lock = new Mutex();
 
 	/**
 	 * Instantiates a new database.
@@ -50,7 +57,7 @@ public class Database {
 	 * 
 	 * @return the dB
 	 */
-	public static DB get() {
+	public static synchronized DB get() {
 		if (mongodatabase == null) {
 			try {
 				initConnection();
@@ -59,6 +66,9 @@ public class Database {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (MongoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -74,15 +84,17 @@ public class Database {
 	 *             the unknown host exception
 	 * @throws MongoException
 	 *             the mongo exception
+	 * @throws InterruptedException 
 	 */
-	private static void initConnection() throws UnknownHostException,
-			MongoException {
-		Mongo m = new Mongo(host, port);
-		DB db = m.getDB("admin");
+	private static synchronized void initConnection() throws UnknownHostException,
+			MongoException, InterruptedException {
+		lock.acquire();
+		mongo = new Mongo(host, port);
+		DB db = mongo.getDB("admin");
 		boolean auth = db.authenticate(adminuser, adminpassword.toCharArray());
 		if (auth) {
-			List<String> databases = m.getDatabaseNames();
-			db = m.getDB(database);
+			List<String> databases = mongo.getDatabaseNames();
+			db = mongo.getDB(database);
 
 			if (!databases.contains(database)) {
 				db.addUser(user, password.toCharArray());
@@ -97,5 +109,38 @@ public class Database {
 
 			}
 		}
+		lock.release();
+	}
+	
+	/**
+	 * Recreate db.
+	 * 
+	 * @return true, if successful
+	 */
+	public static synchronized boolean recreateDb() {
+		
+		if(mongodatabase == null) {
+			return false;
+		}
+		
+		try {
+			lock.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		try {
+			mongodatabase.dropDatabase();
+			mongodatabase = null;
+		} catch (MongoException e) {
+			// TODO Auto-generated catch block
+			lock.release();
+			e.printStackTrace();
+			return false;
+		}
+		
+		lock.release();
+		return true;
 	}
 }
