@@ -36,6 +36,13 @@ public class SessionId implements Serializable {
 		setUid(session.getUid());
 	}
 	
+	public void reset() {
+		sessionId = "";
+		username = "Anonymous";
+		userrole = new UserRole();
+		uid = -1L;
+	}
+	
 	/**
 	 * Sets the session id.
 	 *

@@ -63,6 +63,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 	/** The Constant ONE_HOUR. */
 	private final static long ONE_HOUR = 1000 * 60 * 60;
+	
+	private LeftMenu menu;
 
 	/**
 	 * Instantiates a new auth panel.
@@ -74,6 +76,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		l = GWT.create(AuthMessages.class);
 		formname = title;
 		authPanel.setWidth("244px");
+		authPanel.setHeight("130px");
 		authPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		messageLabel = new Label();
@@ -174,12 +177,20 @@ public class AuthPanel extends Composite implements ClickHandler,
 		authPanel.add(logoutButton);
 
 		constructMessageLabel();
+		
+		if(menu!=null) {
+			menu.buildContent();
+		}
+
 	}
 
 	/**
 	 * Construct auth form.
 	 */
 	private void constructAuthForm() {
+		if(menu!=null) {
+			menu.buildContent();
+		}
 		authPanel.clear();
 		logoutButton = null;
 
@@ -370,6 +381,20 @@ public class AuthPanel extends Composite implements ClickHandler,
 			}
 		}
 
+	}
+
+	/**
+	 * @param menu the menu to set
+	 */
+	public void setMenu(LeftMenu menu) {
+		this.menu = menu;
+	}
+
+	/**
+	 * @return the menu
+	 */
+	public LeftMenu getMenu() {
+		return menu;
 	}
 
 }

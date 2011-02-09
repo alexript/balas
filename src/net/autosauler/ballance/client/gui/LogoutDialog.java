@@ -51,9 +51,9 @@ public class LogoutDialog extends DialogBox {
 					@Override
 					public void onSuccess(Void result) {
 						Ballance_autosauler_net.setLoggedInState(false);
-						Cookies.setCookie("session", "", new Date(System.currentTimeMillis() + ONE_HOUR));
-						Ballance_autosauler_net.sessionId.setSessionId("");
+						Ballance_autosauler_net.sessionId.reset();
 
+						Cookies.setCookie("session", "", new Date(System.currentTimeMillis() + ONE_HOUR));
 						LeftPanel.authPanel.logoffAction();
 						MainPanel.setCommInfo(false);
 						LogoutDialog.this.hide();

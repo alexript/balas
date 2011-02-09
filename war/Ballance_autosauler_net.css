@@ -71,6 +71,7 @@ h1 {
 	border-right-width: 2px;
 	border-right-style: solid;
 	border-right-color: #8a8a8a;
+	vertical-align: top;
 }
 
 .mainPanel {
@@ -85,4 +86,10 @@ h1 {
 .authMessageLabel {
 	color: #d10000;
 	font-weight: bold;
+}
+
+.cw-StackPanelHeader {
+  padding-left: 7px;
+  font-weight: bold;
+  font-size: 1.4em;
 }
