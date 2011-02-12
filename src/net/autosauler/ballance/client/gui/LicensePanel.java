@@ -16,17 +16,20 @@
 
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
- * The Interface CommMessages.
+ * The Class LicensePanel.
  */
-public interface CommMessages extends Messages {
+public class LicensePanel extends Composite {
 
 	/**
-	 * Comm in progress.
-	 * 
-	 * @return the string
+	 * Instantiates a new license panel.
 	 */
-	String commInProgress();
+	public LicensePanel() {
+
+		HTML w = new HTML(BalasResources.INSTANCE.licensePane().getText());
+		initWidget(w);
+	}
 }

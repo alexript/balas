@@ -1,3 +1,19 @@
+/*
+   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
+
 package net.autosauler.ballance.shared;
 
 import java.io.Serializable;
@@ -5,23 +21,23 @@ import java.io.Serializable;
 /**
  * The Class UserRole.
  */
-public class UserRole implements Serializable{
-	
+public class UserRole implements Serializable {
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2003622597617550245L;
-	
+
 	/** The Constant ROLE_GUEST. */
 	public static final int ROLE_GUEST = 0;
-	
+
 	/** The Constant ROLE_ADMIN. */
 	public static final int ROLE_ADMIN = 1;
-	
+
 	/** The Constant ROLE_DOCUMENTS. */
 	public static final int ROLE_DOCUMENTS = 2;
-	
+
 	/** The Constant ROLE_FINANCES. */
 	public static final int ROLE_FINANCES = 4;
-	
+
 	/** The Constant ROLE_MANAGER. */
 	public static final int ROLE_MANAGER = 8;
 
@@ -34,14 +50,15 @@ public class UserRole implements Serializable{
 	public UserRole() {
 		setRole(ROLE_GUEST);
 	}
-	
+
 	/**
 	 * Instantiates a new user role.
-	 *
-	 * @param therole the therole
+	 * 
+	 * @param therole
+	 *            the therole
 	 */
 	public UserRole(Integer therole) {
-		if(therole==null) {
+		if (therole == null) {
 			therole = ROLE_GUEST;
 		}
 		setRole(therole);
@@ -49,17 +66,19 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Instantiates a new user role.
-	 *
-	 * @param therole the therole
+	 * 
+	 * @param therole
+	 *            the therole
 	 */
 	public UserRole(UserRole therole) {
 		setRole(therole.getRole());
 	}
-	
+
 	/**
 	 * Sets the role.
-	 *
-	 * @param role the new role
+	 * 
+	 * @param role
+	 *            the new role
 	 */
 	public void setRole(int role) {
 		this.role = role;
@@ -67,7 +86,7 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Gets the role.
-	 *
+	 * 
 	 * @return the role
 	 */
 	public int getRole() {
@@ -76,16 +95,16 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Checks if is guest.
-	 *
+	 * 
 	 * @return true, if is guest
 	 */
 	public boolean isGuest() {
 		return role == ROLE_GUEST;
 	}
-	
+
 	/**
 	 * Checks if is admin.
-	 *
+	 * 
 	 * @return true, if is admin
 	 */
 	public boolean isAdmin() {
@@ -94,7 +113,7 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Checks if is documents.
-	 *
+	 * 
 	 * @return true, if is documents
 	 */
 	public boolean isDocuments() {
@@ -103,7 +122,7 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Checks if is finances.
-	 *
+	 * 
 	 * @return true, if is finances
 	 */
 	public boolean isFinances() {
@@ -112,7 +131,7 @@ public class UserRole implements Serializable{
 
 	/**
 	 * Checks if is manager.
-	 *
+	 * 
 	 * @return true, if is manager
 	 */
 	public boolean isManager() {
@@ -125,7 +144,7 @@ public class UserRole implements Serializable{
 	public void setGuest() {
 		role = ROLE_GUEST;
 	}
-	
+
 	/**
 	 * Sets the admin.
 	 */

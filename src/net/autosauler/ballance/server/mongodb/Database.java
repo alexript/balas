@@ -1,5 +1,17 @@
 /*
- * 
+   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
  */
 package net.autosauler.ballance.server.mongodb;
 
@@ -39,10 +51,12 @@ public class Database {
 	/** The Constant adminpassword. */
 	private static final String adminpassword = "root";
 
+	/** The mongo. */
 	private static Mongo mongo = null;
 	/** The mongodatabase. */
 	private static DB mongodatabase = null;
-	
+
+	/** The lock. */
 	private static Mutex lock = new Mutex();
 
 	/**
@@ -84,10 +98,11 @@ public class Database {
 	 *             the unknown host exception
 	 * @throws MongoException
 	 *             the mongo exception
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
+	 *             the interrupted exception
 	 */
-	private static synchronized void initConnection() throws UnknownHostException,
-			MongoException, InterruptedException {
+	private static synchronized void initConnection()
+			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
 		mongo = new Mongo(host, port);
 		DB db = mongo.getDB("admin");
@@ -111,25 +126,25 @@ public class Database {
 		}
 		lock.release();
 	}
-	
+
 	/**
 	 * Recreate db.
 	 * 
 	 * @return true, if successful
 	 */
 	public static synchronized boolean recreateDb() {
-		
-		if(mongodatabase == null) {
+
+		if (mongodatabase == null) {
 			return false;
 		}
-		
+
 		try {
 			lock.acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		try {
 			mongodatabase.dropDatabase();
 			mongodatabase = null;
@@ -141,7 +156,7 @@ public class Database {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		lock.release();
 		return true;
 	}

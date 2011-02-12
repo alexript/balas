@@ -116,9 +116,14 @@ import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 
 public class Mutex implements Sync {
 
-	/** The lock status **/
+	/** The lock status *. */
 	protected boolean inuse_ = false;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#acquire()
+	 */
 	public void acquire() throws InterruptedException {
 		if (Thread.interrupted())
 			throw new InterruptedException();
@@ -134,11 +139,21 @@ public class Mutex implements Sync {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#release()
+	 */
 	public synchronized void release() {
 		inuse_ = false;
 		notify();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#attempt(long)
+	 */
 	public boolean attempt(long msecs) throws InterruptedException {
 		if (Thread.interrupted())
 			throw new InterruptedException();
