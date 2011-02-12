@@ -26,7 +26,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface AuthService extends RemoteService {
 
 	/**
-	 * Chk auth.
+	 * Chk auth for login-password pair
 	 * 
 	 * @param login
 	 *            the login
@@ -37,12 +37,12 @@ public interface AuthService extends RemoteService {
 	public SessionId chkAuth(String login, String password);
 
 	/**
-	 * Logoff.
+	 * Logoff user.
 	 */
 	public void logoff();
 
 	/**
-	 * Session.
+	 * Check session for session :)
 	 * 
 	 * @param sessionId
 	 *            the session id

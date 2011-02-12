@@ -321,9 +321,12 @@ public class AuthPanel extends Composite implements ClickHandler,
 						if (result != null) {
 							Ballance_autosauler_net.setLoggedInState(true);
 
-							Cookies.setCookie("session", result.getSessionId(),
-									new Date(System.currentTimeMillis()
-											+ Ballance_autosauler_net.COOKIE_TIME));
+							Cookies.setCookie(
+									"session",
+									result.getSessionId(),
+									new Date(
+											System.currentTimeMillis()
+													+ Ballance_autosauler_net.COOKIE_TIME));
 							Ballance_autosauler_net.sessionId
 									.setSessionId(result.getSessionId());
 							Ballance_autosauler_net.sessionId
@@ -345,7 +348,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
 						messageLabel.setText(l.commError());
-						new AlertDialog(l.commError(), caught.getMessage()).show();
+						new AlertDialog(l.commError(), caught.getMessage())
+								.show();
 					}
 				});
 
@@ -434,8 +438,9 @@ public class AuthPanel extends Composite implements ClickHandler,
 						@Override
 						public void onFailure(Throwable caught) {
 							MainPanel.setCommInfo(false);
-							new AlertDialog(l.commError(), caught.getMessage()).show();
-							
+							new AlertDialog(l.commError(), caught.getMessage())
+									.show();
+
 						}
 
 						@Override

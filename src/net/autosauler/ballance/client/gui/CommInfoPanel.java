@@ -19,6 +19,8 @@ package net.autosauler.ballance.client.gui;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -29,6 +31,7 @@ public class CommInfoPanel extends PopupPanel {
 
 	/** The l. */
 	private CommMessages l = null;
+	private MenuImages images = null;
 
 	/**
 	 * Instantiates a new comm info panel.
@@ -36,12 +39,21 @@ public class CommInfoPanel extends PopupPanel {
 	public CommInfoPanel() {
 		super(false);
 		l = GWT.create(CommMessages.class);
+		images = GWT.create(MenuImages.class);
+		Image i = new Image(images.icoRefresh());
 		Label msg = new Label(l.commInProgress());
-		setWidget(msg);
+
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.setWidth("200px");
+		panel.setHeight("32px");
+		panel.add(i);
+		panel.setCellWidth(i, "32px");
+		panel.setSpacing(2);
+		panel.add(msg);
+
+		setWidget(panel);
 		this.setPopupPosition(
-				Ballance_autosauler_net.mainpanel.getOffsetWidth()
-						- this.getOffsetWidth() - 200,
-				Ballance_autosauler_net.mainpanel.getOffsetHeight()
-						- this.getOffsetHeight() - 200);
+				Ballance_autosauler_net.mainpanel.getOffsetWidth() - 220,
+				Ballance_autosauler_net.mainpanel.getOffsetHeight() - 60);
 	}
 }

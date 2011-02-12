@@ -122,4 +122,11 @@ public interface MenuImages extends Tree.Resources {
 	 * @return the image resource
 	 */
 	ImageResource icoExclamation();
+	
+	/**
+	 * Ico refresh.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoRefresh();
 }

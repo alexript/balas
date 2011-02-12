@@ -234,7 +234,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			w = constructTabPaneContent(new LicensePanel(), l.itemLicense(),
 					images.icoCopyright(), name);
 		} else {
-			Window.alert("Error #404");
+			new AlertDialog("Uncknown command", name).show();
 		}
 
 		return w;
