@@ -18,8 +18,50 @@ package net.autosauler.ballance.client.gui;
 
 import com.google.gwt.i18n.client.Messages;
 
+/**
+ * The Interface DialogMessages.
+ */
 public interface DialogMessages extends Messages {
+	
+	/**
+	 * Btn yes.
+	 *
+	 * @return the string
+	 */
 	String btnYes();
+	
+	/**
+	 * Btn no.
+	 *
+	 * @return the string
+	 */
 	String btnNo();
+	
+	/**
+	 * Msg title.
+	 *
+	 * @return the string
+	 */
 	String msgTitle();
+	
+	/**
+	 * Msg alert title.
+	 *
+	 * @return the string
+	 */
+	String msgAlertTitle();
+	
+	/**
+	 * Btn ok.
+	 *
+	 * @return the string
+	 */
+	String btnOk();
+	
+	/**
+	 * Msg additional info.
+	 *
+	 * @return the string
+	 */
+	String msgAdditionalInfo();
 }

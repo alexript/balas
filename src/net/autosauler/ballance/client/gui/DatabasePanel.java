@@ -24,7 +24,6 @@ import net.autosauler.ballance.shared.UserRole;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -102,7 +101,7 @@ public class DatabasePanel extends Composite implements ClickHandler, IDialogYes
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
+						new AlertDialog("Database error", caught.getMessage()).show();
 						MainPanel.setCommInfo(false);						
 					}
 
@@ -114,7 +113,7 @@ public class DatabasePanel extends Composite implements ClickHandler, IDialogYes
 
 						} else {
 							MainPanel.setCommInfo(false);
-							Window.alert("FALSE!");
+							new AlertDialog("Database error!").show();
 						}
 						
 					}

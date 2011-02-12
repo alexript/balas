@@ -93,3 +93,13 @@ h1 {
   font-weight: bold;
   font-size: 1.4em;
 }
+
+.LeftPadding6 {
+	padding-left: 6px;
+}
+
+.AdditionalInfoText {
+	background-color: #e5ed76;
+	margin-left: 5px;
+	width: 250px;
+}

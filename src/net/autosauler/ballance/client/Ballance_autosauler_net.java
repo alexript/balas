@@ -18,6 +18,7 @@ package net.autosauler.ballance.client;
 
 import java.util.Date;
 
+import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.LeftPanel;
 import net.autosauler.ballance.client.gui.MainPanel;
 
@@ -78,6 +79,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 		AsyncCallback<SessionId> asyncCallback = new AsyncCallback<SessionId>() {
 			public void onFailure(Throwable caught) {
 				isloggedin = false;
+				new AlertDialog("Communication error!", caught.getMessage()).show();
 			}// end onFailure
 
 			public void onSuccess(SessionId result) {

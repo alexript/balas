@@ -345,6 +345,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
 						messageLabel.setText(l.commError());
+						new AlertDialog(l.commError(), caught.getMessage()).show();
 					}
 				});
 
@@ -433,6 +434,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 						@Override
 						public void onFailure(Throwable caught) {
 							MainPanel.setCommInfo(false);
+							new AlertDialog(l.commError(), caught.getMessage()).show();
+							
 						}
 
 						@Override
