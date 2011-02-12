@@ -17,11 +17,15 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.DatabaseService;
+import net.autosauler.ballance.client.DatabaseServiceAsync;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -93,8 +97,29 @@ public class DatabasePanel extends Composite implements ClickHandler, IDialogYes
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if(role.isAdmin()) {
 				MainPanel.setCommInfo(true);
-				
-				MainPanel.setCommInfo(false);
+				DatabaseServiceAsync service = GWT.create(DatabaseService.class);
+				service.dropDatabase(new AsyncCallback<Boolean>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+						MainPanel.setCommInfo(false);						
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						if(result) {
+							Ballance_autosauler_net.logoutSequence();
+							MainPanel.setCommInfo(false);
+
+						} else {
+							MainPanel.setCommInfo(false);
+							Window.alert("FALSE!");
+						}
+						
+					}
+					
+				});
 			}
 		}
 		

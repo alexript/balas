@@ -14,33 +14,20 @@
    limitations under the License.
  */
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * The Interface DatabaseMessages.
+ * The Interface DatabaseServiceAsync.
  */
-public interface DatabaseMessages extends Messages {
-	
+public interface DatabaseServiceAsync {
+
 	/**
-	 * Msg drop database title.
+	 * Drop database.
 	 *
-	 * @return the string
+	 * @param callback the callback
 	 */
-	String msgDropDatabaseTitle();
-	
-	/**
-	 * Btn execute.
-	 *
-	 * @return the string
-	 */
-	String btnExecute();
-	
-	/**
-	 * Qst drop database.
-	 *
-	 * @return the string
-	 */
-	String qstDropDatabase();
+	void dropDatabase(AsyncCallback<Boolean> callback);
+
 }

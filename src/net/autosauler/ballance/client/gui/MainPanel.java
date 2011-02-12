@@ -250,6 +250,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		String eventvalue = event.getValue();
+		if (eventvalue == null || eventvalue.isEmpty()) {
+			eventvalue = "start";
+		}
 		if (eventvalue != null && !eventvalue.isEmpty()) {
 			eventvalue = eventvalue.trim().toLowerCase();
 			int paneindex = -1;

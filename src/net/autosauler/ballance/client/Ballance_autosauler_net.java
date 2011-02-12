@@ -16,6 +16,9 @@
 
 package net.autosauler.ballance.client;
 
+import java.util.Date;
+
+import net.autosauler.ballance.client.gui.LeftPanel;
 import net.autosauler.ballance.client.gui.MainPanel;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -23,6 +26,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -45,8 +49,25 @@ public class Ballance_autosauler_net implements EntryPoint {
 	public static AuthServiceAsync authService = (AuthServiceAsync) GWT
 			.create(AuthService.class);
 
+	/** The Constant COOKIE_TIME. */
+	public final static long COOKIE_TIME = 1000 * 60 * 60;
+
 	{
 		sessionId.setSessionId(Cookies.getCookie("session"));
+	}
+
+	/**
+	 * Logout sequence.
+	 */
+	public static void logoutSequence() {
+		Ballance_autosauler_net.setLoggedInState(false);
+		Ballance_autosauler_net.sessionId.reset();
+
+		Cookies.setCookie("session", "", new Date(System.currentTimeMillis()
+				+ COOKIE_TIME));
+		LeftPanel.authPanel.logoffAction();
+		MainPanel.dropMainPane();
+		History.newItem("start");
 	}
 
 	/**

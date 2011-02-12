@@ -14,33 +14,21 @@
    limitations under the License.
  */
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * The Interface DatabaseMessages.
+ * The Interface DatabaseService.
  */
-public interface DatabaseMessages extends Messages {
-	
+@RemoteServiceRelativePath("database")
+public interface DatabaseService extends RemoteService {
+
 	/**
-	 * Msg drop database title.
-	 *
-	 * @return the string
+	 * Drop database.
+	 * 
+	 * @return true, if successful
 	 */
-	String msgDropDatabaseTitle();
-	
-	/**
-	 * Btn execute.
-	 *
-	 * @return the string
-	 */
-	String btnExecute();
-	
-	/**
-	 * Qst drop database.
-	 *
-	 * @return the string
-	 */
-	String qstDropDatabase();
+	public boolean dropDatabase();
 }

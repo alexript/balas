@@ -29,7 +29,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -77,9 +76,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue";
-
-	/** The Constant ONE_HOUR. */
-	private final static long ONE_HOUR = 1000 * 60 * 60;
 
 	/** The menu. */
 	private LeftMenu menu;
@@ -327,7 +323,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 							Cookies.setCookie("session", result.getSessionId(),
 									new Date(System.currentTimeMillis()
-											+ ONE_HOUR));
+											+ Ballance_autosauler_net.COOKIE_TIME));
 							Ballance_autosauler_net.sessionId
 									.setSessionId(result.getSessionId());
 							Ballance_autosauler_net.sessionId
@@ -420,8 +416,12 @@ public class AuthPanel extends Composite implements ClickHandler,
 		return menu;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
+	 * (java.lang.String)
 	 */
 	@Override
 	public void onDialogYesButtonClick(String tag) {
@@ -437,15 +437,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 						@Override
 						public void onSuccess(Void result) {
-							Ballance_autosauler_net.setLoggedInState(false);
-							Ballance_autosauler_net.sessionId.reset();
-
-							Cookies.setCookie("session", "",
-									new Date(System.currentTimeMillis()
-											+ ONE_HOUR));
-							LeftPanel.authPanel.logoffAction();
-							MainPanel.dropMainPane();
-							History.newItem("start");
+							Ballance_autosauler_net.logoutSequence();
 							MainPanel.setCommInfo(false);
 						}
 					});

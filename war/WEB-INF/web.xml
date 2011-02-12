@@ -15,6 +15,16 @@
     <servlet-name>authServlet</servlet-name>
     <url-pattern>/ballance_autosauler_net/auth</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>dbServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.DatabaseServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>dbServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/database</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
