@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -45,7 +46,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The Class AuthPanel.
  */
 public class AuthPanel extends Composite implements ClickHandler,
-		KeyPressHandler {
+		KeyPressHandler, IDialogYesReceiver {
 
 	/** The auth panel. */
 	private VerticalPanel authPanel = new VerticalPanel();
@@ -378,7 +379,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 			}
 			messageLabel.setText("");
 		} else if (event.getSource().equals(logoutButton)) {
-			new LogoutDialog().show();
+			new QuestionDialog(l.qtnLogout(), this, "logout").show();
 		}
 
 	}
@@ -417,6 +418,40 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 */
 	public LeftMenu getMenu() {
 		return menu;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick(java.lang.String)
+	 */
+	@Override
+	public void onDialogYesButtonClick(String tag) {
+		if (tag.equals("logout")) {
+			MainPanel.setCommInfo(true);
+			Ballance_autosauler_net.authService
+					.logoff(new AsyncCallback<Void>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							MainPanel.setCommInfo(false);
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							Ballance_autosauler_net.setLoggedInState(false);
+							Ballance_autosauler_net.sessionId.reset();
+
+							Cookies.setCookie("session", "",
+									new Date(System.currentTimeMillis()
+											+ ONE_HOUR));
+							LeftPanel.authPanel.logoffAction();
+							MainPanel.dropMainPane();
+							History.newItem("start");
+							MainPanel.setCommInfo(false);
+						}
+					});
+
+		}
+
 	}
 
 }

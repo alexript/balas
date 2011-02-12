@@ -108,4 +108,11 @@ public interface MenuImages extends Tree.Resources {
 	 * @return the image resource
 	 */
 	ImageResource icoClose();
+	
+	/**
+	 * Ico question.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoQuestion();
 }

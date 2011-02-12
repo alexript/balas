@@ -224,7 +224,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			w = constructTabPaneContent(new HelloPanel(), l.itemHelloToAll(),
 					images.icoInfo(), name);
 		} else if (name.equals("dbpane") && role.isAdmin()) {
-			w = constructTabPaneContent(new HTML("Database"), l.itemDatabase(),
+			w = constructTabPaneContent(new DatabasePanel(), l.itemDatabase(),
 					images.icoDatabase(), name);
 
 		} else if (name.equals("editusers") && role.isAdmin()) {
