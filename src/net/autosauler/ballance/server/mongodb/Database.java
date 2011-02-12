@@ -133,6 +133,8 @@ public class Database {
 		try {
 			mongodatabase.dropDatabase();
 			mongodatabase = null;
+			mongo.close();
+			mongo = null;
 		} catch (MongoException e) {
 			// TODO Auto-generated catch block
 			lock.release();
