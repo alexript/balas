@@ -96,7 +96,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
 		if (name.equals("start")) {
-			w = new HTML("Foo");
+			w = new HelloPanel();
 			mainpane.add(w, l.itemHelloToAll());
 
 		} else if (name.equals("dbpane") && role.isAdmin()) {

@@ -23,7 +23,7 @@ public class LeftPanel extends Composite {
 	 */
 	public LeftPanel() {
 		if (authPanel == null) {
-			authPanel = new AuthPanel("Ballance login");
+			authPanel = new AuthPanel("BalAS");
 			panel.add(authPanel);
 			panel.setCellHeight(authPanel, "130px");
 		}
