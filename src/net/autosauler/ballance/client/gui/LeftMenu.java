@@ -14,28 +14,47 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class LeftMenu extends Composite{
+/**
+ * The Class LeftMenu.
+ */
+public class LeftMenu extends Composite {
+
+	/** The panel. */
 	private DecoratedStackPanel panel;
+
+	/** The role. */
 	private UserRole role = null;
+
+	/** The l. */
 	private MenuMessages l;
+
+	/** The images. */
 	private MenuImages images;
 
+	/**
+	 * Instantiates a new left menu.
+	 */
 	public LeftMenu() {
 		l = GWT.create(MenuMessages.class);
 		images = (MenuImages) GWT.create(MenuImages.class);
 		panel = new DecoratedStackPanel();
 		panel.setWidth("244px");
 
-	    
 		buildContent();
 		initWidget(panel);
 	}
 
+	/**
+	 * Clear.
+	 */
 	public void clear() {
 		panel.clear();
 		role = null;
 	}
 
+	/**
+	 * Builds the content.
+	 */
 	public void buildContent() {
 		clear();
 		role = Ballance_autosauler_net.sessionId.getUserrole();
@@ -47,6 +66,15 @@ public class LeftMenu extends Composite{
 		buildGuestPane();
 	}
 
+	/**
+	 * Gets the header string.
+	 * 
+	 * @param text
+	 *            the text
+	 * @param image
+	 *            the image
+	 * @return the header string
+	 */
 	private String getHeaderString(String text, ImageResource image) {
 		// Add the image and text to a horizontal panel
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -61,6 +89,9 @@ public class LeftMenu extends Composite{
 		return hPanel.getElement().getString();
 	}
 
+	/**
+	 * Builds the admin pane.
+	 */
 	private void buildAdminPane() {
 		if (role.isAdmin()) {
 			VerticalPanel adminpanel = new VerticalPanel();
@@ -79,6 +110,9 @@ public class LeftMenu extends Composite{
 		}
 	}
 
+	/**
+	 * Builds the documents pane.
+	 */
 	private void buildDocumentsPane() {
 		if (role.isAdmin() || role.isDocuments()) {
 			VerticalPanel documentspanel = new VerticalPanel();
@@ -89,6 +123,9 @@ public class LeftMenu extends Composite{
 		}
 	}
 
+	/**
+	 * Builds the finances pane.
+	 */
 	private void buildFinancesPane() {
 		if (role.isAdmin() || role.isFinances()) {
 			VerticalPanel financesspanel = new VerticalPanel();
@@ -99,10 +136,12 @@ public class LeftMenu extends Composite{
 		}
 	}
 
+	/**
+	 * Builds the manager pane.
+	 */
 	private void buildManagerPane() {
 		if (role.isAdmin() || role.isManager()) {
 			VerticalPanel managerpanel = new VerticalPanel();
-
 
 			String managerHeader = getHeaderString(l.managerPanel(),
 					images.managerPanel());
@@ -110,6 +149,9 @@ public class LeftMenu extends Composite{
 		}
 	}
 
+	/**
+	 * Builds the for all pane.
+	 */
 	private void buildForAllPane() {
 		if (!role.isGuest()) {
 			VerticalPanel allpanel = new VerticalPanel();
@@ -120,9 +162,15 @@ public class LeftMenu extends Composite{
 		}
 	}
 
+	/**
+	 * Builds the guest pane.
+	 */
 	private void buildGuestPane() {
 
 		VerticalPanel guestpanel = new VerticalPanel();
+
+		Hyperlink hellotoall = new Hyperlink(l.itemHelloToAll(), "start");
+		guestpanel.add(hellotoall);
 
 		String guestHeader = getHeaderString(l.guestPanel(),
 				images.guestPanel());
