@@ -104,6 +104,25 @@ public class LeftMenu extends Composite {
 		// Return the HTML string for the panel
 		return hPanel.getElement().getString();
 	}
+	
+	/**
+	 * Gets the menu item.
+	 *
+	 * @param text the text
+	 * @param tag the tag
+	 * @param image the image
+	 * @return the menu item
+	 */
+	private HorizontalPanel getMenuItem(String text, String tag, ImageResource image) {
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.setSpacing(5);
+		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
+		hPanel.add(new Image(image));
+		Hyperlink link = new Hyperlink(text, tag);
+		hPanel.add(link);
+
+		return hPanel;
+	}
 
 	/**
 	 * Builds the admin pane.
@@ -112,11 +131,8 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin()) {
 			VerticalPanel adminpanel = new VerticalPanel();
 
-			Hyperlink dbmanage = new Hyperlink(l.itemDatabase(), "dbpane");
-			adminpanel.add(dbmanage);
-
-			Hyperlink usersmanage = new Hyperlink(l.itemUsers(), "editusers");
-			adminpanel.add(usersmanage);
+			adminpanel.add(getMenuItem(l.itemDatabase(), "dbpane", images.icoDatabase()));
+			adminpanel.add(getMenuItem(l.itemUsers(), "editusers", images.icoUser()));
 
 			String adminHeader = getHeaderString(l.adminPanel(),
 					images.adminPanel());
@@ -185,11 +201,9 @@ public class LeftMenu extends Composite {
 
 		VerticalPanel guestpanel = new VerticalPanel();
 
-		Hyperlink hellotoall = new Hyperlink(l.itemHelloToAll(), "start");
-		guestpanel.add(hellotoall);
+		guestpanel.add(getMenuItem(l.itemHelloToAll(), "start", images.icoInfo()));
 
-		Hyperlink license = new Hyperlink(l.itemLicense(), "license");
-		guestpanel.add(license);
+		guestpanel.add(getMenuItem(l.itemLicense(), "license", images.icoCopyright()));
 
 		String guestHeader = getHeaderString(l.guestPanel(),
 				images.guestPanel());

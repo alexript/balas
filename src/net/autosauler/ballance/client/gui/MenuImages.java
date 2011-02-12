@@ -73,4 +73,39 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	@Source("noimage.gif")
 	ImageResource treeLeaf();
+	
+	/**
+	 * Ico database.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoDatabase();
+	
+	/**
+	 * Ico user.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoUser();
+	
+	/**
+	 * Ico copyright.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoCopyright();
+	
+	/**
+	 * Ico info.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoInfo();
+	
+	/**
+	 * Ico close.
+	 *
+	 * @return the image resource
+	 */
+	ImageResource icoClose();
 }

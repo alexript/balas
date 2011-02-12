@@ -92,4 +92,11 @@ public interface MenuMessages extends Messages {
 	 * @return the string
 	 */
 	String itemLicense();
+	
+	/**
+	 * Ico close pane.
+	 *
+	 * @return the string
+	 */
+	String icoClosePane();
 }

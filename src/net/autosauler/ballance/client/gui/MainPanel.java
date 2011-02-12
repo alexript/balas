@@ -17,19 +17,27 @@
 package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -55,11 +63,15 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	/** The l. */
 	private MenuMessages l;
 
+	/** The images. */
+	private MenuImages images;
+
 	/**
 	 * Instantiates a new main panel.
 	 */
 	public MainPanel() {
 		l = GWT.create(MenuMessages.class);
+		images = (MenuImages) GWT.create(MenuImages.class);
 		panel.add(leftPanel);
 		panel.setCellWidth(leftPanel, "244px");
 		mainpane.setWidth("100%");
@@ -101,30 +113,126 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	}
 
 	/**
+	 * Close tab.
+	 * 
+	 * @param tag
+	 *            the tag
+	 */
+	public static void closeTab(String tag) {
+		if (tabsIndexes.containsKey(tag)) {
+			int index = tabsIndexes.get(tag);
+			mainpane.remove(index);
+			tabsIndexes.remove(tag);
+			Set<String> keys = tabsIndexes.keySet();
+			for (String key : keys) {
+				int i = tabsIndexes.get(key);
+				if (i > index) {
+					tabsIndexes.put(key, i - 1);
+				}
+			}
+
+			if (index == 0) {
+				if (mainpane.getWidgetCount() < 1) {
+					dropMainPane();
+				} else {
+					mainpane.selectTab(0);
+				}
+			} else {
+				mainpane.selectTab(index - 1);
+			}
+		}
+	}
+
+	/**
+	 * Gets the tab header string.
+	 * 
+	 * @param text
+	 *            the text
+	 * @param image
+	 *            the image
+	 * @return the tab header string
+	 */
+	private String getTabHeaderString(String text, ImageResource image) {
+		// Add the image and text to a horizontal panel
+		HorizontalPanel hPanel = new HorizontalPanel();
+		hPanel.setSpacing(2);
+		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		hPanel.add(new Image(image));
+		HTML headerText = new HTML(text);
+		hPanel.add(headerText);
+
+		// Return the HTML string for the panel
+		return hPanel.getElement().getString();
+	}
+
+	/**
+	 * Construct tab pane content.
+	 * 
+	 * @param realpane
+	 *            the realpane
+	 * @param title
+	 *            the title
+	 * @param ico
+	 *            the ico
+	 * @param tag
+	 *            the tag
+	 * @return the vertical panel
+	 */
+	private VerticalPanel constructTabPaneContent(Widget realpane,
+			String title, ImageResource ico, final String tag) {
+		VerticalPanel panel = new VerticalPanel();
+
+		HorizontalPanel panemenu = new HorizontalPanel();
+		panemenu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		panemenu.setHeight("20px");
+		panemenu.setWidth("100%");
+
+		Image closeImage = new Image(images.icoClose());
+		closeImage.setTitle(l.icoClosePane());
+		closeImage.setAltText(l.icoClosePane());
+		closeImage.addClickHandler(new ClickHandler() {
+			private String mytag = tag;
+
+			@Override
+			public void onClick(ClickEvent event) {
+				MainPanel.closeTab(mytag);
+
+			}
+
+		});
+		panemenu.add(closeImage);
+		panemenu.setCellWidth(closeImage, "20px");
+
+		panel.add(panemenu);
+		panel.add(realpane);
+		mainpane.add(panel, getTabHeaderString(title, ico), true);
+		return panel;
+	}
+
+	/**
 	 * Construct tab pane.
 	 * 
 	 * @param name
 	 *            the name
 	 * @return the widget
 	 */
-	private Widget constructTabPane(String name) {
-		Widget w = null;
+	private VerticalPanel constructTabPane(String name) {
+		VerticalPanel w = null;
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
 		if (name.equals("start")) {
-			w = new HelloPanel();
-			mainpane.add(w, l.itemHelloToAll());
-
+			w = constructTabPaneContent(new HelloPanel(), l.itemHelloToAll(),
+					images.icoInfo(), name);
 		} else if (name.equals("dbpane") && role.isAdmin()) {
-			w = new HTML("Database");
-			mainpane.add(w, l.itemDatabase());
+			w = constructTabPaneContent(new HTML("Database"), l.itemDatabase(),
+					images.icoDatabase(), name);
 
 		} else if (name.equals("editusers") && role.isAdmin()) {
-			w = new HTML("Edit users");
-			mainpane.add(w, l.itemUsers());
+			w = constructTabPaneContent(new HTML("Edit users"), l.itemUsers(),
+					images.icoUser(), name);
 		} else if (name.equals("license")) {
-			w = new LicensePanel();
-			mainpane.add(w, l.itemLicense());
+			w = constructTabPaneContent(new LicensePanel(), l.itemLicense(),
+					images.icoCopyright(), name);
 		} else {
 			Window.alert("Error #404");
 		}
@@ -150,7 +258,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			}
 
 			if (paneindex < 0) {
-				Widget w = constructTabPane(eventvalue);
+				VerticalPanel w = constructTabPane(eventvalue);
 				if (w != null) {
 					paneindex = mainpane.getWidgetIndex(w);
 					tabsIndexes.put(eventvalue, paneindex);
