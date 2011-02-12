@@ -10,11 +10,11 @@ import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class LeftMenu extends Composite {
+public class LeftMenu extends Composite{
 	private DecoratedStackPanel panel;
 	private UserRole role = null;
 	private MenuMessages l;
@@ -26,6 +26,7 @@ public class LeftMenu extends Composite {
 		panel = new DecoratedStackPanel();
 		panel.setWidth("244px");
 
+	    
 		buildContent();
 		initWidget(panel);
 	}
@@ -64,10 +65,10 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin()) {
 			VerticalPanel adminpanel = new VerticalPanel();
 
-			Label dbmanage = new Label(l.itemDatabase());
+			Hyperlink dbmanage = new Hyperlink(l.itemDatabase(), "dbpane");
 			adminpanel.add(dbmanage);
 
-			Label usersmanage = new Label(l.itemUsers());
+			Hyperlink usersmanage = new Hyperlink(l.itemUsers(), "editusers");
 			adminpanel.add(usersmanage);
 
 			String adminHeader = getHeaderString(l.adminPanel(),

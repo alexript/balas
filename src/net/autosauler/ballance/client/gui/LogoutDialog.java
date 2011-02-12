@@ -8,6 +8,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -55,6 +56,8 @@ public class LogoutDialog extends DialogBox {
 
 						Cookies.setCookie("session", "", new Date(System.currentTimeMillis() + ONE_HOUR));
 						LeftPanel.authPanel.logoffAction();
+						MainPanel.dropMainPane();
+						History.newItem("start");
 						MainPanel.setCommInfo(false);
 						LogoutDialog.this.hide();
 					}
