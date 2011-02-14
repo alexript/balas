@@ -104,7 +104,12 @@ public class Database {
 	private static synchronized void initConnection()
 			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
-		mongo = new Mongo(host, port);
+		try {
+			mongo = new Mongo(host, port);
+		} catch (com.mongodb.MongoInternalException e) {
+			lock.release();
+			throw(e);
+		}
 		DB db = mongo.getDB("admin");
 		boolean auth = db.authenticate(adminuser, adminpassword.toCharArray());
 		if (auth) {
