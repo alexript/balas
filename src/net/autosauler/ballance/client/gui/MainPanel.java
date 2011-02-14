@@ -51,8 +51,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 *            the tag
 	 */
 	public static void closeTab(String tag) {
+		// There are some magic. It's working, but I don't know why.
 		if (tabsIndexes.containsKey(tag)) {
-			String newselection = "";
+			String newselection = "start";
 
 			int index = tabsIndexes.get(tag);
 			mainpane.remove(index);
@@ -63,7 +64,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 				if (i > index) {
 					tabsIndexes.put(key, i - 1);
 				}
-				if (i == index) {
+				if ((i - 1 == index) || (i == index - 1)) {
 					newselection = key;
 				}
 			}
@@ -71,6 +72,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			if (index == 0) {
 				if (mainpane.getWidgetCount() < 1) {
 					dropMainPane();
+					History.newItem("start");
+					History.fireCurrentHistoryState();
 				} else {
 					mainpane.selectTab(0);
 				}

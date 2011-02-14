@@ -56,7 +56,7 @@ public class CommInfoPanel extends PopupPanel {
 		// int height = RootPanel.get().getOffsetHeight();
 
 		int width = Window.getClientWidth() - 20;
-		int height = Window.getClientHeight() * 2 / 3;
+		int height = Window.getClientHeight() * 3 / 4;
 
 		int x = 250;
 		int y = 100;
@@ -64,7 +64,7 @@ public class CommInfoPanel extends PopupPanel {
 			x = width - 320;
 		}
 		if (height > 0) {
-			y = height - 100;
+			y = height;
 		}
 		setPopupPosition(x, y);
 	}
