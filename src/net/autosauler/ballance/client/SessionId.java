@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.client;
 
@@ -41,16 +41,39 @@ public class SessionId implements Serializable {
 	private Long uid = (long) -1;
 
 	/**
-	 * Sets the session.
+	 * Gets the session id.
 	 * 
-	 * @param session
-	 *            the new session
+	 * @return the session id
 	 */
-	public void setSession(SessionId session) {
-		setSessionId(session.getSessionId());
-		setUsername(session.getUsername());
-		setUserrole(session.getUserrole());
-		setUid(session.getUid());
+	public String getSessionId() {
+		return sessionId;
+	}// end getSessionId
+
+	/**
+	 * Gets the uid.
+	 * 
+	 * @return the uid
+	 */
+	public Long getUid() {
+		return uid;
+	}
+
+	/**
+	 * Gets the username.
+	 * 
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * Gets the userrole.
+	 * 
+	 * @return the userrole
+	 */
+	public UserRole getUserrole() {
+		return userrole;
 	}
 
 	/**
@@ -61,6 +84,19 @@ public class SessionId implements Serializable {
 		username = "Anonymous";
 		userrole = new UserRole();
 		uid = -1L;
+	}
+
+	/**
+	 * Sets the session.
+	 * 
+	 * @param session
+	 *            the new session
+	 */
+	public void setSession(SessionId session) {
+		setSessionId(session.getSessionId());
+		setUsername(session.getUsername());
+		setUserrole(session.getUserrole());
+		setUid(session.getUid());
 	}
 
 	/**
@@ -78,13 +114,14 @@ public class SessionId implements Serializable {
 	}// end setSessionId
 
 	/**
-	 * Gets the session id.
+	 * Sets the uid.
 	 * 
-	 * @return the session id
+	 * @param uid
+	 *            the new uid
 	 */
-	public String getSessionId() {
-		return sessionId;
-	}// end getSessionId
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
 
 	/**
 	 * Sets the username.
@@ -97,15 +134,6 @@ public class SessionId implements Serializable {
 	}
 
 	/**
-	 * Gets the username.
-	 * 
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
 	 * Sets the userrole.
 	 * 
 	 * @param userrole
@@ -113,33 +141,5 @@ public class SessionId implements Serializable {
 	 */
 	public void setUserrole(UserRole userrole) {
 		this.userrole.setRole(userrole.getRole());
-	}
-
-	/**
-	 * Gets the userrole.
-	 * 
-	 * @return the userrole
-	 */
-	public UserRole getUserrole() {
-		return userrole;
-	}
-
-	/**
-	 * Sets the uid.
-	 * 
-	 * @param uid
-	 *            the new uid
-	 */
-	public void setUid(Long uid) {
-		this.uid = uid;
-	}
-
-	/**
-	 * Gets the uid.
-	 * 
-	 * @return the uid
-	 */
-	public Long getUid() {
-		return uid;
 	}
 }

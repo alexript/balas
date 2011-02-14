@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.shared;
 
@@ -75,31 +75,12 @@ public class UserRole implements Serializable {
 	}
 
 	/**
-	 * Sets the role.
-	 * 
-	 * @param role
-	 *            the new role
-	 */
-	public void setRole(int role) {
-		this.role = role;
-	}
-
-	/**
 	 * Gets the role.
 	 * 
 	 * @return the role
 	 */
 	public int getRole() {
 		return role;
-	}
-
-	/**
-	 * Checks if is guest.
-	 * 
-	 * @return true, if is guest
-	 */
-	public boolean isGuest() {
-		return role == ROLE_GUEST;
 	}
 
 	/**
@@ -130,47 +111,21 @@ public class UserRole implements Serializable {
 	}
 
 	/**
+	 * Checks if is guest.
+	 * 
+	 * @return true, if is guest
+	 */
+	public boolean isGuest() {
+		return role == ROLE_GUEST;
+	}
+
+	/**
 	 * Checks if is manager.
 	 * 
 	 * @return true, if is manager
 	 */
 	public boolean isManager() {
 		return (role & ROLE_MANAGER) == ROLE_MANAGER;
-	}
-
-	/**
-	 * Sets the guest.
-	 */
-	public void setGuest() {
-		role = ROLE_GUEST;
-	}
-
-	/**
-	 * Sets the admin.
-	 */
-	public void setAdmin() {
-		role = role | ROLE_ADMIN;
-	}
-
-	/**
-	 * Sets the documents.
-	 */
-	public void setDocuments() {
-		role = role | ROLE_DOCUMENTS;
-	}
-
-	/**
-	 * Sets the finances.
-	 */
-	public void setFinances() {
-		role = role | ROLE_FINANCES;
-	}
-
-	/**
-	 * Sets the manager.
-	 */
-	public void setManager() {
-		role = role | ROLE_MANAGER;
 	}
 
 	/**
@@ -207,6 +162,51 @@ public class UserRole implements Serializable {
 		if (isManager()) {
 			role = role ^ ROLE_MANAGER;
 		}
+	}
+
+	/**
+	 * Sets the admin.
+	 */
+	public void setAdmin() {
+		role = role | ROLE_ADMIN;
+	}
+
+	/**
+	 * Sets the documents.
+	 */
+	public void setDocuments() {
+		role = role | ROLE_DOCUMENTS;
+	}
+
+	/**
+	 * Sets the finances.
+	 */
+	public void setFinances() {
+		role = role | ROLE_FINANCES;
+	}
+
+	/**
+	 * Sets the guest.
+	 */
+	public void setGuest() {
+		role = ROLE_GUEST;
+	}
+
+	/**
+	 * Sets the manager.
+	 */
+	public void setManager() {
+		role = role | ROLE_MANAGER;
+	}
+
+	/**
+	 * Sets the role.
+	 * 
+	 * @param role
+	 *            the new role
+	 */
+	public void setRole(int role) {
+		this.role = role;
 	}
 
 }

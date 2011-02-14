@@ -13,6 +13,8 @@
 
 package net.autosauler.ballance.server.util;
 
+import java.util.concurrent.Semaphore;
+
 import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 
 /**
@@ -124,13 +126,16 @@ public class Mutex implements Sync {
 	 * 
 	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#acquire()
 	 */
+	@Override
 	public void acquire() throws InterruptedException {
-		if (Thread.interrupted())
+		if (Thread.interrupted()) {
 			throw new InterruptedException();
+		}
 		synchronized (this) {
 			try {
-				while (inuse_)
+				while (inuse_) {
 					wait();
+				}
 				inuse_ = true;
 			} catch (InterruptedException ex) {
 				notify();
@@ -142,28 +147,20 @@ public class Mutex implements Sync {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#release()
-	 */
-	public synchronized void release() {
-		inuse_ = false;
-		notify();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#attempt(long)
 	 */
+	@Override
 	public boolean attempt(long msecs) throws InterruptedException {
-		if (Thread.interrupted())
+		if (Thread.interrupted()) {
 			throw new InterruptedException();
+		}
 		synchronized (this) {
 			if (!inuse_) {
 				inuse_ = true;
 				return true;
-			} else if (msecs <= 0)
+			} else if (msecs <= 0) {
 				return false;
-			else {
+			} else {
 				long waitTime = msecs;
 				long start = System.currentTimeMillis();
 				try {
@@ -175,8 +172,9 @@ public class Mutex implements Sync {
 						} else {
 							waitTime = msecs
 									- (System.currentTimeMillis() - start);
-							if (waitTime <= 0)
+							if (waitTime <= 0) {
 								return false;
+							}
 						}
 					}
 				} catch (InterruptedException ex) {
@@ -185,6 +183,17 @@ public class Mutex implements Sync {
 				}
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sun.corba.se.impl.orbutil.concurrent.Sync#release()
+	 */
+	@Override
+	public synchronized void release() {
+		inuse_ = false;
+		notify();
 	}
 
 }

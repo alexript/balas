@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package net.autosauler.ballance.server;
 
-import javax.servlet.http.HttpSession;
+package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.shared.UserRole;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * The Class HttpUtilities.
+ * The Class UsersPanel.
  */
-public class HttpUtilities {
+public class UsersPanel extends Composite {
+
+	/** The root. */
+	private VerticalPanel root = null;
+
+	/** The l. */
+	private final UsersMessages l;
 
 	/**
-	 * Gets the user role from session.
-	 * 
-	 * @param session
-	 *            the session
-	 * @return the user role
+	 * Instantiates a new users panel.
 	 */
-	public static UserRole getUserRole(HttpSession session) {
-		Integer roleint = (Integer) session.getAttribute("userrole");
-		UserRole role = new UserRole();
-		if (roleint != null) {
-			role.setRole(roleint);
-		}
-		return role;
+	public UsersPanel() {
+		l = GWT.create(UsersMessages.class);
+		root = new VerticalPanel();
+		initWidget(root);
 	}
 }

@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.shared;
 
@@ -26,32 +26,32 @@ public class User implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7092920614208715347L;
-	
+
 	/** The login. */
 	private String login;
-	
+
 	/** The domain. */
 	private String domain;
-	
+
 	/** The username. */
 	private String username;
-	
+
 	/** The userrole. */
 	private UserRole userrole = null;
-	
+
 	/** The createdate. */
 	private Date createdate;
-	
+
 	/** The active. */
 	private boolean active;
-	
+
 	/**
 	 * Instantiates a new user.
 	 */
 	public User() {
-		
+
 	}
-	
+
 	/**
 	 * Instantiates a new user.
 	 * 
@@ -68,24 +68,10 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param login the login to set
+	 * @return the createdate
 	 */
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	/**
-	 * @return the login
-	 */
-	public String getLogin() {
-		return login;
-	}
-
-	/**
-	 * @param domain the domain to set
-	 */
-	public void setDomain(String domain) {
-		this.domain = domain;
+	public Date getCreatedate() {
+		return createdate;
 	}
 
 	/**
@@ -96,10 +82,10 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param username the username to set
+	 * @return the login
 	 */
-	public void setUsername(String username) {
-		this.username = username;
+	public String getLogin() {
+		return login;
 	}
 
 	/**
@@ -110,13 +96,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param userrole the userrole to set
-	 */
-	public void setUserrole(UserRole userrole) {
-		this.userrole = new UserRole(userrole);
-	}
-
-	/**
 	 * @return the userrole
 	 */
 	public UserRole getUserrole() {
@@ -124,30 +103,57 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param createdate the createdate to set
+	 * @return the active
 	 */
-	public void setCreatedate(Date createdate) {
-		this.createdate = createdate;
+	public boolean isActive() {
+		return active;
 	}
 
 	/**
-	 * @return the createdate
-	 */
-	public Date getCreatedate() {
-		return createdate;
-	}
-
-	/**
-	 * @param active the active to set
+	 * @param active
+	 *            the active to set
 	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
 
 	/**
-	 * @return the active
+	 * @param createdate
+	 *            the createdate to set
 	 */
-	public boolean isActive() {
-		return active;
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
+	}
+
+	/**
+	 * @param domain
+	 *            the domain to set
+	 */
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	/**
+	 * @param login
+	 *            the login to set
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @param userrole
+	 *            the userrole to set
+	 */
+	public void setUserrole(UserRole userrole) {
+		this.userrole = new UserRole(userrole);
 	}
 }

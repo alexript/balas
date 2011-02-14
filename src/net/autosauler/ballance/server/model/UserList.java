@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.server.model;
 
@@ -32,13 +32,6 @@ public class UserList {
 
 	/** The Constant collectionname. */
 	final private static String collectionname = "registredusers";
-	
-	/**
-	 * Instantiates a new user list.
-	 */
-	public UserList() {
-
-	}
 
 	/**
 	 * Creates the default records if no users in database.
@@ -66,7 +59,7 @@ public class UserList {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the users list.
 	 * 
@@ -74,6 +67,33 @@ public class UserList {
 	 */
 	public static net.autosauler.ballance.shared.UserList getUsers() {
 		return getUsers(false);
+	}
+
+	/**
+	 * Gets the users list.
+	 * 
+	 * @param fromtrash
+	 *            the fromtrash
+	 * @return the users
+	 */
+	private static net.autosauler.ballance.shared.UserList getUsers(
+			boolean fromtrash) {
+		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
+
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection(collectionname);
+			BasicDBObject query = new BasicDBObject();
+			query.put("istrash", fromtrash);
+			DBCursor cur = coll.find(query);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				list.addUser(new User(myDoc));
+			}
+
+		}
+
+		return list;
 	}
 
 	/**
@@ -86,28 +106,9 @@ public class UserList {
 	}
 
 	/**
-	 * Gets the users list.
-	 * 
-	 * @param fromtrash
-	 *            the fromtrash
-	 * @return the users
+	 * Instantiates a new user list.
 	 */
-	private static net.autosauler.ballance.shared.UserList getUsers(boolean fromtrash) {
-		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
-		
-		DB db = Database.get();
-		if(db!=null) {
-			DBCollection coll = db.getCollection(collectionname);
-			BasicDBObject query = new BasicDBObject();
-			query.put("istrash", fromtrash);
-			DBCursor cur = coll.find(query);
-			while(cur.hasNext()) {
-				DBObject myDoc = cur.next();
-				list.addUser(new User(myDoc));
-			}
-			
-		}
-		
-		return list;
+	public UserList() {
+
 	}
 }

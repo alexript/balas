@@ -13,30 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package net.autosauler.ballance.server;
+package net.autosauler.ballance.client.gui;
 
-import javax.servlet.http.HttpSession;
-
-import net.autosauler.ballance.shared.UserRole;
+import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Class HttpUtilities.
+ * The Interface UsersMessages.
+ * 
+ * @author alexript
  */
-public class HttpUtilities {
+public interface UsersMessages extends Messages {
 
-	/**
-	 * Gets the user role from session.
-	 * 
-	 * @param session
-	 *            the session
-	 * @return the user role
-	 */
-	public static UserRole getUserRole(HttpSession session) {
-		Integer roleint = (Integer) session.getAttribute("userrole");
-		UserRole role = new UserRole();
-		if (roleint != null) {
-			role.setRole(roleint);
-		}
-		return role;
-	}
 }

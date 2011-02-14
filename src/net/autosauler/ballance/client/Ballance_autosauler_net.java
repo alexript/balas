@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.client;
 
@@ -53,8 +53,13 @@ public class Ballance_autosauler_net implements EntryPoint {
 	/** The Constant COOKIE_TIME. */
 	public final static long COOKIE_TIME = 1000 * 60 * 60;
 
-	{
-		sessionId.setSessionId(Cookies.getCookie("session"));
+	/**
+	 * Checks if is logged in.
+	 * 
+	 * @return true, if is logged in
+	 */
+	public static boolean isLoggedIn() {
+		return isloggedin;
 	}
 
 	/**
@@ -72,22 +77,40 @@ public class Ballance_autosauler_net implements EntryPoint {
 	}
 
 	/**
+	 * Sets the logged in state.
+	 * 
+	 * @param f
+	 *            the new logged in state
+	 */
+	public static void setLoggedInState(boolean f) {
+		isloggedin = f;
+	}
+
+	{
+		sessionId.setSessionId(Cookies.getCookie("session"));
+	}
+
+	/**
 	 * This is the entry point method.
 	 */
+	@Override
 	public void onModuleLoad() {
 
 		AsyncCallback<SessionId> asyncCallback = new AsyncCallback<SessionId>() {
+			@Override
 			public void onFailure(Throwable caught) {
 				isloggedin = false;
-				new AlertDialog("Communication error!", caught.getMessage()).show();
+				new AlertDialog("Communication error!", caught.getMessage())
+						.show();
 			}// end onFailure
 
+			@Override
 			public void onSuccess(SessionId result) {
 				// Window.alert(sessionId.getSessionId() + " --- " +
 				// result.getSessionId() + ": " +
 				// sessionId.getSessionId().equals(
 				// result.getSessionId()));
-				if (result == null
+				if ((result == null)
 						|| !sessionId.getSessionId().equals(
 								result.getSessionId())) {
 					isloggedin = false;
@@ -102,6 +125,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 				mainpanel.setWidth("100%");
 				mainpanel.setHeight(Window.getClientHeight() + "px");
 				Window.addResizeHandler(new ResizeHandler() {
+					@Override
 					public void onResize(ResizeEvent event) {
 						mainpanel.setHeight(event.getHeight() + "px");
 						mainpanel.setWidth(event.getWidth() + "px");
@@ -115,24 +139,5 @@ public class Ballance_autosauler_net implements EntryPoint {
 			// AsyncCallback<String>()
 		authService.session(sessionId, asyncCallback);
 
-	}
-
-	/**
-	 * Checks if is logged in.
-	 * 
-	 * @return true, if is logged in
-	 */
-	public static boolean isLoggedIn() {
-		return isloggedin;
-	}
-
-	/**
-	 * Sets the logged in state.
-	 * 
-	 * @param f
-	 *            the new logged in state
-	 */
-	public static void setLoggedInState(boolean f) {
-		isloggedin = f;
 	}
 }

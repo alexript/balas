@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package net.autosauler.ballance.server.mongodb;
 
 import java.net.UnknownHostException;
@@ -60,13 +60,6 @@ public class Database {
 	private static Mutex lock = new Mutex();
 
 	/**
-	 * Instantiates a new database.
-	 */
-	public Database() {
-
-	}
-
-	/**
 	 * Gets the.
 	 * 
 	 * @return the dB
@@ -108,7 +101,7 @@ public class Database {
 			mongo = new Mongo(host, port);
 		} catch (com.mongodb.MongoInternalException e) {
 			lock.release();
-			throw(e);
+			throw (e);
 		}
 		DB db = mongo.getDB("admin");
 		boolean auth = db.authenticate(adminuser, adminpassword.toCharArray());
@@ -164,5 +157,12 @@ public class Database {
 
 		lock.release();
 		return true;
+	}
+
+	/**
+	 * Instantiates a new database.
+	 */
+	public Database() {
+
 	}
 }

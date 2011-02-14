@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.server.model;
 
@@ -31,6 +31,44 @@ import com.mongodb.DBObject;
  * The Class User.
  */
 public class User {
+
+	/**
+	 * Find user by login.
+	 * 
+	 * @param login
+	 *            the login
+	 * @return the user or null if not found
+	 */
+	public static User find(String login) {
+		User user = null;
+
+		DBObject myDoc = null;
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection("registredusers");
+			BasicDBObject query = new BasicDBObject();
+			query.put("login", login);
+			myDoc = coll.findOne(query);
+			if (myDoc != null) {
+				user = new User(myDoc);
+			}
+		}
+
+		return user;
+	}
+
+	/**
+	 * Find.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param domain
+	 *            the domain
+	 * @return the user
+	 */
+	public static User find(String login, String domain) {
+		return find(login.trim() + "@" + domain.trim());
+	}
 
 	/** The login. */
 	private String login;
@@ -82,41 +120,17 @@ public class User {
 	}
 
 	/**
-	 * Find user by login.
+	 * Adds the new user to database. If login exists - false;
 	 * 
-	 * @param login
-	 *            the login
-	 * @return the user or null if not found
+	 * @return true, if successful
 	 */
-	public static User find(String login) {
-		User user = null;
-
-		DBObject myDoc = null;
-		DB db = Database.get();
-		if (db != null) {
-			DBCollection coll = db.getCollection("registredusers");
-			BasicDBObject query = new BasicDBObject();
-			query.put("login", login);
-			myDoc = coll.findOne(query);
-			if (myDoc != null) {
-				user = new User(myDoc);
-			}
+	public boolean addNewUser() {
+		User user = User.find(getLogin());
+		if (user != null) {
+			return false;
 		}
-
-		return user;
-	}
-
-	/**
-	 * Find.
-	 * 
-	 * @param login
-	 *            the login
-	 * @param domain
-	 *            the domain
-	 * @return the user
-	 */
-	public static User find(String login, String domain) {
-		return find(login.trim() + "@" + domain.trim());
+		create();
+		return true;
 	}
 
 	/**
@@ -146,17 +160,112 @@ public class User {
 	}
 
 	/**
-	 * Adds the new user to database. If login exists - false;
+	 * Gets the createdate.
 	 * 
-	 * @return true, if successful
+	 * @return the createdate
 	 */
-	public boolean addNewUser() {
-		User user = User.find(getLogin());
-		if (user != null) {
-			return false;
+	public Date getCreatedate() {
+		return createdate;
+	}
+
+	/**
+	 * Gets the domain of login.
+	 * 
+	 * @return the domain of login
+	 */
+	public String getDomainOfLogin() {
+		String l = getLogin();
+		String[] arr = l.split("@", 2);
+		if (arr.length != 2) {
+			return "";
 		}
-		create();
-		return true;
+		return arr[1];
+	}
+
+	/**
+	 * Gets the hash.
+	 * 
+	 * @return the hash
+	 */
+	public String getHash() {
+		return hash;
+	}
+
+	/**
+	 * Gets the login.
+	 * 
+	 * @return the login
+	 */
+	public String getLogin() {
+		return login;
+	}
+
+	/**
+	 * Gets the login without domain.
+	 * 
+	 * @return the login without domain
+	 */
+	public String getLoginWithoutDomain() {
+		String l = getLogin();
+		String[] arr = l.split("@", 2);
+		if (arr.length != 2) {
+			return l;
+		}
+		return arr[0];
+	}
+
+	/**
+	 * Gets the uid.
+	 * 
+	 * @return the uid
+	 */
+	public Long getUid() {
+		return uid;
+	}
+
+	/**
+	 * Gets the username.
+	 * 
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * Gets the userrole.
+	 * 
+	 * @return the userrole
+	 */
+	public UserRole getUserrole() {
+		return userrole;
+	}
+
+	/**
+	 * Gets the userrole as int.
+	 * 
+	 * @return the userrole as int
+	 */
+	public int getUserroleAsInt() {
+		return userrole.getRole();
+	}
+
+	/**
+	 * Checks if is active.
+	 * 
+	 * @return true, if is active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * Checks if is trash.
+	 * 
+	 * @return true, if is trash
+	 */
+	public boolean isTrash() {
+		return trash;
 	}
 
 	/**
@@ -171,6 +280,16 @@ public class User {
 	}
 
 	/**
+	 * Sets the active.
+	 * 
+	 * @param active
+	 *            the new active
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
 	 * Sets the hash.
 	 * 
 	 * @param hash
@@ -178,81 +297,6 @@ public class User {
 	 */
 	public void setHash(String hash) {
 		this.hash = hash;
-	}
-
-	/**
-	 * Gets the hash.
-	 * 
-	 * @return the hash
-	 */
-	public String getHash() {
-		return hash;
-	}
-
-	/**
-	 * Sets the username.
-	 * 
-	 * @param username
-	 *            the new username
-	 */
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	/**
-	 * Gets the username.
-	 * 
-	 * @return the username
-	 */
-	public String getUsername() {
-		return username;
-	}
-
-	/**
-	 * Sets the userrole.
-	 * 
-	 * @param userrole
-	 *            the new userrole
-	 */
-	public void setUserrole(UserRole userrole) {
-		this.userrole = userrole;
-	}
-
-	/**
-	 * Gets the userrole as int.
-	 * 
-	 * @return the userrole as int
-	 */
-	public int getUserroleAsInt() {
-		return userrole.getRole();
-	}
-
-	/**
-	 * Gets the userrole.
-	 * 
-	 * @return the userrole
-	 */
-	public UserRole getUserrole() {
-		return userrole;
-	}
-
-	/**
-	 * Sets the uid.
-	 * 
-	 * @param uid
-	 *            the new uid
-	 */
-	public void setUid(Long uid) {
-		this.uid = uid;
-	}
-
-	/**
-	 * Gets the uid.
-	 * 
-	 * @return the uid
-	 */
-	public Long getUid() {
-		return uid;
 	}
 
 	/**
@@ -278,78 +322,13 @@ public class User {
 	}
 
 	/**
-	 * Gets the login.
-	 * 
-	 * @return the login
-	 */
-	public String getLogin() {
-		return login;
-	}
-
-	/**
-	 * Gets the login without domain.
-	 * 
-	 * @return the login without domain
-	 */
-	public String getLoginWithoutDomain() {
-		String l = getLogin();
-		String[] arr = l.split("@", 2);
-		if(arr.length!=2) {
-			return l;
-		}
-		return arr[0];
-	}
-	
-	/**
-	 * Gets the domain of login.
-	 * 
-	 * @return the domain of login
-	 */
-	public String getDomainOfLogin() {
-		String l = getLogin();
-		String[] arr = l.split("@", 2);
-		if(arr.length!=2) {
-			return "";
-		}
-		return arr[1];
-	}
-
-	/**
 	 * Sets the password.
 	 * 
 	 * @param password
 	 *            the new password
 	 */
 	public void setPassword(String password) {
-		this.hash = BCrypt.hashpw(password, BCrypt.gensalt());
-	}
-
-	/**
-	 * Gets the createdate.
-	 * 
-	 * @return the createdate
-	 */
-	public Date getCreatedate() {
-		return createdate;
-	}
-
-	/**
-	 * Sets the active.
-	 * 
-	 * @param active
-	 *            the new active
-	 */
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 * Checks if is active.
-	 * 
-	 * @return true, if is active
-	 */
-	public boolean isActive() {
-		return active;
+		hash = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
 
 	/**
@@ -360,18 +339,39 @@ public class User {
 	 */
 	public void setTrash(boolean trash) {
 		this.trash = trash;
-		if(trash) {
+		if (trash) {
 			setActive(false);
 		}
 	}
 
 	/**
-	 * Checks if is trash.
+	 * Sets the uid.
 	 * 
-	 * @return true, if is trash
+	 * @param uid
+	 *            the new uid
 	 */
-	public boolean isTrash() {
-		return trash;
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
+
+	/**
+	 * Sets the username.
+	 * 
+	 * @param username
+	 *            the new username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * Sets the userrole.
+	 * 
+	 * @param userrole
+	 *            the new userrole
+	 */
+	public void setUserrole(UserRole userrole) {
+		this.userrole = userrole;
 	}
 
 }

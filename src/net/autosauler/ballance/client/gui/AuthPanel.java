@@ -1,18 +1,18 @@
-/*
-   Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- */
+/*******************************************************************************
+ * Copyright 2011 Alex 'Ript' Malyshev <alexript@gmail.com>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package net.autosauler.ballance.client.gui;
 
@@ -48,7 +48,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		KeyPressHandler, IDialogYesReceiver {
 
 	/** The auth panel. */
-	private VerticalPanel authPanel = new VerticalPanel();
+	private final VerticalPanel authPanel = new VerticalPanel();
 
 	/** The login text. */
 	private TextBox loginText = null;
@@ -111,94 +111,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 	}
 
 	/**
-	 * Logoff action.
-	 */
-	public void logoffAction() {
-		constructAuthForm();
-	}
-
-	/**
-	 * Login action.
-	 */
-	public void loginAction() {
-		constructHelloPane();
-	}
-
-	/**
-	 * Construct message label.
-	 */
-	private void constructMessageLabel() {
-		HorizontalPanel bottomPanel = new HorizontalPanel();
-
-		messageLabel.setText("");
-		bottomPanel.add(messageLabel);
-
-		InlineHTML locales = new InlineHTML(
-				"&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\"/></a>&nbsp;");
-		locales.setWidth("40px");
-		bottomPanel.add(locales);
-
-		authPanel.add(bottomPanel);
-	}
-
-	/**
-	 * Construct hello pane.
-	 */
-	private void constructHelloPane() {
-		authPanel.clear();
-		loginText = null;
-		passwordText = null;
-		okButton = null;
-		cancelButton = null;
-
-		Label helloLabel = new Label();
-		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId
-				.getUsername()));
-		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		authPanel.add(helloLabel);
-
-		UserRole userrole = Ballance_autosauler_net.sessionId.getUserrole();
-		StringBuilder sb = new StringBuilder();
-		sb.append('|');
-		if (userrole.isAdmin()) {
-			sb.append("Admin");
-			sb.append('|');
-		}
-		if (userrole.isDocuments()) {
-			sb.append("Documents");
-			sb.append('|');
-		}
-		if (userrole.isFinances()) {
-			sb.append("Finances");
-			sb.append('|');
-		}
-		if (userrole.isManager()) {
-			sb.append("Manager");
-			sb.append('|');
-		}
-		String rolestext = "Guest";
-		if (sb.length() > 0) {
-			rolestext = sb.toString();
-		}
-		Label rolesLabel = new Label(rolestext);
-		rolesLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		rolesLabel.setTitle(l.titleRoles());
-		authPanel.add(rolesLabel);
-
-		logoutButton = new Button();
-		logoutButton.setText(l.btnLogout());
-		logoutButton.addClickHandler(this);
-		authPanel.add(logoutButton);
-
-		constructMessageLabel();
-
-		if (menu != null) {
-			menu.buildContent();
-		}
-
-	}
-
-	/**
 	 * Construct auth form.
 	 */
 	private void constructAuthForm() {
@@ -208,7 +120,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		authPanel.clear();
 		logoutButton = null;
 
-		if (formname != null && !formname.isEmpty()) {
+		if ((formname != null) && !formname.isEmpty()) {
 			Label title = new Label();
 			title.setText(formname);
 			title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -285,74 +197,100 @@ public class AuthPanel extends Composite implements ClickHandler,
 	}
 
 	/**
-	 * On ok button.
+	 * Construct hello pane.
 	 */
-	private void onOkButton() {
-		String login = loginText.getText().trim();
-		String password = passwordText.getText().trim();
-		boolean fieldsok = true;
-		if (login == null || login.length() < 5) {
-			loginText.addStyleName(errorfieldstyle);
-			fieldsok = false;
-		} else {
-			loginText.removeStyleName(errorfieldstyle);
+	private void constructHelloPane() {
+		authPanel.clear();
+		loginText = null;
+		passwordText = null;
+		okButton = null;
+		cancelButton = null;
+
+		Label helloLabel = new Label();
+		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId
+				.getUsername()));
+		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		authPanel.add(helloLabel);
+
+		UserRole userrole = Ballance_autosauler_net.sessionId.getUserrole();
+		StringBuilder sb = new StringBuilder();
+		sb.append('|');
+		if (userrole.isAdmin()) {
+			sb.append("Admin");
+			sb.append('|');
+		}
+		if (userrole.isDocuments()) {
+			sb.append("Documents");
+			sb.append('|');
+		}
+		if (userrole.isFinances()) {
+			sb.append("Finances");
+			sb.append('|');
+		}
+		if (userrole.isManager()) {
+			sb.append("Manager");
+			sb.append('|');
+		}
+		String rolestext = "Guest";
+		if (sb.length() > 0) {
+			rolestext = sb.toString();
+		}
+		Label rolesLabel = new Label(rolestext);
+		rolesLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		rolesLabel.setTitle(l.titleRoles());
+		authPanel.add(rolesLabel);
+
+		logoutButton = new Button();
+		logoutButton.setText(l.btnLogout());
+		logoutButton.addClickHandler(this);
+		authPanel.add(logoutButton);
+
+		constructMessageLabel();
+
+		if (menu != null) {
+			menu.buildContent();
 		}
 
-		if (password == null || password.length() < 5) {
-			passwordText.addStyleName(errorfieldstyle);
-			fieldsok = false;
-		} else {
-			passwordText.removeStyleName(errorfieldstyle);
-		}
+	}
 
-		if (!fieldsok) {
-			messageLabel.setText(l.badFieldValue());
-			loginText.setFocus(true);
-			return;
-		}
+	/**
+	 * Construct message label.
+	 */
+	private void constructMessageLabel() {
+		HorizontalPanel bottomPanel = new HorizontalPanel();
 
 		messageLabel.setText("");
-		MainPanel.setCommInfo(true);
-		Ballance_autosauler_net.authService.chkAuth(login, password,
-				new AsyncCallback<SessionId>() {
+		bottomPanel.add(messageLabel);
 
-					@Override
-					public void onSuccess(SessionId result) {
-						if (result != null) {
-							Ballance_autosauler_net.setLoggedInState(true);
+		InlineHTML locales = new InlineHTML(
+				"&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\"/></a>&nbsp;");
+		locales.setWidth("40px");
+		bottomPanel.add(locales);
 
-							Cookies.setCookie(
-									"session",
-									result.getSessionId(),
-									new Date(
-											System.currentTimeMillis()
-													+ Ballance_autosauler_net.COOKIE_TIME));
-							Ballance_autosauler_net.sessionId
-									.setSessionId(result.getSessionId());
-							Ballance_autosauler_net.sessionId
-									.setUsername(result.getUsername());
-							Ballance_autosauler_net.sessionId
-									.setUserrole(result.getUserrole());
-							loginAction();
+		authPanel.add(bottomPanel);
+	}
 
-						} else {
-							Ballance_autosauler_net.setLoggedInState(false);
-							logoffAction();
-							messageLabel.setText(l.badAuth());
-						}// end else
+	/**
+	 * Gets the menu.
+	 * 
+	 * @return the menu
+	 */
+	public LeftMenu getMenu() {
+		return menu;
+	}
 
-						MainPanel.setCommInfo(false);
-					}
+	/**
+	 * Login action.
+	 */
+	public void loginAction() {
+		constructHelloPane();
+	}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						MainPanel.setCommInfo(false);
-						messageLabel.setText(l.commError());
-						new AlertDialog(l.commError(), caught.getMessage())
-								.show();
-					}
-				});
-
+	/**
+	 * Logoff action.
+	 */
+	public void logoffAction() {
+		constructAuthForm();
 	}
 
 	/*
@@ -389,42 +327,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google
-	 * .gwt.event.dom.client.KeyPressEvent)
-	 */
-	@Override
-	public void onKeyPress(KeyPressEvent event) {
-		if (event.getSource().equals(passwordText)) {
-			if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-				onOkButton();
-			}
-		}
-
-	}
-
-	/**
-	 * Sets the menu.
-	 * 
-	 * @param menu
-	 *            the menu to set
-	 */
-	public void setMenu(LeftMenu menu) {
-		this.menu = menu;
-	}
-
-	/**
-	 * Gets the menu.
-	 * 
-	 * @return the menu
-	 */
-	public LeftMenu getMenu() {
-		return menu;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
 	 * (java.lang.String)
 	 */
@@ -452,6 +354,104 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google
+	 * .gwt.event.dom.client.KeyPressEvent)
+	 */
+	@Override
+	public void onKeyPress(KeyPressEvent event) {
+		if (event.getSource().equals(passwordText)) {
+			if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+				onOkButton();
+			}
+		}
+
+	}
+
+	/**
+	 * On ok button.
+	 */
+	private void onOkButton() {
+		String login = loginText.getText().trim();
+		String password = passwordText.getText().trim();
+		boolean fieldsok = true;
+		if ((login == null) || (login.length() < 5)) {
+			loginText.addStyleName(errorfieldstyle);
+			fieldsok = false;
+		} else {
+			loginText.removeStyleName(errorfieldstyle);
+		}
+
+		if ((password == null) || (password.length() < 5)) {
+			passwordText.addStyleName(errorfieldstyle);
+			fieldsok = false;
+		} else {
+			passwordText.removeStyleName(errorfieldstyle);
+		}
+
+		if (!fieldsok) {
+			messageLabel.setText(l.badFieldValue());
+			loginText.setFocus(true);
+			return;
+		}
+
+		messageLabel.setText("");
+		MainPanel.setCommInfo(true);
+		Ballance_autosauler_net.authService.chkAuth(login, password,
+				new AsyncCallback<SessionId>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						messageLabel.setText(l.commError());
+						new AlertDialog(l.commError(), caught.getMessage())
+								.show();
+					}
+
+					@Override
+					public void onSuccess(SessionId result) {
+						if (result != null) {
+							Ballance_autosauler_net.setLoggedInState(true);
+
+							Cookies.setCookie(
+									"session",
+									result.getSessionId(),
+									new Date(
+											System.currentTimeMillis()
+													+ Ballance_autosauler_net.COOKIE_TIME));
+							Ballance_autosauler_net.sessionId
+									.setSessionId(result.getSessionId());
+							Ballance_autosauler_net.sessionId
+									.setUsername(result.getUsername());
+							Ballance_autosauler_net.sessionId
+									.setUserrole(result.getUserrole());
+							loginAction();
+
+						} else {
+							Ballance_autosauler_net.setLoggedInState(false);
+							logoffAction();
+							messageLabel.setText(l.badAuth());
+						}// end else
+
+						MainPanel.setCommInfo(false);
+					}
+				});
+
+	}
+
+	/**
+	 * Sets the menu.
+	 * 
+	 * @param menu
+	 *            the menu to set
+	 */
+	public void setMenu(LeftMenu menu) {
+		this.menu = menu;
 	}
 
 }
