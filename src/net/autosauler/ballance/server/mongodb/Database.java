@@ -95,6 +95,7 @@ public class Database {
 	 *             the interrupted exception
 	 */
 	private static synchronized void initConnection()
+	// TODO: fix creating connection per session.
 			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
 		try {
