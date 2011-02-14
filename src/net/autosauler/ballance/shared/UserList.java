@@ -41,17 +41,6 @@ public class UserList implements Serializable {
 	/**
 	 * Adds the user.
 	 * 
-	 * @param usermodel
-	 *            the usermodel
-	 */
-	public void addUser(net.autosauler.ballance.server.model.User usermodel) {
-		User user = new User(usermodel);
-		addUser(user);
-	}
-
-	/**
-	 * Adds the user.
-	 * 
 	 * @param user
 	 *            the user
 	 */

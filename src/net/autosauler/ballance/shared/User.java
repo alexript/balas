@@ -53,21 +53,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Instantiates a new user.
-	 * 
-	 * @param user
-	 *            the user
-	 */
-	public User(net.autosauler.ballance.server.model.User user) {
-		setLogin(user.getLoginWithoutDomain());
-		setDomain(user.getDomainOfLogin());
-		setUsername(user.getUsername());
-		setUserrole(new UserRole(user.getUserrole()));
-		setCreatedate(user.getCreatedate());
-		setActive(user.isActive());
-	}
-
-	/**
 	 * @return the createdate
 	 */
 	public Date getCreatedate() {

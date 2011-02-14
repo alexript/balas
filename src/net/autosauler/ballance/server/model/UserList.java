@@ -88,7 +88,15 @@ public class UserList {
 			DBCursor cur = coll.find(query);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
-				list.addUser(new User(myDoc));
+				User dbuser = new User(myDoc);
+				net.autosauler.ballance.shared.User user = new net.autosauler.ballance.shared.User();
+				user.setLogin(dbuser.getLoginWithoutDomain());
+				user.setDomain(dbuser.getDomainOfLogin());
+				user.setUsername(dbuser.getUsername());
+				user.setUserrole(new UserRole(dbuser.getUserrole()));
+				user.setCreatedate(dbuser.getCreatedate());
+				user.setActive(dbuser.isActive());
+				list.addUser(user);
 			}
 
 		}
