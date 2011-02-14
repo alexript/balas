@@ -24,4 +24,24 @@ import com.google.gwt.i18n.client.Messages;
  */
 public interface UsersMessages extends Messages {
 
+	/**
+	 * Crate date.
+	 * 
+	 * @return the string
+	 */
+	String crateDate();
+
+	/**
+	 * Checks if is active.
+	 * 
+	 * @return the string
+	 */
+	String isActive();
+
+	/**
+	 * User name.
+	 * 
+	 * @return the string
+	 */
+	String userName();
 }

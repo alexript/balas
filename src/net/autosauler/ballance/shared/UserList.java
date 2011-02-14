@@ -54,7 +54,7 @@ public class UserList implements Serializable {
 	/**
 	 * @return the list
 	 */
-	private List<User> getList() {
+	public List<User> getList() {
 		return list;
 	}
 
@@ -62,7 +62,7 @@ public class UserList implements Serializable {
 	 * @param list
 	 *            the list to set
 	 */
-	private void setList(List<User> list) {
+	public void setList(List<User> list) {
 		this.list = list;
 	}
 }

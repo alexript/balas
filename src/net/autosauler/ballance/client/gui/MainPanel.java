@@ -52,6 +52,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 */
 	public static void closeTab(String tag) {
 		if (tabsIndexes.containsKey(tag)) {
+			String newselection = "";
+
 			int index = tabsIndexes.get(tag);
 			mainpane.remove(index);
 			tabsIndexes.remove(tag);
@@ -60,6 +62,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 				int i = tabsIndexes.get(key);
 				if (i > index) {
 					tabsIndexes.put(key, i - 1);
+				}
+				if (i == index) {
+					newselection = key;
 				}
 			}
 
@@ -72,6 +77,16 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			} else {
 				mainpane.selectTab(index - 1);
 			}
+
+			String initToken = History.getToken();
+			if (initToken.length() == 0) {
+				History.newItem("start");
+			}
+			if (!newselection.isEmpty() && !initToken.equals(newselection)) {
+				History.newItem(newselection);
+				History.fireCurrentHistoryState();
+			}
+
 		}
 	}
 
@@ -267,6 +282,15 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 				}
 			}
 			mainpane.selectTab(paneindex);
+			String initToken = History.getToken();
+			if (initToken.length() == 0) {
+				History.newItem("start");
+			}
+			if (!initToken.equals(eventvalue)) {
+				History.newItem(eventvalue);
+				History.fireCurrentHistoryState();
+			}
+
 		}
 
 	}

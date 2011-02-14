@@ -19,6 +19,8 @@ package net.autosauler.ballance.shared;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.google.gwt.view.client.ProvidesKey;
+
 /**
  * The Class User.
  */
@@ -45,6 +47,22 @@ public class User implements Serializable {
 	/** The active. */
 	private boolean active;
 
+	/** The Constant KEY_PROVIDER. */
+	public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
+
+		/**
+		 * Gets the key.
+		 * 
+		 * @param item
+		 *            the item
+		 * @return the key
+		 */
+		@Override
+		public Object getKey(User item) {
+			return item == null ? null : item.getId();
+		}
+	};
+
 	/**
 	 * Instantiates a new user.
 	 */
@@ -53,6 +71,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the createdate.
+	 * 
 	 * @return the createdate
 	 */
 	public Date getCreatedate() {
@@ -60,6 +80,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the domain.
+	 * 
 	 * @return the domain
 	 */
 	public String getDomain() {
@@ -67,6 +89,17 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the id.
+	 * 
+	 * @return the id
+	 */
+	public String getId() {
+		return getLogin() + "@" + getDomain();
+	}
+
+	/**
+	 * Gets the login.
+	 * 
 	 * @return the login
 	 */
 	public String getLogin() {
@@ -74,6 +107,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the username.
+	 * 
 	 * @return the username
 	 */
 	public String getUsername() {
@@ -81,6 +116,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the userrole.
+	 * 
 	 * @return the userrole
 	 */
 	public UserRole getUserrole() {
@@ -88,6 +125,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Checks if is active.
+	 * 
 	 * @return the active
 	 */
 	public boolean isActive() {
@@ -95,6 +134,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the active.
+	 * 
 	 * @param active
 	 *            the active to set
 	 */
@@ -103,6 +144,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the createdate.
+	 * 
 	 * @param createdate
 	 *            the createdate to set
 	 */
@@ -111,6 +154,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the domain.
+	 * 
 	 * @param domain
 	 *            the domain to set
 	 */
@@ -119,6 +164,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the login.
+	 * 
 	 * @param login
 	 *            the login to set
 	 */
@@ -127,6 +174,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the username.
+	 * 
 	 * @param username
 	 *            the username to set
 	 */
@@ -135,6 +184,8 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Sets the userrole.
+	 * 
 	 * @param userrole
 	 *            the userrole to set
 	 */

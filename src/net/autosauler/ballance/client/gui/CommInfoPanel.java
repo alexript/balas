@@ -16,9 +16,8 @@
 
 package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.client.Ballance_autosauler_net;
-
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -52,8 +51,21 @@ public class CommInfoPanel extends PopupPanel {
 		panel.add(msg);
 
 		setWidget(panel);
-		setPopupPosition(
-				Ballance_autosauler_net.mainpanel.getOffsetWidth() - 220,
-				Ballance_autosauler_net.mainpanel.getOffsetHeight() - 60);
+
+		// int width = RootPanel.get().getOffsetWidth();
+		// int height = RootPanel.get().getOffsetHeight();
+
+		int width = Window.getClientWidth() - 20;
+		int height = Window.getClientHeight() * 2 / 3;
+
+		int x = 250;
+		int y = 100;
+		if (width > 0) {
+			x = width - 320;
+		}
+		if (height > 0) {
+			y = height - 100;
+		}
+		setPopupPosition(x, y);
 	}
 }
