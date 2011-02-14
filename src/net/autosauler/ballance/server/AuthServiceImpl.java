@@ -122,8 +122,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 					username = "Anonymous";
 				}
 				sessionId.setUsername(username);
-				UserRole userrole = new UserRole(
-						(Integer) httpSession.getAttribute("userrole"));
+				UserRole userrole = HttpUtilities.getUserRole(httpSession);
 				sessionId.setUserrole(userrole);
 				Long uid = (Long) httpSession.getAttribute("uid");
 				if (uid == null) {

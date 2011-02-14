@@ -25,6 +25,16 @@
     <servlet-name>dbServlet</servlet-name>
     <url-pattern>/ballance_autosauler_net/database</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>usersServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.UsersServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>usersServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/users</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

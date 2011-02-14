@@ -18,37 +18,47 @@ package net.autosauler.ballance.server;
 
 import javax.servlet.http.HttpSession;
 
-import net.autosauler.ballance.client.DatabaseService;
-import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.client.UsersService;
+import net.autosauler.ballance.shared.UserList;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * The Class DatabaseServiceImpl.
+ * The Class UsersServiceImpl.
  */
-public class DatabaseServiceImpl extends RemoteServiceServlet implements
-		DatabaseService {
+public class UsersServiceImpl extends RemoteServiceServlet implements
+		UsersService {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6110913528303260672L;
+	private static final long serialVersionUID = 2706987676142358826L;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.DatabaseService#dropDatabase()
+	/* (non-Javadoc)
+	 * @see net.autosauler.ballance.client.UsersService#getUsers()
 	 */
 	@Override
-	public boolean dropDatabase() {
-		boolean result = false;
+	public UserList getUsers() {
+		UserList list = null;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-
-		if (role.isAdmin()) {
-			result = Database.recreateDb();
+		if(role.isAdmin()) {
+			list = net.autosauler.ballance.server.model.UserList.getUsers();
 		}
+		return list;
+	}
 
-		return result;
+	/* (non-Javadoc)
+	 * @see net.autosauler.ballance.client.UsersService#getTrashedUsers()
+	 */
+	@Override
+	public UserList getTrashedUsers() {
+		UserList list = null;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if(role.isAdmin()) {
+			list = net.autosauler.ballance.server.model.UserList.getUsersFromTrash();
+		}
+		return list;
 	}
 
 }
