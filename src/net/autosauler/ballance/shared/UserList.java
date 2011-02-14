@@ -29,7 +29,7 @@ public class UserList implements Serializable {
 	private static final long serialVersionUID = -388597750089950183L;
 	
 	/** The list. */
-	List<User> list = null;
+	private List<User> list = null;
 	
 	/**
 	 * Instantiates a new user list.
@@ -45,10 +45,10 @@ public class UserList implements Serializable {
 	 *            the user
 	 */
 	public void addUser(User user) {
-		if(list == null) {
-			list = new ArrayList<User>();
+		if(getList() == null) {
+			setList(new ArrayList<User>());
 		}
-		list.add(user);
+		getList().add(user);
 	}
 	
 	/**
@@ -60,5 +60,19 @@ public class UserList implements Serializable {
 	public void addUser(net.autosauler.ballance.server.model.User usermodel) {
 		User user = new User(usermodel);
 		addUser(user);
+	}
+
+	/**
+	 * @param list the list to set
+	 */
+	private void setList(List<User> list) {
+		this.list = list;
+	}
+
+	/**
+	 * @return the list
+	 */
+	private List<User> getList() {
+		return list;
 	}
 }

@@ -28,22 +28,22 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -7092920614208715347L;
 	
 	/** The login. */
-	String login;
+	private String login;
 	
 	/** The domain. */
-	String domain;
+	private String domain;
 	
 	/** The username. */
-	String username;
+	private String username;
 	
 	/** The userrole. */
-	UserRole userrole;
+	private UserRole userrole = null;
 	
 	/** The createdate. */
-	Date createdate;
+	private Date createdate;
 	
 	/** The active. */
-	boolean active;
+	private boolean active;
 	
 	/**
 	 * Instantiates a new user.
@@ -59,11 +59,95 @@ public class User implements Serializable {
 	 *            the user
 	 */
 	public User(net.autosauler.ballance.server.model.User user) {
-		login = user.getLoginWithoutDomain();
-		domain = user.getDomainOfLogin();
-		username = user.getUsername();
-		userrole = new UserRole(user.getUserrole());
-		createdate = user.getCreatedate();
-		active = user.isActive();
+		setLogin(user.getLoginWithoutDomain());
+		setDomain(user.getDomainOfLogin());
+		setUsername(user.getUsername());
+		setUserrole(new UserRole(user.getUserrole()));
+		setCreatedate(user.getCreatedate());
+		setActive(user.isActive());
+	}
+
+	/**
+	 * @param login the login to set
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	/**
+	 * @return the login
+	 */
+	public String getLogin() {
+		return login;
+	}
+
+	/**
+	 * @param domain the domain to set
+	 */
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	/**
+	 * @return the domain
+	 */
+	public String getDomain() {
+		return domain;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param userrole the userrole to set
+	 */
+	public void setUserrole(UserRole userrole) {
+		this.userrole = new UserRole(userrole);
+	}
+
+	/**
+	 * @return the userrole
+	 */
+	public UserRole getUserrole() {
+		return userrole;
+	}
+
+	/**
+	 * @param createdate the createdate to set
+	 */
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
+	}
+
+	/**
+	 * @return the createdate
+	 */
+	public Date getCreatedate() {
+		return createdate;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
 	}
 }
