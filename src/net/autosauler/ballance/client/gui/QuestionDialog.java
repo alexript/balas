@@ -113,6 +113,6 @@ public class QuestionDialog extends DialogBox {
 
 		setPopupPosition(
 				(Ballance_autosauler_net.mainpanel.getOffsetWidth() / 2 - 150),
-				300);
+				200);
 	}
 }
