@@ -66,7 +66,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 
 		User user = User.find(login);
 		if (user != null) {
-			valid = user.isValidUser(password);
+			valid = user.isValidUser(password) && user.isActive() && !user.isTrash();
 			if (valid) {
 				username = user.getUsername();
 				userrole.setRole(user.getUserroleAsInt());

@@ -16,17 +16,23 @@
 
 package net.autosauler.ballance.server.model;
 
+import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * The Class UserList.
  */
 public class UserList {
 
+	/** The Constant collectionname. */
+	final private static String collectionname = "registredusers";
+	
 	/**
 	 * Instantiates a new user list.
 	 */
@@ -43,7 +49,7 @@ public class UserList {
 	public static void createDefaultRecords(DB db) {
 
 		if (db != null) {
-			DBCollection coll = db.getCollection("registredusers");
+			DBCollection coll = db.getCollection(collectionname);
 			if (coll.getCount() < 1) {
 				UserRole defaultroles = new UserRole();
 				defaultroles.setAdmin();
@@ -56,7 +62,52 @@ public class UserList {
 				user.addNewUser();
 
 				coll.createIndex(new BasicDBObject("login", 1));
+				coll.createIndex(new BasicDBObject("istrash", 1));
 			}
 		}
+	}
+	
+	/**
+	 * Gets the users list.
+	 * 
+	 * @return the users
+	 */
+	public static net.autosauler.ballance.shared.UserList getUsers() {
+		return getUsers(false);
+	}
+
+	/**
+	 * Gets the users list from trash.
+	 * 
+	 * @return the users from trash
+	 */
+	public static net.autosauler.ballance.shared.UserList getUsersFromTrash() {
+		return getUsers(true);
+	}
+
+	/**
+	 * Gets the users list.
+	 * 
+	 * @param fromtrash
+	 *            the fromtrash
+	 * @return the users
+	 */
+	private static net.autosauler.ballance.shared.UserList getUsers(boolean fromtrash) {
+		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
+		
+		DB db = Database.get();
+		if(db!=null) {
+			DBCollection coll = db.getCollection(collectionname);
+			BasicDBObject query = new BasicDBObject();
+			query.put("istrash", fromtrash);
+			DBCursor cur = coll.find(query);
+			while(cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				list.addUser(new User(myDoc));
+			}
+			
+		}
+		
+		return list;
 	}
 }

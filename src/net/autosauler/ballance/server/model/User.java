@@ -107,6 +107,19 @@ public class User {
 	}
 
 	/**
+	 * Find.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param domain
+	 *            the domain
+	 * @return the user
+	 */
+	public static User find(String login, String domain) {
+		return find(login.trim() + "@" + domain.trim());
+	}
+
+	/**
 	 * Creates the new user record.
 	 */
 	private void create() {
@@ -253,12 +266,52 @@ public class User {
 	}
 
 	/**
+	 * Sets the login.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param domain
+	 *            the domain
+	 */
+	public void setLogin(String login, String domain) {
+		setLogin(login.trim() + "@" + domain.trim());
+	}
+
+	/**
 	 * Gets the login.
 	 * 
 	 * @return the login
 	 */
 	public String getLogin() {
 		return login;
+	}
+
+	/**
+	 * Gets the login without domain.
+	 * 
+	 * @return the login without domain
+	 */
+	public String getLoginWithoutDomain() {
+		String l = getLogin();
+		String[] arr = l.split("@", 2);
+		if(arr.length!=2) {
+			return l;
+		}
+		return arr[0];
+	}
+	
+	/**
+	 * Gets the domain of login.
+	 * 
+	 * @return the domain of login
+	 */
+	public String getDomainOfLogin() {
+		String l = getLogin();
+		String[] arr = l.split("@", 2);
+		if(arr.length!=2) {
+			return "";
+		}
+		return arr[1];
 	}
 
 	/**
@@ -307,6 +360,9 @@ public class User {
 	 */
 	public void setTrash(boolean trash) {
 		this.trash = trash;
+		if(trash) {
+			setActive(false);
+		}
 	}
 
 	/**
