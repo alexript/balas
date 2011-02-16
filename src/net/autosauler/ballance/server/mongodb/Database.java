@@ -117,6 +117,8 @@ public class Database {
 	 */
 	private static synchronized void initConnection()
 	// TODO: fix creating connection per session.
+	// this singleton not work for multiple class loaders (gwt or jetty case?)
+	// tomcat tests needed
 			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
 		try {
