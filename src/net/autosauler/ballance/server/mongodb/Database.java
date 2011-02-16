@@ -60,6 +60,15 @@ public class Database {
 	private static Mutex lock = new Mutex();
 
 	/**
+	 * Close connection.
+	 */
+	public static void close() {
+		mongodatabase = null;
+		mongo.close();
+		mongo = null;
+	}
+
+	/**
 	 * Gets the.
 	 * 
 	 * @return the dB
