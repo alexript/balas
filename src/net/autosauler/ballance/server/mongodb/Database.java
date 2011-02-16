@@ -88,13 +88,15 @@ public class Database {
 			try {
 				initConnection();
 			} catch (UnknownHostException e) {
-
+				close();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (MongoException e) {
+				close();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
+				close();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -118,9 +120,12 @@ public class Database {
 			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
 		try {
-			mongo = new Mongo(host, port);
+			if (mongo == null) {
+				mongo = new Mongo(host, port);
+			}
 		} catch (com.mongodb.MongoInternalException e) {
 			lock.release();
+			close();
 			throw (e);
 		}
 		DB db = mongo.getDB("admin");
@@ -140,7 +145,13 @@ public class Database {
 				// check users and if none - create admin
 				UserList.createDefaultRecords(db);
 
+			} else {
+				lock.release();
+				close();
 			}
+		} else {
+			lock.release();
+			close();
 		}
 		lock.release();
 	}
