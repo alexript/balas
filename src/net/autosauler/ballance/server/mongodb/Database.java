@@ -66,8 +66,10 @@ public class Database {
 		try {
 			lock.acquire();
 			mongodatabase = null;
-			mongo.close();
-			mongo = null;
+			if (mongo != null) {
+				mongo.close();
+				mongo = null;
+			}
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
