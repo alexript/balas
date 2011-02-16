@@ -21,6 +21,7 @@ import java.util.List;
 import net.autosauler.ballance.server.model.UserList;
 import net.autosauler.ballance.server.util.Mutex;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -72,8 +73,8 @@ public class Database {
 			}
 
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.error(e.getMessage());
+			// e.printStackTrace();
 		}
 		lock.release();
 	}
@@ -89,16 +90,16 @@ public class Database {
 				initConnection();
 			} catch (UnknownHostException e) {
 				close();
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.error(e.getMessage());
+				// e.printStackTrace();
 			} catch (MongoException e) {
 				close();
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.error(e.getMessage());
+				// e.printStackTrace();
 			} catch (InterruptedException e) {
 				close();
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.error(e.getMessage());
+				// e.printStackTrace();
 			}
 		}
 
@@ -172,7 +173,8 @@ public class Database {
 		try {
 			lock.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.error(e.getMessage());
+			// e.printStackTrace();
 			return false;
 		}
 
@@ -181,7 +183,8 @@ public class Database {
 			close();
 		} catch (MongoException e) {
 			lock.release();
-			e.printStackTrace();
+			Log.error(e.getMessage());
+			// e.printStackTrace();
 			return false;
 		}
 
