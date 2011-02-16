@@ -62,10 +62,18 @@ public class Database {
 	/**
 	 * Close connection.
 	 */
-	public static void close() {
-		mongodatabase = null;
-		mongo.close();
-		mongo = null;
+	public static synchronized void close() {
+		try {
+			lock.acquire();
+			mongodatabase = null;
+			mongo.close();
+			mongo = null;
+
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lock.release();
 	}
 
 	/**
@@ -155,11 +163,8 @@ public class Database {
 
 		try {
 			mongodatabase.dropDatabase();
-			mongodatabase = null;
-			mongo.close();
-			mongo = null;
+			close();
 		} catch (MongoException e) {
-			// TODO Auto-generated catch block
 			lock.release();
 			e.printStackTrace();
 			return false;
