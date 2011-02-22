@@ -89,13 +89,7 @@ public class UserList {
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
 				User dbuser = new User(myDoc);
-				net.autosauler.ballance.shared.User user = new net.autosauler.ballance.shared.User();
-				user.setLogin(dbuser.getLoginWithoutDomain());
-				user.setDomain(dbuser.getDomainOfLogin());
-				user.setUsername(dbuser.getUsername());
-				user.setUserrole(new UserRole(dbuser.getUserrole()));
-				user.setCreatedate(dbuser.getCreatedate());
-				user.setActive(dbuser.isActive());
+				net.autosauler.ballance.shared.User user = dbuser.getProxy();
 				list.addUser(user);
 			}
 

@@ -204,7 +204,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 *            the tag
 	 * @return the vertical panel
 	 */
-	private VerticalPanel constructTabPaneContent(Widget realpane,
+	private VerticalPanel constructTabPaneContent(IPaneWithMenu realpane,
 			String title, ImageResource ico, final String tag) {
 		VerticalPanel panel = new VerticalPanel();
 
@@ -212,6 +212,13 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		panemenu.setHeight("20px");
 		panemenu.setWidth("100%");
+
+		Widget menu = realpane.getPaneMenu();
+		if (menu != null) {
+			panemenu.add(menu);
+			panemenu.setCellHorizontalAlignment(menu,
+					HasHorizontalAlignment.ALIGN_LEFT);
+		}
 
 		Image closeImage = new Image(images.icoClose());
 		closeImage.setTitle(l.icoClosePane());
@@ -230,7 +237,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setCellWidth(closeImage, "20px");
 
 		panel.add(panemenu);
-		panel.add(realpane);
+		panel.add((Widget) realpane);
 		mainpane.add(panel, getTabHeaderString(title, ico), true);
 		return panel;
 	}

@@ -16,9 +16,14 @@
 
 package net.autosauler.ballance.server;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.UsersService;
+import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserList;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -36,6 +41,36 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * net.autosauler.ballance.client.UsersService#createUser(net.autosauler
+	 * .ballance.shared.User)
+	 */
+	@Override
+	public boolean createUser(User user) {
+		boolean result = false;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if (role.isAdmin()) {
+			HttpServletRequest request = getThreadLocalRequest();
+			String urlAddress = request.getRequestURL().toString();
+			try {
+				URL url = new URL(urlAddress);
+				String hostname = url.getHost().trim();
+				user.setDomain(hostname);
+			} catch (MalformedURLException e) {
+				user.setDomain("127.0.0.1");
+			}
+
+			net.autosauler.ballance.server.model.User dbuser = new net.autosauler.ballance.server.model.User(
+					user);
+			result = dbuser.addNewUser();
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.autosauler.ballance.client.UsersService#getTrashedUsers()
 	 */
 	@Override
@@ -48,6 +83,27 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 					.getUsersFromTrash();
 		}
 		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.UsersService#getUser(java.lang.String)
+	 */
+	@Override
+	public User getUser(String login) {
+		net.autosauler.ballance.shared.User user = null;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if (role.isAdmin()) {
+			net.autosauler.ballance.server.model.User dbuser = net.autosauler.ballance.server.model.User
+					.find(login);
+			if (dbuser != null) {
+				user = dbuser.getProxy();
+			}
+		}
+		return user;
 	}
 
 	/*

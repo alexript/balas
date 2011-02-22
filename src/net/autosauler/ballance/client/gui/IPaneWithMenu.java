@@ -13,34 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * The Class LicensePanel.
+ * @author alexript
+ * 
  */
-public class LicensePanel extends Composite implements IPaneWithMenu {
-
-	/**
-	 * Instantiates a new license panel.
-	 */
-	public LicensePanel() {
-
-		HTML w = new HTML(BalasResources.INSTANCE.licensePane().getText());
-		initWidget(w);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
-	 */
-	@Override
-	public Widget getPaneMenu() {
-		return null;
-	}
+public interface IPaneWithMenu {
+	public Widget getPaneMenu();
 }

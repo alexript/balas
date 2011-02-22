@@ -16,11 +16,10 @@
 
 package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.client.Ballance_autosauler_net;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -128,8 +127,6 @@ public class AlertDialog extends DialogBox {
 
 		ok.setFocus(true);
 
-		setPopupPosition(
-				(Ballance_autosauler_net.mainpanel.getOffsetWidth() / 2 - 150),
-				200);
+		setPopupPosition((Window.getClientWidth() / 2 - 150), 200);
 	}
 }

@@ -34,8 +34,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
@@ -43,7 +46,8 @@ import com.google.gwt.view.client.SelectionModel;
 /**
  * The Class UsersPanel.
  */
-public class UsersPanel extends Composite {
+public class UsersPanel extends Composite implements IPaneWithMenu,
+		IDialogYesReceiver {
 
 	/** The root. */
 	private static VerticalPanel root = null;
@@ -209,5 +213,39 @@ public class UsersPanel extends Composite {
 		root.setWidth("100%");
 		initWidget(root);
 		UsersDatabase.get().getUsers();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
+	 */
+	@Override
+	public Widget getPaneMenu() {
+		MenuBar menu = new MenuBar();
+
+		menu.addItem(l.menuAddUser(), new Command() {
+			@Override
+			public void execute() {
+				new EditUserDialog(UsersPanel.this);
+			}
+		});
+
+		return menu;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
+	 * (java.lang.String)
+	 */
+	@Override
+	public void onDialogYesButtonClick(String tag) {
+		if (tag.equals("reload")) {
+			UsersDatabase.get().getUsers();
+		}
+
 	}
 }

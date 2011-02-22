@@ -25,11 +25,53 @@ import com.google.gwt.i18n.client.Messages;
 public interface UsersMessages extends Messages {
 
 	/**
+	 * Access.
+	 * 
+	 * @return the string
+	 */
+	String access();
+
+	/**
+	 * Btn add.
+	 * 
+	 * @return the string
+	 */
+	String btnAdd();
+
+	/**
+	 * Btn cancel.
+	 * 
+	 * @return the string
+	 */
+	String btnCancel();
+
+	/**
+	 * Btn update.
+	 * 
+	 * @return the string
+	 */
+	String btnUpdate();
+
+	/**
 	 * Crate date.
 	 * 
 	 * @return the string
 	 */
 	String crateDate();
+
+	/**
+	 * Full name.
+	 * 
+	 * @return the string
+	 */
+	String fullName();
+
+	/**
+	 * Isactive.
+	 * 
+	 * @return the string
+	 */
+	String isactive();
 
 	/**
 	 * Checks if is active.
@@ -39,9 +81,66 @@ public interface UsersMessages extends Messages {
 	String isActive();
 
 	/**
+	 * Isadmin.
+	 * 
+	 * @return the string
+	 */
+	String isadmin();
+
+	/**
+	 * Isdocuments.
+	 * 
+	 * @return the string
+	 */
+	String isdocuments();
+
+	/**
+	 * Isfinances.
+	 * 
+	 * @return the string
+	 */
+	String isfinances();
+
+	/**
+	 * Ismanager.
+	 * 
+	 * @return the string
+	 */
+	String ismanager();
+
+	/**
+	 * Login.
+	 * 
+	 * @return the string
+	 */
+	String login();
+
+	/**
+	 * Menu add user.
+	 * 
+	 * @return the string
+	 */
+	String menuAddUser();
+
+	/**
+	 * Password.
+	 * 
+	 * @return the string
+	 */
+	String password();
+
+	/**
+	 * Title edit user.
+	 * 
+	 * @return the string
+	 */
+	String titleEditUser();
+
+	/**
 	 * User name.
 	 * 
 	 * @return the string
 	 */
 	String userName();
+
 }

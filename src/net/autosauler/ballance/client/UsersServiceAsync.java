@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.client;
 
+import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -26,6 +27,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface UsersServiceAsync {
 
 	/**
+	 * Creates the user.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param callback
+	 *            the callback
+	 */
+	void createUser(User user, AsyncCallback<Boolean> callback);
+
+	/**
 	 * Gets the trashed users.
 	 * 
 	 * @param callback
@@ -33,6 +44,17 @@ public interface UsersServiceAsync {
 	 * @return the trashed users
 	 */
 	void getTrashedUsers(AsyncCallback<UserList> callback);
+
+	/**
+	 * Gets the user.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param callback
+	 *            the callback
+	 * @return the user
+	 */
+	void getUser(String login, AsyncCallback<User> callback);
 
 	/**
 	 * Gets the users.

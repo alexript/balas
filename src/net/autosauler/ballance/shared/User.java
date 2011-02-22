@@ -47,6 +47,9 @@ public class User implements Serializable {
 	/** The active. */
 	private boolean active;
 
+	/** The password. */
+	private String password;
+
 	/** The Constant KEY_PROVIDER. */
 	public static final ProvidesKey<User> KEY_PROVIDER = new ProvidesKey<User>() {
 
@@ -107,6 +110,15 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * Gets the password.
+	 * 
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
 	 * Gets the username.
 	 * 
 	 * @return the username
@@ -122,6 +134,19 @@ public class User implements Serializable {
 	 */
 	public UserRole getUserrole() {
 		return userrole;
+	}
+
+	/**
+	 * Inits the as default.
+	 */
+	public void initAsDefault() {
+		login = "";
+		domain = "127.0.0.1";
+		username = "";
+		userrole = new UserRole();
+		createdate = new Date();
+		active = false;
+		password = "";
 	}
 
 	/**
@@ -171,6 +196,16 @@ public class User implements Serializable {
 	 */
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	/**
+	 * Sets the password.
+	 * 
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**

@@ -120,6 +120,20 @@ public class User {
 	}
 
 	/**
+	 * Instantiates a new user.
+	 * 
+	 * @param proxy
+	 *            the proxy
+	 */
+	public User(net.autosauler.ballance.shared.User proxy) {
+		this.setLogin(proxy.getLogin(), proxy.getDomain());
+		setUsername(proxy.getUsername());
+		setUserrole(proxy.getUserrole());
+		setActive(proxy.isActive());
+		setPassword(proxy.getPassword());
+	}
+
+	/**
 	 * Adds the new user to database. If login exists - false;
 	 * 
 	 * @return true, if successful
@@ -212,6 +226,23 @@ public class User {
 			return l;
 		}
 		return arr[0];
+	}
+
+	/**
+	 * Gets the proxy.
+	 * 
+	 * @return the proxy
+	 */
+	public net.autosauler.ballance.shared.User getProxy() {
+		net.autosauler.ballance.shared.User user = new net.autosauler.ballance.shared.User();
+		user.setLogin(getLoginWithoutDomain());
+		user.setDomain(getDomainOfLogin());
+		user.setUsername(getUsername());
+		user.setUserrole(new UserRole(getUserrole()));
+		user.setCreatedate(getCreatedate());
+		user.setActive(isActive());
+		user.setPassword("");
+		return user;
 	}
 
 	/**
@@ -373,5 +404,4 @@ public class User {
 	public void setUserrole(UserRole userrole) {
 		this.userrole = userrole;
 	}
-
 }

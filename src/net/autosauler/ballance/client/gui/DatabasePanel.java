@@ -32,12 +32,13 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The Class DatabasePanel.
  */
 public class DatabasePanel extends Composite implements ClickHandler,
-		IDialogYesReceiver {
+		IDialogYesReceiver, IPaneWithMenu {
 
 	/** The root. */
 	private VerticalPanel root = null;
@@ -75,6 +76,16 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		DecoratorPanel panel = new DecoratorPanel();
 		panel.setWidget(p);
 		return panel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
+	 */
+	@Override
+	public Widget getPaneMenu() {
+		return null;
 	}
 
 	/*

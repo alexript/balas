@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.client;
 
+import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -28,11 +29,29 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface UsersService extends RemoteService {
 
 	/**
+	 * Creates the user.
+	 * 
+	 * @param user
+	 *            the user
+	 * @return TODO
+	 */
+	public boolean createUser(User user);
+
+	/**
 	 * Gets the trashed users.
 	 * 
 	 * @return the trashed users
 	 */
 	public UserList getTrashedUsers();
+
+	/**
+	 * Gets the user.
+	 * 
+	 * @param login
+	 *            the login
+	 * @return the user
+	 */
+	public User getUser(String login);
 
 	/**
 	 * Gets the users.
