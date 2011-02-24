@@ -91,26 +91,56 @@ public class UsersDatabase {
 	 * 
 	 * @return the users
 	 */
-	public void getUsers() {
+	public void getUsers(boolean fromtrash) {
 		MainPanel.setCommInfo(true);
 		UsersServiceAsync service = GWT.create(UsersService.class);
-		service.getUsers(new AsyncCallback<UserList>() {
+		if (fromtrash) {
+			service.getTrashedUsers(new AsyncCallback<UserList>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				new AlertDialog("Communication error", caught.getMessage())
-						.show();
-			}
+				@Override
+				public void onFailure(Throwable caught) {
+					MainPanel.setCommInfo(false);
+					new AlertDialog("Communication error", caught.getMessage())
+							.show();
+				}
 
-			@Override
-			public void onSuccess(UserList result) {
-				MainPanel.setCommInfo(false);
-				dataProvider.setList(result.getList());
-				UsersPanel.refreshPane();
-				refreshDisplays();
-			}
-		});
+				@Override
+				public void onSuccess(UserList result) {
+					MainPanel.setCommInfo(false);
+					if (result == null) {
+						get().getDataProvider().setList(
+								new UserList().getList());
+					} else {
+						get().getDataProvider().setList(result.getList());
+					}
+					UsersPanel.refreshPane();
+					refreshDisplays();
+				}
+			});
+		} else {
+			service.getUsers(new AsyncCallback<UserList>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					MainPanel.setCommInfo(false);
+					new AlertDialog("Communication error", caught.getMessage())
+							.show();
+				}
+
+				@Override
+				public void onSuccess(UserList result) {
+					MainPanel.setCommInfo(false);
+					if (result == null) {
+						get().getDataProvider().setList(
+								new UserList().getList());
+					} else {
+						get().getDataProvider().setList(result.getList());
+					}
+					UsersPanel.refreshPane();
+					refreshDisplays();
+				}
+			});
+		}
 
 	}
 

@@ -35,7 +35,7 @@ public class UserList implements Serializable {
 	 * Instantiates a new user list.
 	 */
 	public UserList() {
-
+		list = new ArrayList<User>();
 	}
 
 	/**

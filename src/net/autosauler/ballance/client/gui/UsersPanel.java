@@ -59,6 +59,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	@UiField(provided = true)
 	static CellTable<User> cellTable;
 
+	/** The trashstate. */
+	private boolean trashstate = false;
+
 	/**
 	 * The pager used to change the range of data.
 	 */
@@ -209,10 +212,11 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 */
 	public UsersPanel() {
 		l = GWT.create(UsersMessages.class);
+		trashstate = false;
 		root = new VerticalPanel();
 		root.setWidth("100%");
 		initWidget(root);
-		UsersDatabase.get().getUsers();
+		reloadList();
 	}
 
 	/*
@@ -224,12 +228,35 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	public Widget getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
-		menu.addItem(l.menuAddUser(), new Command() {
-			@Override
-			public void execute() {
-				new EditUserDialog(UsersPanel.this);
-			}
-		});
+		menu.addItem(l.menuAddUser(), new Command() { // create new user
+					@Override
+					public void execute() {
+						new EditUserDialog(UsersPanel.this);
+					}
+				});
+
+		menu.addItem(l.menuReload(), new Command() { // reload users list
+					@Override
+					public void execute() {
+						reloadList();
+					}
+				});
+
+		menu.addItem(l.menuNotTrashedUsers(), new Command() { // Live users
+					@Override
+					public void execute() {
+						trashstate = false;
+						reloadList();
+					}
+				});
+
+		menu.addItem(l.menuTrashedUsers(), new Command() { // Trashed users
+					@Override
+					public void execute() {
+						trashstate = true;
+						reloadList();
+					}
+				});
 
 		return menu;
 	}
@@ -244,8 +271,15 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	@Override
 	public void onDialogYesButtonClick(String tag) {
 		if (tag.equals("reload")) {
-			UsersDatabase.get().getUsers();
+			reloadList();
 		}
 
+	}
+
+	/**
+	 * Reload list.
+	 */
+	private void reloadList() {
+		UsersDatabase.get().getUsers(trashstate);
 	}
 }

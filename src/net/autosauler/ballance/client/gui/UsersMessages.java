@@ -123,6 +123,27 @@ public interface UsersMessages extends Messages {
 	String menuAddUser();
 
 	/**
+	 * Menu not trashed users.
+	 * 
+	 * @return the string
+	 */
+	String menuNotTrashedUsers();
+
+	/**
+	 * Menu reload.
+	 * 
+	 * @return the string
+	 */
+	String menuReload();
+
+	/**
+	 * Menu trashed users.
+	 * 
+	 * @return the string
+	 */
+	String menuTrashedUsers();
+
+	/**
 	 * Password.
 	 * 
 	 * @return the string
