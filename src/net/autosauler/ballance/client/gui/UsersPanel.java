@@ -164,6 +164,22 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 		cellTable.setColumnWidth(activeColumn, 40, Unit.PCT);
 
+		// Tools column
+		// -------------------------------------------------------------
+
+		Column<User, String> toolsColumn = new Column<User, String>(
+				new ToolsCell()) {
+			@Override
+			public String getValue(User object) {
+				return object.getId();
+			}
+		};
+
+		toolsColumn.setSortable(false);
+		cellTable.addColumn(toolsColumn, l.columnTools());
+
+		cellTable.setColumnWidth(toolsColumn, 40, Unit.PCT);
+
 	}
 
 	/**

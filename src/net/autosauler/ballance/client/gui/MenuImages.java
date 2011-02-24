@@ -123,6 +123,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource managerPanel();
 
 	/**
+	 * Trash.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource Trash();
+
+	/**
 	 * Use noimage.png, which is a blank 1x1 image.
 	 * 
 	 * @return the image resource
@@ -130,4 +137,11 @@ public interface MenuImages extends Tree.Resources {
 	@Override
 	@Source("noimage.gif")
 	ImageResource treeLeaf();
+
+	/**
+	 * Write.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource Write();
 }

@@ -53,6 +53,13 @@ public interface UsersMessages extends Messages {
 	String btnUpdate();
 
 	/**
+	 * Column tools.
+	 * 
+	 * @return the string
+	 */
+	String columnTools();
+
+	/**
 	 * Crate date.
 	 * 
 	 * @return the string
