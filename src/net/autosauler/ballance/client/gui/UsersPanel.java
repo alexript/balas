@@ -379,7 +379,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				User user = ((SingleSelectionModel<User>) selectionModel)
 						.getSelectedObject();
 				if (user != null) {
-					new QuestionDialog("Do You want to trash user "
+					new QuestionDialog(l.qstTrashUser() + " "
 							+ user.getUsername(), UsersPanel.this, "trashuser")
 							.show();
 				}
