@@ -113,7 +113,7 @@ public class UsersDatabase {
 					} else {
 						get().getDataProvider().setList(result.getList());
 					}
-					UsersPanel.refreshPane();
+					UsersPanel.get().refreshPane();
 					refreshDisplays();
 				}
 			});
@@ -136,7 +136,7 @@ public class UsersDatabase {
 					} else {
 						get().getDataProvider().setList(result.getList());
 					}
-					UsersPanel.refreshPane();
+					UsersPanel.get().refreshPane();
 					refreshDisplays();
 				}
 			});

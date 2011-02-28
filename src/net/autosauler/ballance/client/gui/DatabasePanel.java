@@ -49,10 +49,19 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	/** The btn drop database. */
 	private Button btnDropDatabase;
 
+	private static DatabasePanel impl = null;
+	
+	public static DatabasePanel get() {
+		if(impl == null) {
+			impl = new DatabasePanel();
+		}
+		return impl;
+	}
+	
 	/**
 	 * Instantiates a new database panel.
 	 */
-	public DatabasePanel() {
+	private DatabasePanel() {
 		l = GWT.create(DatabaseMessages.class);
 		root = new VerticalPanel();
 		root.add(createDropDatabasePanel());

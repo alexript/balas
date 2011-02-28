@@ -404,4 +404,11 @@ public class User {
 	public void setUserrole(UserRole userrole) {
 		this.userrole = userrole;
 	}
+	
+	public static boolean trashUser(String loginanddomain) {
+		boolean result = false;
+		//TODO: trash user
+		
+		return result;
+	}
 }

@@ -116,11 +116,32 @@ public interface UsersMessages extends Messages {
 	String ismanager();
 
 	/**
+	 * Log create error.
+	 * 
+	 * @return the string
+	 */
+	String logCreateError();
+
+	/**
+	 * Log get info error.
+	 * 
+	 * @return the string
+	 */
+	String logGetInfoError();
+
+	/**
 	 * Login.
 	 * 
 	 * @return the string
 	 */
 	String login();
+
+	/**
+	 * Log trash error.
+	 * 
+	 * @return the string
+	 */
+	String logTrashError();
 
 	/**
 	 * Menu add user.
@@ -170,5 +191,12 @@ public interface UsersMessages extends Messages {
 	 * @return the string
 	 */
 	String userName();
+	
+	/**
+	 * Qst trash user.
+	 * 
+	 * @return the string
+	 */
+	String qstTrashUser();
 
 }

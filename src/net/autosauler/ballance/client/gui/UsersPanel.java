@@ -19,10 +19,13 @@ package net.autosauler.ballance.client.gui;
 import java.util.Comparator;
 import java.util.Date;
 
+import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.UsersService;
+import net.autosauler.ballance.client.UsersServiceAsync;
 import net.autosauler.ballance.client.databases.UsersDatabase;
 import net.autosauler.ballance.shared.User;
+import net.autosauler.ballance.shared.UserRole;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
@@ -40,6 +43,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -58,16 +62,16 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		IDialogYesReceiver {
 
 	/** The root. */
-	private static VerticalPanel root = null;
+	private VerticalPanel root = null;
 
 	/** The l. */
-	private static UsersMessages l;
-	private static MenuImages images;
-	private static ToolsMessages tools;
+	private final UsersMessages l;
+	private final MenuImages images;
+	private final ToolsMessages tools;
 
 	/** The cell table. */
 	@UiField(provided = true)
-	static CellTable<User> cellTable;
+	CellTable<User> cellTable;
 
 	/** The trashstate. */
 	private boolean trashstate = false;
@@ -76,10 +80,75 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 * The pager used to change the range of data.
 	 */
 	@UiField(provided = true)
-	static SimplePager pager;
+	SimplePager pager;
 
-	private static Button del;
-	private static Button edit;
+	private Button del;
+	private Button edit;
+
+	private static UsersPanel impl = null;
+
+	public static UsersPanel get() {
+		if (impl == null) {
+			impl = new UsersPanel();
+		}
+		return impl;
+	}
+
+	/**
+	 * Instantiates a new users panel.
+	 */
+	private UsersPanel() {
+		l = GWT.create(UsersMessages.class);
+		images = GWT.create(MenuImages.class);
+		tools = GWT.create(ToolsMessages.class);
+		trashstate = false;
+		root = new VerticalPanel();
+		root.setWidth("100%");
+		initWidget(root);
+		reloadList();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
+	 */
+	@Override
+	public Widget getPaneMenu() {
+		MenuBar menu = new MenuBar();
+
+		menu.addItem(l.menuAddUser(), new Command() { // create new user
+					@Override
+					public void execute() {
+						new EditUserDialog(UsersPanel.this);
+					}
+				});
+
+		menu.addItem(l.menuReload(), new Command() { // reload users list
+					@Override
+					public void execute() {
+						reloadList();
+					}
+				});
+
+		menu.addItem(l.menuNotTrashedUsers(), new Command() { // Live users
+					@Override
+					public void execute() {
+						trashstate = false;
+						reloadList();
+					}
+				});
+
+		menu.addItem(l.menuTrashedUsers(), new Command() { // Trashed users
+					@Override
+					public void execute() {
+						trashstate = true;
+						reloadList();
+					}
+				});
+
+		return menu;
+	}
 
 	/**
 	 * Inits the table columns.
@@ -89,8 +158,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 * @param sortHandler
 	 *            the sort handler
 	 */
-	private static void initTableColumns(
-			final SelectionModel<User> selectionModel,
+	private void initTableColumns(final SelectionModel<User> selectionModel,
 			ListHandler<User> sortHandler) {
 
 		// Checkbox column. This table will uses a checkbox column for
@@ -176,10 +244,58 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
+	 * (java.lang.String)
+	 */
+	@Override
+	public void onDialogYesButtonClick(String tag) {
+		if (tag.equals("reload")) {
+			reloadList();
+		} else if (tag.equals("trashuser")) {
+			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
+			if (role.isAdmin()) {
+				@SuppressWarnings("unchecked")
+				SingleSelectionModel<User> selectionModel = (SingleSelectionModel<User>) cellTable
+						.getSelectionModel();
+				User user = selectionModel.getSelectedObject();
+				if (user != null) {
+					UsersServiceAsync service = GWT.create(UsersService.class);
+					service.trashUser(user.getId(),
+							new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									new AlertDialog(l.logTrashError(), caught
+											.getMessage()).show();
+
+								}
+
+								@Override
+								public void onSuccess(Boolean result) {
+									if (result) {
+										reloadList();
+									} else {
+										new AlertDialog(l.logTrashError())
+												.show();
+									}
+
+								}
+							});
+				}
+			}
+
+		}
+
+	}
+
 	/**
 	 * Refresh pane.
 	 */
-	public static void refreshPane() {
+	public void refreshPane() {
 		root.clear();
 		// Set a key provider that provides a unique key for each contact. If
 		// key is
@@ -246,7 +362,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				User user = ((SingleSelectionModel<User>) selectionModel)
 						.getSelectedObject();
 				if (user != null) {
-					Log.error("Edit " + user.getId());
+					new EditUserDialog(user.getId(), UsersPanel.this);
 				}
 
 			}
@@ -263,7 +379,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				User user = ((SingleSelectionModel<User>) selectionModel)
 						.getSelectedObject();
 				if (user != null) {
-					Log.error("Delete " + user.getId());
+					new QuestionDialog("Do You want to trash user "
+							+ user.getUsername(), UsersPanel.this, "trashuser")
+							.show();
 				}
 
 			}
@@ -271,77 +389,6 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		bottom.add(del);
 
 		root.add(bottom);
-
-	}
-
-	/**
-	 * Instantiates a new users panel.
-	 */
-	public UsersPanel() {
-		l = GWT.create(UsersMessages.class);
-		images = GWT.create(MenuImages.class);
-		tools = GWT.create(ToolsMessages.class);
-		trashstate = false;
-		root = new VerticalPanel();
-		root.setWidth("100%");
-		initWidget(root);
-		reloadList();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
-	 */
-	@Override
-	public Widget getPaneMenu() {
-		MenuBar menu = new MenuBar();
-
-		menu.addItem(l.menuAddUser(), new Command() { // create new user
-					@Override
-					public void execute() {
-						new EditUserDialog(UsersPanel.this);
-					}
-				});
-
-		menu.addItem(l.menuReload(), new Command() { // reload users list
-					@Override
-					public void execute() {
-						reloadList();
-					}
-				});
-
-		menu.addItem(l.menuNotTrashedUsers(), new Command() { // Live users
-					@Override
-					public void execute() {
-						trashstate = false;
-						reloadList();
-					}
-				});
-
-		menu.addItem(l.menuTrashedUsers(), new Command() { // Trashed users
-					@Override
-					public void execute() {
-						trashstate = true;
-						reloadList();
-					}
-				});
-
-		return menu;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
-	 * (java.lang.String)
-	 */
-	@Override
-	public void onDialogYesButtonClick(String tag) {
-		if (tag.equals("reload")) {
-			reloadList();
-		}
 
 	}
 

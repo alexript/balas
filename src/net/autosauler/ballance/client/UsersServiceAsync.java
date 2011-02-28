@@ -65,4 +65,14 @@ public interface UsersServiceAsync {
 	 */
 	void getUsers(AsyncCallback<UserList> callback);
 
+	/**
+	 * Trash user.
+	 * 
+	 * @param login
+	 *            the login
+	 * @param callback
+	 *            the callback
+	 */
+	void trashUser(String login, AsyncCallback<Boolean> callback);
+
 }

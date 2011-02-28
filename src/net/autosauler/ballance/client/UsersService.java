@@ -59,5 +59,14 @@ public interface UsersService extends RemoteService {
 	 * @return the users
 	 */
 	public UserList getUsers();
+	
+	/**
+	 * Trash user.
+	 * 
+	 * @param login
+	 *            the login
+	 * @return true, if successful
+	 */
+	public boolean trashUser(String login);
 
 }

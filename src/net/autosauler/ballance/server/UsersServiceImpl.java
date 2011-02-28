@@ -122,4 +122,12 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		return list;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.autosauler.ballance.client.UsersService#trashUser(java.lang.String)
+	 */
+	@Override
+	public boolean trashUser(String login) {
+		return net.autosauler.ballance.server.model.User.trashUser(login);
+	}
+
 }

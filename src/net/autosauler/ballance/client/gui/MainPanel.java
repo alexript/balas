@@ -172,17 +172,17 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
 		if (name.equals("start")) {
-			w = constructTabPaneContent(new HelloPanel(), l.itemHelloToAll(),
+			w = constructTabPaneContent(HelloPanel.get(), l.itemHelloToAll(),
 					images.icoInfo(), name);
 		} else if (name.equals("dbpane") && role.isAdmin()) {
-			w = constructTabPaneContent(new DatabasePanel(), l.itemDatabase(),
+			w = constructTabPaneContent(DatabasePanel.get(), l.itemDatabase(),
 					images.icoDatabase(), name);
 
 		} else if (name.equals("editusers") && role.isAdmin()) {
-			w = constructTabPaneContent(new UsersPanel(), l.itemUsers(),
+			w = constructTabPaneContent(UsersPanel.get(), l.itemUsers(),
 					images.icoUser(), name);
 		} else if (name.equals("license")) {
-			w = constructTabPaneContent(new LicensePanel(), l.itemLicense(),
+			w = constructTabPaneContent(LicensePanel.get(), l.itemLicense(),
 					images.icoCopyright(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();

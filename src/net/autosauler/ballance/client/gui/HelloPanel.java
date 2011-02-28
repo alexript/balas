@@ -25,10 +25,25 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class HelloPanel extends Composite implements IPaneWithMenu {
 
+	/** The impl. */
+	private static HelloPanel impl = null;
+	
+	/**
+	 * Gets the.
+	 * 
+	 * @return the hello panel
+	 */
+	public static HelloPanel get() {
+		if(impl == null) {
+			impl = new HelloPanel();
+		}
+		return impl;
+	}
+	
 	/**
 	 * Instantiates a new hello panel.
 	 */
-	public HelloPanel() {
+	private HelloPanel() {
 
 		HTML w = new HTML(BalasResources.INSTANCE.helloPane().getText());
 		initWidget(w);

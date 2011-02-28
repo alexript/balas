@@ -25,10 +25,25 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class LicensePanel extends Composite implements IPaneWithMenu {
 
+	/** The impl. */
+	private static LicensePanel impl = null;
+	
+	/**
+	 * Gets the.
+	 * 
+	 * @return the license panel
+	 */
+	public static LicensePanel get() {
+		if(impl==null) {
+			impl = new LicensePanel();
+		}
+		return impl;
+	}
+	
 	/**
 	 * Instantiates a new license panel.
 	 */
-	public LicensePanel() {
+	private LicensePanel() {
 
 		HTML w = new HTML(BalasResources.INSTANCE.licensePane().getText());
 		initWidget(w);
