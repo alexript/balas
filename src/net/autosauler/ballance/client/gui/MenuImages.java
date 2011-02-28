@@ -32,6 +32,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource adminPanel();
 
 	/**
+	 * Cancel.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource Cancel();
+
+	/**
 	 * Documents panel.
 	 * 
 	 * @return the image resource
@@ -121,6 +128,13 @@ public interface MenuImages extends Tree.Resources {
 	 * @return the image resource
 	 */
 	ImageResource managerPanel();
+
+	/**
+	 * Ok.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource Ok();
 
 	/**
 	 * Trash.

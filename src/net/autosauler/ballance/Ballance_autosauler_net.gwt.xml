@@ -11,6 +11,7 @@
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name="com.google.gwt.i18n.I18N" />
+	<inherits name='com.google.gwt.requestfactory.RequestFactory'/>
 
 	<extend-property name="locale" values="ru,en" />
 

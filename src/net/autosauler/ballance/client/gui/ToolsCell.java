@@ -47,6 +47,8 @@ public class ToolsCell extends AbstractCell<String> {
 
 		if (images == null) {
 			// TODO: events not work. Fuc*ing GWT: only cell-level events...
+			// FIXED: remove tools from celltable row and put them under
+			// celltable, + selection checkboxes...
 			images = GWT.create(MenuImages.class);
 
 			imgEdit = new Image(images.Write());

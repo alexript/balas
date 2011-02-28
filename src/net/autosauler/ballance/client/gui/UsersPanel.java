@@ -22,12 +22,17 @@ import java.util.Date;
 import net.autosauler.ballance.client.databases.UsersDatabase;
 import net.autosauler.ballance.shared.User;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ImageResourceCell;
+import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -35,13 +40,16 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
-import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 /**
  * The Class UsersPanel.
@@ -54,6 +62,8 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 	/** The l. */
 	private static UsersMessages l;
+	private static MenuImages images;
+	private static ToolsMessages tools;
 
 	/** The cell table. */
 	@UiField(provided = true)
@@ -67,6 +77,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 */
 	@UiField(provided = true)
 	static SimplePager pager;
+
+	private static Button del;
+	private static Button edit;
 
 	/**
 	 * Inits the table columns.
@@ -85,21 +98,21 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		// Alternatively, you can call cellTable.setSelectionEnabled(true) to
 		// enable
 		// mouse selection.
-		// Column<User, Boolean> checkColumn = new Column<User, Boolean>(
-		// new CheckboxCell(true, false)) {
-		// @Override
-		// public Boolean getValue(User object) {
-		// // Get the value from the selection model.
-		// return selectionModel.isSelected(object);
-		// }
-		// };
-		// cellTable.addColumn(checkColumn,
-		// SafeHtmlUtils.fromSafeConstant("<br/>"));
-		// cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
+		Column<User, Boolean> checkColumn = new Column<User, Boolean>(
+				new CheckboxCell(true, false)) {
+			@Override
+			public Boolean getValue(User object) {
+				// Get the value from the selection model.
+				return selectionModel.isSelected(object);
+			}
+		};
+		cellTable.addColumn(checkColumn,
+				SafeHtmlUtils.fromSafeConstant("<br/>"));
+		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		// Full name. ----------------------------------------------------------
 		Column<User, String> firstNameColumn = new Column<User, String>(
-				new EditTextCell()) {
+				new TextCell()) {
 			@Override
 			public String getValue(User object) {
 				return object.getUsername();
@@ -113,14 +126,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 			}
 		});
 		cellTable.addColumn(firstNameColumn, l.userName());
-		firstNameColumn.setFieldUpdater(new FieldUpdater<User, String>() {
-			@Override
-			public void update(int index, User object, String value) {
-				// Called when the user changes the value.
-				object.setUsername(value);
-				UsersDatabase.get().refreshDisplays();
-			}
-		});
+
 		cellTable.setColumnWidth(firstNameColumn, 150, Unit.PCT);
 
 		// Registration date.
@@ -146,11 +152,14 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		// Active flag.
 		// ----------------------------------------------------------
 
-		Column<User, Boolean> activeColumn = new Column<User, Boolean>(
-				new CheckboxCell()) {
+		Column<User, ImageResource> activeColumn = new Column<User, ImageResource>(
+				new ImageResourceCell()) {
 			@Override
-			public Boolean getValue(User object) {
-				return object.isActive();
+			public ImageResource getValue(User user) {
+				if (user.isActive()) {
+					return images.Ok();
+				}
+				return images.Cancel();
 			}
 		};
 		activeColumn.setSortable(true);
@@ -160,25 +169,10 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				return o1.getCreatedate().compareTo(o2.getCreatedate());
 			}
 		});
+
 		cellTable.addColumn(activeColumn, l.isActive());
 
 		cellTable.setColumnWidth(activeColumn, 40, Unit.PCT);
-
-		// Tools column
-		// -------------------------------------------------------------
-
-		Column<User, String> toolsColumn = new Column<User, String>(
-				new ToolsCell()) {
-			@Override
-			public String getValue(User object) {
-				return object.getId();
-			}
-		};
-
-		toolsColumn.setSortable(false);
-		cellTable.addColumn(toolsColumn, l.columnTools());
-
-		cellTable.setColumnWidth(toolsColumn, 40, Unit.PCT);
 
 	}
 
@@ -192,6 +186,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		// used to identify contacts when fields (such as the name and address)
 		// change.
 		cellTable = new CellTable<User>(User.KEY_PROVIDER);
+
 		cellTable.setWidth("100%", true);
 
 		// Attach a column sort handler to the ListDataProvider to sort the
@@ -208,10 +203,29 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		pager.setDisplay(cellTable);
 
 		// Add a selection model so we can select cells.
-		final SelectionModel<User> selectionModel = new MultiSelectionModel<User>(
+		final SelectionModel<User> selectionModel = new SingleSelectionModel<User>(
 				User.KEY_PROVIDER);
+
 		cellTable.setSelectionModel(selectionModel,
 				DefaultSelectionEventManager.<User> createCheckboxManager());
+
+		selectionModel
+				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+
+					@Override
+					public void onSelectionChange(SelectionChangeEvent event) {
+						User user = ((SingleSelectionModel<User>) selectionModel)
+								.getSelectedObject();
+						if (user != null) {
+							edit.setEnabled(true);
+							del.setEnabled(true);
+						} else {
+							edit.setEnabled(false);
+							del.setEnabled(false);
+
+						}
+					}
+				});
 
 		// Initialize the columns.
 		initTableColumns(selectionModel, sortHandler);
@@ -219,7 +233,44 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		// Add the CellList to the adapter in the database.
 		UsersDatabase.get().addDataDisplay(cellTable);
 		root.add(cellTable);
-		root.add(pager);
+		HorizontalPanel bottom = new HorizontalPanel();
+		bottom.add(pager);
+
+		edit = new Button();
+		edit.setText(tools.btnEdit());
+		edit.setEnabled(false);
+		edit.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				User user = ((SingleSelectionModel<User>) selectionModel)
+						.getSelectedObject();
+				if (user != null) {
+					Log.error("Edit " + user.getId());
+				}
+
+			}
+		});
+		bottom.add(edit);
+
+		del = new Button();
+		del.setText(tools.btnDelete());
+		del.setEnabled(false);
+		del.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				User user = ((SingleSelectionModel<User>) selectionModel)
+						.getSelectedObject();
+				if (user != null) {
+					Log.error("Delete " + user.getId());
+				}
+
+			}
+		});
+		bottom.add(del);
+
+		root.add(bottom);
 
 	}
 
@@ -228,6 +279,8 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 */
 	public UsersPanel() {
 		l = GWT.create(UsersMessages.class);
+		images = GWT.create(MenuImages.class);
+		tools = GWT.create(ToolsMessages.class);
 		trashstate = false;
 		root = new VerticalPanel();
 		root.setWidth("100%");
