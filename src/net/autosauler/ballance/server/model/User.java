@@ -32,6 +32,8 @@ import com.mongodb.DBObject;
  */
 public class User {
 
+	final private static String USERSTABLE = "registredusers";
+
 	/**
 	 * Find user by login.
 	 * 
@@ -42,16 +44,9 @@ public class User {
 	public static User find(String login) {
 		User user = null;
 
-		DBObject myDoc = null;
-		DB db = Database.get();
-		if (db != null) {
-			DBCollection coll = db.getCollection("registredusers");
-			BasicDBObject query = new BasicDBObject();
-			query.put("login", login);
-			myDoc = coll.findOne(query);
-			if (myDoc != null) {
-				user = new User(myDoc);
-			}
+		DBObject myDoc = findObject(login);
+		if (myDoc != null) {
+			user = new User(myDoc);
 		}
 
 		return user;
@@ -68,6 +63,55 @@ public class User {
 	 */
 	public static User find(String login, String domain) {
 		return find(login.trim() + "@" + domain.trim());
+	}
+
+	/**
+	 * Find object.
+	 * 
+	 * @param login
+	 *            the login
+	 * @return the dB object
+	 */
+	private static DBObject findObject(String login) {
+		DBObject myDoc = null;
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection(USERSTABLE);
+			BasicDBObject query = new BasicDBObject();
+			query.put("login", login);
+			myDoc = coll.findOne(query);
+		}
+
+		return myDoc;
+	}
+
+	/**
+	 * Trash user.
+	 * 
+	 * @param loginanddomain
+	 *            the loginanddomain
+	 * @return true, if successful
+	 */
+	public static boolean trashUser(String loginanddomain) {
+		boolean result = false;
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection(USERSTABLE);
+
+			BasicDBObject query = new BasicDBObject();
+			query.put("login", loginanddomain);
+
+			BasicDBObject obj = new BasicDBObject();
+			obj.put("istrash", true);
+			obj.put("isactive", false);
+
+			coll.update(query, new BasicDBObject("$set", obj));
+
+			result = true;
+
+		}
+
+		return result;
 	}
 
 	/** The login. */
@@ -157,7 +201,7 @@ public class User {
 			active = true;
 			trash = false;
 
-			DBCollection coll = db.getCollection("registredusers");
+			DBCollection coll = db.getCollection(USERSTABLE);
 
 			BasicDBObject doc = new BasicDBObject();
 
@@ -311,6 +355,15 @@ public class User {
 	}
 
 	/**
+	 * Update record.
+	 * 
+	 * @return true, if successful
+	 */
+	public boolean save() {
+		return true;
+	}
+
+	/**
 	 * Sets the active.
 	 * 
 	 * @param active
@@ -403,12 +456,5 @@ public class User {
 	 */
 	public void setUserrole(UserRole userrole) {
 		this.userrole = userrole;
-	}
-	
-	public static boolean trashUser(String loginanddomain) {
-		boolean result = false;
-		//TODO: trash user
-		
-		return result;
 	}
 }
