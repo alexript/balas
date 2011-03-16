@@ -18,6 +18,7 @@ package net.autosauler.ballance.server.mongodb;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.UserList;
 import net.autosauler.ballance.server.util.Mutex;
 
@@ -147,6 +148,8 @@ public class Database {
 
 				// check users and if none - create admin
 				UserList.createDefaultRecords(db);
+				// check currency values. If none - load today values from cbr
+				Currency.createDefaultRecords(db);
 
 			} else {
 				lock.release();
