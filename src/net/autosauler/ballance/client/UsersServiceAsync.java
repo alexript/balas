@@ -75,4 +75,14 @@ public interface UsersServiceAsync {
 	 */
 	void trashUser(String login, AsyncCallback<Boolean> callback);
 
+	/**
+	 * Update user.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param callback
+	 *            the callback
+	 */
+	void updateUser(User user, AsyncCallback<Boolean> callback);
+
 }

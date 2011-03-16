@@ -33,7 +33,7 @@ public interface UsersService extends RemoteService {
 	 * 
 	 * @param user
 	 *            the user
-	 * @return TODO
+	 * @return true, if successful
 	 */
 	public boolean createUser(User user);
 
@@ -59,7 +59,7 @@ public interface UsersService extends RemoteService {
 	 * @return the users
 	 */
 	public UserList getUsers();
-	
+
 	/**
 	 * Trash user.
 	 * 
@@ -68,5 +68,14 @@ public interface UsersService extends RemoteService {
 	 * @return true, if successful
 	 */
 	public boolean trashUser(String login);
+
+	/**
+	 * Update user.
+	 * 
+	 * @param user
+	 *            the user
+	 * @return true, if successful
+	 */
+	public boolean updateUser(User user);
 
 }

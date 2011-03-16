@@ -21,7 +21,6 @@ import net.autosauler.ballance.client.UsersServiceAsync;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -289,8 +288,8 @@ public class EditUserDialog extends DialogBox {
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(l.logGetInfoError(), caught.getMessage())
-								.show();
+						new AlertDialog(l.logGetInfoError(), caught
+								.getMessage()).show();
 					}
 
 					@Override
@@ -384,11 +383,35 @@ public class EditUserDialog extends DialogBox {
 		if (updateMembers()) {
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if (role.isAdmin()) {
-				// TODO: send update request
-				Log.error("TODO:");
+				MainPanel.setCommInfo(true);
+				service.updateUser(user, new AsyncCallback<Boolean>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(l.logCreateError(), caught.getMessage())
+								.show();
+
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						MainPanel.setCommInfo(false);
+
+						if (result) {
+							EditUserDialog.this.hide();
+							receiver.onDialogYesButtonClick("reload");
+
+						} else {
+							new AlertDialog(l.logCreateError()).show();
+						}
+
+					}
+				});
+
 			}
-			EditUserDialog.this.hide();
-			receiver.onDialogYesButtonClick("reload");
+			// EditUserDialog.this.hide();
+			// receiver.onDialogYesButtonClick("reload");
 
 		}
 

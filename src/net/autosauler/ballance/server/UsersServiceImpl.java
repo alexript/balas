@@ -122,12 +122,39 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		return list;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.autosauler.ballance.client.UsersService#trashUser(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.UsersService#trashUser(java.lang.String)
 	 */
 	@Override
 	public boolean trashUser(String login) {
-		return net.autosauler.ballance.server.model.User.trashUser(login);
+		boolean result = false;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if (role.isAdmin()) {
+			result = net.autosauler.ballance.server.model.User.trashUser(login);
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.UsersService#updateUser(net.autosauler
+	 * .ballance.shared.User)
+	 */
+	@Override
+	public boolean updateUser(User user) {
+		boolean result = false;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if (role.isAdmin()) {
+			result = net.autosauler.ballance.server.model.User.updateUser(user);
+		}
+		return result;
 	}
 
 }

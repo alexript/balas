@@ -86,6 +86,17 @@ public class User {
 	}
 
 	/**
+	 * Gen hash.
+	 * 
+	 * @param password
+	 *            the password
+	 * @return the string
+	 */
+	private static String genHash(String password) {
+		return BCrypt.hashpw(password, BCrypt.gensalt());
+	}
+
+	/**
 	 * Trash user.
 	 * 
 	 * @param loginanddomain
@@ -104,6 +115,43 @@ public class User {
 			BasicDBObject obj = new BasicDBObject();
 			obj.put("istrash", true);
 			obj.put("isactive", false);
+
+			coll.update(query, new BasicDBObject("$set", obj));
+
+			result = true;
+
+		}
+
+		return result;
+	}
+
+	/**
+	 * Update user.
+	 * 
+	 * @param proxy
+	 *            the proxy
+	 * @return true, if successful
+	 */
+	public static boolean updateUser(net.autosauler.ballance.shared.User proxy) {
+		boolean result = false;
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection(USERSTABLE);
+
+			BasicDBObject query = new BasicDBObject();
+			query.put("login", proxy.getLogin() + "@" + proxy.getDomain());
+
+			BasicDBObject obj = new BasicDBObject();
+			obj.put("isactive", proxy.isActive());
+			obj.put("fullname", proxy.getUsername());
+			obj.put("roles", proxy.getUserrole().getRole());
+			String password = proxy.getPassword();
+			if (password != null) {
+				password = password.trim();
+			}
+			if (!password.isEmpty()) {
+				obj.put("hash", genHash(password));
+			}
 
 			coll.update(query, new BasicDBObject("$set", obj));
 
@@ -355,15 +403,6 @@ public class User {
 	}
 
 	/**
-	 * Update record.
-	 * 
-	 * @return true, if successful
-	 */
-	public boolean save() {
-		return true;
-	}
-
-	/**
 	 * Sets the active.
 	 * 
 	 * @param active
@@ -412,7 +451,7 @@ public class User {
 	 *            the new password
 	 */
 	public void setPassword(String password) {
-		hash = BCrypt.hashpw(password, BCrypt.gensalt());
+		hash = genHash(password);
 	}
 
 	/**
