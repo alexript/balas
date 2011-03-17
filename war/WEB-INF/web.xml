@@ -35,6 +35,16 @@
     <servlet-name>usersServlet</servlet-name>
     <url-pattern>/ballance_autosauler_net/users</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>currencyServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.CurrencyServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>currencyServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/currency</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

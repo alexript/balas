@@ -19,6 +19,9 @@ package net.autosauler.ballance.server.model;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,6 +49,12 @@ public class Currency {
 	/** The Constant CURRENCYTABLE. */
 	final private static String CURRENCYTABLE = "currency";
 
+	/** The Constant CBRDATEFORMAT. */
+	final private static String CBRDATEFORMAT = "dd/MM/yyyy";
+
+	/** The cbr date formatter. */
+	private static SimpleDateFormat formatter = null;
+
 	/**
 	 * Creates the default records.
 	 * 
@@ -57,8 +66,9 @@ public class Currency {
 		if (db != null) {
 			DBCollection coll = db.getCollection(CURRENCYTABLE);
 			if (coll.getCount() < 1) {
-				SimpleDateFormat formatter;
-				formatter = new SimpleDateFormat("dd/MM/yyyy");
+				if (formatter == null) {
+					formatter = new SimpleDateFormat(CBRDATEFORMAT);
+				}
 				String day = formatter.format(new Date());
 				receiveCBR(day, db);
 
@@ -79,7 +89,7 @@ public class Currency {
 	}
 
 	/**
-	 * Find.
+	 * Find database record for currency for date.
 	 * 
 	 * @param mnemo
 	 *            the mnemo
@@ -101,7 +111,7 @@ public class Currency {
 	}
 
 	/**
-	 * Find preivous.
+	 * Find preivous currency value.
 	 * 
 	 * @param mnemo
 	 *            the mnemo
@@ -127,6 +137,25 @@ public class Currency {
 	}
 
 	/**
+	 * Gets the values for mnemos set.
+	 * 
+	 * @param mnemos
+	 *            the currency mnemos
+	 * @param date
+	 *            the date
+	 * @return the hash map
+	 */
+	public static HashMap<String, Double> get(List<String> mnemos, Date date) {
+		HashMap<String, Double> values = new HashMap<String, Double>();
+		Iterator<String> i = mnemos.iterator();
+		while (i.hasNext()) {
+			String mnemo = i.next();
+			values.put(mnemo, get(mnemo, date));
+		}
+		return values;
+	}
+
+	/**
 	 * Gets the currency value for today.
 	 * 
 	 * @param mnemo
@@ -148,8 +177,9 @@ public class Currency {
 	 * @return the double
 	 */
 	public static Double get(String mnemo, Date date) {
-		SimpleDateFormat formatter;
-		formatter = new SimpleDateFormat("dd/MM/yyyy");
+		if (formatter == null) {
+			formatter = new SimpleDateFormat(CBRDATEFORMAT);
+		}
 		String day = formatter.format(date);
 
 		Double val = new Double(1.0);
@@ -178,7 +208,7 @@ public class Currency {
 	}
 
 	/**
-	 * Gets the node value.
+	 * Gets the xml-node value.
 	 * 
 	 * @param element
 	 *            the element
@@ -197,7 +227,7 @@ public class Currency {
 	}
 
 	/**
-	 * Receive currency from cbr.
+	 * Receive currency values from cbr (http://www.cbr.ru).
 	 * 
 	 * @param day
 	 *            the day
