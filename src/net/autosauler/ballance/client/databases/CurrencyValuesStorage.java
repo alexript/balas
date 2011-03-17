@@ -51,6 +51,16 @@ public class CurrencyValuesStorage {
 			.create(CurrencyService.class);
 
 	/**
+	 * Clean cache.
+	 */
+	public static void clean() {
+		if (cache != null) {
+			cache.clear();
+			cache = null;
+		}
+	}
+
+	/**
 	 * Gets the currency values for date.
 	 * 
 	 * @param receiver

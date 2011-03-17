@@ -137,6 +137,27 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource Ok();
 
 	/**
+	 * Progress.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource progress();
+
+	/**
+	 * Reload.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource reload();
+
+	/**
+	 * Spinner.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource spinner();
+
+	/**
 	 * Trash.
 	 * 
 	 * @return the image resource

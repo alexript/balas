@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -77,6 +78,9 @@ public class AuthPanel extends Composite implements ClickHandler,
 	/** The l18n. */
 	private AuthMessages l = null;
 
+	/** The images. */
+	private MenuImages images = null;
+
 	/** The message label. */
 	private Label messageLabel = null;
 
@@ -96,6 +100,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 */
 	public AuthPanel(String title) {
 		l = GWT.create(AuthMessages.class);
+		images = GWT.create(MenuImages.class);
 		formname = title;
 		authPanel.setWidth("244px");
 		authPanel.setHeight("130px");
@@ -107,6 +112,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		currencypanel = new HorizontalPanel();
 		currencypanel.setSpacing(3);
+		Image progress = new Image(images.progress());
+		currencypanel.add(progress);
 
 		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
 
@@ -282,14 +289,35 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		authPanel.add(currencypanel);
 
-		Set<String> set = new HashSet<String>();
-		// TODO: configurable
-		set.add("EUR");
-		set.add("USD");
-		CurrencyValuesStorage.get(this, set);
+		startCurrencyReload();
 
 	}
 
+	/**
+	 * Creates the currency reload image.
+	 * 
+	 * @return the image
+	 */
+	private Image createCurrencyReloadImage() {
+		Image image = new Image(images.reload());
+		image.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				startCurrencyReload();
+
+			}
+		});
+		return image;
+	}
+
+	/**
+	 * Creates the currency value label.
+	 * 
+	 * @param value
+	 *            the value
+	 * @return the label
+	 */
 	private Label createCurrencyValueLabel(Double value) {
 		Label label = new Label(value.toString());
 		return label;
@@ -306,7 +334,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		currencypanel.clear();
 		currencypanel.add(new Label(mnemo + ":"));
 		currencypanel.add(createCurrencyValueLabel(value));
-
+		currencypanel.add(createCurrencyReloadImage());
 	}
 
 	/*
@@ -325,7 +353,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 			currencypanel.add(new Label(mnemo + ":"));
 			currencypanel.add(createCurrencyValueLabel(values.get(mnemo)));
 		}
-
+		currencypanel.add(createCurrencyReloadImage());
 	}
 
 	/**
@@ -510,6 +538,23 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 */
 	public void setMenu(LeftMenu menu) {
 		this.menu = menu;
+	}
+
+	/**
+	 * Start currency reload.
+	 */
+	private void startCurrencyReload() {
+		currencypanel.clear();
+		Image progress = new Image(images.progress());
+		currencypanel.add(progress);
+
+		CurrencyValuesStorage.clean();
+
+		Set<String> set = new HashSet<String>();
+		// TODO: configurable
+		set.add("EUR");
+		set.add("USD");
+		CurrencyValuesStorage.get(this, set);
 	}
 
 }
