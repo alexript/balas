@@ -113,6 +113,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		messageLabel.setText("");
 		messageLabel.setStyleName("authMessageLabel");
 
+		// TODO: make currency panel as widget and place in some other place
 		currencypanel = new HorizontalPanel();
 		currvalues = new HorizontalPanel();
 		currprogress = new HorizontalPanel();
