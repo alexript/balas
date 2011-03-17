@@ -16,7 +16,6 @@
 
 package net.autosauler.ballance.client.databases;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +27,7 @@ import net.autosauler.ballance.client.CurrencyService;
 import net.autosauler.ballance.client.CurrencyServiceAsync;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.MainPanel;
+import net.autosauler.ballance.client.utils.SimpleDateFormat;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

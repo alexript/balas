@@ -17,9 +17,15 @@
 package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.SessionId;
+import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
+import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
@@ -45,7 +51,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The Class AuthPanel.
  */
 public class AuthPanel extends Composite implements ClickHandler,
-		KeyPressHandler, IDialogYesReceiver {
+		KeyPressHandler, IDialogYesReceiver, ICurrencyValuesReceiver {
 
 	/** The auth panel. */
 	private final VerticalPanel authPanel = new VerticalPanel();
@@ -77,6 +83,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue";
 
+	private final HorizontalPanel currencypanel;
+
 	/** The menu. */
 	private LeftMenu menu;
 
@@ -96,6 +104,9 @@ public class AuthPanel extends Composite implements ClickHandler,
 		messageLabel = new Label();
 		messageLabel.setText("");
 		messageLabel.setStyleName("authMessageLabel");
+
+		currencypanel = new HorizontalPanel();
+		currencypanel.setSpacing(3);
 
 		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
 
@@ -268,6 +279,53 @@ public class AuthPanel extends Composite implements ClickHandler,
 		bottomPanel.add(locales);
 
 		authPanel.add(bottomPanel);
+
+		authPanel.add(currencypanel);
+
+		Set<String> set = new HashSet<String>();
+		// TODO: configurable
+		set.add("EUR");
+		set.add("USD");
+		CurrencyValuesStorage.get(this, set);
+
+	}
+
+	private Label createCurrencyValueLabel(Double value) {
+		Label label = new Label(value.toString());
+		return label;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.databases.ICurrencyValuesReceiver#
+	 * doCurrencyValue(java.lang.String, java.util.Date, java.lang.Double)
+	 */
+	@Override
+	public void doCurrencyValue(String mnemo, Date date, Double value) {
+		currencypanel.clear();
+		currencypanel.add(new Label(mnemo + ":"));
+		currencypanel.add(createCurrencyValueLabel(value));
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.databases.ICurrencyValuesReceiver#
+	 * doCurrencyValues(java.util.Date, java.util.HashMap)
+	 */
+	@Override
+	public void doCurrencyValues(Date date, HashMap<String, Double> values) {
+		currencypanel.clear();
+		Set<String> keys = values.keySet();
+		Iterator<String> i = keys.iterator();
+		while (i.hasNext()) {
+			String mnemo = i.next();
+			currencypanel.add(new Label(mnemo + ":"));
+			currencypanel.add(createCurrencyValueLabel(values.get(mnemo)));
+		}
+
 	}
 
 	/**
