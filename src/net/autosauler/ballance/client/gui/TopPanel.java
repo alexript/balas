@@ -31,6 +31,9 @@ public class TopPanel extends Composite {
 	/** The panel. */
 	private final HorizontalPanel panel;
 
+	/** The title. */
+	private final InlineHTML title;
+
 	/**
 	 * Instantiates a new top panel.
 	 */
@@ -39,6 +42,12 @@ public class TopPanel extends Composite {
 		panel.setSpacing(3);
 		panel.setWidth("100%");
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+
+		title = new InlineHTML(
+				"<div id=\"topline_title\">Balance :: AutoSauler.net</div>");
+		panel.add(title);
+		panel.setCellHorizontalAlignment(title,
+				HasHorizontalAlignment.ALIGN_LEFT);
 
 		// add today currency values
 
@@ -53,5 +62,41 @@ public class TopPanel extends Composite {
 
 		initWidget(panel);
 		this.setStyleName("topPanel");
+
 	}
+
+	/**
+	 * Start animation.
+	 */
+	public void startAnimation() {
+		startTitleAnimation();
+	}
+
+	/**
+	 * Start title animation.
+	 * 
+	 * @param element
+	 *            the element
+	 */
+	private native void startTitleAnimation() /*-{
+		var foo = this;
+		$wnd
+				.setTimeout(
+						function() {
+							new $wnd.Effect.Opacity('topline_title', {
+								from : 1.0,
+								to : 0.3,
+								duration : 0.5,
+								queue : 'end'
+							});
+							new $wnd.Effect.Opacity('topline_title', {
+								from : 0.3,
+								to : 1.0,
+								duration : 0.5,
+								queue : 'end'
+							});
+
+							foo.@net.autosauler.ballance.client.gui.TopPanel::startAnimation()();
+						}, 5000);
+	}-*/;
 }

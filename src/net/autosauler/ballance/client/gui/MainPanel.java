@@ -156,7 +156,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		l = GWT.create(MenuMessages.class);
 		images = (MenuImages) GWT.create(MenuImages.class);
 		panel.addWest(leftPanel, 250);
-		panel.addNorth(new TopPanel(), 32);
+		TopPanel toppanel = new TopPanel();
+		panel.addNorth(toppanel, 32);
 		mainpane.setWidth("100%");
 		mainpane.setHeight("100%");
 		panel.add(mainpane);
@@ -169,7 +170,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		}
 		History.addValueChangeHandler(this);
 		History.fireCurrentHistoryState();
-
+		toppanel.startAnimation();
 	}
 
 	/**
