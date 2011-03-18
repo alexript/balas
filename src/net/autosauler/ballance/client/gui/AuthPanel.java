@@ -213,32 +213,10 @@ public class AuthPanel extends Composite implements ClickHandler,
 		authPanel.add(helloLabel);
 
 		UserRole userrole = Ballance_autosauler_net.sessionId.getUserrole();
-		StringBuilder sb = new StringBuilder();
-		sb.append('|');
-		if (userrole.isAdmin()) {
-			sb.append("Admin");
-			sb.append('|');
-		}
-		if (userrole.isDocuments()) {
-			sb.append("Documents");
-			sb.append('|');
-		}
-		if (userrole.isFinances()) {
-			sb.append("Finances");
-			sb.append('|');
-		}
-		if (userrole.isManager()) {
-			sb.append("Manager");
-			sb.append('|');
-		}
-		String rolestext = "Guest";
-		if (sb.length() > 0) {
-			rolestext = sb.toString();
-		}
-		Label rolesLabel = new Label(rolestext);
-		rolesLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		rolesLabel.setTitle(l.titleRoles());
-		authPanel.add(rolesLabel);
+		RolesWidget roleswidget = new RolesWidget(userrole);
+		authPanel.add(roleswidget);
+		authPanel.setCellHorizontalAlignment(roleswidget,
+				HasHorizontalAlignment.ALIGN_CENTER);
 
 		logoutButton = new Button();
 		logoutButton.setText(l.btnLogout());

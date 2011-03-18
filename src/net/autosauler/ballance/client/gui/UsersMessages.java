@@ -109,6 +109,13 @@ public interface UsersMessages extends Messages {
 	String isfinances();
 
 	/**
+	 * Isguest.
+	 * 
+	 * @return the string
+	 */
+	String isguest();
+
+	/**
 	 * Ismanager.
 	 * 
 	 * @return the string
@@ -179,6 +186,13 @@ public interface UsersMessages extends Messages {
 	String password();
 
 	/**
+	 * Qst trash user.
+	 * 
+	 * @return the string
+	 */
+	String qstTrashUser();
+
+	/**
 	 * Title edit user.
 	 * 
 	 * @return the string
@@ -191,12 +205,5 @@ public interface UsersMessages extends Messages {
 	 * @return the string
 	 */
 	String userName();
-	
-	/**
-	 * Qst trash user.
-	 * 
-	 * @return the string
-	 */
-	String qstTrashUser();
 
 }
