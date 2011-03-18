@@ -35,25 +35,25 @@ public class RolesWidget extends Composite {
 	private final HorizontalPanel panel;
 
 	/** The images. */
-	private static RolesImages images = null;
+	private RolesImages images = null;
 
 	/** The img guest. */
-	private static Image imgGuest;
+	private Image imgGuest;
 
 	/** The img admin. */
-	private static Image imgAdmin;
+	private Image imgAdmin;
 
 	/** The img documents. */
-	private static Image imgDocuments;
+	private Image imgDocuments;
 
 	/** The img finances. */
-	private static Image imgFinances;
+	private Image imgFinances;
 
 	/** The img manager. */
-	private static Image imgManager;
+	private Image imgManager;
 
 	/** The l. */
-	private static UsersMessages l;
+	private UsersMessages l;
 
 	/**
 	 * Instantiates a new roles widget.
@@ -79,29 +79,28 @@ public class RolesWidget extends Composite {
 	 * Chk resources.
 	 */
 	private void chkResources() {
-		if (images == null) {
-			l = GWT.create(UsersMessages.class);
-			images = GWT.create(RolesImages.class);
-			imgGuest = new Image(images.isGuest());
-			imgGuest.setTitle(l.isguest());
-			imgGuest.setAltText(l.isguest());
+		l = GWT.create(UsersMessages.class);
+		images = GWT.create(RolesImages.class);
+		imgGuest = new Image(images.isGuest());
+		imgGuest.setTitle(l.isguest());
+		imgGuest.setAltText(l.isguest());
 
-			imgAdmin = new Image(images.isAdmin());
-			imgAdmin.setTitle(l.isadmin());
-			imgAdmin.setAltText(l.isadmin());
+		imgAdmin = new Image(images.isAdmin());
+		imgAdmin.setTitle(l.isadmin());
+		imgAdmin.setAltText(l.isadmin());
 
-			imgDocuments = new Image(images.isDocuments());
-			imgDocuments.setTitle(l.isdocuments());
-			imgDocuments.setAltText(l.isdocuments());
+		imgDocuments = new Image(images.isDocuments());
+		imgDocuments.setTitle(l.isdocuments());
+		imgDocuments.setAltText(l.isdocuments());
 
-			imgFinances = new Image(images.isFinances());
-			imgFinances.setTitle(l.isfinances());
-			imgFinances.setAltText(l.isfinances());
+		imgFinances = new Image(images.isFinances());
+		imgFinances.setTitle(l.isfinances());
+		imgFinances.setAltText(l.isfinances());
 
-			imgManager = new Image(images.isManager());
-			imgManager.setTitle(l.ismanager());
-			imgManager.setAltText(l.ismanager());
-		}
+		imgManager = new Image(images.isManager());
+		imgManager.setTitle(l.ismanager());
+		imgManager.setAltText(l.ismanager());
+
 	}
 
 	/**

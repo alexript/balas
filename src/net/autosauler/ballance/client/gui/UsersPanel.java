@@ -29,12 +29,15 @@ import net.autosauler.ballance.shared.UserRole;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
+import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -196,6 +199,27 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		cellTable.addColumn(firstNameColumn, l.userName());
 
 		cellTable.setColumnWidth(firstNameColumn, 150, Unit.PCT);
+
+		// UserRoles.
+		// ----------------------------------------------------------
+
+		Column<User, SafeHtml> rolesColumn = new Column<User, SafeHtml>(
+				new SafeHtmlCell()) {
+
+			@Override
+			public SafeHtml getValue(User object) {
+				SafeHtmlBuilder sb = new SafeHtmlBuilder();
+				sb.appendHtmlConstant(new RolesWidget(object.getUserrole())
+						.toString());
+				return sb.toSafeHtml();
+			}
+
+		};
+		rolesColumn.setSortable(false);
+
+		cellTable.addColumn(rolesColumn, l.columnRoles());
+
+		cellTable.setColumnWidth(rolesColumn, 90, Unit.PCT);
 
 		// Registration date.
 		// ----------------------------------------------------------

@@ -53,6 +53,13 @@ public interface UsersMessages extends Messages {
 	String btnUpdate();
 
 	/**
+	 * Column roles.
+	 * 
+	 * @return the string
+	 */
+	String columnRoles();
+
+	/**
 	 * Column tools.
 	 * 
 	 * @return the string
