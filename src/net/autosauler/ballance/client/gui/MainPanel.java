@@ -23,6 +23,7 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -31,6 +32,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -117,7 +119,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	}
 
 	/** The panel. */
-	private final HorizontalPanel panel = new HorizontalPanel();
+	private final DockLayoutPanel panel = new DockLayoutPanel(Unit.PX);
 
 	/** The left column panel. */
 	private final LeftPanel leftPanel = new LeftPanel();
@@ -143,8 +145,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	public MainPanel() {
 		l = GWT.create(MenuMessages.class);
 		images = (MenuImages) GWT.create(MenuImages.class);
-		panel.add(leftPanel);
-		panel.setCellWidth(leftPanel, "244px");
+		panel.addWest(leftPanel, 250);
+		panel.addNorth(new TopPanel(), 32);
 		mainpane.setWidth("100%");
 		mainpane.setHeight("100%");
 		panel.add(mainpane);

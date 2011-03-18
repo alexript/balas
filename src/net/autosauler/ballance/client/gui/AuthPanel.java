@@ -17,19 +17,12 @@
 package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.SessionId;
-import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
-import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -42,8 +35,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -53,7 +44,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The Class AuthPanel.
  */
 public class AuthPanel extends Composite implements ClickHandler,
-		KeyPressHandler, IDialogYesReceiver, ICurrencyValuesReceiver {
+		KeyPressHandler, IDialogYesReceiver {
 
 	/** The auth panel. */
 	private final VerticalPanel authPanel = new VerticalPanel();
@@ -79,18 +70,11 @@ public class AuthPanel extends Composite implements ClickHandler,
 	/** The l18n. */
 	private AuthMessages l = null;
 
-	/** The images. */
-	private MenuImages images = null;
-
 	/** The message label. */
 	private Label messageLabel = null;
 
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue";
-
-	private final HorizontalPanel currencypanel;
-	private final HorizontalPanel currvalues;
-	private final HorizontalPanel currprogress;
 
 	/** The menu. */
 	private LeftMenu menu;
@@ -103,7 +87,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 */
 	public AuthPanel(String title) {
 		l = GWT.create(AuthMessages.class);
-		images = GWT.create(MenuImages.class);
+
 		formname = title;
 		authPanel.setWidth("244px");
 		authPanel.setHeight("130px");
@@ -112,18 +96,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 		messageLabel = new Label();
 		messageLabel.setText("");
 		messageLabel.setStyleName("authMessageLabel");
-
-		// TODO: make currency panel as widget and place in some other place
-		currencypanel = new HorizontalPanel();
-		currvalues = new HorizontalPanel();
-		currprogress = new HorizontalPanel();
-
-		currvalues.setSpacing(3);
-		Image progress = new Image(images.progress());
-		currprogress.add(progress);
-		currencypanel.add(currvalues);
-		currencypanel.add(currprogress);
-		// effectFade(currvalues.getElement());
 
 		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
 
@@ -290,114 +262,9 @@ public class AuthPanel extends Composite implements ClickHandler,
 		messageLabel.setText("");
 		bottomPanel.add(messageLabel);
 
-		InlineHTML locales = new InlineHTML(
-				"&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\"/></a>&nbsp;");
-		locales.setWidth("40px");
-		bottomPanel.add(locales);
-
 		authPanel.add(bottomPanel);
 
-		authPanel.add(currencypanel);
-
-		startCurrencyReload();
-
 	}
-
-	/**
-	 * Creates the currency reload image.
-	 * 
-	 * @return the image
-	 */
-	private Image createCurrencyReloadImage() {
-		Image image = new Image(images.reload());
-		image.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				startCurrencyReload();
-
-			}
-		});
-		return image;
-	}
-
-	/**
-	 * Creates the currency value label.
-	 * 
-	 * @param value
-	 *            the value
-	 * @return the label
-	 */
-	private Label createCurrencyValueLabel(Double value) {
-		Label label = new Label(value.toString());
-		return label;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.databases.ICurrencyValuesReceiver#
-	 * doCurrencyValue(java.lang.String, java.util.Date, java.lang.Double)
-	 */
-	@Override
-	public void doCurrencyValue(String mnemo, Date date, Double value) {
-
-		currvalues.clear();
-		currvalues.add(new Label(mnemo + ":"));
-		currvalues.add(createCurrencyValueLabel(value));
-		currvalues.add(createCurrencyReloadImage());
-		effectFade(currprogress.getElement());
-		effectAppear(currvalues.getElement());
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.databases.ICurrencyValuesReceiver#
-	 * doCurrencyValues(java.util.Date, java.util.HashMap)
-	 */
-	@Override
-	public void doCurrencyValues(Date date, HashMap<String, Double> values) {
-
-		currvalues.clear();
-		Set<String> keys = values.keySet();
-		Iterator<String> i = keys.iterator();
-		while (i.hasNext()) {
-			String mnemo = i.next();
-			currvalues.add(new Label(mnemo + ":"));
-			currvalues.add(createCurrencyValueLabel(values.get(mnemo)));
-		}
-		currvalues.add(createCurrencyReloadImage());
-		effectFade(currprogress.getElement());
-		effectAppear(currvalues.getElement());
-
-	}
-
-	/**
-	 * Effect appear.
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	private native void effectAppear(Element element) /*-{
-		new $wnd.Effect.Appear(element, {
-			queue : 'end'
-		});
-	}-*/;
-
-	/**
-	 * Effect fade.
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	private native void effectFade(Element element) /*-{
-		new $wnd.Effect.Fade(element, {
-
-			queue : 'end'
-		});
-	}-*/;
 
 	/**
 	 * Gets the menu.
@@ -581,23 +448,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 */
 	public void setMenu(LeftMenu menu) {
 		this.menu = menu;
-	}
-
-	/**
-	 * Start currency reload.
-	 */
-	private void startCurrencyReload() {
-		effectFade(currvalues.getElement());
-		effectAppear(currprogress.getElement());
-		currvalues.clear();
-
-		CurrencyValuesStorage.clean();
-
-		Set<String> set = new HashSet<String>();
-		// TODO: configurable
-		set.add("EUR");
-		set.add("USD");
-		CurrencyValuesStorage.get(this, set);
 	}
 
 }

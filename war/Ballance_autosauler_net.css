@@ -89,6 +89,14 @@ h1 {
 	vertical-align: top;
 }
 
+.topPanel {
+    background-color: #e8eaed;
+    height: 32px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #8a8a8a;
+}
+
 .mainPanel {
 	width: 100%;
 	height: 100%;
