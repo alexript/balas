@@ -46,6 +46,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MainPanel extends Composite implements ValueChangeHandler<String> {
 
+	/** The busycounter. */
+	private static int busycounter = 0;
+
 	/**
 	 * Close tab.
 	 * 
@@ -111,10 +114,17 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 */
 	public static void setCommInfo(boolean f) {
 		if (f) {
-			comminfo = new CommInfoPanel();
-			comminfo.show();
+			busycounter++;
+			if (busycounter == 1) {
+				comminfo = new CommInfoPanel();
+				comminfo.show();
+			}
 		} else {
-			comminfo.hide();
+			busycounter--;
+			if (busycounter < 1) {
+				comminfo.hide();
+				busycounter = 0;
+			}
 		}
 	}
 
