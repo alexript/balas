@@ -1,5 +1,5 @@
-#Mon Feb 07 15:20:26 MSK 2011
+#Fri Mar 18 15:37:55 MSK 2011
 eclipse.preferences.version=1
-jarsExcludedFromWebInfLib=
+jarsExcludedFromWebInfLib=/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/gwt-dev.jar
 warSrcDir=war
 warSrcDirIsOutput=true
