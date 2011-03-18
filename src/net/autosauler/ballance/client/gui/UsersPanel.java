@@ -49,6 +49,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -216,10 +217,11 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 		};
 		rolesColumn.setSortable(false);
+		rolesColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
 		cellTable.addColumn(rolesColumn, l.columnRoles());
 
-		cellTable.setColumnWidth(rolesColumn, 90, Unit.PCT);
+		cellTable.setColumnWidth(rolesColumn, 90, Unit.PX);
 
 		// Registration date.
 		// ----------------------------------------------------------
@@ -239,7 +241,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		});
 		cellTable.addColumn(createdateColumn, l.crateDate());
 
-		cellTable.setColumnWidth(createdateColumn, 100, Unit.PCT);
+		cellTable.setColumnWidth(createdateColumn, 200, Unit.PX);
 
 		// Active flag.
 		// ----------------------------------------------------------
@@ -255,6 +257,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 			}
 		};
 		activeColumn.setSortable(true);
+		activeColumn
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+
 		sortHandler.setComparator(activeColumn, new Comparator<User>() {
 			@Override
 			public int compare(User o1, User o2) {
@@ -264,7 +269,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 		cellTable.addColumn(activeColumn, l.isActive());
 
-		cellTable.setColumnWidth(activeColumn, 40, Unit.PCT);
+		cellTable.setColumnWidth(activeColumn, 100, Unit.PX);
 
 	}
 
