@@ -66,7 +66,7 @@ public class RolesWidget extends Composite {
 		chkResources();
 
 		panel = new HorizontalPanel();
-		panel.setWidth("86px");
+
 		panel.setSpacing(1);
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
