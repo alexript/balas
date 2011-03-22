@@ -32,6 +32,8 @@ import com.mongodb.MongoException;
  */
 public class Database {
 
+	// TODO: all values must be configurable
+
 	/** The Constant host. */
 	private static final String host = "127.0.0.1";
 
@@ -61,6 +63,15 @@ public class Database {
 	/** The lock. */
 	private static Mutex lock = new Mutex();
 
+	/** The lockcounter. */
+	private static Integer lockcounter = 0;
+
+	/** The releaser. */
+	private static Thread releaser = null;
+
+	/** The retaintimeoutmin. */
+	private static int retaintimeoutmin = 5;
+
 	/**
 	 * Close connection.
 	 */
@@ -77,11 +88,15 @@ public class Database {
 			Log.error(e.getMessage());
 			// e.printStackTrace();
 		}
+		if (releaser != null) {
+			releaser = null;
+		}
+		lockcounter = 0;
 		lock.release();
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the database.
 	 * 
 	 * @return the dB
 	 */
@@ -118,9 +133,6 @@ public class Database {
 	 *             the interrupted exception
 	 */
 	private static synchronized void initConnection()
-	// TODO: fix creating connection per session.
-	// this singleton not work for multiple class loaders (gwt or jetty case?)
-	// tomcat tests needed
 			throws UnknownHostException, MongoException, InterruptedException {
 		lock.acquire();
 		try {
@@ -145,11 +157,12 @@ public class Database {
 			auth = db.authenticate(user, password.toCharArray());
 			if (auth) {
 				mongodatabase = db;
-
+				retain();
 				// check users and if none - create admin
 				UserList.createDefaultRecords(db);
 				// check currency values. If none - load today values from cbr
 				Currency.createDefaultRecords(db);
+				release();
 
 			} else {
 				lock.release();
@@ -163,7 +176,7 @@ public class Database {
 	}
 
 	/**
-	 * Recreate db.
+	 * Recreate database (drop and close connection).
 	 * 
 	 * @return true, if successful
 	 */
@@ -182,6 +195,7 @@ public class Database {
 		}
 
 		try {
+			Database.retain();
 			mongodatabase.dropDatabase();
 			close();
 		} catch (MongoException e) {
@@ -193,6 +207,49 @@ public class Database {
 
 		lock.release();
 		return true;
+	}
+
+	/**
+	 * Retain database lock counter.
+	 */
+	public static synchronized void release() {
+		lockcounter--;
+		if (lockcounter <= 0) {
+			lockcounter = 0;
+		}
+	}
+
+	/**
+	 * Retain database lock counter.
+	 */
+	public static synchronized void retain() {
+
+		lockcounter++;
+		startReleaser();
+	}
+
+	/**
+	 * Start releaser thread.
+	 */
+	private static void startReleaser() {
+		if (releaser == null) {
+			releaser = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						while (lockcounter > 0) {
+							Thread.sleep(retaintimeoutmin * 60 * 1000);
+						}
+						close();
+					} catch (InterruptedException e) {
+						Log.error(e.getMessage());
+					}
+
+				}
+			});
+			releaser.start();
+		}
 	}
 
 	/**

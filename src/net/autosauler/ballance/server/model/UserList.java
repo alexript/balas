@@ -80,6 +80,7 @@ public class UserList {
 			boolean fromtrash) {
 		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
 
+		Database.retain();
 		DB db = Database.get();
 		if (db != null) {
 			DBCollection coll = db.getCollection(collectionname);
@@ -94,6 +95,7 @@ public class UserList {
 			}
 
 		}
+		Database.release();
 
 		return list;
 	}

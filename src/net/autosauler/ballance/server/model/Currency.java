@@ -188,6 +188,7 @@ public class Currency {
 			return val;
 		}
 
+		Database.retain();
 		DBObject myDoc = find(mnemo, day);
 
 		if (myDoc != null) { // if value is exists in database
@@ -204,6 +205,7 @@ public class Currency {
 				}
 			}
 		}
+		Database.release();
 		return val;
 	}
 
@@ -258,6 +260,7 @@ public class Currency {
 							+ doc.getDocumentElement().getNodeName());
 					NodeList nodeLst = doc.getElementsByTagName("Valute");
 					Log.trace("Information of all valutes");
+					Database.retain();
 					if (database == null) {
 						database = Database.get();
 					}
@@ -297,11 +300,13 @@ public class Currency {
 							}
 						}
 					}
+					Database.release();
 
 				}
 
 				catch (Exception ex) {
 					Log.error(ex.getMessage());
+					Database.release();
 				}
 			}
 		}

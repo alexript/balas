@@ -44,10 +44,12 @@ public class User {
 	public static User find(String login) {
 		User user = null;
 
+		Database.retain();
 		DBObject myDoc = findObject(login);
 		if (myDoc != null) {
 			user = new User(myDoc);
 		}
+		Database.release();
 
 		return user;
 	}
@@ -105,6 +107,7 @@ public class User {
 	 */
 	public static boolean trashUser(String loginanddomain) {
 		boolean result = false;
+		Database.retain();
 		DB db = Database.get();
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
@@ -121,6 +124,7 @@ public class User {
 			result = true;
 
 		}
+		Database.release();
 
 		return result;
 	}
@@ -134,6 +138,7 @@ public class User {
 	 */
 	public static boolean updateUser(net.autosauler.ballance.shared.User proxy) {
 		boolean result = false;
+		Database.retain();
 		DB db = Database.get();
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
@@ -158,6 +163,7 @@ public class User {
 			result = true;
 
 		}
+		Database.release();
 
 		return result;
 	}
@@ -243,6 +249,7 @@ public class User {
 	 * Creates the new user record.
 	 */
 	private void create() {
+		Database.retain();
 		DB db = Database.get();
 		if (db != null) {
 			createdate = new Date();
@@ -263,6 +270,7 @@ public class User {
 			coll.insert(doc);
 
 		}
+		Database.release();
 	}
 
 	/**
