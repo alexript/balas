@@ -31,6 +31,13 @@ public interface DatabaseMessages extends Messages {
 	String btnExecute();
 
 	/**
+	 * Btn sore changes.
+	 * 
+	 * @return the string
+	 */
+	String btnSoreChanges();
+
+	/**
 	 * Msg drop database title.
 	 * 
 	 * @return the string

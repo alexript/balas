@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
@@ -24,10 +25,16 @@ import net.autosauler.ballance.client.DatabaseServiceAsync;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.cellview.client.HasKeyboardPagingPolicy.KeyboardPagingPolicy;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -36,8 +43,13 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 /**
  * The Class DatabasePanel.
@@ -79,6 +91,11 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	private final DatabaseServiceAsync service = GWT
 			.create(DatabaseService.class);
 
+	private CellList<String> setingsList;
+
+	private TextBox settingvalue;
+	private HashMap<String, String> settings = null;
+
 	/**
 	 * Instantiates a new database panel.
 	 */
@@ -109,11 +126,102 @@ public class DatabasePanel extends Composite implements ClickHandler,
 			@Override
 			public void onSuccess(HashMap<String, String> result) {
 				MainPanel.setCommInfo(false);
+				settings = result;
 				settingspanel.clear();
-				Label err = new Label(result.toString());
-				err.setVisible(false);
-				settingspanel.add(err);
-				effectAppear(err.getElement());
+
+				final Button btn = new Button();
+				btn.setText(l.btnSoreChanges());
+				btn.setEnabled(false);
+
+				settingvalue = new TextBox();
+				settingvalue.setWidth("200px");
+				settingvalue.addChangeHandler(new ChangeHandler() {
+
+					@Override
+					public void onChange(ChangeEvent event) {
+						btn.setEnabled(true);
+
+					}
+				});
+
+				// create celllist ============================================
+				ProvidesKey<String> provider = new ProvidesKey<String>() {
+					@Override
+					public Object getKey(String item) {
+						return item == null ? null : item;
+					}
+				};
+
+				ListDataProvider<String> dataProvider = new ListDataProvider<String>();
+				dataProvider.setList(new ArrayList<String>(settings.keySet()));
+
+				setingsList = new CellList<String>(new TextCell() {
+				}, provider);
+				setingsList.setPageSize(30);
+				setingsList
+						.setKeyboardPagingPolicy(KeyboardPagingPolicy.INCREASE_RANGE);
+				setingsList
+						.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
+
+				// Add a selection model so we can select cells.
+				final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>(
+						provider);
+				setingsList.setSelectionModel(selectionModel);
+				selectionModel
+						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+							@Override
+							public void onSelectionChange(
+									SelectionChangeEvent event) {
+								settingvalue.setText(settings
+										.get(selectionModel.getSelectedObject()));
+							}
+						});
+
+				dataProvider.addDataDisplay(setingsList);
+				// celllist created
+				// =======================================================
+
+				btn.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						String name = selectionModel.getSelectedObject();
+						String value = settingvalue.getText().trim();
+						if (!value.isEmpty()) {
+							HashMap<String, String> values = new HashMap<String, String>();
+							values.put(name, value);
+							MainPanel.setCommInfo(true);
+							service.setSettings(values,
+									new AsyncCallback<Void>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											MainPanel.setCommInfo(false);
+											new AlertDialog("Database error",
+													caught.getMessage()).show();
+										}
+
+										@Override
+										public void onSuccess(Void result) {
+											MainPanel.setCommInfo(false);
+											btn.setEnabled(false);
+										}
+									});
+						}
+
+					}
+				});
+
+				HorizontalPanel panel = new HorizontalPanel();
+				panel.setSpacing(4);
+				panel.setWidth("500px");
+				panel.setVisible(false);
+				panel.add(setingsList);
+				panel.setCellWidth(setingsList, "200px");
+				panel.add(settingvalue);
+				panel.add(btn);
+				settingspanel.add(panel);
+				effectAppear(panel.getElement());
 			}
 		});
 	}

@@ -22,7 +22,6 @@ import java.util.List;
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
 import net.autosauler.ballance.server.model.UserList;
-import net.autosauler.ballance.server.util.Mutex;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.DB;
@@ -63,7 +62,7 @@ public class Database {
 	private static DB mongodatabase = null;
 
 	/** The lock. */
-	private static Mutex lock = new Mutex();
+	// private static Mutex lock = new Mutex();
 
 	/** The lockcounter. */
 	private static Integer lockcounter = 0;
@@ -81,17 +80,17 @@ public class Database {
 	 * Close connection.
 	 */
 	public static synchronized void close() {
-		try {
-			lock.acquire();
-			mongodatabase = null;
-			if (mongo != null) {
-				mongo.close();
-				mongo = null;
-			}
-
-		} catch (InterruptedException e) {
-			Log.error(e.getMessage());
+		// try {
+		// // lock.acquire();
+		mongodatabase = null;
+		if (mongo != null) {
+			mongo.close();
+			mongo = null;
 		}
+
+		// } catch (InterruptedException e) {
+		// Log.error(e.getMessage());
+		// }
 		if (releaser != null) {
 			releaser = null;
 		}
@@ -99,7 +98,7 @@ public class Database {
 		if (settings != null) {
 			settings.save();
 		}
-		lock.release();
+		// lock.release();
 	}
 
 	/**
@@ -159,13 +158,13 @@ public class Database {
 	 */
 	private static synchronized void initConnection()
 			throws UnknownHostException, MongoException, InterruptedException {
-		lock.acquire();
+		// lock.acquire();
 		try {
 			if (mongo == null) {
 				mongo = new Mongo(host, port);
 			}
 		} catch (com.mongodb.MongoInternalException e) {
-			lock.release();
+			// lock.release();
 			close();
 			throw (e);
 		}
@@ -192,14 +191,14 @@ public class Database {
 				release();
 
 			} else {
-				lock.release();
+				// lock.release();
 				close();
 			}
 		} else {
-			lock.release();
+			// lock.release();
 			close();
 		}
-		lock.release();
+		// lock.release();
 
 		loadSettings();
 
@@ -227,24 +226,24 @@ public class Database {
 			return false;
 		}
 
-		try {
-			lock.acquire();
-		} catch (InterruptedException e) {
-			Log.error(e.getMessage());
-			return false;
-		}
+		// try {
+		// // lock.acquire();
+		// } catch (InterruptedException e) {
+		// Log.error(e.getMessage());
+		// return false;
+		// }
 
 		try {
 			Database.retain();
 			mongodatabase.dropDatabase();
 			close();
 		} catch (MongoException e) {
-			lock.release();
+			// lock.release();
 			Log.error(e.getMessage());
 			return false;
 		}
 
-		lock.release();
+		// lock.release();
 		return true;
 	}
 
