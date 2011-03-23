@@ -34,8 +34,8 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public class GlobalSettings {
-	/** The Constant settingstable. */
-	private static final String settingstable = "globalsettings";
+	/** The Constant SETTINGSTABLE. */
+	private static final String SETTINGSTABLE = "globalsettings";
 
 	/**
 	 * Creates the default records.
@@ -46,7 +46,7 @@ public class GlobalSettings {
 	public static void createDefaultRecords(DB db) {
 
 		if (db != null) {
-			DBCollection coll = db.getCollection(settingstable);
+			DBCollection coll = db.getCollection(SETTINGSTABLE);
 			if (coll.getCount() < 1) {
 
 				BasicDBObject rec = new BasicDBObject();
@@ -77,7 +77,7 @@ public class GlobalSettings {
 		Database.retain();
 		DB db = Database.get();
 		if (db != null) {
-			DBCollection coll = db.getCollection(settingstable);
+			DBCollection coll = db.getCollection(SETTINGSTABLE);
 
 			DBCursor cur = coll.find();
 			if (cur != null) {
@@ -140,7 +140,7 @@ public class GlobalSettings {
 			Database.retain();
 			DB db = Database.get();
 			if (db != null) {
-				DBCollection coll = db.getCollection(settingstable);
+				DBCollection coll = db.getCollection(SETTINGSTABLE);
 				Set<String> keys = values.keySet();
 				Iterator<String> i = keys.iterator();
 				while (i.hasNext()) {
