@@ -22,6 +22,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.autosauler.ballance.client.DatabaseService;
+import net.autosauler.ballance.client.DatabaseServiceAsync;
 import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
 import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
 
@@ -29,6 +31,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -53,6 +56,13 @@ public class CurrencyTopPanel extends Composite implements
 
 	/** The reload button icon. */
 	private final Image reload;
+
+	private final DatabaseServiceAsync service = GWT
+			.create(DatabaseService.class);
+
+	private static String showcurrency = "EUR,USD";
+
+	private static final String settingname = "currency.toppanel.list";
 
 	/**
 	 * Instantiates a new currency top panel.
@@ -174,10 +184,33 @@ public class CurrencyTopPanel extends Composite implements
 
 		CurrencyValuesStorage.clean();
 
+		String[] values = showcurrency.split(",");
+
 		Set<String> set = new HashSet<String>();
-		// TODO: configurable
-		set.add("EUR");
-		set.add("USD");
+
+		if (values.length > 0) {
+			for (int i = 0; i < values.length; i++) {
+				set.add(values[i]);
+			}
+		} else {
+			set.add("EUR");
+			set.add("USD");
+		}
 		CurrencyValuesStorage.get(this, set);
+		service.getSettings(new AsyncCallback<HashMap<String, String>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// ignore communication error
+
+			}
+
+			@Override
+			public void onSuccess(HashMap<String, String> result) {
+				if (result.containsKey(settingname)) {
+					showcurrency = result.get(settingname);
+				}
+			}
+		});
 	}
 }

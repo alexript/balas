@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.server;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.DatabaseService;
@@ -49,6 +51,34 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements
 		}
 
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.DatabaseService#getSettings()
+	 */
+	@Override
+	public HashMap<String, String> getSettings() {
+		return Database.getAllSettings();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.DatabaseService#setSettings(java.util.
+	 * HashMap)
+	 */
+	@Override
+	public void setSettings(HashMap<String, String> newvalues) {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+
+		if (role.isAdmin()) {
+			Database.setSettings(newvalues);
+		}
+
 	}
 
 }

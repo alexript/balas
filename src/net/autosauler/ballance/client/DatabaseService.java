@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -31,4 +33,19 @@ public interface DatabaseService extends RemoteService {
 	 * @return true, if successful
 	 */
 	public boolean dropDatabase();
+
+	/**
+	 * Gets the settings.
+	 * 
+	 * @return the settings
+	 */
+	public HashMap<String, String> getSettings();
+
+	/**
+	 * Sets the settings.
+	 * 
+	 * @param newvalues
+	 *            the newvalues
+	 */
+	public void setSettings(HashMap<String, String> newvalues);
 }

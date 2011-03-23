@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client;
 
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -30,5 +32,25 @@ public interface DatabaseServiceAsync {
 	 *            the callback
 	 */
 	void dropDatabase(AsyncCallback<Boolean> callback);
+
+	/**
+	 * Gets the settings.
+	 * 
+	 * @param callback
+	 *            the callback
+	 * @return the settings
+	 */
+	void getSettings(AsyncCallback<HashMap<String, String>> callback);
+
+	/**
+	 * Sets the settings.
+	 * 
+	 * @param newvalues
+	 *            the newvalues
+	 * @param callback
+	 *            the callback
+	 */
+	void setSettings(HashMap<String, String> newvalues,
+			AsyncCallback<Void> callback);
 
 }
