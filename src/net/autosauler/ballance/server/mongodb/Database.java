@@ -16,9 +16,11 @@
 package net.autosauler.ballance.server.mongodb;
 
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.List;
 
 import net.autosauler.ballance.server.model.Currency;
+import net.autosauler.ballance.server.model.GlobalSettings;
 import net.autosauler.ballance.server.model.UserList;
 import net.autosauler.ballance.server.util.Mutex;
 
@@ -32,7 +34,7 @@ import com.mongodb.MongoException;
  */
 public class Database {
 
-	// TODO: all values must be configurable
+	// TODO: all connect values must be configurable
 
 	/** The Constant host. */
 	private static final String host = "127.0.0.1";
@@ -72,6 +74,8 @@ public class Database {
 	/** The retaintimeoutmin. */
 	private static int retaintimeoutmin = 5;
 
+	private static GlobalSettings settings = null;
+
 	/**
 	 * Close connection.
 	 */
@@ -92,6 +96,9 @@ public class Database {
 			releaser = null;
 		}
 		lockcounter = 0;
+		if (settings != null) {
+			settings.save();
+		}
 		lock.release();
 	}
 
@@ -120,6 +127,15 @@ public class Database {
 		}
 
 		return mongodatabase;
+	}
+
+	/**
+	 * Gets the all settings.
+	 * 
+	 * @return the all settings
+	 */
+	public static HashMap<String, String> getAllSettings() {
+		return settings.getAll();
 	}
 
 	/**
@@ -158,6 +174,8 @@ public class Database {
 			if (auth) {
 				mongodatabase = db;
 				retain();
+				// check settings and create new collection if not exists
+				GlobalSettings.createDefaultRecords(db);
 				// check users and if none - create admin
 				UserList.createDefaultRecords(db);
 				// check currency values. If none - load today values from cbr
@@ -173,6 +191,11 @@ public class Database {
 			close();
 		}
 		lock.release();
+		if (mongodatabase != null) {
+			settings = new GlobalSettings();
+			retaintimeoutmin = settings.get("database.autoclose.timeout.min",
+					retaintimeoutmin);
+		}
 	}
 
 	/**
@@ -226,6 +249,16 @@ public class Database {
 
 		lockcounter++;
 		startReleaser();
+	}
+
+	/**
+	 * Sets the settings.
+	 * 
+	 * @param newvalues
+	 *            the newvalues
+	 */
+	public static void setSettings(HashMap<String, String> newvalues) {
+		settings.set(newvalues);
 	}
 
 	/**
