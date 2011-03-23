@@ -55,6 +55,17 @@ public class Currency {
 	/** The cbr date formatter. */
 	private static SimpleDateFormat formatter = null;
 
+	/** The defaultcurrency. */
+	private static String defaultcurrency = "RUR";
+
+	static {
+		GlobalSettings settings = Database.getSettings();
+		if (settings != null) {
+			defaultcurrency = settings.get("currency.default", defaultcurrency);
+			settings.save();
+		}
+	}
+
 	/**
 	 * Creates the default records.
 	 * 
@@ -183,8 +194,8 @@ public class Currency {
 		String day = formatter.format(date);
 
 		Double val = new Double(1.0);
-		if (mnemo.equals("RUR")) {
-			// TODO: configurable base currency
+
+		if (mnemo.equals(defaultcurrency)) {
 			return val;
 		}
 
@@ -233,6 +244,8 @@ public class Currency {
 	 * 
 	 * @param day
 	 *            the day
+	 * @param database
+	 *            the database
 	 */
 	private static void receiveCBR(String day, DB database) {
 

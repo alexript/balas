@@ -74,6 +74,7 @@ public class Database {
 	/** The retaintimeoutmin. */
 	private static int retaintimeoutmin = 5;
 
+	/** The settings. */
 	private static GlobalSettings settings = null;
 
 	/**
@@ -132,6 +133,15 @@ public class Database {
 	 */
 	public static HashMap<String, String> getAllSettings() {
 		return settings.getAll();
+	}
+
+	/**
+	 * Gets the settings.
+	 * 
+	 * @return the settings
+	 */
+	public static GlobalSettings getSettings() {
+		return settings;
 	}
 
 	/**
