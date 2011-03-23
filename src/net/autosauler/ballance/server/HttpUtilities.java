@@ -32,6 +32,11 @@ public class HttpUtilities {
 	 * @return the user role
 	 */
 	public static UserRole getUserRole(HttpSession session) {
+		if (session == null) {
+			UserRole role = new UserRole();
+			role.setGuest();
+			return role;
+		}
 		Integer roleint = (Integer) session.getAttribute("userrole");
 		UserRole role = new UserRole();
 		if (roleint != null) {

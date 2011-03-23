@@ -27,6 +27,7 @@ import net.autosauler.ballance.client.DatabaseServiceAsync;
 import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
 import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -197,18 +198,39 @@ public class CurrencyTopPanel extends Composite implements
 			set.add("USD");
 		}
 		CurrencyValuesStorage.get(this, set);
+		MainPanel.setCommInfo(true);
 		service.getSettings(new AsyncCallback<HashMap<String, String>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// ignore communication error
-
+				MainPanel.setCommInfo(false);
+				Log.trace(caught.getMessage());
 			}
 
 			@Override
 			public void onSuccess(HashMap<String, String> result) {
+
 				if (result.containsKey(settingname)) {
+					MainPanel.setCommInfo(false);
 					showcurrency = result.get(settingname);
+				} else {
+					HashMap<String, String> additionalvalues = new HashMap<String, String>();
+					additionalvalues.put(settingname, showcurrency);
+					service.setSettings(additionalvalues,
+							new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									MainPanel.setCommInfo(false);
+									Log.error(caught.getMessage());
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									MainPanel.setCommInfo(false);
+
+								}
+							});
 				}
 			}
 		});

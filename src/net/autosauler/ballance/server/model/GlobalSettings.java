@@ -73,22 +73,20 @@ public class GlobalSettings {
 	 */
 	public GlobalSettings() {
 		values = new HashMap<String, String>();
-		changed = false;
-		Database.retain();
-		DB db = Database.get();
-		if (db != null) {
-			DBCollection coll = db.getCollection(SETTINGSTABLE);
+		loadFromDatabase();
+	}
 
-			DBCursor cur = coll.find();
-			if (cur != null) {
-				while (cur.hasNext()) {
-					DBObject myDoc = cur.next();
-					values.put((String) myDoc.get("name"),
-							(String) myDoc.get("val"));
-				}
-			}
+	/**
+	 * Instantiates a new global settings.
+	 * 
+	 * @param isloadfromdatabase
+	 *            the isloadfromdatabase
+	 */
+	public GlobalSettings(boolean isloadfromdatabase) {
+		values = new HashMap<String, String>();
+		if (isloadfromdatabase) {
+			loadFromDatabase();
 		}
-		Database.release();
 	}
 
 	/**
@@ -129,6 +127,28 @@ public class GlobalSettings {
 	 */
 	public HashMap<String, String> getAll() {
 		return values;
+	}
+
+	/**
+	 * Load from database.
+	 */
+	private void loadFromDatabase() {
+		Database.retain();
+		DB db = Database.get();
+		if (db != null) {
+			DBCollection coll = db.getCollection(SETTINGSTABLE);
+
+			DBCursor cur = coll.find();
+			if (cur != null) {
+				while (cur.hasNext()) {
+					DBObject myDoc = cur.next();
+					values.put((String) myDoc.get("name"),
+							(String) myDoc.get("val"));
+				}
+			}
+		}
+		Database.release();
+		changed = false;
 	}
 
 	/**

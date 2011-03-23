@@ -132,6 +132,9 @@ public class Database {
 	 * @return the all settings
 	 */
 	public static HashMap<String, String> getAllSettings() {
+		if (settings == null) {
+			loadSettings();
+		}
 		return settings.getAll();
 	}
 
@@ -197,10 +200,19 @@ public class Database {
 			close();
 		}
 		lock.release();
+
+		loadSettings();
+
+	}
+
+	private static void loadSettings() {
 		if (mongodatabase != null) {
 			settings = new GlobalSettings();
 			retaintimeoutmin = settings.get("database.autoclose.timeout.min",
 					retaintimeoutmin);
+			settings.save();
+		} else {
+			settings = new GlobalSettings(false);
 		}
 	}
 
