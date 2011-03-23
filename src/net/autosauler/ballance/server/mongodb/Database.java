@@ -90,7 +90,6 @@ public class Database {
 
 		} catch (InterruptedException e) {
 			Log.error(e.getMessage());
-			// e.printStackTrace();
 		}
 		if (releaser != null) {
 			releaser = null;
@@ -114,15 +113,12 @@ public class Database {
 			} catch (UnknownHostException e) {
 				close();
 				Log.error(e.getMessage());
-				// e.printStackTrace();
 			} catch (MongoException e) {
 				close();
 				Log.error(e.getMessage());
-				// e.printStackTrace();
 			} catch (InterruptedException e) {
 				close();
 				Log.error(e.getMessage());
-				// e.printStackTrace();
 			}
 		}
 
@@ -213,7 +209,6 @@ public class Database {
 			lock.acquire();
 		} catch (InterruptedException e) {
 			Log.error(e.getMessage());
-			// e.printStackTrace();
 			return false;
 		}
 
@@ -224,7 +219,6 @@ public class Database {
 		} catch (MongoException e) {
 			lock.release();
 			Log.error(e.getMessage());
-			// e.printStackTrace();
 			return false;
 		}
 
