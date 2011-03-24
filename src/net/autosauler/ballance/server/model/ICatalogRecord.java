@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.mongodb.DBObject;
@@ -27,6 +28,23 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public interface ICatalogRecord {
+
+	/**
+	 * Adds the fields to map.
+	 * 
+	 * @param map
+	 *            the map
+	 * @return the hash map
+	 */
+	abstract HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map);
+
+	/**
+	 * Fill fields from map.
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	abstract void fillFieldsFromMap(HashMap<String, Object> map);
 
 	/**
 	 * Find all records numbers.
@@ -49,6 +67,11 @@ public interface ICatalogRecord {
 	 */
 	public Date getCreateDate();
 
+	/**
+	 * Gets the domain.
+	 * 
+	 * @return the domain
+	 */
 	public String getDomain();
 
 	/**
@@ -110,6 +133,12 @@ public interface ICatalogRecord {
 	 */
 	public void setCreateDate(Date createdate);
 
+	/**
+	 * Sets the domain.
+	 * 
+	 * @param domain
+	 *            the new domain
+	 */
 	public void setDomain(String domain);
 
 	/**
@@ -136,6 +165,13 @@ public interface ICatalogRecord {
 	 * @return the dB object
 	 */
 	public DBObject store(DBObject doc);
+
+	/**
+	 * To map.
+	 * 
+	 * @return the hash map
+	 */
+	public HashMap<String, Object> toMap();
 
 	/**
 	 * Trash record.

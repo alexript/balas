@@ -17,30 +17,62 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 /**
- * @author alexript
+ * The Class CatalogRecord.
  * 
+ * @author alexript
  */
 public abstract class CatalogRecord implements ICatalogRecord {
 
+	/** The catalog. */
 	private Catalog catalog = null;
 
+	/** The number. */
 	private Long number;
+
+	/** The authorname. */
 	private String authorname;
+
+	/** The createdate. */
 	private Date createdate;
+
+	/** The trash. */
 	private boolean trash;
+
+	/** The domain. */
 	private String domain;
 
+	/**
+	 * Instantiates a new catalog record.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param domain
+	 *            the domain
+	 * @param number
+	 *            the number
+	 */
 	public CatalogRecord(String name, String domain, Long number) {
 		catalog = new Catalog(name, domain, null);
 		get(number);
 	}
 
+	/**
+	 * Instantiates a new catalog record.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param domain
+	 *            the domain
+	 * @param username
+	 *            the username
+	 */
 	public CatalogRecord(String name, String domain, String username) {
 		catalog = new Catalog(name, domain, username);
 		setDefaultValues();
@@ -93,6 +125,11 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		return createdate;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.ICatalogRecord#getDomain()
+	 */
 	@Override
 	public String getDomain() {
 		return domain;
@@ -186,6 +223,9 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		this.createdate = createdate;
 	}
 
+	/**
+	 * Sets the default values.
+	 */
 	private void setDefaultValues() {
 		setNumber(0L);
 		setAuthor("none");
@@ -193,6 +233,13 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		restore();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.ICatalogRecord#setDomain(java.lang
+	 * .String)
+	 */
 	@Override
 	public void setDomain(String domain) {
 		this.domain = domain;
@@ -230,6 +277,23 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		doc.put("domain", getDomain());
 		doc = getFields(doc);
 		return doc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.ICatalogRecord#toMap()
+	 */
+	@Override
+	public HashMap<String, Object> toMap() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("number", getNumber());
+		map.put("author", getAuthor());
+		map.put("createdate", getCreateDate());
+
+		map = addFieldsToMap(map);
+
+		return map;
 	}
 
 	/*

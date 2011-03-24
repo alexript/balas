@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.server.model;
 
+import java.util.HashMap;
+
 import com.mongodb.DBObject;
 
 /**
@@ -51,6 +53,31 @@ public class Partner extends CatalogRecord {
 	public Partner(String domain, String username) {
 		super("partners", domain, username);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.ICatalogRecord#addFieldsToMap(java
+	 * .util.HashMap)
+	 */
+	@Override
+	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
+		map.put("name", getName());
+		return map;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.ICatalogRecord#fillFieldsFromMap
+	 * (java.util.HashMap)
+	 */
+	@Override
+	public void fillFieldsFromMap(HashMap<String, Object> map) {
+		setName((String) map.get("name"));
 	}
 
 	/*
