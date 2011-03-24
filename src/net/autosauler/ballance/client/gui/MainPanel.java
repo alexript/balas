@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -161,6 +162,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		mainpane.setWidth("100%");
 		mainpane.setHeight("100%");
 		panel.add(mainpane);
+		panel.setHeight("100%");
 		initWidget(panel);
 		this.setStyleName("mainPanel");
 
@@ -197,6 +199,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		} else if (name.equals("license")) {
 			w = constructTabPaneContent(LicensePanel.get(), l.itemLicense(),
 					images.icoCopyright(), name);
+		} else if (name.equals("partners")) {
+			w = constructTabPaneContent(PartnersPanel.get(), l.itemPartners(),
+					images.icoPartners(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}
@@ -250,7 +255,10 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setCellWidth(closeImage, "20px");
 
 		panel.add(panemenu);
-		panel.add((Widget) realpane);
+		ScrollPanel scroll = new ScrollPanel((Widget) realpane);
+		scroll.setSize("100%", "500px");
+		panel.add(scroll);
+		panel.setHeight("100%");
 		mainpane.add(panel, getTabHeaderString(title, ico), true);
 		return panel;
 	}

@@ -87,6 +87,13 @@ public interface MenuMessages extends Messages {
 	String itemLicense();
 
 	/**
+	 * Item partners.
+	 * 
+	 * @return the string
+	 */
+	String itemPartners();
+
+	/**
 	 * Item users.
 	 * 
 	 * @return the string

@@ -17,6 +17,7 @@
 package net.autosauler.ballance.client.gui;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,26 +28,29 @@ public class LicensePanel extends Composite implements IPaneWithMenu {
 
 	/** The impl. */
 	private static LicensePanel impl = null;
-	
+
 	/**
 	 * Gets the.
 	 * 
 	 * @return the license panel
 	 */
 	public static LicensePanel get() {
-		if(impl==null) {
+		if (impl == null) {
 			impl = new LicensePanel();
 		}
 		return impl;
 	}
-	
+
 	/**
 	 * Instantiates a new license panel.
 	 */
 	private LicensePanel() {
+		DecoratorPanel d = new DecoratorPanel();
+		d.setWidth("100%");
 
 		HTML w = new HTML(BalasResources.INSTANCE.licensePane().getText());
-		initWidget(w);
+		d.setWidget(w);
+		initWidget(d);
 	}
 
 	/*
