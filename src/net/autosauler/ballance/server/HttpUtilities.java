@@ -25,6 +25,47 @@ import net.autosauler.ballance.shared.UserRole;
 public class HttpUtilities {
 
 	/**
+	 * Gets the user domain.
+	 * 
+	 * @param session
+	 *            the session
+	 * @return the user domain
+	 */
+	public static String getUserDomain(HttpSession session) {
+		String login = getUserLogin(session);
+		String[] parts = login.split("@", 2);
+		return parts[1];
+	}
+
+	/**
+	 * Gets the user login.
+	 * 
+	 * @param session
+	 *            the session
+	 * @return the user login
+	 */
+	private static String getUserLogin(HttpSession session) {
+		if (session == null) {
+			return "uncknown@127.0.0.1";
+		}
+
+		return (String) session.getAttribute("login");
+	}
+
+	/**
+	 * Gets the user logo.
+	 * 
+	 * @param session
+	 *            the session
+	 * @return the user logo
+	 */
+	public static String getUserLogo(HttpSession session) {
+		String login = getUserLogin(session);
+		String[] parts = login.split("@", 2);
+		return parts[0];
+	}
+
+	/**
 	 * Gets the user role from session.
 	 * 
 	 * @param session

@@ -45,6 +45,16 @@
     <servlet-name>currencyServlet</servlet-name>
     <url-pattern>/ballance_autosauler_net/currency</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>catalogServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.CatalogServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>catalogServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/catalog</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
