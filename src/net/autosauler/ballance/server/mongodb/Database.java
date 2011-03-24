@@ -188,6 +188,7 @@ public class Database {
 				UserList.createDefaultRecords(db);
 				// check currency values. If none - load today values from cbr
 				Currency.createDefaultRecords(db);
+
 				release();
 
 			} else {
@@ -252,7 +253,10 @@ public class Database {
 	 */
 	public static synchronized void release() {
 		lockcounter--;
-		if (lockcounter <= 0) {
+		if ((lockcounter == 0) && (mongodatabase != null)) {
+			mongodatabase.requestDone();
+		}
+		if (lockcounter < 0) {
 			lockcounter = 0;
 		}
 	}
@@ -261,8 +265,10 @@ public class Database {
 	 * Retain database lock counter.
 	 */
 	public static synchronized void retain() {
-
 		lockcounter++;
+		if ((lockcounter == 1) && (mongodatabase != null)) {
+			mongodatabase.requestStart();
+		}
 		startReleaser();
 	}
 
