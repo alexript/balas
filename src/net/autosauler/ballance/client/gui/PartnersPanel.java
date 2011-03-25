@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -78,6 +79,8 @@ public class PartnersPanel extends Composite implements IPaneWithMenu,
 		return impl;
 	}
 
+	private final TextBox partnername;
+
 	/** The root. */
 	private final AbsolutePanel root;
 
@@ -102,10 +105,51 @@ public class PartnersPanel extends Composite implements IPaneWithMenu,
 		editor.add(new Label("Editor"));
 		HorizontalPanel p = new HorizontalPanel();
 		p.add(new Label("Name"));
-		p.add(new TextBox());
+		partnername = new TextBox();
+		p.add(partnername);
 		editor.add(p);
+
+		HorizontalPanel buttons = new HorizontalPanel();
 		Button b = new Button("Save");
 		b.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				String name = partnername.getText().trim();
+				if (!name.isEmpty()) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("name", name);
+					MainPanel.setCommInfo(true);
+					service.addPartner(map, new AsyncCallback<Boolean>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							MainPanel.setCommInfo(false);
+							new AlertDialog(caught.getMessage()).show();
+
+						}
+
+						@Override
+						public void onSuccess(Boolean result) {
+							MainPanel.setCommInfo(false);
+							if (result) {
+								reloadList();
+							} else {
+								new AlertDialog("Create error").show();
+							}
+
+						}
+					});
+					reloadList();
+				}
+
+			}
+		});
+
+		buttons.add(b);
+
+		Button btnCancel = new Button("Cancel");
+		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -113,7 +157,9 @@ public class PartnersPanel extends Composite implements IPaneWithMenu,
 
 			}
 		});
-		editor.add(b);
+
+		buttons.add(btnCancel);
+		editor.add(buttons);
 
 		root.add(list, 0, 0);
 		root.add(editor, 0, 0);
@@ -127,6 +173,7 @@ public class PartnersPanel extends Composite implements IPaneWithMenu,
 	 * Creates the new partner.
 	 */
 	private void createNewPartner() {
+		partnername.setText("");
 		effectHide(list.getElement());
 		effectShow(editor.getElement());
 	}

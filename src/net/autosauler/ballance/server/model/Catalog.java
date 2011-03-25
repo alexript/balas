@@ -69,8 +69,10 @@ public class Catalog {
 			List<DBObject> indexes = coll.getIndexInfo();
 			if (indexes.size() < 1) {
 				BasicDBObject i = new BasicDBObject();
-				i.put("domain", 1);
 				i.put("number", 1);
+				coll.createIndex(i);
+
+				i.put("domain", 1);
 				coll.createIndex(i);
 
 				i.put("trash", 1);
@@ -154,14 +156,23 @@ public class Catalog {
 			Database.retain();
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject query = new BasicDBObject();
-			query.put("domain", domain);
+			query.put("$query", new BasicDBObject("domain", domain));
+			query.put("$orderby", new BasicDBObject("number", -1));
 
-			DBObject doc = coll.findOne(query, new BasicDBObject("$orderby",
-					new BasicDBObject("number", -1)));
+			DBObject doc = null;
+			try {
+				doc = coll.findOne(query);
+			} catch (com.mongodb.MongoException e) {
+				last = 1L;
+			}
 			if (doc != null) {
 				last = (Long) doc.get("number") + 1L;
 			}
 			Database.release();
+		}
+
+		if (last.equals(0L)) {
+			last = 1L;
 		}
 
 		return last;
