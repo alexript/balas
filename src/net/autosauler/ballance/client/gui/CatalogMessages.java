@@ -26,6 +26,41 @@ import com.google.gwt.i18n.client.Messages;
 public interface CatalogMessages extends Messages {
 
 	/**
+	 * Btn cancel.
+	 * 
+	 * @return the string
+	 */
+	public String btnCancel();
+
+	/**
+	 * Btn delete.
+	 * 
+	 * @return the string
+	 */
+	public String btnDelete();
+
+	/**
+	 * Btn edit.
+	 * 
+	 * @return the string
+	 */
+	public String btnEdit();
+
+	/**
+	 * Btn save.
+	 * 
+	 * @return the string
+	 */
+	public String btnSave();
+
+	/**
+	 * Label author.
+	 * 
+	 * @return the string
+	 */
+	public String labelAuthor();
+
+	/**
 	 * Menu create.
 	 * 
 	 * @return the string
@@ -38,4 +73,46 @@ public interface CatalogMessages extends Messages {
 	 * @return the string
 	 */
 	public String menuReload();
+
+	/**
+	 * Msg create error.
+	 * 
+	 * @return the string
+	 */
+	public String msgCreateError();
+
+	/**
+	 * Msg trash error.
+	 * 
+	 * @return the string
+	 */
+	public String msgTrashError();
+
+	/**
+	 * Msg update error.
+	 * 
+	 * @return the string
+	 */
+	public String msgUpdateError();
+
+	/**
+	 * Qst delete record.
+	 * 
+	 * @return the string
+	 */
+	public String qstDeleteRecord();
+
+	/**
+	 * Title editor.
+	 * 
+	 * @return the string
+	 */
+	public String titleEditor();
+
+	/**
+	 * Title list.
+	 * 
+	 * @return the string
+	 */
+	public String titleList();
 }

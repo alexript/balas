@@ -43,6 +43,9 @@ public class QuestionDialog extends DialogBox {
 	/** The mytag. */
 	private final String mytag;
 
+	/** The mytag2. */
+	private final Object mytag2;
+
 	/** The images. */
 	private final MenuImages images;
 
@@ -58,8 +61,26 @@ public class QuestionDialog extends DialogBox {
 	 */
 	public QuestionDialog(String question, IDialogYesReceiver receiver,
 			String tag) {
+		this(question, receiver, tag, null);
+	}
+
+	/**
+	 * Instantiates a new question dialog.
+	 * 
+	 * @param question
+	 *            the question
+	 * @param receiver
+	 *            the receiver
+	 * @param tag
+	 *            the tag
+	 * @param tag2
+	 *            the tag2
+	 */
+	public QuestionDialog(String question, IDialogYesReceiver receiver,
+			String tag, Object tag2) {
 		yesreceiver = receiver;
 		mytag = tag;
+		mytag2 = tag2;
 		l = GWT.create(DialogMessages.class);
 		images = (MenuImages) GWT.create(MenuImages.class);
 
@@ -73,7 +94,7 @@ public class QuestionDialog extends DialogBox {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				yesreceiver.onDialogYesButtonClick(mytag);
+				yesreceiver.onDialogYesButtonClick(mytag, mytag2);
 				QuestionDialog.this.hide();
 			}
 

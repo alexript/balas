@@ -254,7 +254,7 @@ public class EditUserDialog extends DialogBox {
 
 						if (result) {
 							EditUserDialog.this.hide();
-							receiver.onDialogYesButtonClick("reload");
+							receiver.onDialogYesButtonClick("reload", null);
 
 						} else {
 							new AlertDialog(l.logCreateError()).show();
@@ -400,7 +400,7 @@ public class EditUserDialog extends DialogBox {
 
 						if (result) {
 							EditUserDialog.this.hide();
-							receiver.onDialogYesButtonClick("reload");
+							receiver.onDialogYesButtonClick("reload", null);
 
 						} else {
 							new AlertDialog(l.logCreateError()).show();

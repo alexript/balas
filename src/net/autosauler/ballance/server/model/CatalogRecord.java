@@ -289,7 +289,7 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("number", getNumber());
 		map.put("author", getAuthor());
-		map.put("createdate", getCreateDate());
+		map.put("createdate", getCreateDate().getTime());
 
 		map = addFieldsToMap(map);
 

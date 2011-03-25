@@ -31,56 +31,69 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface CatalogService extends RemoteService {
 
 	/**
-	 * Adds the partner.
+	 * Adds the record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param map
 	 *            the map
 	 * @return true, if successful
 	 */
-	public boolean addPartner(HashMap<String, Object> map);
+	public boolean addRecord(String catalogname, HashMap<String, Object> map);
 
 	/**
-	 * Gets the all partners.
+	 * Gets the all records.
 	 * 
-	 * @return the all partners
+	 * @param catalogname
+	 *            the catalogname
+	 * @return the all records
 	 */
-	public Set<Long> getAllPartners();
+	public Set<Long> getAllRecords(String catalogname);
 
 	/**
-	 * Gets the partner.
+	 * Gets the record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
-	 * @return the partner
+	 * @return the record
 	 */
-	public HashMap<String, Object> getPartner(Long number);
+	public HashMap<String, Object> getRecord(String catalogname, Long number);
 
 	/**
-	 * Restore partner.
+	 * Restore record.
 	 * 
-	 * @param number
-	 *            the number
-	 * @return true, if successful
-	 */
-	public boolean restorePartner(Long number);
-
-	/**
-	 * Trash partner.
-	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @return true, if successful
 	 */
-	public boolean trashPartner(Long number);
+	public boolean restoreRecord(String catalogname, Long number);
 
 	/**
-	 * Update partner.
+	 * Trash record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
+	 * @param number
+	 *            the number
+	 * @return true, if successful
+	 */
+	public boolean trashRecord(String catalogname, Long number);
+
+	/**
+	 * Update record.
+	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @param map
 	 *            the map
 	 * @return true, if successful
 	 */
-	public boolean updatePartner(Long number, HashMap<String, Object> map);
+	public boolean updateRecord(String catalogname, Long number,
+			HashMap<String, Object> map);
 }

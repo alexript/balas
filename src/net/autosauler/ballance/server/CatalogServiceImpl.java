@@ -46,15 +46,18 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * )
 	 */
 	@Override
-	public boolean addPartner(HashMap<String, Object> map) {
+	public boolean addRecord(String catalogname, HashMap<String, Object> map) {
 		boolean result = false;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		if (role.isAdmin() || role.isManager()) {
-			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-					HttpUtilities.getUserLogo(httpSession));
-			p.fillFieldsFromMap(map);
-			result = p.save();
+		if (catalogname.equals("partners")) {
+			if (role.isAdmin() || role.isManager()) {
+				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession),
+						HttpUtilities.getUserLogo(httpSession));
+				p.fillFieldsFromMap(map);
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -65,11 +68,15 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * @see net.autosauler.ballance.client.CatalogService#getAllPartners()
 	 */
 	@Override
-	public Set<Long> getAllPartners() {
+	public Set<Long> getAllRecords(String catalogname) {
+		Set<Long> set = null;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
-		Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-				HttpUtilities.getUserLogo(httpSession));
-		return p.findAll();
+		if (catalogname.equals("partners")) {
+			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.findAll();
+		}
+		return set;
 	}
 
 	/*
@@ -79,12 +86,16 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * net.autosauler.ballance.client.CatalogService#getPartner(java.lang.Long)
 	 */
 	@Override
-	public HashMap<String, Object> getPartner(Long number) {
+	public HashMap<String, Object> getRecord(String catalogname, Long number) {
+		HashMap<String, Object> map = null;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
-		Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-				number);
+		if (catalogname.equals("partners")) {
+			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
+					number);
 
-		return p.toMap();
+			map = p.toMap();
+		}
+		return map;
 	}
 
 	/*
@@ -95,15 +106,17 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * .Long)
 	 */
 	@Override
-	public boolean restorePartner(Long number) {
+	public boolean restoreRecord(String catalogname, Long number) {
 		boolean result = false;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		if (role.isAdmin() || role.isManager()) {
-			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-					number);
-			p.restore();
-			result = p.save();
+		if (catalogname.equals("partners")) {
+			if (role.isAdmin() || role.isManager()) {
+				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.restore();
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -116,15 +129,17 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * Long)
 	 */
 	@Override
-	public boolean trashPartner(Long number) {
+	public boolean trashRecord(String catalogname, Long number) {
 		boolean result = false;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		if (role.isAdmin() || role.isManager()) {
-			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-					number);
-			p.trash();
-			result = p.save();
+		if (catalogname.equals("partners")) {
+			if (role.isAdmin() || role.isManager()) {
+				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.trash();
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -137,15 +152,18 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * .Long, java.util.HashMap)
 	 */
 	@Override
-	public boolean updatePartner(Long number, HashMap<String, Object> map) {
+	public boolean updateRecord(String catalogname, Long number,
+			HashMap<String, Object> map) {
 		boolean result = false;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		if (role.isAdmin() || role.isManager()) {
-			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
-					number);
-			p.fillFieldsFromMap(map);
-			result = p.save();
+		if (catalogname.equals("partners")) {
+			if (role.isAdmin() || role.isManager()) {
+				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.fillFieldsFromMap(map);
+				result = p.save();
+			}
 		}
 		return result;
 	}

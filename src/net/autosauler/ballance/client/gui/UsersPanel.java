@@ -281,7 +281,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 * (java.lang.String)
 	 */
 	@Override
-	public void onDialogYesButtonClick(String tag) {
+	public void onDialogYesButtonClick(String tag, Object tag2) {
 		if (tag.equals("reload")) {
 			reloadList();
 		} else if (tag.equals("trashuser")) {

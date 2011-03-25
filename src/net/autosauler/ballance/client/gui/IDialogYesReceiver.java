@@ -27,5 +27,5 @@ public interface IDialogYesReceiver {
 	 * @param tag
 	 *            the tag
 	 */
-	public void onDialogYesButtonClick(String tag);
+	public void onDialogYesButtonClick(String tag, Object tag2);
 }

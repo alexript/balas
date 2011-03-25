@@ -28,73 +28,89 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface CatalogServiceAsync {
 
 	/**
-	 * Adds the partner.
+	 * Adds the record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param map
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#addPartner(java.util.HashMap)
+	 * @see net.autosauler.ballance.client.CatalogService#addRecord(java.util.HashMap)
 	 */
-	void addPartner(HashMap<String, Object> map, AsyncCallback<Boolean> callback);
+	void addRecord(String catalogname, HashMap<String, Object> map,
+			AsyncCallback<Boolean> callback);
 
 	/**
-	 * Gets the all partners.
+	 * Gets the all records.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param callback
 	 *            the callback
-	 * @return the all partners
-	 * @see net.autosauler.ballance.client.CatalogService#getAllPartners()
+	 * @return the all records
+	 * @see net.autosauler.ballance.client.CatalogService#getAllRecords()
 	 */
-	void getAllPartners(AsyncCallback<Set<Long>> callback);
+	void getAllRecords(String catalogname, AsyncCallback<Set<Long>> callback);
 
 	/**
-	 * Gets the partner.
+	 * Gets the record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @return the partner
-	 * @see net.autosauler.ballance.client.CatalogService#getPartner(java.lang.Long)
+	 * @return the record
+	 * @see net.autosauler.ballance.client.CatalogService#getRecord(java.lang.Long)
 	 */
-	void getPartner(Long number, AsyncCallback<HashMap<String, Object>> callback);
+	void getRecord(String catalogname, Long number,
+			AsyncCallback<HashMap<String, Object>> callback);
 
 	/**
-	 * Restore partner.
+	 * Restore record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#restorePartner(java.lang.Long)
+	 * @see net.autosauler.ballance.client.CatalogService#restoreRecord(java.lang.Long)
 	 */
-	void restorePartner(Long number, AsyncCallback<Boolean> callback);
+	void restoreRecord(String catalogname, Long number,
+			AsyncCallback<Boolean> callback);
 
 	/**
-	 * Trash partner.
+	 * Trash record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#trashPartner(java.lang.Long)
+	 * @see net.autosauler.ballance.client.CatalogService#trashRecord(java.lang.Long)
 	 */
-	void trashPartner(Long number, AsyncCallback<Boolean> callback);
+	void trashRecord(String catalogname, Long number,
+			AsyncCallback<Boolean> callback);
 
 	/**
-	 * Update partner.
+	 * Update record.
 	 * 
+	 * @param catalogname
+	 *            the catalogname
 	 * @param number
 	 *            the number
 	 * @param map
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#updatePartner(java.lang.Long,
+	 * @see net.autosauler.ballance.client.CatalogService#updateRecord(java.lang.Long,
 	 *      java.util.HashMap)
 	 */
-	void updatePartner(Long number, HashMap<String, Object> map,
-			AsyncCallback<Boolean> callback);
+	void updateRecord(String catalogname, Long number,
+			HashMap<String, Object> map, AsyncCallback<Boolean> callback);
 
 }

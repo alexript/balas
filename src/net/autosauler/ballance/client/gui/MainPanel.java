@@ -200,8 +200,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			w = constructTabPaneContent(LicensePanel.get(), l.itemLicense(),
 					images.icoCopyright(), name);
 		} else if (name.equals("partners")) {
-			w = constructTabPaneContent(PartnersPanel.get(), l.itemPartners(),
-					images.icoPartners(), name);
+			w = constructTabPaneContent(new PartnersPanel().getListForm(),
+					l.itemPartners(), images.icoPartners(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}

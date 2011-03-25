@@ -302,7 +302,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * (java.lang.String)
 	 */
 	@Override
-	public void onDialogYesButtonClick(String tag) {
+	public void onDialogYesButtonClick(String tag, Object tag2) {
 		if (tag.equals("dropdb")) {
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if (role.isAdmin()) {

@@ -305,7 +305,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 * (java.lang.String)
 	 */
 	@Override
-	public void onDialogYesButtonClick(String tag) {
+	public void onDialogYesButtonClick(String tag, Object tag2) {
 		if (tag.equals("logout")) {
 			MainPanel.setCommInfo(true);
 			Ballance_autosauler_net.authService
