@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.shared.UserRole;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -36,6 +37,9 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
 	private TextBox email;
+	private CatalogSelector paymethod;
+	private static PartnersMessages l = GWT.create(PartnersMessages.class);
+	private static PayMethodPanel methods = new PayMethodPanel();
 
 	public PartnersPanel() {
 		super("partners", new Image(images.icoPartners()));
@@ -51,9 +55,15 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	void buildEditor(VerticalPanel panel) {
 		HorizontalPanel p = new HorizontalPanel();
-		p.add(new Label("email"));
+
+		p.add(new Label(l.lblEmail()));
 		email = new TextBox();
 		p.add(email);
+
+		p = new HorizontalPanel();
+		p.add(new Label(l.lblPaymethod()));
+		paymethod = methods.getSelectBox(null);
+		p.add(paymethod);
 		panel.add(p);
 
 	}
@@ -114,7 +124,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	void cleanEditForm() {
 		email.setText("");
-
+		paymethod.reset();
 	}
 
 	/*
@@ -127,7 +137,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
 		email.setText((String) map.get("email"));
-
+		paymethod.select((Long) map.get("paymethod"));
 	}
 
 	/*
@@ -139,6 +149,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	HashMap<String, Object> getEditorValues() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email.getText().trim());
+		map.put("paymethod", paymethod.getValue());
 		return map;
 	}
 

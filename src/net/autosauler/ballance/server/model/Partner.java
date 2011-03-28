@@ -30,6 +30,9 @@ public class Partner extends CatalogRecord {
 	/** The partner name. */
 	private String email;
 
+	/** The paymethod. */
+	private Long paymethod;
+
 	/**
 	 * Instantiates a new partner.
 	 * 
@@ -65,6 +68,7 @@ public class Partner extends CatalogRecord {
 	@Override
 	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
 		map.put("email", getEmail());
+		map.put("paymethod", getPaymethod());
 		return map;
 	}
 
@@ -78,6 +82,7 @@ public class Partner extends CatalogRecord {
 	@Override
 	public void fillFieldsFromMap(HashMap<String, Object> map) {
 		setEmail((String) map.get("email"));
+		setPaymethod((Long) map.get("paymethod"));
 	}
 
 	/**
@@ -99,7 +104,15 @@ public class Partner extends CatalogRecord {
 	@Override
 	public DBObject getFields(DBObject doc) {
 		doc.put("email", getEmail());
+		doc.put("paymethod", getPaymethod());
 		return doc;
+	}
+
+	/**
+	 * @return the paymethod
+	 */
+	public Long getPaymethod() {
+		return paymethod;
 	}
 
 	/**
@@ -122,7 +135,15 @@ public class Partner extends CatalogRecord {
 	@Override
 	public void setFields(DBObject doc) {
 		setEmail((String) doc.get("email"));
+		setPaymethod((Long) doc.get("paymethod"));
+	}
 
+	/**
+	 * @param paymethod
+	 *            the paymethod to set
+	 */
+	public void setPaymethod(Long paymethod) {
+		this.paymethod = paymethod;
 	}
 
 }

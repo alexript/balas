@@ -69,6 +69,18 @@ public interface CatalogServiceAsync {
 			AsyncCallback<HashMap<String, Object>> callback);
 
 	/**
+	 * Gets the records for selection.
+	 * 
+	 * @param catalogname
+	 *            the catalogname
+	 * @param callback
+	 *            the callback
+	 * @return the records for selection
+	 */
+	void getRecordsForSelection(String catalogname,
+			AsyncCallback<HashMap<String, Long>> callback);
+
+	/**
 	 * Restore record.
 	 * 
 	 * @param catalogname

@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -208,6 +209,38 @@ public class Catalog {
 		}
 
 		return doc;
+	}
+
+	/**
+	 * Gets the select data.
+	 * 
+	 * @return the select data
+	 */
+	public HashMap<String, Long> getSelectData() {
+		HashMap<String, Long> map = new HashMap<String, Long>();
+		DB db = Database.get();
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(catalogname);
+			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
+			q.put("domain", domain);
+			q.put("trash", false);
+			w.put("$query", q);
+
+			BasicDBObject o = new BasicDBObject();
+			o.put("fullname", 1);
+			w.put("$orderby", o);
+
+			DBCursor cur = coll.find(w);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				map.put((String) myDoc.get("fullname"),
+						(Long) myDoc.get("number"));
+			}
+			Database.release();
+		}
+		return map;
 	}
 
 	/**

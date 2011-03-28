@@ -167,6 +167,15 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		return number;
 	}
 
+	/**
+	 * Gets the select data (pairs name-number).
+	 * 
+	 * @return the select data
+	 */
+	public HashMap<String, Long> getSelectData() {
+		return catalog.getSelectData();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

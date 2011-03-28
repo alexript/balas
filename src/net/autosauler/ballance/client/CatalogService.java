@@ -62,6 +62,15 @@ public interface CatalogService extends RemoteService {
 	public HashMap<String, Object> getRecord(String catalogname, Long number);
 
 	/**
+	 * Gets the records for selection.
+	 * 
+	 * @param catalogname
+	 *            the catalogname
+	 * @return the records for selection
+	 */
+	public HashMap<String, Long> getRecordsForSelection(String catalogname);
+
+	/**
 	 * Restore record.
 	 * 
 	 * @param catalogname

@@ -91,6 +91,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The linecounter. */
 	private Long linecounter = 0L;
 
+	/** The images. */
 	protected static MenuImages images = GWT.create(MenuImages.class);
 
 	/**
@@ -455,6 +456,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		return this;
 	}
 
+	public String getName(Long number) {
+		// TODO: return name for record (view value)
+		return "NOT IMPLEMENTED YET";
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -485,6 +491,17 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		}
 		return menu;
 
+	}
+
+	/**
+	 * Gets the select box.
+	 * 
+	 * @param selectednumber
+	 *            the selectednumber
+	 * @return the select box
+	 */
+	public CatalogSelector getSelectBox(Long selectednumber) {
+		return new CatalogSelector(catalogname, selectednumber);
 	}
 
 	/*
@@ -576,5 +593,4 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 			}
 		});
 	}
-
 }

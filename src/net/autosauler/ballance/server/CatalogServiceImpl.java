@@ -121,6 +121,30 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * net.autosauler.ballance.client.CatalogService#getRecordsForSelection(
+	 * java.lang.String)
+	 */
+	@Override
+	public HashMap<String, Long> getRecordsForSelection(String catalogname) {
+		HashMap<String, Long> set = null;
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		if (catalogname.equals("partners")) {
+			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.getSelectData();
+		} else if (catalogname.equals("paymethod")) {
+			PayMethod p = new PayMethod(
+					HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.getSelectData();
+		}
+		return set;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * net.autosauler.ballance.client.CatalogService#restorePartner(java.lang
 	 * .Long)
 	 */
