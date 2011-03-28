@@ -58,9 +58,6 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The service. */
 	private static CatalogServiceAsync service = null;
 
-	/** The images. */
-	private static MenuImages images = null;
-
 	/** The tabimage. */
 	private final Image tabimage;
 
@@ -91,6 +88,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The fullname. */
 	private TextBox fullname;
 
+	/** The linecounter. */
+	private Long linecounter = 0L;
+
+	protected static MenuImages images = GWT.create(MenuImages.class);
+
 	/**
 	 * Instantiates a new catalog panel.
 	 * 
@@ -105,11 +107,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		tabimage = image;
 		if (service == null) {
 			service = GWT.create(CatalogService.class);
-			images = GWT.create(MenuImages.class);
 			l = GWT.create(CatalogMessages.class);
 			progress = new Image(images.progress());
 			formatter = new SimpleDateFormat(DATEFORMATTER);
 		}
+		linecounter = 0L;
 
 	}
 
@@ -181,72 +183,73 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		buildEditor(editor);
 
 		HorizontalPanel buttons = new HorizontalPanel();
+		buttons.setSpacing(5);
 		Button b = new Button(l.btnSave());
 		b.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
 				HashMap<String, Object> map = getEditorValues();
+				if (map == null) {
+					map = new HashMap<String, Object>();
+				}
 
-				if (map.size() > 0) {
-					String fname = fullname.getText().trim();
-					if (fname.isEmpty()) {
-						new AlertDialog(l.errEmptyFullname()).show();
+				String fname = fullname.getText().trim();
+				if (fname.isEmpty()) {
+					new AlertDialog(l.errEmptyFullname()).show();
+				} else {
+					map.put("fullname", fname);
+					MainPanel.setCommInfo(true);
+					if (editformnumber.equals(-1L)) {
+						service.addRecord(catalogname, map,
+								new AsyncCallback<Boolean>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										MainPanel.setCommInfo(false);
+										new AlertDialog(caught.getMessage())
+												.show();
+
+									}
+
+									@Override
+									public void onSuccess(Boolean result) {
+										MainPanel.setCommInfo(false);
+										if (result) {
+											reloadList();
+										} else {
+											new AlertDialog(l.msgCreateError())
+													.show();
+										}
+
+									}
+								});
 					} else {
-						map.put("fullname", fname);
-						MainPanel.setCommInfo(true);
-						if (editformnumber.equals(-1L)) {
-							service.addRecord(catalogname, map,
-									new AsyncCallback<Boolean>() {
+						service.updateRecord(catalogname, editformnumber, map,
+								new AsyncCallback<Boolean>() {
 
-										@Override
-										public void onFailure(Throwable caught) {
-											MainPanel.setCommInfo(false);
-											new AlertDialog(caught.getMessage())
-													.show();
+									@Override
+									public void onFailure(Throwable caught) {
+										MainPanel.setCommInfo(false);
+										new AlertDialog(caught.getMessage())
+												.show();
+									}
 
-										}
-
-										@Override
-										public void onSuccess(Boolean result) {
-											MainPanel.setCommInfo(false);
-											if (result) {
-												reloadList();
-											} else {
-												new AlertDialog(l
-														.msgCreateError())
-														.show();
-											}
-
-										}
-									});
-						} else {
-							service.updateRecord(catalogname, editformnumber,
-									map, new AsyncCallback<Boolean>() {
-
-										@Override
-										public void onFailure(Throwable caught) {
-											MainPanel.setCommInfo(false);
-											new AlertDialog(caught.getMessage())
+									@Override
+									public void onSuccess(Boolean result) {
+										MainPanel.setCommInfo(false);
+										if (result) {
+											reloadList();
+										} else {
+											new AlertDialog(l.msgUpdateError())
 													.show();
 										}
 
-										@Override
-										public void onSuccess(Boolean result) {
-											MainPanel.setCommInfo(false);
-											if (result) {
-												reloadList();
-											} else {
-												new AlertDialog(l
-														.msgUpdateError())
-														.show();
-											}
-
-										}
-									});
-						}
+									}
+								});
 					}
-					reloadList();
+
 				}
 
 			}
@@ -287,7 +290,16 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * @return the horizontal panel
 	 */
 	private HorizontalPanel createListRecordRow(final Long number) {
+		linecounter++;
+
 		final HorizontalPanel panel = new HorizontalPanel();
+
+		if (linecounter % 2 == 0) {
+			panel.addStyleName("EvenTableRow");
+		} else {
+			panel.addStyleName("OddTableRow");
+		}
+
 		panel.setSpacing(5);
 		panel.add(progress);
 
@@ -309,12 +321,15 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						panel.clear();
 						panel.add(new Label(number.toString()));
 						vp.add(new Label((String) result.get("fullname")));
-						vp.add(w);
+						if (w != null) {
+							vp.add(w);
+						}
 						Date date = new Date((Long) result.get("createdate"));
 						String day = formatter.format(date);
 						vp.add(new Label(day + " " + l.labelAuthor() + ": "
 								+ (String) result.get("author")));
 						panel.add(vp);
+						panel.setCellWidth(vp, "400px;");
 						if (canEdit(Ballance_autosauler_net.sessionId
 								.getUserrole())) {
 							Button btnEdit = new Button(l.btnEdit());
@@ -520,6 +535,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * Reload list.
 	 */
 	private void reloadList() {
+
 		list.clear();
 		list.add(progress);
 
@@ -542,6 +558,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 			@Override
 			public void onSuccess(Set<Long> result) {
+				linecounter = 0L;
 				list.clear();
 				list.setSpacing(2);
 				list.add(new Label(l.titleList()));

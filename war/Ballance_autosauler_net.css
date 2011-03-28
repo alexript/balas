@@ -126,3 +126,17 @@ h1 {
 	margin-left: 5px;
 	width: 250px;
 }
+
+.EvenTableRow {
+	background-color: #b3b3b3;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #000000;
+}
+
+.OddTableRow {
+    background-color: #FFFFFF;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #000000;
+}

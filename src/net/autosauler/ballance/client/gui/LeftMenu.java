@@ -159,6 +159,9 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isManager()) {
 			VerticalPanel managerpanel = new VerticalPanel();
 
+			managerpanel.add(getMenuItem(l.itemPaymethod(), "paymethod",
+					images.icoPaymethod()));
+
 			managerpanel.add(getMenuItem(l.itemPartners(), "partners",
 					images.icoPartners()));
 

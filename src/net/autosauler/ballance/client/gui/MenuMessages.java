@@ -94,6 +94,13 @@ public interface MenuMessages extends Messages {
 	String itemPartners();
 
 	/**
+	 * Item paymethod.
+	 * 
+	 * @return the string
+	 */
+	String itemPaymethod();
+
+	/**
 	 * Item users.
 	 * 
 	 * @return the string

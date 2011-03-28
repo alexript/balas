@@ -202,6 +202,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		} else if (name.equals("partners")) {
 			w = constructTabPaneContent(new PartnersPanel().getListForm(),
 					l.itemPartners(), images.icoPartners(), name);
+		} else if (name.equals("paymethod")) {
+			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
+					l.itemPaymethod(), images.icoPaymethod(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}

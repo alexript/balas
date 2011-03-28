@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.CatalogService;
 import net.autosauler.ballance.server.model.Partner;
+import net.autosauler.ballance.server.model.PayMethod;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -58,6 +59,14 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				p.fromMap(map);
 				result = p.save();
 			}
+		} else if (catalogname.equals("paymethod")) {
+			if (role.isAdmin() || role.isManager()) {
+				PayMethod p = new PayMethod(
+						HttpUtilities.getUserDomain(httpSession),
+						HttpUtilities.getUserLogo(httpSession));
+				p.fromMap(map);
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -73,6 +82,11 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		if (catalogname.equals("partners")) {
 			Partner p = new Partner(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.findAll();
+		} else if (catalogname.equals("paymethod")) {
+			PayMethod p = new PayMethod(
+					HttpUtilities.getUserDomain(httpSession),
 					HttpUtilities.getUserLogo(httpSession));
 			set = p.findAll();
 		}
@@ -94,6 +108,11 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 					number);
 
 			map = p.toMap();
+		} else if (catalogname.equals("paymethod")) {
+			PayMethod p = new PayMethod(
+					HttpUtilities.getUserDomain(httpSession), number);
+
+			map = p.toMap();
 		}
 		return map;
 	}
@@ -113,6 +132,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
 				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.restore();
+				result = p.save();
+			}
+		} else if (catalogname.equals("paymethod")) {
+			if (role.isAdmin()) {
+				PayMethod p = new PayMethod(
 						HttpUtilities.getUserDomain(httpSession), number);
 				p.restore();
 				result = p.save();
@@ -140,6 +166,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				p.trash();
 				result = p.save();
 			}
+		} else if (catalogname.equals("paymethod")) {
+			if (role.isAdmin()) {
+				PayMethod p = new PayMethod(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.trash();
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -160,6 +193,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
 				Partner p = new Partner(
+						HttpUtilities.getUserDomain(httpSession), number);
+				p.fromMap(map);
+				result = p.save();
+			}
+		} else if (catalogname.equals("paymethod")) {
+			if (role.isAdmin() || role.isManager()) {
+				PayMethod p = new PayMethod(
 						HttpUtilities.getUserDomain(httpSession), number);
 				p.fromMap(map);
 				result = p.save();

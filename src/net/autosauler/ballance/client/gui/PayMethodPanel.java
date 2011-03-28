@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * The Class PartnersPanel.
+ * The Class PayMethodPanel.
  * 
  * @author alexript
  */
-public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
+public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private TextBox email;
-
-	public PartnersPanel() {
-		super("partners", new Image(images.icoPartners()));
+	/**
+	 * Instantiates a new pay method panel.
+	 */
+	public PayMethodPanel() {
+		super("paymethod", new Image(images.icoPaymethod()));
 	}
 
 	/*
@@ -50,11 +47,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void buildEditor(VerticalPanel panel) {
-		HorizontalPanel p = new HorizontalPanel();
-		p.add(new Label("email"));
-		email = new TextBox();
-		p.add(email);
-		panel.add(p);
+		return;
 
 	}
 
@@ -67,7 +60,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	Widget buildListRow(HashMap<String, Object> map) {
-		return new Label((String) map.get("email"));
+
+		return null;
 	}
 
 	/*
@@ -79,7 +73,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canCreate(UserRole role) {
-		return role.isAdmin() || role.isManager();
+
+		return (role.isAdmin() || role.isManager());
 	}
 
 	/*
@@ -91,7 +86,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canEdit(UserRole role) {
-		return role.isAdmin() || role.isManager();
+
+		return (role.isAdmin() || role.isManager());
 	}
 
 	/*
@@ -103,7 +99,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canTrash(UserRole role) {
-		return role.isAdmin() || role.isManager();
+		return role.isAdmin();
 	}
 
 	/*
@@ -113,7 +109,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void cleanEditForm() {
-		email.setText("");
+		return;
 
 	}
 
@@ -126,7 +122,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
-		email.setText((String) map.get("email"));
+		return;
 
 	}
 
@@ -137,9 +133,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	HashMap<String, Object> getEditorValues() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("email", email.getText().trim());
-		return map;
+
+		return null;
 	}
 
 }
