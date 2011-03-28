@@ -294,7 +294,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 		final HorizontalPanel panel = new HorizontalPanel();
 
-		if (linecounter % 2 == 0) {
+		if (linecounter % 2 == 1) {
 			panel.addStyleName("EvenTableRow");
 		} else {
 			panel.addStyleName("OddTableRow");
@@ -560,8 +560,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 			public void onSuccess(Set<Long> result) {
 				linecounter = 0L;
 				list.clear();
-				list.setSpacing(2);
-				list.add(new Label(l.titleList()));
+				Label lab = new Label(l.titleList());
+				list.add(lab);
+				list.setCellHeight(lab, "30px");
 				MainPanel.setCommInfo(false);
 				Iterator<Long> i = result.iterator();
 				while (i.hasNext()) {
