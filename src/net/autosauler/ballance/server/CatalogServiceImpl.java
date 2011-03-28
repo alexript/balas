@@ -55,7 +55,7 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				Partner p = new Partner(
 						HttpUtilities.getUserDomain(httpSession),
 						HttpUtilities.getUserLogo(httpSession));
-				p.fillFieldsFromMap(map);
+				p.fromMap(map);
 				result = p.save();
 			}
 		}
@@ -161,7 +161,7 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin() || role.isManager()) {
 				Partner p = new Partner(
 						HttpUtilities.getUserDomain(httpSession), number);
-				p.fillFieldsFromMap(map);
+				p.fromMap(map);
 				result = p.save();
 			}
 		}

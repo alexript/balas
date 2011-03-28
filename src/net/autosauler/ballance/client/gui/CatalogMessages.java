@@ -54,11 +54,25 @@ public interface CatalogMessages extends Messages {
 	public String btnSave();
 
 	/**
+	 * Err empty fullname.
+	 * 
+	 * @return the string
+	 */
+	public String errEmptyFullname();
+
+	/**
 	 * Label author.
 	 * 
 	 * @return the string
 	 */
 	public String labelAuthor();
+
+	/**
+	 * Label fullname.
+	 * 
+	 * @return the string
+	 */
+	public String labelFullname();
 
 	/**
 	 * Menu create.

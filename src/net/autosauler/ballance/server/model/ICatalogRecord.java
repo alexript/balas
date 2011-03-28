@@ -84,6 +84,13 @@ public interface ICatalogRecord {
 	abstract DBObject getFields(DBObject doc);
 
 	/**
+	 * Gets the fullname.
+	 * 
+	 * @return the fullname
+	 */
+	public String getFullname();
+
+	/**
 	 * Gets the number of record.
 	 * 
 	 * @return the number
@@ -148,6 +155,14 @@ public interface ICatalogRecord {
 	 *            the new fields
 	 */
 	abstract void setFields(DBObject doc);
+
+	/**
+	 * Sets the fullname.
+	 * 
+	 * @param fullname
+	 *            the new fullname
+	 */
+	public void setFullname(String fullname);
 
 	/**
 	 * Sets the record number.

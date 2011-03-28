@@ -28,7 +28,7 @@ import com.mongodb.DBObject;
 public class Partner extends CatalogRecord {
 
 	/** The partner name. */
-	private String name;
+	private String email;
 
 	/**
 	 * Instantiates a new partner.
@@ -64,7 +64,7 @@ public class Partner extends CatalogRecord {
 	 */
 	@Override
 	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
-		map.put("name", getName());
+		map.put("email", getEmail());
 		return map;
 	}
 
@@ -77,7 +77,16 @@ public class Partner extends CatalogRecord {
 	 */
 	@Override
 	public void fillFieldsFromMap(HashMap<String, Object> map) {
-		setName((String) map.get("name"));
+		setEmail((String) map.get("email"));
+	}
+
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	public String getEmail() {
+		return email;
 	}
 
 	/*
@@ -89,17 +98,18 @@ public class Partner extends CatalogRecord {
 	 */
 	@Override
 	public DBObject getFields(DBObject doc) {
-		doc.put("name", getName());
+		doc.put("email", getEmail());
 		return doc;
 	}
 
 	/**
-	 * Gets the name.
+	 * Sets the name.
 	 * 
-	 * @return the name
+	 * @param name
+	 *            the name to set
 	 */
-	public String getName() {
-		return name;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/*
@@ -111,18 +121,8 @@ public class Partner extends CatalogRecord {
 	 */
 	@Override
 	public void setFields(DBObject doc) {
-		setName((String) doc.get("name"));
+		setEmail((String) doc.get("email"));
 
-	}
-
-	/**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }

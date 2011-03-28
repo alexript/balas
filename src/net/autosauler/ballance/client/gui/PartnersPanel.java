@@ -37,7 +37,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
 	private static MenuImages images = GWT.create(MenuImages.class);
-	private TextBox partnername;
+	private TextBox email;
 
 	public PartnersPanel() {
 		super("partners", new Image(images.icoPartners()));
@@ -53,9 +53,9 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	void buildEditor(VerticalPanel panel) {
 		HorizontalPanel p = new HorizontalPanel();
-		p.add(new Label("Name"));
-		partnername = new TextBox();
-		p.add(partnername);
+		p.add(new Label("email"));
+		email = new TextBox();
+		p.add(email);
 		panel.add(p);
 
 	}
@@ -69,7 +69,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	Widget buildListRow(HashMap<String, Object> map) {
-		return new Label((String) map.get("name"));
+		return new Label((String) map.get("email"));
 	}
 
 	/*
@@ -115,7 +115,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void cleanEditForm() {
-		partnername.setText("");
+		email.setText("");
 
 	}
 
@@ -128,7 +128,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
-		partnername.setText((String) map.get("name"));
+		email.setText((String) map.get("email"));
 
 	}
 
@@ -140,7 +140,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	HashMap<String, Object> getEditorValues() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("name", partnername.getText().trim());
+		map.put("email", email.getText().trim());
 		return map;
 	}
 

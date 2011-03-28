@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -86,6 +87,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 	/** The editformnumber. */
 	private Long editformnumber;
+
+	/** The fullname. */
+	private TextBox fullname;
 
 	/**
 	 * Instantiates a new catalog panel.
@@ -166,6 +170,14 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		editor.setVisible(false);
 		editor.setSpacing(5);
 		editor.add(new Label(l.titleEditor()));
+
+		HorizontalPanel namepanel = new HorizontalPanel();
+		namepanel.setSpacing(5);
+		namepanel.add(new Label(l.labelFullname()));
+		fullname = new TextBox();
+		fullname.setWidth("200px");
+		namepanel.add(fullname);
+		editor.add(namepanel);
 		buildEditor(editor);
 
 		HorizontalPanel buttons = new HorizontalPanel();
@@ -177,54 +189,62 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 				HashMap<String, Object> map = getEditorValues();
 
 				if (map.size() > 0) {
-					MainPanel.setCommInfo(true);
-					if (editformnumber.equals(-1L)) {
-						service.addRecord(catalogname, map,
-								new AsyncCallback<Boolean>() {
-
-									@Override
-									public void onFailure(Throwable caught) {
-										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
-
-									}
-
-									@Override
-									public void onSuccess(Boolean result) {
-										MainPanel.setCommInfo(false);
-										if (result) {
-											reloadList();
-										} else {
-											new AlertDialog(l.msgCreateError())
-													.show();
-										}
-
-									}
-								});
+					String fname = fullname.getText().trim();
+					if (fname.isEmpty()) {
+						new AlertDialog(l.errEmptyFullname()).show();
 					} else {
-						service.updateRecord(catalogname, editformnumber, map,
-								new AsyncCallback<Boolean>() {
+						map.put("fullname", fname);
+						MainPanel.setCommInfo(true);
+						if (editformnumber.equals(-1L)) {
+							service.addRecord(catalogname, map,
+									new AsyncCallback<Boolean>() {
 
-									@Override
-									public void onFailure(Throwable caught) {
-										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
-									}
+										@Override
+										public void onFailure(Throwable caught) {
+											MainPanel.setCommInfo(false);
+											new AlertDialog(caught.getMessage())
+													.show();
 
-									@Override
-									public void onSuccess(Boolean result) {
-										MainPanel.setCommInfo(false);
-										if (result) {
-											reloadList();
-										} else {
-											new AlertDialog(l.msgUpdateError())
+										}
+
+										@Override
+										public void onSuccess(Boolean result) {
+											MainPanel.setCommInfo(false);
+											if (result) {
+												reloadList();
+											} else {
+												new AlertDialog(l
+														.msgCreateError())
+														.show();
+											}
+
+										}
+									});
+						} else {
+							service.updateRecord(catalogname, editformnumber,
+									map, new AsyncCallback<Boolean>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											MainPanel.setCommInfo(false);
+											new AlertDialog(caught.getMessage())
 													.show();
 										}
 
-									}
-								});
+										@Override
+										public void onSuccess(Boolean result) {
+											MainPanel.setCommInfo(false);
+											if (result) {
+												reloadList();
+											} else {
+												new AlertDialog(l
+														.msgUpdateError())
+														.show();
+											}
+
+										}
+									});
+						}
 					}
 					reloadList();
 				}
@@ -282,12 +302,13 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					}
 
 					@Override
-					public void onSuccess(HashMap<String, Object> result) {
+					public void onSuccess(final HashMap<String, Object> result) {
 						MainPanel.setCommInfo(false);
 						VerticalPanel vp = new VerticalPanel();
 						Widget w = buildListRow(result);
 						panel.clear();
 						panel.add(new Label(number.toString()));
+						vp.add(new Label((String) result.get("fullname")));
 						vp.add(w);
 						Date date = new Date((Long) result.get("createdate"));
 						String day = formatter.format(date);
@@ -323,6 +344,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 													MainPanel
 															.setCommInfo(false);
 													editformnumber = number;
+													fullname.setText((String) result
+															.get("fullname"));
 													fillEditorForm(result);
 													openEditor();
 												}
@@ -341,8 +364,10 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 								@Override
 								public void onClick(ClickEvent event) {
 									new QuestionDialog(l.qstDeleteRecord()
-											+ " " + number, CatalogPanel.this,
-											"trashrecord", number).show();
+											+ " "
+											+ (String) result.get("fullname"),
+											CatalogPanel.this, "trashrecord",
+											number).show();
 
 								}
 							});
@@ -437,6 +462,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						@Override
 						public void execute() {
 							editformnumber = -1L;
+							fullname.setText("");
 							cleanEditForm();
 							openEditor();
 						}

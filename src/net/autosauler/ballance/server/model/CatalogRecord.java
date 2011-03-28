@@ -48,6 +48,8 @@ public abstract class CatalogRecord implements ICatalogRecord {
 	/** The domain. */
 	private String domain;
 
+	private String fullname;
+
 	/**
 	 * Instantiates a new catalog record.
 	 * 
@@ -86,6 +88,17 @@ public abstract class CatalogRecord implements ICatalogRecord {
 	@Override
 	public Set<Long> findAll() {
 		return catalog.allRecords();
+	}
+
+	/**
+	 * From map.
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	public void fromMap(HashMap<String, Object> map) {
+		setFullname((String) map.get("fullname"));
+		fillFieldsFromMap(map);
 	}
 
 	/**
@@ -135,6 +148,14 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		return domain;
 	}
 
+	/**
+	 * @return the fullname
+	 */
+	@Override
+	public String getFullname() {
+		return fullname;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -169,6 +190,7 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		setAuthor((String) doc.get("author"));
 		setCreateDate((Date) doc.get("createdate"));
 		setDomain((String) doc.get("domain"));
+		setFullname((String) doc.get("fullname"));
 		boolean f = (Boolean) doc.get("trash");
 		if (f) {
 			trash();
@@ -230,6 +252,7 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		setNumber(0L);
 		setAuthor("none");
 		setCreateDate(new Date());
+		setFullname("");
 		restore();
 	}
 
@@ -243,6 +266,15 @@ public abstract class CatalogRecord implements ICatalogRecord {
 	@Override
 	public void setDomain(String domain) {
 		this.domain = domain;
+	}
+
+	/**
+	 * @param fullname
+	 *            the fullname to set
+	 */
+	@Override
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 
 	/*
@@ -275,6 +307,7 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		doc.put("createdate", getCreateDate());
 		doc.put("trash", isTrash());
 		doc.put("domain", getDomain());
+		doc.put("fullname", getFullname());
 		doc = getFields(doc);
 		return doc;
 	}
@@ -290,6 +323,7 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		map.put("number", getNumber());
 		map.put("author", getAuthor());
 		map.put("createdate", getCreateDate().getTime());
+		map.put("fullname", getFullname());
 
 		map = addFieldsToMap(map);
 

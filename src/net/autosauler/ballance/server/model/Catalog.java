@@ -75,6 +75,7 @@ public class Catalog {
 				i.put("domain", 1);
 				coll.createIndex(i);
 
+				i.put("fullname", 1);
 				i.put("trash", 1);
 				coll.createIndex(i);
 
@@ -96,9 +97,16 @@ public class Catalog {
 			Database.retain();
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
 			q.put("domain", domain);
 			q.put("trash", false);
-			DBCursor cur = coll.find(q);
+			w.put("$query", q);
+
+			BasicDBObject o = new BasicDBObject();
+			o.put("fullname", 1);
+			w.put("$orderby", o);
+
+			DBCursor cur = coll.find(w);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
 				numbers.add((Long) myDoc.get("number"));
