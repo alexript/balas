@@ -55,6 +55,16 @@
     <servlet-name>catalogServlet</servlet-name>
     <url-pattern>/ballance_autosauler_net/catalog</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>documentServlet</servlet-name>
+    <servlet-class>net.autosauler.ballance.server.DocumentServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>documentServlet</servlet-name>
+    <url-pattern>/ballance_autosauler_net/document</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
