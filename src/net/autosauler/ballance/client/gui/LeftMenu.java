@@ -114,6 +114,9 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isFinances()) {
 			VerticalPanel financesspanel = new VerticalPanel();
 
+			financesspanel.add(getMenuItem(l.itemIncPay(), "incpay",
+					images.icoIncPay()));
+
 			String financesHeader = getHeaderString(l.financesPanel(),
 					images.financesPanel());
 			panel.add(financesspanel, financesHeader, true);

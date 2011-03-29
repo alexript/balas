@@ -80,6 +80,13 @@ public interface MenuMessages extends Messages {
 	String itemHelloToAll();
 
 	/**
+	 * Item inc pay.
+	 * 
+	 * @return the string
+	 */
+	String itemIncPay();
+
+	/**
 	 * Item license.
 	 * 
 	 * @return the string

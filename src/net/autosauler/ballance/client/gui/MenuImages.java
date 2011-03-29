@@ -95,6 +95,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource icoExclamation();
 
 	/**
+	 * Ico inc pay.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource icoIncPay();
+
+	/**
 	 * Ico info.
 	 * 
 	 * @return the image resource
