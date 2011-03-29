@@ -16,10 +16,13 @@
 package net.autosauler.ballance.server;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.autosauler.ballance.client.CurrencyService;
 import net.autosauler.ballance.server.model.Currency;
+import net.autosauler.ballance.server.model.GlobalSettings;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -54,6 +57,26 @@ public class CurrencyServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public Double get(String mnemo, Date date) {
 		return Currency.get(mnemo, date);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.CurrencyService#getUsedCurrencyes()
+	 */
+	@Override
+	public Set<String> getUsedCurrencyes() {
+		Set<String> set = new HashSet<String>();
+
+		GlobalSettings stgs = new GlobalSettings();
+		String list = stgs.get("currency.used.set", "RUR,USD,EUR");
+		stgs.save();
+		String[] s = list.split(",");
+		for (int i = 0; i < s.length; i++) {
+			set.add(s[i]);
+		}
+
+		return set;
 	}
 
 }

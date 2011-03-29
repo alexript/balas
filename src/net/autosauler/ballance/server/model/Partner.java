@@ -33,6 +33,9 @@ public class Partner extends CatalogRecord {
 	/** The paymethod. */
 	private Long paymethod;
 
+	/** The currency. */
+	private String currency;
+
 	/**
 	 * Instantiates a new partner.
 	 * 
@@ -69,6 +72,7 @@ public class Partner extends CatalogRecord {
 	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
 		map.put("email", getEmail());
 		map.put("paymethod", getPaymethod());
+		map.put("currency", getCurrency());
 		return map;
 	}
 
@@ -83,6 +87,14 @@ public class Partner extends CatalogRecord {
 	public void fillFieldsFromMap(HashMap<String, Object> map) {
 		setEmail((String) map.get("email"));
 		setPaymethod((Long) map.get("paymethod"));
+		setCurrency((String) map.get("currency"));
+	}
+
+	/**
+	 * @return the currency
+	 */
+	public String getCurrency() {
+		return currency;
 	}
 
 	/**
@@ -105,6 +117,7 @@ public class Partner extends CatalogRecord {
 	public DBObject getFields(DBObject doc) {
 		doc.put("email", getEmail());
 		doc.put("paymethod", getPaymethod());
+		doc.put("currency", getCurrency());
 		return doc;
 	}
 
@@ -113,6 +126,14 @@ public class Partner extends CatalogRecord {
 	 */
 	public Long getPaymethod() {
 		return paymethod;
+	}
+
+	/**
+	 * @param currency
+	 *            the currency to set
+	 */
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	/**
@@ -136,6 +157,7 @@ public class Partner extends CatalogRecord {
 	public void setFields(DBObject doc) {
 		setEmail((String) doc.get("email"));
 		setPaymethod((Long) doc.get("paymethod"));
+		setCurrency((String) doc.get("currency"));
 	}
 
 	/**

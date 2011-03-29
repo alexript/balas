@@ -40,6 +40,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	private CatalogSelector paymethod;
 	private static PartnersMessages l = GWT.create(PartnersMessages.class);
 	private static PayMethodPanel methods = new PayMethodPanel();
+	private CurrencySelector currency;
 
 	public PartnersPanel() {
 		super("partners", new Image(images.icoPartners()));
@@ -64,6 +65,12 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		p.add(new Label(l.lblPaymethod()));
 		paymethod = methods.getSelectBox(null);
 		p.add(paymethod);
+
+		p = new HorizontalPanel();
+		p.add(new Label(l.lblCurrency()));
+		currency = new CurrencySelector(null);
+		p.add(currency);
+
 		panel.add(p);
 
 	}
@@ -125,6 +132,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	void cleanEditForm() {
 		email.setText("");
 		paymethod.reset();
+		currency.reset();
 	}
 
 	/*
@@ -138,6 +146,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	void fillEditorForm(HashMap<String, Object> map) {
 		email.setText((String) map.get("email"));
 		paymethod.select((Long) map.get("paymethod"));
+		currency.select((String) map.get("currency"));
 	}
 
 	/*
@@ -150,6 +159,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("email", email.getText().trim());
 		map.put("paymethod", paymethod.getValue());
+		map.put("currency", currency.getValue());
 		return map;
 	}
 

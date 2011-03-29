@@ -25,6 +25,13 @@ import com.google.gwt.i18n.client.Messages;
 public interface PartnersMessages extends Messages {
 
 	/**
+	 * Lbl currency.
+	 * 
+	 * @return the string
+	 */
+	public String lblCurrency();
+
+	/**
 	 * Lbl email.
 	 * 
 	 * @return the string

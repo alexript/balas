@@ -18,6 +18,7 @@ package net.autosauler.ballance.client;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -52,4 +53,11 @@ public interface CurrencyService extends RemoteService {
 	 * @return the double
 	 */
 	public Double get(String mnemo, Date date);
+
+	/**
+	 * Gets the used currencyes.
+	 * 
+	 * @return the used currencyes
+	 */
+	public Set<String> getUsedCurrencyes();
 }

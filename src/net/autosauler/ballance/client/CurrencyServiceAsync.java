@@ -19,6 +19,7 @@ package net.autosauler.ballance.client;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -55,5 +56,14 @@ public interface CurrencyServiceAsync {
 	 *      java.util.Date)
 	 */
 	void get(String mnemo, Date date, AsyncCallback<Double> callback);
+
+	/**
+	 * Gets the used currencyes.
+	 * 
+	 * @param callback
+	 *            the callback
+	 * @return the used currencyes
+	 */
+	void getUsedCurrencyes(AsyncCallback<Set<String>> callback);
 
 }
