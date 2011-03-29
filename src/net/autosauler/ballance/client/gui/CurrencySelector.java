@@ -105,8 +105,6 @@ public class CurrencySelector extends Composite {
 	private void reloadBox(final String selectedcurrency) {
 		box.clear();
 
-		box.addItem("<not selected>");
-
 		MainPanel.setCommInfo(true);
 		service.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
 

@@ -60,11 +60,13 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		p.add(new Label(l.lblEmail()));
 		email = new TextBox();
 		p.add(email);
+		panel.add(p);
 
 		p = new HorizontalPanel();
 		p.add(new Label(l.lblPaymethod()));
 		paymethod = methods.getSelectBox(null);
 		p.add(paymethod);
+		panel.add(p);
 
 		p = new HorizontalPanel();
 		p.add(new Label(l.lblCurrency()));
