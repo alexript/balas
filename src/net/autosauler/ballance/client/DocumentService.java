@@ -52,6 +52,17 @@ public interface DocumentService extends RemoteService {
 	public boolean create(String docname, HashMap<String, Object> map);
 
 	/**
+	 * Creates the and activate.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param map
+	 *            the map
+	 * @return true, if successful
+	 */
+	public boolean createAndActivate(String docname, HashMap<String, Object> map);
+
+	/**
 	 * Gets the.
 	 * 
 	 * @param docname
@@ -104,5 +115,19 @@ public interface DocumentService extends RemoteService {
 	 * @return true, if successful
 	 */
 	public boolean update(String docname, Long number,
+			HashMap<String, Object> map);
+
+	/**
+	 * Update and activate.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param map
+	 *            the map
+	 * @return true, if successful
+	 */
+	public boolean updateAndActivate(String docname, Long number,
 			HashMap<String, Object> map);
 }

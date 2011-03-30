@@ -160,6 +160,28 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see net.autosauler.ballance.server.model.Document#onActivation()
+	 */
+	@Override
+	protected boolean onActivation() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.Document#onUnActivation()
+	 */
+	@Override
+	protected boolean onUnActivation() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * net.autosauler.ballance.server.model.Document#setFields(com.mongodb.DBObject
 	 * )

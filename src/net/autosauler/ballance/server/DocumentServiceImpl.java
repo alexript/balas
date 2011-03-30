@@ -53,6 +53,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				IncomingPayment doc = new IncomingPayment(
 						HttpUtilities.getUserDomain(getSession()), number);
 				doc.activation();
+				doc.save();
 			}
 		}
 
@@ -75,6 +76,30 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 						HttpUtilities.getUserDomain(getSession()),
 						HttpUtilities.getUserLogo(getSession()));
 				doc.fromMap(map);
+				result = doc.save();
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.DocumentService#createAndActivate(java
+	 * .lang.String, java.util.HashMap)
+	 */
+	@Override
+	public boolean createAndActivate(String docname, HashMap<String, Object> map) {
+		boolean result = false;
+		UserRole role = getRole();
+		if (docname.equals("inpay")) {
+			if (role.isAdmin() || role.isFinances()) {
+				IncomingPayment doc = new IncomingPayment(
+						HttpUtilities.getUserDomain(getSession()),
+						HttpUtilities.getUserLogo(getSession()));
+				doc.fromMap(map);
+				doc.activation();
 				result = doc.save();
 			}
 		}
@@ -201,7 +226,38 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin() || role.isFinances()) {
 				IncomingPayment doc = new IncomingPayment(
 						HttpUtilities.getUserDomain(getSession()), number);
+
+				if (doc.isActive()) {
+					doc.unactivation();
+				}
 				doc.fromMap(map);
+				result = doc.save();
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.DocumentService#updateAndActivate(java
+	 * .lang.String, java.lang.Long, java.util.HashMap)
+	 */
+	@Override
+	public boolean updateAndActivate(String docname, Long number,
+			HashMap<String, Object> map) {
+		boolean result = false;
+		UserRole role = getRole();
+		if (docname.equals("inpay")) {
+			if (role.isAdmin() || role.isFinances()) {
+				IncomingPayment doc = new IncomingPayment(
+						HttpUtilities.getUserDomain(getSession()), number);
+				if (doc.isActive()) {
+					doc.unactivation();
+				}
+				doc.fromMap(map);
+				doc.activation();
 				result = doc.save();
 			}
 		}

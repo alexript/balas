@@ -45,8 +45,10 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -177,13 +179,33 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	abstract void cleanEditForm();
 
 	/**
+	 * Creates the document header editor.
+	 * 
+	 * @return the widget
+	 */
+	protected abstract Widget createDocumentHeaderEditor();
+
+	/**
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
 		editor = new VerticalPanel();
 		editor.setVisible(false);
 
-		// TODO:
+		editor.add(createDocumentHeaderEditor());
+
+		if (hasTablePart()) {
+			// TODO: tableparts
+		}
+
+		HorizontalPanel buttons = new HorizontalPanel();
+		buttons.setSpacing(3);
+
+		buttons.add(new Button("Save"));
+		buttons.add(new Button("Save and Activate"));
+		buttons.add(new Button("Cancel"));
+
+		editor.add(buttons);
 
 		root.add(editor, 0, 0);
 	}
@@ -327,6 +349,13 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		return menu;
 
 	}
+
+	/**
+	 * Checks for table part.
+	 * 
+	 * @return true, if successful
+	 */
+	protected abstract boolean hasTablePart();
 
 	/**
 	 * Inits the table columns.

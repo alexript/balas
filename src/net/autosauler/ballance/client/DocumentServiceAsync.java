@@ -22,20 +22,35 @@ import java.util.Set;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * @author alexript
+ * The Interface DocumentServiceAsync.
  * 
+ * @author alexript
  */
 public interface DocumentServiceAsync {
 
 	/**
+	 * Activate.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param callback
+	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#activate(java.lang.String,
 	 *      java.lang.Long)
 	 */
 	void activate(String docname, Long number, AsyncCallback<Void> callback);
 
 	/**
+	 * Creates the.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param map
+	 *            the map
+	 * @param callback
+	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#create(java.lang.String,
 	 *      java.util.HashMap)
 	 */
@@ -43,7 +58,27 @@ public interface DocumentServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	/**
+	 * Creates the and activate.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param map
+	 *            the map
+	 * @param callback
+	 *            the callback
+	 */
+	void createAndActivate(String docname, HashMap<String, Object> map,
+			AsyncCallback<Boolean> callback);
+
+	/**
+	 * Gets the.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param callback
+	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#get(java.lang.String,
 	 *      java.lang.Long)
 	 */
@@ -64,24 +99,61 @@ public interface DocumentServiceAsync {
 			AsyncCallback<Set<HashMap<String, Object>>> callback);
 
 	/**
+	 * Gets the all.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param callback
+	 *            the callback
+	 * @return the all
 	 * @see net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */
 	void getAll(String docname, AsyncCallback<Set<Long>> callback);
 
 	/**
+	 * Unactivate.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param callback
+	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#unactivate(java.lang.String,
 	 *      java.lang.Long)
 	 */
 	void unactivate(String docname, Long number, AsyncCallback<Void> callback);
 
 	/**
+	 * Update.
 	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param map
+	 *            the map
+	 * @param callback
+	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#update(java.lang.String,
 	 *      java.lang.Long, java.util.HashMap)
 	 */
 	void update(String docname, Long number, HashMap<String, Object> map,
 			AsyncCallback<Boolean> callback);
+
+	/**
+	 * Update and activate.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param map
+	 *            the map
+	 * @param callback
+	 *            the callback
+	 */
+	void updateAndActivate(String docname, Long number,
+			HashMap<String, Object> map, AsyncCallback<Boolean> callback);
 
 }

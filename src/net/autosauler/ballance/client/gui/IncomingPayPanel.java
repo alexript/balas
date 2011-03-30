@@ -7,7 +7,11 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.shared.UserRole;
 
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author alexript
@@ -78,17 +82,50 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * net.autosauler.ballance.client.gui.DocumentPanel#createDocumentHeaderEditor
+	 * ()
+	 */
+	@Override
+	protected Widget createDocumentHeaderEditor() {
+		Grid header = new Grid(4, 2);
+
+		header.setWidget(0, 0, new Label("Partner"));
+
+		header.setWidget(1, 0, new Label("Pay date"));
+
+		header.setWidget(2, 0, new Label("Currency"));
+
+		header.setWidget(3, 0, new Label("Value"));
+
+		return header;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * net.autosauler.ballance.client.gui.DocumentPanel#drawDocumentRowForList
 	 * (java.util.HashMap)
 	 */
 	@Override
 	protected String drawDocumentRowForList(HashMap<String, Object> map) {
-		StringBuilder sb = new StringBuilder();
+		SafeHtmlBuilder sb = new SafeHtmlBuilder();
 
 		// TODO:
-		sb.append("Partner is " + map.get("partner"));
+		sb.appendHtmlConstant(new Label("Partner is " + map.get("partner"))
+				.toString());
 
 		return sb.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.DocumentPanel#hasTablePart()
+	 */
+	@Override
+	protected boolean hasTablePart() {
+		return false;
 	}
 
 }

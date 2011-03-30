@@ -119,9 +119,10 @@ public abstract class Document {
 	 */
 	public void activation() {
 		if (!isActive()) {
-			setActive(true);
-			setActivationdate(new Date()); // document activation
-			save();
+			if (onActivation()) {
+				setActive(true);
+				setActivationdate(new Date()); // document activation
+			}
 		}
 	}
 
@@ -409,6 +410,20 @@ public abstract class Document {
 	}
 
 	/**
+	 * On activation.
+	 * 
+	 * @return
+	 */
+	protected abstract boolean onActivation();
+
+	/**
+	 * On un activation.
+	 * 
+	 * @return
+	 */
+	protected abstract boolean onUnActivation();
+
+	/**
 	 * Save.
 	 * 
 	 * @return true, if successful
@@ -557,8 +572,9 @@ public abstract class Document {
 	 */
 	public void unactivation() {
 		if (isActive()) {
-			setActive(false);
-			save();
+			if (onUnActivation()) {
+				setActive(false);
+			}
 		}
 	}
 
