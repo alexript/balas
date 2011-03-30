@@ -71,6 +71,19 @@ public abstract class Document {
 	 *            the name
 	 * @param domain
 	 *            the domain
+	 */
+	public Document(String name, String domain) {
+		tablename = TABLEPREFIX + name;
+		setDomain(domain);
+	}
+
+	/**
+	 * Instantiates a new document.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param domain
+	 *            the domain
 	 * @param number
 	 *            the number
 	 */
@@ -247,6 +260,15 @@ public abstract class Document {
 			setDefaultValues();
 		}
 	}
+
+	/**
+	 * Gets the.
+	 * 
+	 * @param numbers
+	 *            the numbers
+	 * @return the sets the
+	 */
+	public abstract Set<HashMap<String, Object>> get(Set<Long> numbers);
 
 	/**
 	 * Gets the activationdate.

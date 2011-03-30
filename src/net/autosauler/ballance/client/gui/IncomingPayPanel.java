@@ -3,6 +3,8 @@
  */
 package net.autosauler.ballance.client.gui;
 
+import java.util.HashMap;
+
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.Image;
@@ -70,6 +72,23 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	void cleanEditForm() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.DocumentPanel#drawDocumentRowForList
+	 * (java.util.HashMap)
+	 */
+	@Override
+	protected String drawDocumentRowForList(HashMap<String, Object> map) {
+		StringBuilder sb = new StringBuilder();
+
+		// TODO:
+		sb.append("Partner is " + map.get("partner"));
+
+		return sb.toString();
 	}
 
 }

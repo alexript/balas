@@ -18,6 +18,9 @@ package net.autosauler.ballance.server.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.mongodb.DBObject;
 
@@ -31,11 +34,30 @@ public class IncomingPayment extends Document {
 	/** The Constant docname. */
 	private final static String docname = "inpay";
 
+	/** The partner. */
 	private Long partner;
+
+	/** The paydate. */
 	private Date paydate;
+
+	/** The currency. */
 	private String currency;
+
+	/** The currvalue. */
 	private Double currvalue;
+
+	/** The payvalue. */
 	private Double payvalue;
+
+	/**
+	 * Instantiates a new incoming payment.
+	 * 
+	 * @param domain
+	 *            the domain
+	 */
+	public IncomingPayment(String domain) {
+		super(docname, domain);
+	}
 
 	/**
 	 * Instantiates a new incoming payment.
@@ -93,6 +115,28 @@ public class IncomingPayment extends Document {
 		currency = (String) map.get("currency");
 		currvalue = Currency.get(currency, paydate);
 		payvalue = (Double) map.get("payvalue");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.Document#get(java.util.Set)
+	 */
+	@Override
+	public Set<HashMap<String, Object>> get(Set<Long> numbers) {
+		{
+			Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
+			Iterator<Long> i = numbers.iterator();
+			while (i.hasNext()) {
+				Long number = i.next();
+				IncomingPayment doc = new IncomingPayment(getDomain(), number);
+				if (doc != null) {
+					set.add(doc.toMap());
+				}
+			}
+			return set;
+		}
+
 	}
 
 	/*

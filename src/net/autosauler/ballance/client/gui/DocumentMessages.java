@@ -25,6 +25,34 @@ import com.google.gwt.i18n.client.Messages;
 public interface DocumentMessages extends Messages {
 
 	/**
+	 * Col author.
+	 * 
+	 * @return the string
+	 */
+	public String colAuthor();
+
+	/**
+	 * Col create date.
+	 * 
+	 * @return the string
+	 */
+	public String colCreateDate();
+
+	/**
+	 * Col document.
+	 * 
+	 * @return the string
+	 */
+	public String colDocument();
+
+	/**
+	 * Col number.
+	 * 
+	 * @return the string
+	 */
+	public String colNumber();
+
+	/**
 	 * Menu create.
 	 * 
 	 * @return the string

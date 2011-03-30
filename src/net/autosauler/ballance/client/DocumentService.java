@@ -63,6 +63,17 @@ public interface DocumentService extends RemoteService {
 	public HashMap<String, Object> get(String docname, Long number);
 
 	/**
+	 * Gets the.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param numbers
+	 *            the numbers
+	 * @return the sets the
+	 */
+	public Set<HashMap<String, Object>> get(String docname, Set<Long> numbers);
+
+	/**
 	 * Gets the all.
 	 * 
 	 * @param docname

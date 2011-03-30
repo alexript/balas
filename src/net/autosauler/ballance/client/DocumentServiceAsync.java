@@ -51,6 +51,19 @@ public interface DocumentServiceAsync {
 			AsyncCallback<HashMap<String, Object>> callback);
 
 	/**
+	 * Gets the.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param numbers
+	 *            the numbers
+	 * @param callback
+	 *            the callback
+	 */
+	void get(String docname, Set<Long> numbers,
+			AsyncCallback<Set<HashMap<String, Object>>> callback);
+
+	/**
 	 * 
 	 * @see net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */

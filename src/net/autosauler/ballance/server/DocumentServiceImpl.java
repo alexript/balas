@@ -105,6 +105,26 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see net.autosauler.ballance.client.DocumentService#get(java.lang.String,
+	 * java.util.Set)
+	 */
+	@Override
+	public Set<HashMap<String, Object>> get(String docname, Set<Long> numbers) {
+		Set<HashMap<String, Object>> set = null;
+		UserRole role = getRole();
+		if (docname.equals("inpay")) {
+			if (role.isAdmin() || role.isFinances()) {
+				IncomingPayment doc = new IncomingPayment(
+						HttpUtilities.getUserDomain(getSession()));
+				set = doc.get(numbers);
+			}
+		}
+		return set;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */
