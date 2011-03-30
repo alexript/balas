@@ -25,6 +25,41 @@ import com.google.gwt.i18n.client.Messages;
 public interface DocumentMessages extends Messages {
 
 	/**
+	 * Btn activate.
+	 * 
+	 * @return the string
+	 */
+	public String btnActivate();
+
+	/**
+	 * Btn cancel.
+	 * 
+	 * @return the string
+	 */
+	public String btnCancel();
+
+	/**
+	 * Btn save.
+	 * 
+	 * @return the string
+	 */
+	public String btnSave();
+
+	/**
+	 * Btn save and activate.
+	 * 
+	 * @return the string
+	 */
+	public String btnSaveAndActivate();
+
+	/**
+	 * Btn un activate.
+	 * 
+	 * @return the string
+	 */
+	public String btnUnActivate();
+
+	/**
 	 * Col author.
 	 * 
 	 * @return the string
@@ -65,4 +100,18 @@ public interface DocumentMessages extends Messages {
 	 * @return the string
 	 */
 	public String menuReload();
+
+	/**
+	 * Msg create error.
+	 * 
+	 * @return the string
+	 */
+	public String msgCreateError();
+
+	/**
+	 * Msg update error.
+	 * 
+	 * @return the string
+	 */
+	public String msgUpdateError();
 }

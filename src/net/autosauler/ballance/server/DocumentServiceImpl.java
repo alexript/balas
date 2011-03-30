@@ -68,6 +68,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public boolean create(String docname, HashMap<String, Object> map) {
+		// Log.error("Docname " + docname);
+		// Log.error(map.toString());
 		boolean result = false;
 		UserRole role = getRole();
 		if (docname.equals("inpay")) {

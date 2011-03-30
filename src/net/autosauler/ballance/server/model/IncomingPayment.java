@@ -95,8 +95,8 @@ public class IncomingPayment extends Document {
 		map.put("partner", partner);
 		map.put("paydate", paydate.getTime());
 		map.put("currency", currency);
-		map.put("currvalue", currvalue);
-		map.put("payvalue", payvalue);
+		map.put("currvalue", currvalue.toString());
+		map.put("payvalue", payvalue.toString());
 
 		return map;
 	}
@@ -114,7 +114,7 @@ public class IncomingPayment extends Document {
 		paydate = new Date((Long) map.get("paydate"));
 		currency = (String) map.get("currency");
 		currvalue = Currency.get(currency, paydate);
-		payvalue = (Double) map.get("payvalue");
+		payvalue = Double.parseDouble((String) map.get("payvalue"));
 	}
 
 	/*

@@ -560,7 +560,7 @@ public abstract class Document {
 		map.put("author", getUsername());
 		map.put("createdate", getCreatedate().getTime());
 		map.put("active", isActive());
-		map.put("activationdate", getActivationdate());
+		map.put("activationdate", getActivationdate().getTime());
 
 		map = addFieldsToMap(map);
 

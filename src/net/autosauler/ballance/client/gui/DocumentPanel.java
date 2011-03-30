@@ -34,6 +34,8 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -44,6 +46,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -99,6 +102,24 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/** The editor. */
 	private VerticalPanel editor;
+
+	/** The btn save. */
+	private Button btnSave;
+
+	/** The btn save activate. */
+	private Button btnSaveActivate;
+
+	/** The btn activate. */
+	private Button btnActivate;
+
+	/** The btn cancel. */
+	private Button btnCancel;
+
+	/** The editformnumber. */
+	private Long editformnumber;
+
+	/** The editformisactive. */
+	private Boolean editformisactive;
 
 	/** The cell table. */
 	@UiField(provided = true)
@@ -201,9 +222,194 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		HorizontalPanel buttons = new HorizontalPanel();
 		buttons.setSpacing(3);
 
-		buttons.add(new Button("Save"));
-		buttons.add(new Button("Save and Activate"));
-		buttons.add(new Button("Cancel"));
+		btnSave = new Button(l.btnSave());
+		btnSave.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				HashMap<String, Object> map = getEditorValues();
+				if (map == null) {
+					map = new HashMap<String, Object>();
+				}
+
+				MainPanel.setCommInfo(true);
+				if (editformnumber.equals(-1L)) {
+					service.create(documentname, map,
+							new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onFailure(Throwable e) {
+
+									MainPanel.setCommInfo(false);
+
+									new AlertDialog(e.getMessage(), e
+											.toString()).show();
+								}
+
+								@Override
+								public void onSuccess(Boolean result) {
+									MainPanel.setCommInfo(false);
+									if (result) {
+										reloadList();
+									} else {
+										new AlertDialog(l.msgCreateError())
+												.show();
+									}
+
+								}
+							});
+				} else {
+					service.update(documentname, editformnumber, map,
+							new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									MainPanel.setCommInfo(false);
+									new AlertDialog(caught.getMessage()).show();
+
+								}
+
+								@Override
+								public void onSuccess(Boolean result) {
+									MainPanel.setCommInfo(false);
+									if (result) {
+										reloadList();
+									} else {
+										new AlertDialog(l.msgUpdateError())
+												.show();
+									}
+
+								}
+							});
+				}
+			}
+		});
+		buttons.add(btnSave);
+
+		btnSaveActivate = new Button(l.btnSaveAndActivate());
+		btnSaveActivate.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				HashMap<String, Object> map = getEditorValues();
+				if (map == null) {
+					map = new HashMap<String, Object>();
+				}
+
+				MainPanel.setCommInfo(true);
+				if (editformnumber.equals(-1L)) {
+					service.createAndActivate(documentname, map,
+							new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									MainPanel.setCommInfo(false);
+									new AlertDialog(caught.getMessage()).show();
+								}
+
+								@Override
+								public void onSuccess(Boolean result) {
+									MainPanel.setCommInfo(false);
+									if (result) {
+										reloadList();
+									} else {
+										new AlertDialog(l.msgCreateError())
+												.show();
+									}
+
+								}
+							});
+				} else {
+					service.updateAndActivate(documentname, editformnumber,
+							map, new AsyncCallback<Boolean>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									MainPanel.setCommInfo(false);
+									new AlertDialog(caught.getMessage()).show();
+
+								}
+
+								@Override
+								public void onSuccess(Boolean result) {
+									MainPanel.setCommInfo(false);
+									if (result) {
+										reloadList();
+									} else {
+										new AlertDialog(l.msgUpdateError())
+												.show();
+									}
+
+								}
+							});
+				}
+			}
+		});
+		buttons.add(btnSaveActivate);
+
+		btnActivate = new Button(l.btnActivate());
+		btnActivate.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (!editformnumber.equals(-1L)) {
+					MainPanel.setCommInfo(true);
+					if (editformisactive) {
+						service.unactivate(documentname, editformnumber,
+								new AsyncCallback<Void>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										MainPanel.setCommInfo(false);
+										new AlertDialog(caught.getMessage())
+												.show();
+
+									}
+
+									@Override
+									public void onSuccess(Void result) {
+										MainPanel.setCommInfo(false);
+										reloadList();
+									}
+								});
+					} else {
+						service.activate(documentname, editformnumber,
+								new AsyncCallback<Void>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										MainPanel.setCommInfo(false);
+										new AlertDialog(caught.getMessage())
+												.show();
+
+									}
+
+									@Override
+									public void onSuccess(Void result) {
+										MainPanel.setCommInfo(false);
+										reloadList();
+									}
+								});
+
+					}
+				} else {
+					reloadList();
+				}
+
+			}
+		});
+		buttons.add(btnActivate);
+
+		btnCancel = new Button(l.btnCancel());
+		btnCancel.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				reloadList();
+
+			}
+		});
+		buttons.add(btnCancel);
 
 		editor.add(buttons);
 
@@ -220,18 +426,13 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
 		cellTable.setWidth("100%", true);
+		// TODO: add onClick for edit
 
 		// ListHandler<HashMap<String, Object>> sortHandler = null;
 		// ListHandler<HashMap<String, Object>> sortHandler = new
 		// ListHandler<HashMap<String, Object>>(
 		// db.getDataProvider().getList());
 		// cellTable.addColumnSortHandler(sortHandler);
-
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
-		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,
-				true);
-		pager.setDisplay(cellTable);
 
 		final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
 				KEY_PROVIDER);
@@ -260,6 +461,15 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		initTableColumns(selectionModel); // , sortHandler);
 		db.addDataDisplay(cellTable);
 		list.add(cellTable);
+
+		db.getDataProvider().reload();
+
+		SimplePager.Resources pagerResources = GWT
+				.create(SimplePager.Resources.class);
+		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,
+				true);
+		pager.setDisplay(cellTable);
+
 		list.add(pager);
 
 		root.add(list, 0, 0);
@@ -297,6 +507,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			queue : 'end'
 		});
 	}-*/;
+
+	protected abstract HashMap<String, Object> getEditorValues();
 
 	/**
 	 * Gets the list form.
@@ -341,6 +553,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			menu.addItem(l.menuCreate(), new Command() { // reload users list
 						@Override
 						public void execute() {
+							editformnumber = -1L;
+							editformisactive = false;
 							cleanEditForm();
 							openEditor();
 						}
@@ -495,6 +709,16 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * Open editor.
 	 */
 	private void openEditor() {
+		if (editformnumber.equals(-1L)) {
+			btnActivate.setVisible(false);
+		} else {
+			if (editformisactive) {
+				btnActivate.setText(l.btnUnActivate());
+			} else {
+				btnActivate.setText(l.btnActivate());
+			}
+			btnActivate.setVisible(true);
+		}
 		effectHide(list.getElement());
 		effectShow(editor.getElement());
 	}

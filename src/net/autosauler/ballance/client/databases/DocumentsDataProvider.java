@@ -29,6 +29,7 @@ import net.autosauler.ballance.client.gui.MainPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -52,6 +53,8 @@ public class DocumentsDataProvider extends
 	private static DocumentServiceAsync service = GWT
 			.create(DocumentService.class);
 
+	private HasData<HashMap<String, Object>> d = null;
+
 	/**
 	 * Instantiates a new documents data provider.
 	 * 
@@ -61,7 +64,6 @@ public class DocumentsDataProvider extends
 	public DocumentsDataProvider(String docname) {
 		super();
 		this.docname = docname;
-		reload();
 
 	}
 
@@ -74,22 +76,31 @@ public class DocumentsDataProvider extends
 	 */
 	@Override
 	protected void onRangeChanged(HasData<HashMap<String, Object>> display) {
+		if (d == null) {
+			d = display;
+		}
 		final Range range = display.getVisibleRange();
 		final int start = range.getStart();
 		int length = range.getLength();
-
+		Window.alert(" Range:[from " + start + ", size " + length + "]");
 		if ((numbers == null) || (numbers.length < 1) || (length == 0)) {
 			Log.trace("Empty documents numbers array. Range:[from " + start
 					+ ", size " + length + "]");
+			Window.alert("ups...");
 			updateRowCount(0, true);
 			return;
 		}
 		Set<Long> receivenumbers = new HashSet<Long>();
 
-		for (int i = start; i < start + length; i++) {
-			receivenumbers.add(numbers[i]);
+		int end = start + length;
+		if (end >= numbers.length) {
+			end = numbers.length;
 		}
 
+		for (int i = start; i < end; i++) {
+			receivenumbers.add(numbers[i]);
+		}
+		Window.alert(receivenumbers.toString());
 		MainPanel.setCommInfo(true);
 		service.get(docname, receivenumbers,
 				new AsyncCallback<Set<HashMap<String, Object>>>() {
@@ -102,10 +113,14 @@ public class DocumentsDataProvider extends
 
 					@Override
 					public void onSuccess(Set<HashMap<String, Object>> result) {
+						Window.alert(result.toString());
 						List<HashMap<String, Object>> newData = new ArrayList<HashMap<String, Object>>(
 								result);
 						MainPanel.setCommInfo(false);
+						Window.alert(newData.toString());
+						updateRowCount(newData.size(), true);
 						updateRowData(start, newData);
+						Window.alert("done");
 					}
 
 				});
@@ -116,6 +131,7 @@ public class DocumentsDataProvider extends
 	 * Reload.
 	 */
 	public void reload() {
+		// TODO: double call for update
 		MainPanel.setCommInfo(true);
 		service.getAll(docname, new AsyncCallback<Set<Long>>() {
 
@@ -128,8 +144,16 @@ public class DocumentsDataProvider extends
 			@Override
 			public void onSuccess(Set<Long> result) {
 				numbers = result.toArray(new Long[result.size()]);
+				Window.alert(result.toString());
 				MainPanel.setCommInfo(false);
 				DocumentsDataProvider.this.updateRowCount(numbers.length, true);
+				Window.alert("count");
+				DocumentsDataProvider.this.updateRowData(0,
+						new ArrayList<HashMap<String, Object>>());
+				Window.alert("Data");
+				if (d != null) {
+					onRangeChanged(d);
+				}
 			}
 		});
 	}
