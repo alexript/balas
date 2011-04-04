@@ -528,7 +528,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			createEditorForm();
 		}
 		initWidget(root);
-		reloadList();
+
 		return this;
 	}
 
