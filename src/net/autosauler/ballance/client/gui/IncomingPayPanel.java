@@ -50,10 +50,14 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	/** The comments. */
 	private TextBox comments;
 
+	/** The l. */
 	private static IncomingPayMessages l = GWT
 			.create(IncomingPayMessages.class);
 
+	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
+
+	/** The pmp. */
 	private static PayMethodPanel pmp = new PayMethodPanel();
 
 	/**
@@ -186,6 +190,25 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 		panel.add(new Label((String) map.get("comments")));
 
 		return panel.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.DocumentPanel#fillEditor(java.lang
+	 * .Long)
+	 */
+	@Override
+	protected void fillEditor(HashMap<String, Object> map) {
+		partner.select((Long) map.get("partner"));
+		paydate.setValue(new Date((Long) map.get("paydate")));
+
+		currency.select((String) map.get("currency"));
+		payvalue.setText((String) map.get("payvalue"));
+		paymethod.select((Long) map.get("paymethod"));
+		comments.setText((String) map.get("comments"));
+
 	}
 
 	/*

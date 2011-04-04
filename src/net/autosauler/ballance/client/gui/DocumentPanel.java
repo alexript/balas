@@ -26,7 +26,6 @@ import net.autosauler.ballance.client.databases.DocumentsDatabase;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -39,7 +38,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -56,7 +54,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
@@ -426,7 +423,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
 		cellTable.setWidth("100%", true);
-		// TODO: add onClick for edit
 
 		// ListHandler<HashMap<String, Object>> sortHandler = null;
 		// ListHandler<HashMap<String, Object>> sortHandler = new
@@ -437,9 +433,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
 				KEY_PROVIDER);
 
-		cellTable.setSelectionModel(selectionModel,
-				DefaultSelectionEventManager
-						.<HashMap<String, Object>> createCheckboxManager());
+		cellTable.setSelectionModel(selectionModel);
 
 		selectionModel
 				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -449,8 +443,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 						HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
 								.getSelectedObject();
 						if (map != null) {
-							// edit.setEnabled(true);
-							// del.setEnabled(true);
+							editformnumber = (Long) map.get("number");
+							editformisactive = (Boolean) map.get("active");
+							openEditor(map);
 						} else {
 							// edit.setEnabled(false);
 							// del.setEnabled(false);
@@ -458,6 +453,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 						}
 					}
 				});
+
 		initTableColumns(selectionModel); // , sortHandler);
 		db.addDataDisplay(cellTable);
 		list.add(cellTable);
@@ -508,6 +504,19 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		});
 	}-*/;
 
+	/**
+	 * Fill editor.
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	protected abstract void fillEditor(HashMap<String, Object> map);
+
+	/**
+	 * Gets the editor values.
+	 * 
+	 * @return the editor values
+	 */
 	protected abstract HashMap<String, Object> getEditorValues();
 
 	/**
@@ -556,7 +565,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 							editformnumber = -1L;
 							editformisactive = false;
 							cleanEditForm();
-							openEditor();
+							openEditor(null);
 						}
 					});
 		}
@@ -580,23 +589,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	private void initTableColumns(
 			final SelectionModel<HashMap<String, Object>> selectionModel) {
 		// , ListHandler<HashMap<String, Object>> sortHandler) {
-
-		// Checkbox column. This table will uses a checkbox column for
-		// selection.
-		// Alternatively, you can call cellTable.setSelectionEnabled(true) to
-		// enable
-		// mouse selection.
-		Column<HashMap<String, Object>, Boolean> checkColumn = new Column<HashMap<String, Object>, Boolean>(
-				new CheckboxCell(true, false)) {
-			@Override
-			public Boolean getValue(HashMap<String, Object> map) {
-				// Get the value from the selection model.
-				return selectionModel.isSelected(map);
-			}
-		};
-		cellTable.addColumn(checkColumn,
-				SafeHtmlUtils.fromSafeConstant("<br/>"));
-		cellTable.setColumnWidth(checkColumn, 40, Unit.PX);
 
 		// Doc number.
 		// ----------------------------------------------------------
@@ -707,11 +699,15 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/**
 	 * Open editor.
+	 * 
+	 * @param map
+	 *            the map
 	 */
-	private void openEditor() {
-		if (editformnumber.equals(-1L)) {
+	private void openEditor(HashMap<String, Object> map) {
+		if (editformnumber.equals(-1L) && (map == null)) {
 			btnActivate.setVisible(false);
 		} else {
+			fillEditor(map);
 			if (editformisactive) {
 				btnActivate.setText(l.btnUnActivate());
 			} else {
