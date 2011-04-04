@@ -642,7 +642,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		cellTable.addColumn(activeColumn, "");
 
-		cellTable.setColumnWidth(activeColumn, 20, Unit.PX);
+		cellTable.setColumnWidth(activeColumn, 50, Unit.PX);
 
 		// Doc creation date.
 		// ----------------------------------------------------------
