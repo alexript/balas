@@ -11,11 +11,12 @@ import net.autosauler.ballance.shared.UserRole;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
@@ -51,6 +52,9 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 
 	private static IncomingPayMessages l = GWT
 			.create(IncomingPayMessages.class);
+
+	private static PartnersPanel pp = new PartnersPanel();
+	private static PayMethodPanel pmp = new PayMethodPanel();
 
 	/**
 	 * Instantiates a new incoming pay panel.
@@ -128,7 +132,7 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 		Grid header = new Grid(6, 2);
 
 		header.setWidget(0, 0, new Label(l.lblPartner()));
-		PartnersPanel pp = new PartnersPanel();
+
 		partner = pp.getSelectBox(0L);
 		header.setWidget(0, 1, partner);
 
@@ -146,7 +150,7 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 		header.setWidget(3, 1, payvalue);
 
 		header.setWidget(4, 0, new Label(l.lblMethod()));
-		PayMethodPanel pmp = new PayMethodPanel();
+
 		paymethod = pmp.getSelectBox(0L);
 		header.setWidget(4, 1, paymethod);
 
@@ -166,14 +170,22 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	 */
 	@Override
 	protected String drawDocumentRowForList(HashMap<String, Object> map) {
-		SafeHtmlBuilder sb = new SafeHtmlBuilder();
+		VerticalPanel panel = new VerticalPanel();
+		panel.setWidth("100%");
+		panel.setSpacing(2);
 
-		// TODO:
-		sb.appendHtmlConstant(new Label("Partner is " + map.get("partner"))
-				.toString());
+		HorizontalPanel row = new HorizontalPanel();
+		row.setSpacing(4);
+		row.add(new Label(pp.getName((Long) map.get("partner"))));
+		row.add(new Label(map.get("payvalue") + " "
+				+ (String) map.get("currency")));
+		panel.add(row);
 
-		// TODO: fix this shit
-		return sb.toString();
+		panel.add(new Label(pmp.getName((Long) map.get("paymethod"))));
+
+		panel.add(new Label((String) map.get("comments")));
+
+		return panel.toString();
 	}
 
 	/*

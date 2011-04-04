@@ -81,6 +81,18 @@ public interface CatalogServiceAsync {
 			AsyncCallback<HashMap<String, Long>> callback);
 
 	/**
+	 * Gets the records for view.
+	 * 
+	 * @param catalogname
+	 *            the catalogname
+	 * @param callback
+	 *            the callback
+	 * @return the records for view
+	 */
+	void getRecordsForView(String catalogname,
+			AsyncCallback<HashMap<Long, String>> callback);
+
+	/**
 	 * Restore record.
 	 * 
 	 * @param catalogname

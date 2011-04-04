@@ -176,6 +176,15 @@ public abstract class CatalogRecord implements ICatalogRecord {
 		return catalog.getSelectData();
 	}
 
+	/**
+	 * Gets the view data.
+	 * 
+	 * @return the view data
+	 */
+	public HashMap<Long, String> getViewData() {
+		return catalog.getViewData();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

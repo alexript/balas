@@ -244,6 +244,38 @@ public class Catalog {
 	}
 
 	/**
+	 * Gets the view data.
+	 * 
+	 * @return the view data
+	 */
+	public HashMap<Long, String> getViewData() {
+		HashMap<Long, String> map = new HashMap<Long, String>();
+		DB db = Database.get();
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(catalogname);
+			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
+			q.put("domain", domain);
+			q.put("trash", false);
+			w.put("$query", q);
+
+			BasicDBObject o = new BasicDBObject();
+			o.put("fullname", 1);
+			w.put("$orderby", o);
+
+			DBCursor cur = coll.find(w);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				map.put((Long) myDoc.get("number"),
+						(String) myDoc.get("fullname"));
+			}
+			Database.release();
+		}
+		return map;
+	}
+
+	/**
 	 * Save.
 	 * 
 	 * @param record

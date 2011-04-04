@@ -94,6 +94,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The images. */
 	protected static MenuImages images = GWT.create(MenuImages.class);
 
+	/** The viewdata. */
+	private HashMap<Long, String> viewdata = null;
+
 	/**
 	 * Instantiates a new catalog panel.
 	 * 
@@ -113,6 +116,23 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 			formatter = new SimpleDateFormat(DATEFORMATTER);
 		}
 		linecounter = 0L;
+
+		MainPanel.setCommInfo(true);
+		service.getRecordsForView(catalogname,
+				new AsyncCallback<HashMap<Long, String>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(caught.getMessage()).show();
+					}
+
+					@Override
+					public void onSuccess(HashMap<Long, String> result) {
+						MainPanel.setCommInfo(false);
+						viewdata = result;
+					}
+				});
 
 	}
 
@@ -456,9 +476,23 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		return this;
 	}
 
+	/**
+	 * Gets the name.
+	 * 
+	 * @param number
+	 *            the number
+	 * @return the name
+	 */
 	public String getName(Long number) {
-		// TODO: return name for record (view value)
-		return "NOT IMPLEMENTED YET";
+		if (viewdata != null) {
+			if (viewdata.containsKey(number)) {
+				return viewdata.get(number);
+			} else {
+				return "UNCKNOWN. TRY RELOAD PAGE.";
+			}
+		} else {
+			return "ERROR: NO DATA";
+		}
 	}
 
 	/*
