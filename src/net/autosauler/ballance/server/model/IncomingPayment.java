@@ -49,6 +49,12 @@ public class IncomingPayment extends Document {
 	/** The payvalue. */
 	private Double payvalue;
 
+	/** The paymethod. */
+	private Long paymethod;
+
+	/** The comments. */
+	private String comments;
+
 	/**
 	 * Instantiates a new incoming payment.
 	 * 
@@ -97,6 +103,8 @@ public class IncomingPayment extends Document {
 		map.put("currency", currency);
 		map.put("currvalue", currvalue.toString());
 		map.put("payvalue", payvalue.toString());
+		map.put("paymethod", paymethod);
+		map.put("comments", comments);
 
 		return map;
 	}
@@ -115,6 +123,8 @@ public class IncomingPayment extends Document {
 		currency = (String) map.get("currency");
 		currvalue = Currency.get(currency, paydate);
 		payvalue = Double.parseDouble((String) map.get("payvalue"));
+		paymethod = (Long) map.get("paymethod");
+		comments = (String) map.get("comments");
 	}
 
 	/*
@@ -153,6 +163,8 @@ public class IncomingPayment extends Document {
 		doc.put("currency", currency);
 		doc.put("currvalue", currvalue);
 		doc.put("payvalue", payvalue);
+		doc.put("paymethod", paymethod);
+		doc.put("comments", comments);
 
 		return doc;
 	}
@@ -193,6 +205,8 @@ public class IncomingPayment extends Document {
 		currency = (String) doc.get("currency");
 		currvalue = (Double) doc.get("currvalue");
 		payvalue = (Double) doc.get("payvalue");
+		paymethod = (Long) doc.get("paymethod");
+		comments = (String) doc.get("comments");
 	}
 
 }

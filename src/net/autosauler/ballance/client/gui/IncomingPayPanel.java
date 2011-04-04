@@ -9,6 +9,7 @@ import java.util.HashMap;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.Grid;
@@ -19,24 +20,41 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
- * @author alexript
+ * The Class IncomingPayPanel.
  * 
+ * @author alexript
  */
 public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
+	/** The partner. */
 	private CatalogSelector partner;
 
+	/** The date format. */
 	private static DateTimeFormat dateFormat = DateTimeFormat
 			.getFormat("dd/MM/yyyy");
 
+	/** The paydate. */
 	private DateBox paydate;
+
+	/** The currency. */
 	private CurrencySelector currency;
+
+	/** The payvalue. */
 	private TextBox payvalue;
 
+	/** The paymethod. */
+	private CatalogSelector paymethod;
+
+	/** The comments. */
+	private TextBox comments;
+
+	private static IncomingPayMessages l = GWT
+			.create(IncomingPayMessages.class);
+
 	/**
-	 * @param docname
-	 * @param image
+	 * Instantiates a new incoming pay panel.
+	 * 
 	 */
 	public IncomingPayPanel() {
 		super("inpay", new Image(images.icoIncPay()));
@@ -93,6 +111,8 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 
 		currency.reset();
 		payvalue.setText("0.0");
+		paymethod.reset();
+		comments.setText("");
 
 	}
 
@@ -105,25 +125,34 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	 */
 	@Override
 	protected Widget createDocumentHeaderEditor() {
-		Grid header = new Grid(4, 2);
+		Grid header = new Grid(6, 2);
 
-		header.setWidget(0, 0, new Label("Partner"));
+		header.setWidget(0, 0, new Label(l.lblPartner()));
 		PartnersPanel pp = new PartnersPanel();
 		partner = pp.getSelectBox(0L);
 		header.setWidget(0, 1, partner);
 
-		header.setWidget(1, 0, new Label("Pay date"));
+		header.setWidget(1, 0, new Label(l.lblPayDate()));
 		paydate = new DateBox();
 		paydate.setFormat(new DateBox.DefaultFormat(dateFormat));
 		header.setWidget(1, 1, paydate);
 
-		header.setWidget(2, 0, new Label("Currency"));
+		header.setWidget(2, 0, new Label(l.lblCurrency()));
 		currency = new CurrencySelector(null);
 		header.setWidget(2, 1, currency);
 
-		header.setWidget(3, 0, new Label("Value"));
+		header.setWidget(3, 0, new Label(l.lblValue()));
 		payvalue = new TextBox();
 		header.setWidget(3, 1, payvalue);
+
+		header.setWidget(4, 0, new Label(l.lblMethod()));
+		PayMethodPanel pmp = new PayMethodPanel();
+		paymethod = pmp.getSelectBox(0L);
+		header.setWidget(4, 1, paymethod);
+
+		header.setWidget(5, 0, new Label(l.lblComments()));
+		comments = new TextBox();
+		header.setWidget(5, 1, comments);
 
 		return header;
 	}
@@ -173,6 +202,9 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 			Log.error(e.getMessage());
 		}
 		map.put("payvalue", payvalue.toString());
+
+		map.put("paymethod", paymethod.getValue());
+		map.put("comments", comments.getText());
 
 		return map;
 	}
