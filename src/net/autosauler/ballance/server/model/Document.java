@@ -35,7 +35,7 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public abstract class Document {
+public abstract class Document implements IScriptableObject {
 
 	/** The Constant TABLEPREFIX. */
 	private final static String TABLEPREFIX = "doc_";
@@ -120,6 +120,11 @@ public abstract class Document {
 	public void activation() {
 		if (!isActive()) {
 			if (onActivation()) {
+
+				Scripts script = new Scripts(this, domain, "document."
+						+ documentname);
+				script.eval("(onactivate)"); // TODO: do it right
+
 				setActive(true);
 				setActivationdate(new Date()); // document activation
 			}
@@ -245,6 +250,23 @@ public abstract class Document {
 	 */
 	public void fromMap(HashMap<String, Object> map) {
 		fillFieldsFromMap(map);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.IScriptableObject#generateDefaultScript
+	 * ()
+	 */
+	@Override
+	public String generateDefaultScript() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(def onactivate ())");
+
+		sb.append(onGenerateDefaultScript());
+
+		return sb.toString();
 	}
 
 	/**
@@ -412,14 +434,21 @@ public abstract class Document {
 	/**
 	 * On activation.
 	 * 
-	 * @return
+	 * @return true, if successful
 	 */
 	protected abstract boolean onActivation();
 
 	/**
+	 * On generate default script.
+	 * 
+	 * @return the string
+	 */
+	protected abstract String onGenerateDefaultScript();
+
+	/**
 	 * On un activation.
 	 * 
-	 * @return
+	 * @return true, if successful
 	 */
 	protected abstract boolean onUnActivation();
 
@@ -573,6 +602,10 @@ public abstract class Document {
 	public void unactivation() {
 		if (isActive()) {
 			if (onUnActivation()) {
+				Scripts script = new Scripts(this, domain, "document."
+						+ documentname);
+				script.eval("(onunactivate)"); // TODO: do it right
+
 				setActive(false);
 			}
 		}

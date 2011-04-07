@@ -183,6 +183,18 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.Document#onGenerateDefaultScript()
+	 */
+	@Override
+	protected String onGenerateDefaultScript() {
+		// TODO: add document-specific default script
+		return "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.autosauler.ballance.server.model.Document#onUnActivation()
 	 */
 	@Override
