@@ -19,10 +19,14 @@ package net.autosauler.ballance.server.model;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
+import net.autosauler.ballance.shared.datatypes.StructValues;
+import net.autosauler.ballance.shared.datatypes.Structure;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -46,23 +50,29 @@ public abstract class Document implements IScriptableObject {
 	/** The documentname. */
 	private String documentname;
 
-	/** The domain. */
-	private String domain;
+	/** The struct. */
+	protected Structure struct;
 
-	/** The username. */
-	private String username;
+	/** The values. */
+	protected StructValues values;
 
-	/** The number. */
-	private Long number;
+	/** The Constant fieldname_domain. */
+	private static final String fieldname_domain = "domain";
 
-	/** The createdate. */
-	private Date createdate;
+	/** The Constant fieldname_username. */
+	private static final String fieldname_username = "username";
 
-	/** The active. */
-	private boolean active;
+	/** The Constant fieldname_number. */
+	private static final String fieldname_number = "number";
 
-	/** The activationdate. */
-	private Date activationdate;
+	/** The Constant fieldname_createdate. */
+	private static final String fieldname_createdate = "createdate";
+
+	/** The Constant fieldname_active. */
+	private static final String fieldname_active = "active";
+
+	/** The Constant fieldname_activationdate. */
+	private static final String fieldname_activationdate = "activationdate";
 
 	/**
 	 * Instantiates a new document.
@@ -74,6 +84,7 @@ public abstract class Document implements IScriptableObject {
 	 */
 	public Document(String name, String domain) {
 		tablename = TABLEPREFIX + name;
+		initDocumentStructure();
 		setDomain(domain);
 	}
 
@@ -89,7 +100,8 @@ public abstract class Document implements IScriptableObject {
 	 */
 	public Document(String name, String domain, Long number) {
 		tablename = TABLEPREFIX + name;
-		initStruct();
+		initDocumentStructure();
+		initDBStruct();
 		setDocumentname(name);
 		setDomain(domain);
 		get(number);
@@ -107,11 +119,11 @@ public abstract class Document implements IScriptableObject {
 	 */
 	public Document(String name, String domain, String username) {
 		tablename = TABLEPREFIX + name;
-		initStruct();
+		initDocumentStructure();
+		initDBStruct();
 		setDocumentname(name);
 		setDomain(domain);
 		setUsername(username);
-		setDefaultValues();
 	}
 
 	/**
@@ -121,8 +133,9 @@ public abstract class Document implements IScriptableObject {
 		if (!isActive()) {
 			if (onActivation()) {
 
-				Scripts script = new Scripts(this, domain, "document."
-						+ documentname);
+				Scripts script = new Scripts(this,
+						(String) values.get(fieldname_domain), "document."
+								+ documentname);
 				script.eval("(onactivate)"); // TODO: do it right
 
 				setActive(true);
@@ -130,16 +143,6 @@ public abstract class Document implements IScriptableObject {
 			}
 		}
 	}
-
-	/**
-	 * Adds the fields to map.
-	 * 
-	 * @param map
-	 *            the map
-	 * @return the hash map
-	 */
-	protected abstract HashMap<String, Object> addFieldsToMap(
-			HashMap<String, Object> map);
 
 	/**
 	 * Creates the record.
@@ -168,14 +171,6 @@ public abstract class Document implements IScriptableObject {
 	}
 
 	/**
-	 * Fill fields from map.
-	 * 
-	 * @param map
-	 *            the map
-	 */
-	protected abstract void fillFieldsFromMap(HashMap<String, Object> map);
-
-	/**
 	 * Find all.
 	 * 
 	 * @return the sets the
@@ -189,17 +184,17 @@ public abstract class Document implements IScriptableObject {
 			DBCollection coll = db.getCollection(tablename);
 			BasicDBObject q = new BasicDBObject();
 			BasicDBObject w = new BasicDBObject();
-			q.put("domain", domain);
+			q.put(fieldname_domain, values.get(fieldname_domain));
 			w.put("$query", q);
 
 			BasicDBObject o = new BasicDBObject();
-			o.put("number", 1);
+			o.put(fieldname_number, 1);
 			w.put("$orderby", o);
 
 			DBCursor cur = coll.find(w);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
-				numbers.add((Long) myDoc.get("number"));
+				numbers.add((Long) myDoc.get(fieldname_number));
 			}
 			Database.release();
 		}
@@ -220,8 +215,11 @@ public abstract class Document implements IScriptableObject {
 			Database.retain();
 			DBCollection coll = db.getCollection(tablename);
 			BasicDBObject query = new BasicDBObject();
-			query.put("$query", new BasicDBObject("domain", domain));
-			query.put("$orderby", new BasicDBObject("number", -1));
+			query.put(
+					"$query",
+					new BasicDBObject(fieldname_domain, values
+							.get(fieldname_domain)));
+			query.put("$orderby", new BasicDBObject(fieldname_number, -1));
 
 			DBObject doc = null;
 			try {
@@ -230,7 +228,7 @@ public abstract class Document implements IScriptableObject {
 				last = 1L;
 			}
 			if (doc != null) {
-				last = (Long) doc.get("number") + 1L;
+				last = (Long) doc.get(fieldname_number) + 1L;
 			}
 			Database.release();
 		}
@@ -249,7 +247,49 @@ public abstract class Document implements IScriptableObject {
 	 *            the map
 	 */
 	public void fromMap(HashMap<String, Object> map) {
-		fillFieldsFromMap(map);
+
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			int type = struct.getType(name);
+			if (type == DataTypes.DT_BOOLEAN) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CATALOG) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CATALOGRECORD) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CURRENCY) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DATE) {
+				values.set(name, new Date((Long) map.get(name)));
+			} else if (type == DataTypes.DT_DOCUMENT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOMAIN) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOUBLE) {
+				values.set(name, Double.parseDouble((String) map.get(name)));
+			} else if (type == DataTypes.DT_INT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_LONG) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_MONEY) {
+				values.set(name, Double.parseDouble((String) map.get(name)));
+			} else if (type == DataTypes.DT_OBJECT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SCRIPT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SETTING) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SETTINGVALUE) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_STRING) {
+				values.set(name, map.get(name));
+			}
+
+		}
 	}
 
 	/*
@@ -280,7 +320,7 @@ public abstract class Document implements IScriptableObject {
 		if (doc != null) {
 			load(doc);
 		} else {
-			setDefaultValues();
+			values = new StructValues(struct);
 		}
 	}
 
@@ -299,7 +339,7 @@ public abstract class Document implements IScriptableObject {
 	 * @return the activationdate
 	 */
 	public Date getActivationdate() {
-		return activationdate;
+		return (Date) values.get(fieldname_activationdate);
 	}
 
 	/**
@@ -308,7 +348,7 @@ public abstract class Document implements IScriptableObject {
 	 * @return the createdate
 	 */
 	public Date getCreatedate() {
-		return createdate;
+		return (Date) values.get(fieldname_createdate);
 	}
 
 	/**
@@ -326,17 +366,8 @@ public abstract class Document implements IScriptableObject {
 	 * @return the domain
 	 */
 	public String getDomain() {
-		return domain;
+		return (String) values.get(fieldname_domain);
 	}
-
-	/**
-	 * Gets the fields.
-	 * 
-	 * @param doc
-	 *            the doc
-	 * @return the fields
-	 */
-	protected abstract DBObject getFields(DBObject doc);
 
 	/**
 	 * Gets the number.
@@ -344,7 +375,7 @@ public abstract class Document implements IScriptableObject {
 	 * @return the number
 	 */
 	public Long getNumber() {
-		return number;
+		return (Long) values.get(fieldname_number);
 	}
 
 	/**
@@ -361,8 +392,8 @@ public abstract class Document implements IScriptableObject {
 			Database.retain();
 			DBCollection coll = db.getCollection(tablename);
 			BasicDBObject query = new BasicDBObject();
-			query.put("domain", domain);
-			query.put("number", number);
+			query.put(fieldname_domain, values.get(fieldname_domain));
+			query.put(fieldname_number, number);
 
 			doc = coll.findOne(query);
 			Database.release();
@@ -377,13 +408,13 @@ public abstract class Document implements IScriptableObject {
 	 * @return the username
 	 */
 	public String getUsername() {
-		return username;
+		return (String) values.get(fieldname_username);
 	}
 
 	/**
 	 * Inits the struct.
 	 */
-	private void initStruct() {
+	private void initDBStruct() {
 		DB db = Database.get();
 		if (db != null) {
 			Database.retain();
@@ -391,13 +422,13 @@ public abstract class Document implements IScriptableObject {
 			List<DBObject> indexes = coll.getIndexInfo();
 			if (indexes.size() < 1) {
 				BasicDBObject i = new BasicDBObject();
-				i.put("number", 1);
+				i.put(fieldname_number, 1);
 				coll.createIndex(i);
 
-				i.put("domain", 1);
+				i.put(fieldname_domain, 1);
 				coll.createIndex(i);
 
-				i.put("active", 1);
+				i.put(fieldname_active, 1);
 				coll.createIndex(i);
 
 			}
@@ -406,12 +437,34 @@ public abstract class Document implements IScriptableObject {
 	}
 
 	/**
+	 * Inits the document structure.
+	 */
+	private void initDocumentStructure() {
+		struct = new Structure();
+		struct.add(fieldname_domain, DataTypes.DT_DOMAIN, "127.0.0.1");
+		struct.add(fieldname_username, DataTypes.DT_STRING, "uncknown");
+		struct.add(fieldname_number, DataTypes.DT_LONG, new Long(0L));
+		struct.add(fieldname_createdate, DataTypes.DT_DATE, new Date());
+		struct.add(fieldname_active, DataTypes.DT_BOOLEAN, false);
+		struct.add(fieldname_activationdate, DataTypes.DT_DATE, new Date());
+
+		initStructure();
+
+		values = new StructValues(struct);
+	}
+
+	/**
+	 * Inits the structure.
+	 */
+	protected abstract void initStructure();
+
+	/**
 	 * Checks if is active.
 	 * 
 	 * @return the active
 	 */
 	public boolean isActive() {
-		return active;
+		return (Boolean) values.get(fieldname_active);
 	}
 
 	/**
@@ -421,14 +474,12 @@ public abstract class Document implements IScriptableObject {
 	 *            the doc
 	 */
 	private void load(DBObject doc) {
-		setNumber((Long) doc.get("number"));
-		setUsername((String) doc.get("author"));
-		setCreatedate((Date) doc.get("createdate"));
-		setDomain((String) doc.get("domain"));
-		setActive((Boolean) doc.get("active"));
-		setActivationdate((Date) doc.get("acdate"));
-
-		setFields(doc);
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			values.set(name, doc.get(name));
+		}
 	}
 
 	/**
@@ -476,7 +527,7 @@ public abstract class Document implements IScriptableObject {
 	 *            the activationdate to set
 	 */
 	public void setActivationdate(Date activationdate) {
-		this.activationdate = activationdate;
+		values.set(fieldname_activationdate, activationdate);
 	}
 
 	/**
@@ -486,7 +537,7 @@ public abstract class Document implements IScriptableObject {
 	 *            the active to set
 	 */
 	public void setActive(boolean active) {
-		this.active = active;
+		values.set(fieldname_active, active);
 	}
 
 	/**
@@ -496,17 +547,7 @@ public abstract class Document implements IScriptableObject {
 	 *            the createdate to set
 	 */
 	public void setCreatedate(Date createdate) {
-		this.createdate = createdate;
-	}
-
-	/**
-	 * Sets the default values.
-	 */
-	private void setDefaultValues() {
-		setNumber(0L);
-		setCreatedate(new Date());
-		setActive(false);
-		setActivationdate(new Date());
+		values.set(fieldname_createdate, createdate);
 	}
 
 	/**
@@ -526,16 +567,8 @@ public abstract class Document implements IScriptableObject {
 	 *            the domain to set
 	 */
 	public void setDomain(String domain) {
-		this.domain = domain;
+		values.set(fieldname_domain, domain);
 	}
-
-	/**
-	 * Sets the fields.
-	 * 
-	 * @param doc
-	 *            the new fields
-	 */
-	protected abstract void setFields(DBObject doc);
 
 	/**
 	 * Sets the number.
@@ -544,7 +577,7 @@ public abstract class Document implements IScriptableObject {
 	 *            the number to set
 	 */
 	public void setNumber(Long number) {
-		this.number = number;
+		values.set(fieldname_number, number);
 	}
 
 	/**
@@ -554,7 +587,7 @@ public abstract class Document implements IScriptableObject {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		this.username = username;
+		values.set(fieldname_username, username);
 	}
 
 	/**
@@ -568,13 +601,13 @@ public abstract class Document implements IScriptableObject {
 		if (doc == null) {
 			doc = new BasicDBObject();
 		}
-		doc.put("domain", getDomain());
-		doc.put("author", getUsername());
-		doc.put("number", getNumber());
-		doc.put("createdate", getCreatedate());
-		doc.put("active", isActive());
-		doc.put("acdate", getActivationdate());
-		doc = getFields(doc);
+
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			doc.put(name, values.get(name));
+		}
 		return doc;
 	}
 
@@ -585,13 +618,48 @@ public abstract class Document implements IScriptableObject {
 	 */
 	public HashMap<String, Object> toMap() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("number", getNumber());
-		map.put("author", getUsername());
-		map.put("createdate", getCreatedate().getTime());
-		map.put("active", isActive());
-		map.put("activationdate", getActivationdate().getTime());
 
-		map = addFieldsToMap(map);
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			int type = struct.getType(name);
+			if (type == DataTypes.DT_BOOLEAN) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CATALOG) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CATALOGRECORD) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CURRENCY) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DATE) {
+				map.put(name, ((Date) values.get(name)).getTime());
+			} else if (type == DataTypes.DT_DOCUMENT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOMAIN) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOUBLE) {
+				map.put(name, ((Double) values.get(name)).toString());
+			} else if (type == DataTypes.DT_INT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_LONG) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_MONEY) {
+				map.put(name, ((Double) values.get(name)).toString());
+			} else if (type == DataTypes.DT_OBJECT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SCRIPT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SETTING) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SETTINGVALUE) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_STRING) {
+				map.put(name, values.get(name));
+			}
+		}
 
 		return map;
 	}
@@ -602,8 +670,9 @@ public abstract class Document implements IScriptableObject {
 	public void unactivation() {
 		if (isActive()) {
 			if (onUnActivation()) {
-				Scripts script = new Scripts(this, domain, "document."
-						+ documentname);
+				Scripts script = new Scripts(this,
+						(String) values.get(fieldname_domain), "document."
+								+ documentname);
 				script.eval("(onunactivate)"); // TODO: do it right
 
 				setActive(false);

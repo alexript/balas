@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.mongodb.DBObject;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 /**
  * The Class IncomingPayment.
@@ -33,27 +33,6 @@ public class IncomingPayment extends Document {
 
 	/** The Constant docname. */
 	private final static String docname = "inpay";
-
-	/** The partner. */
-	private Long partner;
-
-	/** The paydate. */
-	private Date paydate;
-
-	/** The currency. */
-	private String currency;
-
-	/** The currvalue. */
-	private Double currvalue;
-
-	/** The payvalue. */
-	private Double payvalue;
-
-	/** The paymethod. */
-	private Long paymethod;
-
-	/** The comments. */
-	private String comments;
 
 	/**
 	 * Instantiates a new incoming payment.
@@ -92,44 +71,6 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.Document#addFieldsToMap(java.util
-	 * .HashMap)
-	 */
-	@Override
-	protected HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
-		map.put("partner", partner);
-		map.put("paydate", paydate.getTime());
-		map.put("currency", currency);
-		map.put("currvalue", currvalue.toString());
-		map.put("payvalue", payvalue.toString());
-		map.put("paymethod", paymethod);
-		map.put("comments", comments);
-
-		return map;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.Document#fillFieldsFromMap(java.
-	 * util.HashMap)
-	 */
-	@Override
-	protected void fillFieldsFromMap(HashMap<String, Object> map) {
-		partner = (Long) map.get("partner");
-		paydate = new Date((Long) map.get("paydate"));
-		currency = (String) map.get("currency");
-		currvalue = Currency.get(currency, paydate);
-		payvalue = Double.parseDouble((String) map.get("payvalue"));
-		paymethod = (Long) map.get("paymethod");
-		comments = (String) map.get("comments");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see net.autosauler.ballance.server.model.Document#get(java.util.Set)
 	 */
 	@Override
@@ -152,21 +93,18 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.Document#getFields(com.mongodb.DBObject
-	 * )
+	 * @see net.autosauler.ballance.server.model.Document#initStructure()
 	 */
 	@Override
-	protected DBObject getFields(DBObject doc) {
-		doc.put("partner", partner);
-		doc.put("paydate", paydate);
-		doc.put("currency", currency);
-		doc.put("currvalue", currvalue);
-		doc.put("payvalue", payvalue);
-		doc.put("paymethod", paymethod);
-		doc.put("comments", comments);
+	protected void initStructure() {
+		struct.add("partner", DataTypes.DT_LONG, new Long(0L));
+		struct.add("paydate", DataTypes.DT_DATE, new Date());
+		struct.add("currency", DataTypes.DT_CURRENCY, "RUR");
+		struct.add("currvalue", DataTypes.DT_MONEY, new Double(1.0D));
+		struct.add("payvalue", DataTypes.DT_MONEY, new Double(0.0D));
+		struct.add("paymethod", DataTypes.DT_CATALOGRECORD, new Long(0L));
+		struct.add("comments", DataTypes.DT_STRING, "");
 
-		return doc;
 	}
 
 	/*
@@ -176,7 +114,10 @@ public class IncomingPayment extends Document {
 	 */
 	@Override
 	protected boolean onActivation() {
-		// TODO Auto-generated method stub
+		values.set(
+				"currvalue",
+				Currency.get((String) values.get("currency"),
+						(Date) values.get("paydate")));
 		return true;
 	}
 
@@ -201,24 +142,6 @@ public class IncomingPayment extends Document {
 	protected boolean onUnActivation() {
 		// TODO Auto-generated method stub
 		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.Document#setFields(com.mongodb.DBObject
-	 * )
-	 */
-	@Override
-	protected void setFields(DBObject doc) {
-		partner = (Long) doc.get("partner");
-		paydate = (Date) doc.get("paydate");
-		currency = (String) doc.get("currency");
-		currvalue = (Double) doc.get("currvalue");
-		payvalue = (Double) doc.get("payvalue");
-		paymethod = (Long) doc.get("paymethod");
-		comments = (String) doc.get("comments");
 	}
 
 }
