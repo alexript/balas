@@ -28,7 +28,7 @@ import java.util.Set;
 public class StructValues {
 
 	/** The values. */
-	private final HashMap<String, Object> values;
+	private HashMap<String, Object> values;
 
 	/**
 	 * Instantiates a new struct values.
@@ -37,15 +37,56 @@ public class StructValues {
 	 *            the struct
 	 */
 	public StructValues(Structure struct) {
+		fillDefaults(struct, null);
+	}
+
+	/**
+	 * Instantiates a new struct values.
+	 * 
+	 * @param struct
+	 *            the struct
+	 * @param xmldump
+	 *            the xmldump
+	 */
+	public StructValues(Structure struct, String xmldump) {
+		fillDefaults(struct, xmldump);
+	}
+
+	/**
+	 * Fill defaults.
+	 * 
+	 * @param struct
+	 *            the struct
+	 * @param xmldump
+	 *            the xmldump
+	 */
+	private void fillDefaults(Structure struct, String xmldump) {
 		values = new HashMap<String, Object>();
 
 		Set<String> names = struct.getNames();
-		Iterator<String> i = names.iterator();
-		while (i.hasNext()) {
-			String name = i.next();
-			Object val = struct.getDefValue(name);
-			values.put(name, val);
+
+		if (xmldump == null) {
+			Iterator<String> i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				Object val = struct.getDefValue(name);
+				values.put(name, val);
+			}
+		} else {
+			fromString(names, xmldump);
 		}
+	}
+
+	/**
+	 * From string.
+	 * 
+	 * @param names
+	 *            the names
+	 * @param xml
+	 *            the xml
+	 */
+	private void fromString(Set<String> names, String xml) {
+		// TODO: parse xml
 	}
 
 	/**
@@ -74,5 +115,33 @@ public class StructValues {
 		if (values.containsKey(name)) {
 			values.put(name, val);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Set<String> names = values.keySet();
+		if (names.size() > 0) {
+
+			sb.append("<record>");
+			Iterator<String> i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				Object val = values.get(name);
+				sb.append(" <field name=\"");
+				sb.append(name.trim().toLowerCase());
+				sb.append("\" value=\"");
+				sb.append(val.toString());
+				sb.append("\"/>\n");
+			}
+
+			sb.append("</record>");
+		}
+		return sb.toString();
 	}
 }

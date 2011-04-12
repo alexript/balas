@@ -21,6 +21,9 @@ import java.util.List;
 
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
+import net.autosauler.ballance.server.model.IncomingPayment;
+import net.autosauler.ballance.server.model.Partner;
+import net.autosauler.ballance.server.model.PayMethod;
 import net.autosauler.ballance.server.model.UserList;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -99,6 +102,25 @@ public class Database {
 			settings.save();
 		}
 		// lock.release();
+	}
+
+	public static String dumpdatabase(String domain, String username) {
+		// TODO: return boolean, write to stream
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<catalogs>\n");
+		PayMethod paymethod = new PayMethod(domain, username);
+		sb.append(paymethod.dump());
+		Partner partner = new Partner(domain, username);
+		sb.append(partner.dump());
+
+		sb.append("</catalogs>\n<documents>\n");
+		IncomingPayment payments = new IncomingPayment(domain, username);
+		sb.append(payments.dump());
+
+		sb.append("</documents>\n");
+
+		return sb.toString();
 	}
 
 	/**

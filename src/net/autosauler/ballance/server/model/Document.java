@@ -171,6 +171,37 @@ public abstract class Document implements IScriptableObject {
 	}
 
 	/**
+	 * Dump.
+	 * 
+	 * @return the string
+	 */
+	public String dump() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<document name=\"" + documentname + "\">\n");
+
+		sb.append(struct.toString());
+
+		sb.append("<records>\n");
+
+		Set<Long> numbers = findAll();
+		Iterator<Long> i = numbers.iterator();
+		while (i.hasNext()) {
+			Long number = i.next();
+			DBObject doc = getRecord(number);
+			if (doc != null) {
+				load(doc);
+				sb.append(values.toString());
+			}
+		}
+
+		sb.append("</records>\n");
+		sb.append("</document>\n");
+
+		return sb.toString();
+	}
+
+	/**
 	 * Find all.
 	 * 
 	 * @return the sets the
@@ -500,6 +531,16 @@ public abstract class Document implements IScriptableObject {
 	 * @return true, if successful
 	 */
 	protected abstract boolean onUnActivation();
+
+	/**
+	 * Restore.
+	 * 
+	 * @param xmldump
+	 *            the xmldump
+	 */
+	public void restore(String xmldump) {
+		// TODO: restore data
+	}
 
 	/**
 	 * Save.

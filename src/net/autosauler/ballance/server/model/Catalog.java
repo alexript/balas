@@ -47,11 +47,22 @@ public abstract class Catalog {
 	/** The catalogname. */
 	private String catalogname;
 
+	/** The Constant fieldname_number. */
 	private static final String fieldname_number = "number";
+
+	/** The Constant fieldname_author. */
 	private static final String fieldname_author = "authorname";
+
+	/** The Constant fieldname_createdate. */
 	private static final String fieldname_createdate = "createdate";
+
+	/** The Constant fieldname_trash. */
 	private static final String fieldname_trash = "trash";
+
+	/** The Constant fieldname_domain. */
 	private static final String fieldname_domain = "domain";
+
+	/** The Constant fieldname_fullname. */
 	private static final String fieldname_fullname = "fullname";
 
 	/** The struct. */
@@ -116,6 +127,37 @@ public abstract class Catalog {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Dump.
+	 * 
+	 * @return the string
+	 */
+	public String dump() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<catalog name=\"" + catalogname + "\">\n");
+
+		sb.append(struct.toString());
+
+		sb.append("<records>\n");
+
+		Set<Long> numbers = findAll();
+		Iterator<Long> i = numbers.iterator();
+		while (i.hasNext()) {
+			Long number = i.next();
+			DBObject doc = getRecord(number);
+			if (doc != null) {
+				load(doc);
+				sb.append(values.toString());
+			}
+		}
+
+		sb.append("</records>\n");
+		sb.append("</catalog>\n");
+
+		return sb.toString();
 	}
 
 	/**
@@ -385,7 +427,7 @@ public abstract class Catalog {
 	}
 
 	/**
-	 * 
+	 * Inits the catalog structure.
 	 */
 	private void initCatalogStructure() {
 
@@ -440,7 +482,7 @@ public abstract class Catalog {
 	}
 
 	/**
-	 * 
+	 * Inits the structure.
 	 */
 	protected abstract void initStructure();
 
@@ -475,6 +517,16 @@ public abstract class Catalog {
 	public void restore() {
 		values.set(fieldname_trash, false);
 
+	}
+
+	/**
+	 * Restore.
+	 * 
+	 * @param xmldump
+	 *            the xmldump
+	 */
+	public void restore(String xmldump) {
+		// TODO: restore data
 	}
 
 	/**

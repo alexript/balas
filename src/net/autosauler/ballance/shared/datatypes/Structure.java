@@ -17,6 +17,7 @@
 package net.autosauler.ballance.shared.datatypes;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -37,6 +38,17 @@ public class Structure {
 	}
 
 	/**
+	 * Instantiates a new structure.
+	 * 
+	 * @param xmldescription
+	 *            the xmldescription
+	 */
+	public Structure(String xmldescription) {
+		struct = new HashMap<String, StructElement>();
+		fromString(xmldescription);
+	}
+
+	/**
 	 * Adds the.
 	 * 
 	 * @param name
@@ -49,6 +61,16 @@ public class Structure {
 	public void add(String name, int datatype, Object defvalue) {
 		StructElement element = new StructElement(datatype, defvalue);
 		struct.put(name, element);
+	}
+
+	/**
+	 * From string.
+	 * 
+	 * @param xml
+	 *            the xml
+	 */
+	private void fromString(String xml) {
+		// TODO: xml parse
 	}
 
 	/**
@@ -92,5 +114,34 @@ public class Structure {
 		} else {
 			return DataTypes.DT_OBJECT;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		Set<String> names = getNames();
+		if (names.size() > 0) {
+			sb.append("<fields>\n");
+			Iterator<String> i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				StructElement element = struct.get(name);
+				sb.append(" <field name=\"");
+				sb.append(name.trim().toLowerCase());
+				sb.append("\" type=\"");
+				sb.append(element.getType());
+				sb.append("\" default=\"");
+				sb.append(element.getDefVal().toString());
+				sb.append("\"/>\n");
+			}
+			sb.append("</fields>\n");
+		}
+		return sb.toString();
 	}
 }
