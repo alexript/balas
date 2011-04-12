@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
+import net.autosauler.ballance.shared.datatypes.StructValues;
+import net.autosauler.ballance.shared.datatypes.Structure;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -43,23 +46,18 @@ public abstract class Catalog {
 	/** The catalogname. */
 	private String catalogname;
 
-	/** The number. */
-	private Long number;
+	private static final String fieldname_number = "number";
+	private static final String fieldname_author = "authorname";
+	private static final String fieldname_createdate = "createdate";
+	private static final String fieldname_trash = "trash";
+	private static final String fieldname_domain = "domain";
+	private static final String fieldname_fullname = "fullname";
 
-	/** The authorname. */
-	private String authorname;
+	/** The struct. */
+	protected Structure struct;
 
-	/** The createdate. */
-	private Date createdate;
-
-	/** The trash. */
-	private boolean trash;
-
-	/** The domain. */
-	private String domain;
-
-	/** The fullname. */
-	private String fullname;
+	/** The values. */
+	protected StructValues values;
 
 	/**
 	 * Instantiates a new catalog record.
@@ -72,7 +70,7 @@ public abstract class Catalog {
 	 *            the number
 	 */
 	public Catalog(String name, String domain, Long number) {
-
+		initCatalogStructure();
 		initDbStruct(name, domain, null);
 		get(number);
 	}
@@ -88,8 +86,8 @@ public abstract class Catalog {
 	 *            the username
 	 */
 	public Catalog(String name, String domain, String username) {
+		initCatalogStructure();
 		initDbStruct(name, domain, username);
-		setDefaultValues();
 	}
 
 	/**
@@ -110,10 +108,6 @@ public abstract class Catalog {
 	private boolean createRecord() {
 
 		boolean result = false;
-		if (authorname != null) {
-			setAuthor(authorname);
-		}
-		setDomain(domain);
 		setNumber(findLastNumber());
 		setCreateDate(new Date());
 		restore();
@@ -155,18 +149,18 @@ public abstract class Catalog {
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject q = new BasicDBObject();
 			BasicDBObject w = new BasicDBObject();
-			q.put("domain", domain);
-			q.put("trash", false);
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_trash, false);
 			w.put("$query", q);
 
 			BasicDBObject o = new BasicDBObject();
-			o.put("fullname", 1);
+			o.put(fieldname_fullname, 1);
 			w.put("$orderby", o);
 
 			DBCursor cur = coll.find(w);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
-				numbers.add((Long) myDoc.get("number"));
+				numbers.add((Long) myDoc.get(fieldname_number));
 			}
 			Database.release();
 		}
@@ -186,8 +180,9 @@ public abstract class Catalog {
 			Database.retain();
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject query = new BasicDBObject();
-			query.put("$query", new BasicDBObject("domain", domain));
-			query.put("$orderby", new BasicDBObject("number", -1));
+			query.put("$query",
+					new BasicDBObject(fieldname_domain, getDomain()));
+			query.put("$orderby", new BasicDBObject(fieldname_number, -1));
 
 			DBObject doc = null;
 			try {
@@ -196,7 +191,7 @@ public abstract class Catalog {
 				last = 1L;
 			}
 			if (doc != null) {
-				last = (Long) doc.get("number") + 1L;
+				last = (Long) doc.get(fieldname_number) + 1L;
 			}
 			Database.release();
 		}
@@ -215,7 +210,7 @@ public abstract class Catalog {
 	 *            the map
 	 */
 	public void fromMap(HashMap<String, Object> map) {
-		setFullname((String) map.get("fullname"));
+		setFullname((String) map.get(fieldname_fullname));
 		fillFieldsFromMap(map);
 	}
 
@@ -230,7 +225,7 @@ public abstract class Catalog {
 		if (doc != null) {
 			load(doc);
 		} else {
-			setDefaultValues();
+			values = new StructValues(struct);
 		}
 	}
 
@@ -241,7 +236,7 @@ public abstract class Catalog {
 	 */
 	public String getAuthor() {
 
-		return authorname;
+		return (String) values.get(fieldname_author);
 	}
 
 	/**
@@ -251,7 +246,7 @@ public abstract class Catalog {
 	 */
 	public Date getCreateDate() {
 
-		return createdate;
+		return (Date) values.get(fieldname_createdate);
 	}
 
 	/**
@@ -260,7 +255,7 @@ public abstract class Catalog {
 	 * @return the domain
 	 */
 	public String getDomain() {
-		return domain;
+		return (String) values.get(fieldname_domain);
 	}
 
 	/**
@@ -278,7 +273,7 @@ public abstract class Catalog {
 	 * @return the fullname
 	 */
 	public String getFullname() {
-		return fullname;
+		return (String) values.get(fieldname_fullname);
 	}
 
 	/**
@@ -288,7 +283,7 @@ public abstract class Catalog {
 	 */
 	public Long getNumber() {
 
-		return number;
+		return (Long) values.get(fieldname_number);
 	}
 
 	/**
@@ -305,8 +300,8 @@ public abstract class Catalog {
 			Database.retain();
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject query = new BasicDBObject();
-			query.put("domain", domain);
-			query.put("number", number);
+			query.put(fieldname_domain, getDomain());
+			query.put(fieldname_number, number);
 
 			doc = coll.findOne(query);
 			Database.release();
@@ -327,19 +322,19 @@ public abstract class Catalog {
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject q = new BasicDBObject();
 			BasicDBObject w = new BasicDBObject();
-			q.put("domain", domain);
-			q.put("trash", false);
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_trash, false);
 			w.put("$query", q);
 
 			BasicDBObject o = new BasicDBObject();
-			o.put("fullname", 1);
+			o.put(fieldname_fullname, 1);
 			w.put("$orderby", o);
 
 			DBCursor cur = coll.find(w);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
-				map.put((String) myDoc.get("fullname"),
-						(Long) myDoc.get("number"));
+				map.put((String) myDoc.get(fieldname_fullname),
+						(Long) myDoc.get(fieldname_number));
 			}
 			Database.release();
 		}
@@ -359,23 +354,42 @@ public abstract class Catalog {
 			DBCollection coll = db.getCollection(catalogname);
 			BasicDBObject q = new BasicDBObject();
 			BasicDBObject w = new BasicDBObject();
-			q.put("domain", domain);
-			q.put("trash", false);
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_trash, false);
 			w.put("$query", q);
 
 			BasicDBObject o = new BasicDBObject();
-			o.put("fullname", 1);
+			o.put(fieldname_fullname, 1);
 			w.put("$orderby", o);
 
 			DBCursor cur = coll.find(w);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
-				map.put((Long) myDoc.get("number"),
-						(String) myDoc.get("fullname"));
+				map.put((Long) myDoc.get(fieldname_number),
+						(String) myDoc.get(fieldname_fullname));
 			}
 			Database.release();
 		}
 		return map;
+	}
+
+	/**
+	 * 
+	 */
+	private void initCatalogStructure() {
+
+		struct = new Structure();
+		struct.add(fieldname_number, DataTypes.DT_LONG, new Long(0L));
+		struct.add(fieldname_author, DataTypes.DT_STRING, "uncknown");
+		struct.add(fieldname_createdate, DataTypes.DT_DATE, new Date());
+		struct.add(fieldname_trash, DataTypes.DT_BOOLEAN, false);
+		struct.add(fieldname_domain, DataTypes.DT_DOMAIN, "127.0.0.1");
+		struct.add(fieldname_fullname, DataTypes.DT_STRING, "uncknown");
+
+		initStructure();
+
+		values = new StructValues(struct);
+
 	}
 
 	/**
@@ -390,8 +404,8 @@ public abstract class Catalog {
 	 */
 	private void initDbStruct(String name, String domain, String username) {
 		catalogname = CATALOGTABLE + name.trim().toLowerCase();
-		this.domain = domain;
-		authorname = username;
+		setDomain(domain);
+		setAuthor(username);
 		DB db = Database.get();
 		if (db != null) {
 			Database.retain();
@@ -399,14 +413,14 @@ public abstract class Catalog {
 			List<DBObject> indexes = coll.getIndexInfo();
 			if (indexes.size() < 1) {
 				BasicDBObject i = new BasicDBObject();
-				i.put("number", 1);
+				i.put(fieldname_number, 1);
 				coll.createIndex(i);
 
-				i.put("domain", 1);
+				i.put(fieldname_domain, 1);
 				coll.createIndex(i);
 
-				i.put("fullname", 1);
-				i.put("trash", 1);
+				i.put(fieldname_fullname, 1);
+				i.put(fieldname_trash, 1);
 				coll.createIndex(i);
 
 			}
@@ -415,12 +429,17 @@ public abstract class Catalog {
 	}
 
 	/**
+	 * 
+	 */
+	protected abstract void initStructure();
+
+	/**
 	 * Checks if is trash.
 	 * 
 	 * @return true, if is trash
 	 */
 	public boolean isTrash() {
-		return trash;
+		return (Boolean) values.get(fieldname_trash);
 	}
 
 	/**
@@ -430,12 +449,12 @@ public abstract class Catalog {
 	 *            the doc
 	 */
 	public void load(DBObject doc) {
-		setNumber((Long) doc.get("number"));
-		setAuthor((String) doc.get("author"));
-		setCreateDate((Date) doc.get("createdate"));
-		setDomain((String) doc.get("domain"));
-		setFullname((String) doc.get("fullname"));
-		boolean f = (Boolean) doc.get("trash");
+		setNumber((Long) doc.get(fieldname_number));
+		setAuthor((String) doc.get(fieldname_author));
+		setCreateDate((Date) doc.get(fieldname_createdate));
+		setDomain((String) doc.get(fieldname_domain));
+		setFullname((String) doc.get(fieldname_fullname));
+		boolean f = (Boolean) doc.get(fieldname_trash);
 		if (f) {
 			trash();
 		} else {
@@ -448,7 +467,7 @@ public abstract class Catalog {
 	 * Restore.
 	 */
 	public void restore() {
-		trash = false;
+		values.set(fieldname_trash, false);
 
 	}
 
@@ -476,7 +495,7 @@ public abstract class Catalog {
 	 *            the new author
 	 */
 	public void setAuthor(String userlogin) {
-		authorname = userlogin;
+		values.set(fieldname_author, userlogin);
 
 	}
 
@@ -487,18 +506,7 @@ public abstract class Catalog {
 	 *            the new creates the date
 	 */
 	public void setCreateDate(Date createdate) {
-		this.createdate = createdate;
-	}
-
-	/**
-	 * Sets the default values.
-	 */
-	private void setDefaultValues() {
-		setNumber(0L);
-		setAuthor("none");
-		setCreateDate(new Date());
-		setFullname("");
-		restore();
+		values.set(fieldname_createdate, createdate);
 	}
 
 	/**
@@ -508,7 +516,7 @@ public abstract class Catalog {
 	 *            the new domain
 	 */
 	public void setDomain(String domain) {
-		this.domain = domain;
+		values.set(fieldname_domain, domain);
 	}
 
 	/**
@@ -526,7 +534,7 @@ public abstract class Catalog {
 	 *            the new fullname
 	 */
 	public void setFullname(String fullname) {
-		this.fullname = fullname;
+		values.set(fieldname_fullname, fullname);
 	}
 
 	/**
@@ -536,7 +544,7 @@ public abstract class Catalog {
 	 *            the new number
 	 */
 	public void setNumber(Long number) {
-		this.number = number;
+		values.set(fieldname_number, number);
 
 	}
 
@@ -551,12 +559,12 @@ public abstract class Catalog {
 		if (doc == null) {
 			doc = new BasicDBObject();
 		}
-		doc.put("number", getNumber());
-		doc.put("author", getAuthor());
-		doc.put("createdate", getCreateDate());
-		doc.put("trash", isTrash());
-		doc.put("domain", getDomain());
-		doc.put("fullname", getFullname());
+		doc.put(fieldname_number, getNumber());
+		doc.put(fieldname_author, getAuthor());
+		doc.put(fieldname_createdate, getCreateDate());
+		doc.put(fieldname_trash, isTrash());
+		doc.put(fieldname_domain, getDomain());
+		doc.put(fieldname_fullname, getFullname());
 		doc = getFields(doc);
 		return doc;
 	}
@@ -568,10 +576,10 @@ public abstract class Catalog {
 	 */
 	public HashMap<String, Object> toMap() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("number", getNumber());
-		map.put("author", getAuthor());
-		map.put("createdate", getCreateDate().getTime());
-		map.put("fullname", getFullname());
+		map.put(fieldname_number, getNumber());
+		map.put(fieldname_author, getAuthor());
+		map.put(fieldname_createdate, getCreateDate().getTime());
+		map.put(fieldname_fullname, getFullname());
 
 		map = addFieldsToMap(map);
 
@@ -582,8 +590,7 @@ public abstract class Catalog {
 	 * Trash.
 	 */
 	public void trash() {
-		trash = true;
-
+		values.set(fieldname_trash, true);
 	}
 
 	/**

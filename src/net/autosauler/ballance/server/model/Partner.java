@@ -18,6 +18,8 @@ package net.autosauler.ballance.server.model;
 
 import java.util.HashMap;
 
+import net.autosauler.ballance.shared.datatypes.DataTypes;
+
 import com.mongodb.DBObject;
 
 /**
@@ -26,15 +28,6 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public class Partner extends Catalog {
-
-	/** The partner name. */
-	private String email;
-
-	/** The paymethod. */
-	private Long paymethod;
-
-	/** The currency. */
-	private String currency;
 
 	/**
 	 * Instantiates a new partner.
@@ -94,7 +87,7 @@ public class Partner extends Catalog {
 	 * @return the currency
 	 */
 	public String getCurrency() {
-		return currency;
+		return (String) values.get("currency");
 	}
 
 	/**
@@ -103,7 +96,7 @@ public class Partner extends Catalog {
 	 * @return the name
 	 */
 	public String getEmail() {
-		return email;
+		return (String) values.get("email");
 	}
 
 	/*
@@ -125,7 +118,19 @@ public class Partner extends Catalog {
 	 * @return the paymethod
 	 */
 	public Long getPaymethod() {
-		return paymethod;
+		return (Long) values.get("paymethod");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.Catalog#initStructure()
+	 */
+	@Override
+	protected void initStructure() {
+		struct.add("email", DataTypes.DT_STRING, "");
+		struct.add("paymethod", DataTypes.DT_CATALOGRECORD, new Long(0L));
+		struct.add("currency", DataTypes.DT_CURRENCY, "RUR");
 	}
 
 	/**
@@ -133,7 +138,7 @@ public class Partner extends Catalog {
 	 *            the currency to set
 	 */
 	public void setCurrency(String currency) {
-		this.currency = currency;
+		values.set("currency", currency);
 	}
 
 	/**
@@ -143,7 +148,7 @@ public class Partner extends Catalog {
 	 *            the name to set
 	 */
 	public void setEmail(String email) {
-		this.email = email;
+		values.set("email", email);
 	}
 
 	/*
@@ -165,7 +170,7 @@ public class Partner extends Catalog {
 	 *            the paymethod to set
 	 */
 	public void setPaymethod(Long paymethod) {
-		this.paymethod = paymethod;
+		values.set("paymethod", paymethod);
 	}
 
 }

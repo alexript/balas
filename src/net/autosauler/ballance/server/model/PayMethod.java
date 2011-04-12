@@ -92,6 +92,16 @@ public class PayMethod extends Catalog {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see net.autosauler.ballance.server.model.Catalog#initStructure()
+	 */
+	@Override
+	protected void initStructure() {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * net.autosauler.ballance.server.model.ICatalogRecord#setFields(com.mongodb
 	 * .DBObject)
