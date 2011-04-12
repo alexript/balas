@@ -25,7 +25,7 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public class Partner extends CatalogRecord {
+public class Partner extends Catalog {
 
 	/** The partner name. */
 	private String email;

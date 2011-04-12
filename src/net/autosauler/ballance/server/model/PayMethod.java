@@ -24,7 +24,7 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public class PayMethod extends CatalogRecord {
+public class PayMethod extends Catalog {
 
 	/**
 	 * Instantiates a new pay method.

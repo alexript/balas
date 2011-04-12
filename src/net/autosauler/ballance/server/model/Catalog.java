@@ -35,22 +35,50 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public class Catalog {
+public abstract class Catalog {
 
 	/** The Constant CATALOGTABLE. */
 	private static final String CATALOGTABLE = "cat_";
 
 	/** The catalogname. */
-	private final String catalogname;
+	private String catalogname;
+
+	/** The number. */
+	private Long number;
+
+	/** The authorname. */
+	private String authorname;
+
+	/** The createdate. */
+	private Date createdate;
+
+	/** The trash. */
+	private boolean trash;
 
 	/** The domain. */
-	private final String domain;
+	private String domain;
 
-	/** The username. */
-	private final String username;
+	/** The fullname. */
+	private String fullname;
 
 	/**
-	 * Instantiates a new catalog.
+	 * Instantiates a new catalog record.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param domain
+	 *            the domain
+	 * @param number
+	 *            the number
+	 */
+	public Catalog(String name, String domain, Long number) {
+
+		initDbStruct(name, domain, null);
+		get(number);
+	}
+
+	/**
+	 * Instantiates a new catalog record.
 	 * 
 	 * @param name
 	 *            the name
@@ -60,37 +88,65 @@ public class Catalog {
 	 *            the username
 	 */
 	public Catalog(String name, String domain, String username) {
-		catalogname = CATALOGTABLE + name.trim().toLowerCase();
-		this.domain = domain;
-		this.username = username;
-		DB db = Database.get();
-		if (db != null) {
-			Database.retain();
-			DBCollection coll = db.getCollection(catalogname);
-			List<DBObject> indexes = coll.getIndexInfo();
-			if (indexes.size() < 1) {
-				BasicDBObject i = new BasicDBObject();
-				i.put("number", 1);
-				coll.createIndex(i);
-
-				i.put("domain", 1);
-				coll.createIndex(i);
-
-				i.put("fullname", 1);
-				i.put("trash", 1);
-				coll.createIndex(i);
-
-			}
-			Database.release();
-		}
+		initDbStruct(name, domain, username);
+		setDefaultValues();
 	}
 
 	/**
-	 * All records.
+	 * Adds the fields to map.
+	 * 
+	 * @param map
+	 *            the map
+	 * @return the hash map
+	 */
+	protected abstract HashMap<String, Object> addFieldsToMap(
+			HashMap<String, Object> map);
+
+	/**
+	 * Creates the record.
+	 * 
+	 * @return true, if successful
+	 */
+	private boolean createRecord() {
+
+		boolean result = false;
+		if (authorname != null) {
+			setAuthor(authorname);
+		}
+		setDomain(domain);
+		setNumber(findLastNumber());
+		setCreateDate(new Date());
+		restore();
+
+		DB db = Database.get();
+		if (db != null) {
+			BasicDBObject doc = (BasicDBObject) store(null);
+			if (doc != null) {
+				Database.retain();
+				DBCollection coll = db.getCollection(catalogname);
+				coll.insert(doc);
+				Database.release();
+				result = true;
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Fill fields from map.
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	protected abstract void fillFieldsFromMap(HashMap<String, Object> map);
+
+	/**
+	 * Find all.
 	 * 
 	 * @return the sets the
 	 */
-	public Set<Long> allRecords() {
+	public Set<Long> findAll() {
 		Set<Long> numbers = new HashSet<Long>();
 
 		DB db = Database.get();
@@ -114,42 +170,7 @@ public class Catalog {
 			}
 			Database.release();
 		}
-
-		return numbers; // numbers of records
-
-	}
-
-	/**
-	 * Creates the record.
-	 * 
-	 * @param record
-	 *            the record
-	 * @return true, if successful
-	 */
-	private boolean createRecord(ICatalogRecord record) {
-
-		boolean result = false;
-		if (username != null) {
-			record.setAuthor(username);
-		}
-		record.setDomain(domain);
-		record.setNumber(findLastNumber());
-		record.setCreateDate(new Date());
-		record.restore();
-
-		DB db = Database.get();
-		if (db != null) {
-			BasicDBObject doc = (BasicDBObject) record.store(null);
-			if (doc != null) {
-				Database.retain();
-				DBCollection coll = db.getCollection(catalogname);
-				coll.insert(doc);
-				Database.release();
-				result = true;
-			}
-		}
-
-		return result;
+		return numbers;
 	}
 
 	/**
@@ -188,13 +209,96 @@ public class Catalog {
 	}
 
 	/**
+	 * From map.
+	 * 
+	 * @param map
+	 *            the map
+	 */
+	public void fromMap(HashMap<String, Object> map) {
+		setFullname((String) map.get("fullname"));
+		fillFieldsFromMap(map);
+	}
+
+	/**
+	 * Gets the.
+	 * 
+	 * @param number
+	 *            the number
+	 */
+	private void get(Long number) {
+		DBObject doc = getRecord(number);
+		if (doc != null) {
+			load(doc);
+		} else {
+			setDefaultValues();
+		}
+	}
+
+	/**
+	 * Gets the author.
+	 * 
+	 * @return the author
+	 */
+	public String getAuthor() {
+
+		return authorname;
+	}
+
+	/**
+	 * Gets the creates the date.
+	 * 
+	 * @return the creates the date
+	 */
+	public Date getCreateDate() {
+
+		return createdate;
+	}
+
+	/**
+	 * Gets the domain.
+	 * 
+	 * @return the domain
+	 */
+	public String getDomain() {
+		return domain;
+	}
+
+	/**
+	 * Gets the fields.
+	 * 
+	 * @param doc
+	 *            the doc
+	 * @return the fields
+	 */
+	protected abstract DBObject getFields(DBObject doc);
+
+	/**
+	 * Gets the fullname.
+	 * 
+	 * @return the fullname
+	 */
+	public String getFullname() {
+		return fullname;
+	}
+
+	/**
+	 * Gets the number.
+	 * 
+	 * @return the number
+	 */
+	public Long getNumber() {
+
+		return number;
+	}
+
+	/**
 	 * Gets the record.
 	 * 
 	 * @param number
 	 *            the number
 	 * @return the record
 	 */
-	public DBObject getRecord(Long number) {
+	private DBObject getRecord(Long number) {
 		DBObject doc = null;
 		DB db = Database.get();
 		if (db != null) {
@@ -207,12 +311,11 @@ public class Catalog {
 			doc = coll.findOne(query);
 			Database.release();
 		}
-
 		return doc;
 	}
 
 	/**
-	 * Gets the select data.
+	 * Gets the select data (pairs name-number).
 	 * 
 	 * @return the select data
 	 */
@@ -276,37 +379,225 @@ public class Catalog {
 	}
 
 	/**
+	 * Inits the db struct.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param domain
+	 *            the domain
+	 * @param username
+	 *            the username
+	 */
+	private void initDbStruct(String name, String domain, String username) {
+		catalogname = CATALOGTABLE + name.trim().toLowerCase();
+		this.domain = domain;
+		authorname = username;
+		DB db = Database.get();
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(catalogname);
+			List<DBObject> indexes = coll.getIndexInfo();
+			if (indexes.size() < 1) {
+				BasicDBObject i = new BasicDBObject();
+				i.put("number", 1);
+				coll.createIndex(i);
+
+				i.put("domain", 1);
+				coll.createIndex(i);
+
+				i.put("fullname", 1);
+				i.put("trash", 1);
+				coll.createIndex(i);
+
+			}
+			Database.release();
+		}
+	}
+
+	/**
+	 * Checks if is trash.
+	 * 
+	 * @return true, if is trash
+	 */
+	public boolean isTrash() {
+		return trash;
+	}
+
+	/**
+	 * Load.
+	 * 
+	 * @param doc
+	 *            the doc
+	 */
+	public void load(DBObject doc) {
+		setNumber((Long) doc.get("number"));
+		setAuthor((String) doc.get("author"));
+		setCreateDate((Date) doc.get("createdate"));
+		setDomain((String) doc.get("domain"));
+		setFullname((String) doc.get("fullname"));
+		boolean f = (Boolean) doc.get("trash");
+		if (f) {
+			trash();
+		} else {
+			restore();
+		}
+		setFields(doc);
+	}
+
+	/**
+	 * Restore.
+	 */
+	public void restore() {
+		trash = false;
+
+	}
+
+	/**
 	 * Save.
 	 * 
-	 * @param record
-	 *            the record
 	 * @return true, if successful
 	 */
-	public boolean save(ICatalogRecord record) {
+	public boolean save() {
+
 		boolean result = false;
 
-		if (record.getNumber() == 0) {
-			result = createRecord(record);
+		if (getNumber() == 0) {
+			result = createRecord();
 		} else {
-			result = updateRecord(record);
+			result = updateRecord();
 		}
 		return result;
 	}
 
 	/**
+	 * Sets the author.
+	 * 
+	 * @param userlogin
+	 *            the new author
+	 */
+	public void setAuthor(String userlogin) {
+		authorname = userlogin;
+
+	}
+
+	/**
+	 * Sets the creates the date.
+	 * 
+	 * @param createdate
+	 *            the new creates the date
+	 */
+	public void setCreateDate(Date createdate) {
+		this.createdate = createdate;
+	}
+
+	/**
+	 * Sets the default values.
+	 */
+	private void setDefaultValues() {
+		setNumber(0L);
+		setAuthor("none");
+		setCreateDate(new Date());
+		setFullname("");
+		restore();
+	}
+
+	/**
+	 * Sets the domain.
+	 * 
+	 * @param domain
+	 *            the new domain
+	 */
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
+	/**
+	 * Sets the fields.
+	 * 
+	 * @param doc
+	 *            the new fields
+	 */
+	protected abstract void setFields(DBObject doc);
+
+	/**
+	 * Sets the fullname.
+	 * 
+	 * @param fullname
+	 *            the new fullname
+	 */
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
+	/**
+	 * Sets the number.
+	 * 
+	 * @param number
+	 *            the new number
+	 */
+	public void setNumber(Long number) {
+		this.number = number;
+
+	}
+
+	/**
+	 * Store.
+	 * 
+	 * @param doc
+	 *            the doc
+	 * @return the dB object
+	 */
+	public DBObject store(DBObject doc) {
+		if (doc == null) {
+			doc = new BasicDBObject();
+		}
+		doc.put("number", getNumber());
+		doc.put("author", getAuthor());
+		doc.put("createdate", getCreateDate());
+		doc.put("trash", isTrash());
+		doc.put("domain", getDomain());
+		doc.put("fullname", getFullname());
+		doc = getFields(doc);
+		return doc;
+	}
+
+	/**
+	 * To map.
+	 * 
+	 * @return the hash map
+	 */
+	public HashMap<String, Object> toMap() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("number", getNumber());
+		map.put("author", getAuthor());
+		map.put("createdate", getCreateDate().getTime());
+		map.put("fullname", getFullname());
+
+		map = addFieldsToMap(map);
+
+		return map;
+	}
+
+	/**
+	 * Trash.
+	 */
+	public void trash() {
+		trash = true;
+
+	}
+
+	/**
 	 * Update record.
 	 * 
-	 * @param record
-	 *            the record
 	 * @return true, if successful
 	 */
-	private boolean updateRecord(ICatalogRecord record) {
+	private boolean updateRecord() {
 		boolean result = false;
-		DBObject doc = getRecord(record.getNumber());
+		DBObject doc = getRecord(getNumber());
 		if (doc == null) {
-			result = createRecord(record);
+			result = createRecord();
 		} else {
-			doc = record.store(doc);
+			doc = store(doc);
 			DB db = Database.get();
 			if (db != null) {
 				Database.retain();
