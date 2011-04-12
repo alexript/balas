@@ -34,6 +34,14 @@ public class IncomingPayment extends Document {
 	/** The Constant docname. */
 	private final static String docname = "inpay";
 
+	private final static String fieldname_partner = "partner";
+	private final static String fieldname_paydate = "paydate";
+	private final static String fieldname_currency = "currency";
+	private final static String fieldname_currvalue = "currvalue";
+	private final static String fieldname_payvalue = "payvalue";
+	private final static String fieldname_paymethod = "paymethod";
+	private final static String fieldname_comments = "comments";
+
 	/**
 	 * Instantiates a new incoming payment.
 	 * 
@@ -97,13 +105,14 @@ public class IncomingPayment extends Document {
 	 */
 	@Override
 	protected void initStructure() {
-		struct.add("partner", DataTypes.DT_LONG, new Long(0L));
-		struct.add("paydate", DataTypes.DT_DATE, new Date());
-		struct.add("currency", DataTypes.DT_CURRENCY, "RUR");
-		struct.add("currvalue", DataTypes.DT_MONEY, new Double(1.0D));
-		struct.add("payvalue", DataTypes.DT_MONEY, new Double(0.0D));
-		struct.add("paymethod", DataTypes.DT_CATALOGRECORD, new Long(0L));
-		struct.add("comments", DataTypes.DT_STRING, "");
+		struct.add(fieldname_partner, DataTypes.DT_LONG, new Long(0L));
+		struct.add(fieldname_paydate, DataTypes.DT_DATE, new Date());
+		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
+		struct.add(fieldname_currvalue, DataTypes.DT_MONEY, new Double(1.0D));
+		struct.add(fieldname_payvalue, DataTypes.DT_MONEY, new Double(0.0D));
+		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
+				new Long(0L));
+		struct.add(fieldname_comments, DataTypes.DT_STRING, "");
 
 	}
 
@@ -114,10 +123,9 @@ public class IncomingPayment extends Document {
 	 */
 	@Override
 	protected boolean onActivation() {
-		values.set(
-				"currvalue",
-				Currency.get((String) values.get("currency"),
-						(Date) values.get("paydate")));
+		values.set(fieldname_currvalue, Currency.get(
+				(String) values.get(fieldname_currency),
+				(Date) values.get(fieldname_paydate)));
 		return true;
 	}
 

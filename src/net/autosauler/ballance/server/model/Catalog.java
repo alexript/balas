@@ -19,6 +19,7 @@ package net.autosauler.ballance.server.model;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -91,16 +92,6 @@ public abstract class Catalog {
 	}
 
 	/**
-	 * Adds the fields to map.
-	 * 
-	 * @param map
-	 *            the map
-	 * @return the hash map
-	 */
-	protected abstract HashMap<String, Object> addFieldsToMap(
-			HashMap<String, Object> map);
-
-	/**
 	 * Creates the record.
 	 * 
 	 * @return true, if successful
@@ -126,14 +117,6 @@ public abstract class Catalog {
 
 		return result;
 	}
-
-	/**
-	 * Fill fields from map.
-	 * 
-	 * @param map
-	 *            the map
-	 */
-	protected abstract void fillFieldsFromMap(HashMap<String, Object> map);
 
 	/**
 	 * Find all.
@@ -210,8 +193,47 @@ public abstract class Catalog {
 	 *            the map
 	 */
 	public void fromMap(HashMap<String, Object> map) {
-		setFullname((String) map.get(fieldname_fullname));
-		fillFieldsFromMap(map);
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			int type = struct.getType(name);
+			if (type == DataTypes.DT_BOOLEAN) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CATALOG) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CATALOGRECORD) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_CURRENCY) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DATE) {
+				values.set(name, new Date((Long) map.get(name)));
+			} else if (type == DataTypes.DT_DOCUMENT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOMAIN) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_DOUBLE) {
+				values.set(name, Double.parseDouble((String) map.get(name)));
+			} else if (type == DataTypes.DT_INT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_LONG) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_MONEY) {
+				values.set(name, Double.parseDouble((String) map.get(name)));
+			} else if (type == DataTypes.DT_OBJECT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SCRIPT) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SETTING) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_SETTINGVALUE) {
+				values.set(name, map.get(name));
+			} else if (type == DataTypes.DT_STRING) {
+				values.set(name, map.get(name));
+			}
+		}
 	}
 
 	/**
@@ -224,8 +246,6 @@ public abstract class Catalog {
 		DBObject doc = getRecord(number);
 		if (doc != null) {
 			load(doc);
-		} else {
-			values = new StructValues(struct);
 		}
 	}
 
@@ -257,15 +277,6 @@ public abstract class Catalog {
 	public String getDomain() {
 		return (String) values.get(fieldname_domain);
 	}
-
-	/**
-	 * Gets the fields.
-	 * 
-	 * @param doc
-	 *            the doc
-	 * @return the fields
-	 */
-	protected abstract DBObject getFields(DBObject doc);
 
 	/**
 	 * Gets the fullname.
@@ -449,18 +460,13 @@ public abstract class Catalog {
 	 *            the doc
 	 */
 	public void load(DBObject doc) {
-		setNumber((Long) doc.get(fieldname_number));
-		setAuthor((String) doc.get(fieldname_author));
-		setCreateDate((Date) doc.get(fieldname_createdate));
-		setDomain((String) doc.get(fieldname_domain));
-		setFullname((String) doc.get(fieldname_fullname));
-		boolean f = (Boolean) doc.get(fieldname_trash);
-		if (f) {
-			trash();
-		} else {
-			restore();
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			values.set(name, doc.get(name));
 		}
-		setFields(doc);
+
 	}
 
 	/**
@@ -520,14 +526,6 @@ public abstract class Catalog {
 	}
 
 	/**
-	 * Sets the fields.
-	 * 
-	 * @param doc
-	 *            the new fields
-	 */
-	protected abstract void setFields(DBObject doc);
-
-	/**
 	 * Sets the fullname.
 	 * 
 	 * @param fullname
@@ -559,14 +557,15 @@ public abstract class Catalog {
 		if (doc == null) {
 			doc = new BasicDBObject();
 		}
-		doc.put(fieldname_number, getNumber());
-		doc.put(fieldname_author, getAuthor());
-		doc.put(fieldname_createdate, getCreateDate());
-		doc.put(fieldname_trash, isTrash());
-		doc.put(fieldname_domain, getDomain());
-		doc.put(fieldname_fullname, getFullname());
-		doc = getFields(doc);
+
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			doc.put(name, values.get(name));
+		}
 		return doc;
+
 	}
 
 	/**
@@ -576,12 +575,48 @@ public abstract class Catalog {
 	 */
 	public HashMap<String, Object> toMap() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put(fieldname_number, getNumber());
-		map.put(fieldname_author, getAuthor());
-		map.put(fieldname_createdate, getCreateDate().getTime());
-		map.put(fieldname_fullname, getFullname());
 
-		map = addFieldsToMap(map);
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			int type = struct.getType(name);
+			if (type == DataTypes.DT_BOOLEAN) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CATALOG) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CATALOGRECORD) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_CURRENCY) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DATE) {
+				map.put(name, ((Date) values.get(name)).getTime());
+			} else if (type == DataTypes.DT_DOCUMENT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOMAIN) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_DOUBLE) {
+				map.put(name, ((Double) values.get(name)).toString());
+			} else if (type == DataTypes.DT_INT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_LONG) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_MONEY) {
+				map.put(name, ((Double) values.get(name)).toString());
+			} else if (type == DataTypes.DT_OBJECT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SCRIPT) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SETTING) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_SETTINGVALUE) {
+				map.put(name, values.get(name));
+			} else if (type == DataTypes.DT_STRING) {
+				map.put(name, values.get(name));
+			}
+		}
 
 		return map;
 	}

@@ -319,8 +319,6 @@ public abstract class Document implements IScriptableObject {
 		DBObject doc = getRecord(number);
 		if (doc != null) {
 			load(doc);
-		} else {
-			values = new StructValues(struct);
 		}
 	}
 

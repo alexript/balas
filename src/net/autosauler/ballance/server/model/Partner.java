@@ -16,11 +16,7 @@
 
 package net.autosauler.ballance.server.model;
 
-import java.util.HashMap;
-
 import net.autosauler.ballance.shared.datatypes.DataTypes;
-
-import com.mongodb.DBObject;
 
 /**
  * The Class Partner.
@@ -28,6 +24,11 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public class Partner extends Catalog {
+
+	private static final String catname = "partners";
+	private static final String fieldname_email = "email";
+	private static final String fieldname_paymethod = "paymethod";
+	private static final String fieldname_currency = "currency";
 
 	/**
 	 * Instantiates a new partner.
@@ -38,7 +39,7 @@ public class Partner extends Catalog {
 	 *            the number
 	 */
 	public Partner(String domain, Long number) {
-		super("partners", domain, number);
+		super(catname, domain, number);
 	}
 
 	/**
@@ -50,75 +51,8 @@ public class Partner extends Catalog {
 	 *            the username
 	 */
 	public Partner(String domain, String username) {
-		super("partners", domain, username);
+		super(catname, domain, username);
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#addFieldsToMap(java
-	 * .util.HashMap)
-	 */
-	@Override
-	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
-		map.put("email", getEmail());
-		map.put("paymethod", getPaymethod());
-		map.put("currency", getCurrency());
-		return map;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#fillFieldsFromMap
-	 * (java.util.HashMap)
-	 */
-	@Override
-	public void fillFieldsFromMap(HashMap<String, Object> map) {
-		setEmail((String) map.get("email"));
-		setPaymethod((Long) map.get("paymethod"));
-		setCurrency((String) map.get("currency"));
-	}
-
-	/**
-	 * @return the currency
-	 */
-	public String getCurrency() {
-		return (String) values.get("currency");
-	}
-
-	/**
-	 * Gets the name.
-	 * 
-	 * @return the name
-	 */
-	public String getEmail() {
-		return (String) values.get("email");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#getFields(com.mongodb
-	 * .DBObject)
-	 */
-	@Override
-	public DBObject getFields(DBObject doc) {
-		doc.put("email", getEmail());
-		doc.put("paymethod", getPaymethod());
-		doc.put("currency", getCurrency());
-		return doc;
-	}
-
-	/**
-	 * @return the paymethod
-	 */
-	public Long getPaymethod() {
-		return (Long) values.get("paymethod");
 	}
 
 	/*
@@ -128,49 +62,10 @@ public class Partner extends Catalog {
 	 */
 	@Override
 	protected void initStructure() {
-		struct.add("email", DataTypes.DT_STRING, "");
-		struct.add("paymethod", DataTypes.DT_CATALOGRECORD, new Long(0L));
-		struct.add("currency", DataTypes.DT_CURRENCY, "RUR");
-	}
-
-	/**
-	 * @param currency
-	 *            the currency to set
-	 */
-	public void setCurrency(String currency) {
-		values.set("currency", currency);
-	}
-
-	/**
-	 * Sets the name.
-	 * 
-	 * @param name
-	 *            the name to set
-	 */
-	public void setEmail(String email) {
-		values.set("email", email);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#setFields(com.mongodb
-	 * .DBObject)
-	 */
-	@Override
-	public void setFields(DBObject doc) {
-		setEmail((String) doc.get("email"));
-		setPaymethod((Long) doc.get("paymethod"));
-		setCurrency((String) doc.get("currency"));
-	}
-
-	/**
-	 * @param paymethod
-	 *            the paymethod to set
-	 */
-	public void setPaymethod(Long paymethod) {
-		values.set("paymethod", paymethod);
+		struct.add(fieldname_email, DataTypes.DT_STRING, "");
+		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
+				new Long(0L));
+		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
 	}
 
 }

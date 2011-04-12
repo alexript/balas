@@ -15,16 +15,13 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.model;
 
-import java.util.HashMap;
-
-import com.mongodb.DBObject;
-
 /**
  * The Class PayMethod.
  * 
  * @author alexript
  */
 public class PayMethod extends Catalog {
+	private static final String catname = "paymethod";
 
 	/**
 	 * Instantiates a new pay method.
@@ -35,7 +32,7 @@ public class PayMethod extends Catalog {
 	 *            the number
 	 */
 	public PayMethod(String domain, Long number) {
-		super("paymethod", domain, number);
+		super(catname, domain, number);
 	}
 
 	/**
@@ -47,46 +44,8 @@ public class PayMethod extends Catalog {
 	 *            the username
 	 */
 	public PayMethod(String domain, String username) {
-		super("paymethod", domain, username);
+		super(catname, domain, username);
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#addFieldsToMap(java
-	 * .util.HashMap)
-	 */
-	@Override
-	public HashMap<String, Object> addFieldsToMap(HashMap<String, Object> map) {
-		return map;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#fillFieldsFromMap
-	 * (java.util.HashMap)
-	 */
-	@Override
-	public void fillFieldsFromMap(HashMap<String, Object> map) {
-		return;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#getFields(com.mongodb
-	 * .DBObject)
-	 */
-	@Override
-	public DBObject getFields(DBObject doc) {
-
-		return doc;
 	}
 
 	/*
@@ -96,19 +55,6 @@ public class PayMethod extends Catalog {
 	 */
 	@Override
 	protected void initStructure() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.ICatalogRecord#setFields(com.mongodb
-	 * .DBObject)
-	 */
-	@Override
-	public void setFields(DBObject doc) {
-		return;
 
 	}
 
