@@ -34,9 +34,6 @@ import com.mongodb.DBObject;
  */
 public abstract class Catalog extends StructuredData {
 
-	/** The Constant fieldname_trash. */
-	private static final String fieldname_trash = "trash";
-
 	/** The Constant fieldname_fullname. */
 	private static final String fieldname_fullname = "fullname";
 
@@ -69,7 +66,6 @@ public abstract class Catalog extends StructuredData {
 	public Catalog(String name, String domain, String username) {
 		super("cat", name, domain);
 		setUsername(username);
-		restore();
 
 	}
 
@@ -94,7 +90,7 @@ public abstract class Catalog extends StructuredData {
 	 */
 	@Override
 	protected void addFindAllQueryParameters(final BasicDBObject q) {
-		q.put(fieldname_trash, false);
+		return;
 	}
 
 	/**
@@ -176,8 +172,6 @@ public abstract class Catalog extends StructuredData {
 	@Override
 	protected void initGlobalStructure() {
 
-		struct.add(fieldname_trash, DataTypes.DT_BOOLEAN, new Boolean(false));
-
 		struct.add(fieldname_fullname, DataTypes.DT_STRING, "uncknown");
 
 	}
@@ -187,15 +181,6 @@ public abstract class Catalog extends StructuredData {
 	 */
 	@Override
 	protected abstract void initStructure();
-
-	/**
-	 * Checks if is trash.
-	 * 
-	 * @return true, if is trash
-	 */
-	public boolean isTrash() {
-		return (Boolean) values.get(fieldname_trash);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -207,16 +192,8 @@ public abstract class Catalog extends StructuredData {
 	@Override
 	protected void onInitDbStruct(final BasicDBObject i, final DBCollection coll) {
 		i.put(fieldname_fullname, 1);
-		i.put(fieldname_trash, 1);
+
 		coll.createIndex(i);
-
-	}
-
-	/**
-	 * Restore.
-	 */
-	public void restore() {
-		values.set(fieldname_trash, new Boolean(false));
 
 	}
 
@@ -228,13 +205,6 @@ public abstract class Catalog extends StructuredData {
 	 */
 	public void setFullname(String fullname) {
 		values.set(fieldname_fullname, fullname);
-	}
-
-	/**
-	 * Trash.
-	 */
-	public void trash() {
-		values.set(fieldname_trash, new Boolean(true));
 	}
 
 }

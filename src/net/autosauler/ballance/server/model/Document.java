@@ -78,6 +78,7 @@ public abstract class Document extends StructuredData implements
 	public Document(String name, String domain, String username) {
 		super("doc", name, domain);
 		setUsername(username);
+
 	}
 
 	/**

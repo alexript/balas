@@ -67,6 +67,9 @@ public abstract class StructuredData {
 	/** The Constant fieldname_createdate. */
 	protected static final String fieldname_createdate = "createdate";
 
+	/** The Constant fieldname_trash. */
+	protected static final String fieldname_trash = "trash";
+
 	/**
 	 * Instantiates a new structured data.
 	 * 
@@ -84,6 +87,7 @@ public abstract class StructuredData {
 		initMetaStructure();
 		initDBStruct();
 		setDomain(domain);
+		restore();
 	}
 
 	/**
@@ -179,6 +183,7 @@ public abstract class StructuredData {
 
 			BasicDBObject o = new BasicDBObject();
 			o.put(fieldname_number, 1);
+			q.put(fieldname_trash, false);
 			addFindAllOrders(o);
 			w.put("$orderby", o);
 
@@ -430,6 +435,9 @@ public abstract class StructuredData {
 				i.put(fieldname_domain, 1);
 				coll.createIndex(i);
 
+				i.put(fieldname_trash, 1);
+				coll.createIndex(i);
+
 				onInitDbStruct(i, coll);
 
 			}
@@ -454,6 +462,7 @@ public abstract class StructuredData {
 		struct.add(fieldname_username, DataTypes.DT_STRING, "uncknown");
 		struct.add(fieldname_number, DataTypes.DT_LONG, new Long(0L));
 		struct.add(fieldname_createdate, DataTypes.DT_DATE, new Date());
+		struct.add(fieldname_trash, DataTypes.DT_BOOLEAN, new Boolean(false));
 
 		initGlobalStructure();
 
@@ -466,6 +475,15 @@ public abstract class StructuredData {
 	 * Inits the structure for The class.
 	 */
 	protected abstract void initStructure();
+
+	/**
+	 * Checks if is trash.
+	 * 
+	 * @return true, if is trash
+	 */
+	public boolean isTrash() {
+		return (Boolean) values.get(fieldname_trash);
+	}
 
 	/**
 	 * Load.
@@ -492,6 +510,14 @@ public abstract class StructuredData {
 	 */
 	protected abstract void onInitDbStruct(final BasicDBObject i,
 			final DBCollection coll);
+
+	/**
+	 * Restore.
+	 */
+	public void restore() {
+		values.set(fieldname_trash, new Boolean(false));
+
+	}
 
 	/**
 	 * Restore.
@@ -632,6 +658,13 @@ public abstract class StructuredData {
 		}
 
 		return map;
+	}
+
+	/**
+	 * Trash.
+	 */
+	public void trash() {
+		values.set(fieldname_trash, new Boolean(true));
 	}
 
 	/**
