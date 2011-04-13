@@ -68,6 +68,8 @@ public abstract class Catalog extends StructuredData {
 	 */
 	public Catalog(String name, String domain, String username) {
 		super("cat", name, domain);
+		setUsername(username);
+		restore();
 
 	}
 
@@ -174,7 +176,7 @@ public abstract class Catalog extends StructuredData {
 	@Override
 	protected void initGlobalStructure() {
 
-		struct.add(fieldname_trash, DataTypes.DT_BOOLEAN, false);
+		struct.add(fieldname_trash, DataTypes.DT_BOOLEAN, new Boolean(false));
 
 		struct.add(fieldname_fullname, DataTypes.DT_STRING, "uncknown");
 
@@ -214,7 +216,7 @@ public abstract class Catalog extends StructuredData {
 	 * Restore.
 	 */
 	public void restore() {
-		values.set(fieldname_trash, false);
+		values.set(fieldname_trash, new Boolean(false));
 
 	}
 
@@ -232,7 +234,7 @@ public abstract class Catalog extends StructuredData {
 	 * Trash.
 	 */
 	public void trash() {
-		values.set(fieldname_trash, true);
+		values.set(fieldname_trash, new Boolean(true));
 	}
 
 }

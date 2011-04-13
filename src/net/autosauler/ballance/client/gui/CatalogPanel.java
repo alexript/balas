@@ -348,7 +348,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						Date date = new Date((Long) result.get("createdate"));
 						String day = formatter.format(date);
 						vp.add(new Label(day + " " + l.labelAuthor() + ": "
-								+ (String) result.get("author")));
+								+ (String) result.get("username")));
 						panel.add(vp);
 						panel.setCellWidth(vp, "400px;");
 						if (canEdit(Ballance_autosauler_net.sessionId

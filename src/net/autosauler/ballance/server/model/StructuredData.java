@@ -241,43 +241,51 @@ public abstract class StructuredData {
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			int type = struct.getType(name);
-			if (type == DataTypes.DT_BOOLEAN) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_CATALOG) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_CATALOGRECORD) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_CURRENCY) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_DATE) {
-				values.set(name, new Date((Long) map.get(name)));
-			} else if (type == DataTypes.DT_DOCUMENT) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_DOMAIN) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_DOUBLE) {
-				values.set(name, Double.parseDouble((String) map.get(name)));
-			} else if (type == DataTypes.DT_INT) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_LONG) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_MONEY) {
-				values.set(name, Double.parseDouble((String) map.get(name)));
-			} else if (type == DataTypes.DT_OBJECT) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_SCRIPT) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_SETTING) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_SETTINGVALUE) {
-				values.set(name, map.get(name));
-			} else if (type == DataTypes.DT_STRING) {
-				values.set(name, map.get(name));
+			if (!name.equals(fieldname_createdate)
+					&& !name.equals(fieldname_domain)
+					&& !name.equals(fieldname_number)
+					&& !name.equals(fieldname_username)) {
+				if (map.containsKey(name)) {
+					int type = struct.getType(name);
+					if (type == DataTypes.DT_BOOLEAN) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_CATALOG) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_CATALOGRECORD) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_CURRENCY) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_DATE) {
+						values.set(name, new Date((Long) map.get(name)));
+					} else if (type == DataTypes.DT_DOCUMENT) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_DOMAIN) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_DOUBLE) {
+						values.set(name,
+								Double.parseDouble((String) map.get(name)));
+					} else if (type == DataTypes.DT_INT) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_LONG) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_MONEY) {
+						values.set(name,
+								Double.parseDouble((String) map.get(name)));
+					} else if (type == DataTypes.DT_OBJECT) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_SCRIPT) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_SETTING) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_SETTINGVALUE) {
+						values.set(name, map.get(name));
+					} else if (type == DataTypes.DT_STRING) {
+						values.set(name, map.get(name));
+					}
+				}
 			}
-
 		}
 	}
 

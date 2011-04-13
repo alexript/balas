@@ -158,7 +158,7 @@ public abstract class Document extends StructuredData implements
 	@Override
 	protected void initGlobalStructure() {
 
-		struct.add(fieldname_active, DataTypes.DT_BOOLEAN, false);
+		struct.add(fieldname_active, DataTypes.DT_BOOLEAN, new Boolean(false));
 		struct.add(fieldname_activationdate, DataTypes.DT_DATE, new Date());
 	}
 
