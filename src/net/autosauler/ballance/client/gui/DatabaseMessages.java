@@ -45,6 +45,13 @@ public interface DatabaseMessages extends Messages {
 	String msgDropDatabaseTitle();
 
 	/**
+	 * Msg dump database title.
+	 * 
+	 * @return the string
+	 */
+	String msgDumpDatabaseTitle();
+
+	/**
 	 * Qst drop database.
 	 * 
 	 * @return the string

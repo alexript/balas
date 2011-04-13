@@ -15,7 +15,11 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.mongodb;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,10 +108,16 @@ public class Database {
 		// lock.release();
 	}
 
-	public static String dumpdatabase(String domain, String username) {
+	public static void dumpdatabase(String domain, String username,
+			String filename) {
 		// TODO: return boolean, write to stream
+		// TODO: add xml scheme
+		// TODO: add settings, users and scripts
+		// TODO: generate filename
 		StringBuilder sb = new StringBuilder();
 
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		sb.append("<dump date=\"" + new Date().getTime() + "\">\n");
 		sb.append("<catalogs>\n");
 		PayMethod paymethod = new PayMethod(domain, username);
 		sb.append(paymethod.dump());
@@ -119,8 +129,25 @@ public class Database {
 		sb.append(payments.dump());
 
 		sb.append("</documents>\n");
+		sb.append("</dump>\n");
 
-		return sb.toString();
+		String s = sb.toString();
+		BufferedWriter out = null;
+		try {
+			out = new BufferedWriter(new FileWriter(filename));
+			out.write(s);
+			out.close();
+		} catch (IOException e) {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e1) {
+					Log.error(e1.getMessage());
+				}
+			}
+			Log.error(e.getMessage());
+		}
+
 	}
 
 	/**

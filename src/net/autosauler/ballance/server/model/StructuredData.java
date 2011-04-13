@@ -40,6 +40,8 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public abstract class StructuredData {
+	// TODO: store structure per domain
+	// TODO: edit structure per domain
 
 	/** The tableprefix. */
 	private final String tableprefix;
@@ -251,44 +253,7 @@ public abstract class StructuredData {
 					&& !name.equals(fieldname_number)
 					&& !name.equals(fieldname_username)) {
 				if (map.containsKey(name)) {
-					int type = struct.getType(name);
-					if (type == DataTypes.DT_BOOLEAN) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_CATALOG) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_CATALOGRECORD) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_CURRENCY) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_DATE) {
-						values.set(name, new Date((Long) map.get(name)));
-					} else if (type == DataTypes.DT_DOCUMENT) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_DOMAIN) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_DOUBLE) {
-						values.set(name,
-								Double.parseDouble((String) map.get(name)));
-					} else if (type == DataTypes.DT_INT) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_LONG) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_MONEY) {
-						values.set(name,
-								Double.parseDouble((String) map.get(name)));
-					} else if (type == DataTypes.DT_OBJECT) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_SCRIPT) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_SETTING) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_SETTINGVALUE) {
-						values.set(name, map.get(name));
-					} else if (type == DataTypes.DT_STRING) {
-						values.set(name, map.get(name));
-					}
+					values.setObject(name, map.get(name));
 				}
 			}
 		}
@@ -619,42 +584,7 @@ public abstract class StructuredData {
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			int type = struct.getType(name);
-			if (type == DataTypes.DT_BOOLEAN) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_CATALOG) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_CATALOGRECORD) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_CURRENCY) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_DATE) {
-				map.put(name, ((Date) values.get(name)).getTime());
-			} else if (type == DataTypes.DT_DOCUMENT) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_DOMAIN) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_DOUBLE) {
-				map.put(name, ((Double) values.get(name)).toString());
-			} else if (type == DataTypes.DT_INT) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_LONG) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_MONEY) {
-				map.put(name, ((Double) values.get(name)).toString());
-			} else if (type == DataTypes.DT_OBJECT) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_SCRIPT) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_SETTING) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_SETTINGVALUE) {
-				map.put(name, values.get(name));
-			} else if (type == DataTypes.DT_STRING) {
-				map.put(name, values.get(name));
-			}
+			map.put(name, values.getObject(name));
 		}
 
 		return map;

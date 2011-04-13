@@ -56,6 +56,25 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * net.autosauler.ballance.client.DatabaseService#dumpDatabase(java.lang
+	 * .String)
+	 */
+	@Override
+	public void dumpDatabase(String filename) {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+
+		if (role.isAdmin()) {
+			Database.dumpdatabase(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession), filename);
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.autosauler.ballance.client.DatabaseService#getSettings()
 	 */
 	@Override

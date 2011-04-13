@@ -81,6 +81,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	/** The btn drop database. */
 	private Button btnDropDatabase;
 
+	/** The btn dump database. */
+	private Button btnDumpDatabase;
+
 	/** The impl. */
 	private static DatabasePanel impl = null;
 
@@ -91,10 +94,17 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	private final DatabaseServiceAsync service = GWT
 			.create(DatabaseService.class);
 
+	/** The setings list. */
 	private CellList<String> setingsList;
 
+	/** The settingvalue. */
 	private TextBox settingvalue;
+
+	/** The settings. */
 	private HashMap<String, String> settings = null;
+
+	/** The dumpfile. */
+	private TextBox dumpfile;
 
 	/**
 	 * Instantiates a new database panel.
@@ -105,6 +115,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		root = new VerticalPanel();
 		root.setSpacing(5);
 		root.add(createDropDatabasePanel());
+		root.add(createDumpDatabasePanel());
 		settingspanel = createSettingsPanel();
 		root.add(settingspanel);
 		initWidget(root);
@@ -246,6 +257,30 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	}
 
 	/**
+	 * Creates the dump database panel.
+	 * 
+	 * @return the decorator panel
+	 */
+	private DecoratorPanel createDumpDatabasePanel() {
+		HorizontalPanel p = new HorizontalPanel();
+		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		p.setSpacing(6);
+		p.add(new Label(l.msgDumpDatabaseTitle()));
+
+		dumpfile = new TextBox(); // TODO: replace with list of old dump files
+		p.add(dumpfile);
+
+		btnDumpDatabase = new Button(l.btnExecute());
+		btnDumpDatabase.addClickHandler(this);
+		p.add(btnDumpDatabase);
+		// TODO: add restore button
+
+		DecoratorPanel panel = new DecoratorPanel();
+		panel.setWidget(p);
+		return panel;
+	}
+
+	/**
 	 * Creates the settings panel.
 	 * 
 	 * @return the decorator panel
@@ -290,6 +325,28 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	public void onClick(ClickEvent event) {
 		if (event.getSource().equals(btnDropDatabase)) {
 			new QuestionDialog(l.qstDropDatabase(), this, "dropdb").show();
+		} else if (event.getSource().equals(btnDumpDatabase)) {
+			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
+			if (role.isAdmin()) {
+				MainPanel.setCommInfo(true);
+				service.dumpDatabase(dumpfile.getText().trim(),
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								MainPanel.setCommInfo(false);
+								new AlertDialog("Database error", caught
+										.getMessage()).show();
+
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								MainPanel.setCommInfo(false);
+
+							}
+						});
+			}
 		}
 
 	}

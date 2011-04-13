@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.shared.datatypes;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -26,6 +27,7 @@ import java.util.Set;
  * @author alexript
  */
 public class Structure {
+	// TODO: exchange structure with client for dynamic form generation
 
 	/** The struct. */
 	private final HashMap<String, StructElement> struct;
@@ -61,6 +63,41 @@ public class Structure {
 	public void add(String name, int datatype, Object defvalue) {
 		StructElement element = new StructElement(datatype, defvalue);
 		struct.put(name, element);
+	}
+
+	/**
+	 * Contain key.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return true, if successful
+	 */
+	public boolean containKey(String name) {
+		return struct.containsKey(name);
+	}
+
+	/**
+	 * From mapping.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param val
+	 *            the val
+	 * @return the object
+	 */
+	public Object fromMapping(String name, Object val) {
+		Object obj = null;
+		int type = getType(name);
+		if (type == DataTypes.DT_DATE) {
+			obj = new Date((Long) val);
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = Double.parseDouble((String) val);
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = Double.parseDouble((String) val);
+		} else {
+			obj = val;
+		}
+		return obj;
 	}
 
 	/**
@@ -116,6 +153,31 @@ public class Structure {
 		}
 	}
 
+	/**
+	 * To mapping.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param object
+	 *            the object
+	 * @return the object
+	 */
+	public Object toMapping(String name, Object object) {
+		Object obj = null;
+		int type = getType(name);
+		if (type == DataTypes.DT_DATE) {
+			obj = ((Date) object).getTime();
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = ((Double) object).toString();
+		} else {
+			obj = object;
+		}
+		return obj;
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -137,7 +199,7 @@ public class Structure {
 				sb.append("\" type=\"");
 				sb.append(element.getType());
 				sb.append("\" default=\"");
-				sb.append(element.getDefVal().toString());
+				sb.append(toMapping(name, element.getDefVal()).toString());
 				sb.append("\"/>\n");
 			}
 			sb.append("</fields>\n");

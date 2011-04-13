@@ -30,6 +30,9 @@ public class StructValues {
 	/** The values. */
 	private HashMap<String, Object> values;
 
+	/** The struct. */
+	private Structure struct;
+
 	/**
 	 * Instantiates a new struct values.
 	 * 
@@ -61,6 +64,7 @@ public class StructValues {
 	 *            the xmldump
 	 */
 	private void fillDefaults(Structure struct, String xmldump) {
+		this.struct = struct;
 		values = new HashMap<String, Object>();
 
 		Set<String> names = struct.getNames();
@@ -104,6 +108,20 @@ public class StructValues {
 	}
 
 	/**
+	 * Gets the object.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the object
+	 */
+	public Object getObject(String name) {
+		if (struct.containKey(name) && values.containsKey(name)) {
+			return struct.toMapping(name, get(name));
+		}
+		return null;
+	}
+
+	/**
 	 * Sets the.
 	 * 
 	 * @param name
@@ -114,6 +132,20 @@ public class StructValues {
 	public void set(String name, Object val) {
 		if (values.containsKey(name)) {
 			values.put(name, val);
+		}
+	}
+
+	/**
+	 * Sets the object.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param val
+	 *            the val
+	 */
+	public void setObject(String name, Object val) {
+		if (struct.containKey(name)) {
+			set(name, struct.fromMapping(name, val));
 		}
 	}
 
@@ -136,11 +168,11 @@ public class StructValues {
 				sb.append(" <field name=\"");
 				sb.append(name.trim().toLowerCase());
 				sb.append("\" value=\"");
-				sb.append(val.toString());
+				sb.append(struct.toMapping(name, val).toString());
 				sb.append("\"/>\n");
 			}
 
-			sb.append("</record>");
+			sb.append("</record>\n");
 		}
 		return sb.toString();
 	}

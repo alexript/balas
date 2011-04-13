@@ -35,6 +35,14 @@ public interface DatabaseService extends RemoteService {
 	public boolean dropDatabase();
 
 	/**
+	 * Dump database.
+	 * 
+	 * @param filename
+	 *            the filename
+	 */
+	public void dumpDatabase(String filename);
+
+	/**
 	 * Gets the settings.
 	 * 
 	 * @return the settings

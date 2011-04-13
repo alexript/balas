@@ -33,6 +33,8 @@ public interface DatabaseServiceAsync {
 	 */
 	void dropDatabase(AsyncCallback<Boolean> callback);
 
+	void dumpDatabase(String filename, AsyncCallback<Void> callback);
+
 	/**
 	 * Gets the settings.
 	 * 

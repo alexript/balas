@@ -37,6 +37,8 @@ public class GlobalSettings {
 	/** The Constant SETTINGSTABLE. */
 	private static final String SETTINGSTABLE = "globalsettings";
 
+	// TODO: add global global setting for 127.0.0.1 domain
+
 	/**
 	 * Creates the default records.
 	 * 
