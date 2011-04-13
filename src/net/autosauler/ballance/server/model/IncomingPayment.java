@@ -17,10 +17,6 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -74,28 +70,6 @@ public class IncomingPayment extends Document {
 	 */
 	public IncomingPayment(String domain, String username) {
 		super(docname, domain, username);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.server.model.Document#get(java.util.Set)
-	 */
-	@Override
-	public Set<HashMap<String, Object>> get(Set<Long> numbers) {
-		{
-			Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
-			Iterator<Long> i = numbers.iterator();
-			while (i.hasNext()) {
-				Long number = i.next();
-				IncomingPayment doc = new IncomingPayment(getDomain(), number);
-				if (doc != null) {
-					set.add(doc.toMap());
-				}
-			}
-			return set;
-		}
-
 	}
 
 	/*
