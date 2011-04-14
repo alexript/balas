@@ -25,7 +25,7 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
  * 
  * @author alexript
  */
-public class IncomingPayment extends Document {
+public class IncomingPayment extends AbstractDocument {
 
 	/** The Constant docname. */
 	private final static String docname = "inpay";
@@ -75,7 +75,7 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.Document#initStructure()
+	 * @see net.autosauler.ballance.server.model.AbstractDocument#initStructure()
 	 */
 	@Override
 	protected void initStructure() {
@@ -93,7 +93,7 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.Document#onActivation()
+	 * @see net.autosauler.ballance.server.model.AbstractDocument#onActivation()
 	 */
 	@Override
 	protected boolean onActivation() {
@@ -107,7 +107,7 @@ public class IncomingPayment extends Document {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.Document#onGenerateDefaultScript()
+	 * net.autosauler.ballance.server.model.AbstractDocument#onGenerateDefaultScript()
 	 */
 	@Override
 	protected String onGenerateDefaultScript() {
@@ -118,7 +118,7 @@ public class IncomingPayment extends Document {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.Document#onUnActivation()
+	 * @see net.autosauler.ballance.server.model.AbstractDocument#onUnActivation()
 	 */
 	@Override
 	protected boolean onUnActivation() {

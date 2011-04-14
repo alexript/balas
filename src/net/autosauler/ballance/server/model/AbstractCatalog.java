@@ -28,11 +28,11 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * The Class Catalog.
+ * The Class AbstractCatalog.
  * 
  * @author alexript
  */
-public abstract class Catalog extends StructuredData {
+public abstract class AbstractCatalog extends AbstractStructuredData {
 
 	/** The Constant fieldname_fullname. */
 	private static final String fieldname_fullname = "fullname";
@@ -47,7 +47,7 @@ public abstract class Catalog extends StructuredData {
 	 * @param number
 	 *            the number
 	 */
-	public Catalog(String name, String domain, Long number) {
+	public AbstractCatalog(String name, String domain, Long number) {
 		super("cat", name, domain);
 
 		get(number);
@@ -63,7 +63,7 @@ public abstract class Catalog extends StructuredData {
 	 * @param username
 	 *            the username
 	 */
-	public Catalog(String name, String domain, String username) {
+	public AbstractCatalog(String name, String domain, String username) {
 		super("cat", name, domain);
 		setUsername(username);
 
@@ -73,7 +73,7 @@ public abstract class Catalog extends StructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#addFindAllOrders(
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders(
 	 * com.mongodb.BasicDBObject)
 	 */
 	@Override
@@ -85,7 +85,7 @@ public abstract class Catalog extends StructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#addFindAllQueryParameters
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllQueryParameters
 	 * (com.mongodb.BasicDBObject)
 	 */
 	@Override
@@ -186,7 +186,7 @@ public abstract class Catalog extends StructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#onInitDbStruct(com
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct(com
 	 * .mongodb.BasicDBObject, com.mongodb.DBCollection)
 	 */
 	@Override

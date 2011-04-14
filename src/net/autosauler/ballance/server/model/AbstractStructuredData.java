@@ -35,11 +35,11 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * The Class StructuredData.
+ * The Class AbstractStructuredData.
  * 
  * @author alexript
  */
-public abstract class StructuredData {
+public abstract class AbstractStructuredData {
 	// TODO: store structure per domain
 	// TODO: edit structure per domain
 
@@ -82,7 +82,7 @@ public abstract class StructuredData {
 	 * @param domain
 	 *            the domain
 	 */
-	public StructuredData(String prefix, String suffix, String domain) {
+	public AbstractStructuredData(String prefix, String suffix, String domain) {
 		tableprefix = prefix;
 		tablesuffix = suffix;
 		tablename = prefix + "_" + suffix;

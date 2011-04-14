@@ -23,7 +23,7 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
  * 
  * @author alexript
  */
-public class Partner extends Catalog {
+public class Partner extends AbstractCatalog {
 
 	private static final String catname = "partners";
 	private static final String fieldname_email = "email";
@@ -58,7 +58,7 @@ public class Partner extends Catalog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.Catalog#initStructure()
+	 * @see net.autosauler.ballance.server.model.AbstractCatalog#initStructure()
 	 */
 	@Override
 	protected void initStructure() {

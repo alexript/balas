@@ -20,7 +20,7 @@ package net.autosauler.ballance.server.model;
  * 
  * @author alexript
  */
-public class PayMethod extends Catalog {
+public class PayMethod extends AbstractCatalog {
 	private static final String catname = "paymethod";
 
 	/**
@@ -51,7 +51,7 @@ public class PayMethod extends Catalog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.Catalog#initStructure()
+	 * @see net.autosauler.ballance.server.model.AbstractCatalog#initStructure()
 	 */
 	@Override
 	protected void initStructure() {

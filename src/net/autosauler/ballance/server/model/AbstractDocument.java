@@ -24,11 +24,11 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 
 /**
- * The Class Document.
+ * The Class AbstractDocument.
  * 
  * @author alexript
  */
-public abstract class Document extends StructuredData implements
+public abstract class AbstractDocument extends AbstractStructuredData implements
 		IScriptableObject {
 
 	/** The Constant fieldname_active. */
@@ -45,7 +45,7 @@ public abstract class Document extends StructuredData implements
 	 * @param domain
 	 *            the domain
 	 */
-	public Document(String name, String domain) {
+	public AbstractDocument(String name, String domain) {
 		super("doc", name, domain);
 	}
 
@@ -59,7 +59,7 @@ public abstract class Document extends StructuredData implements
 	 * @param number
 	 *            the number
 	 */
-	public Document(String name, String domain, Long number) {
+	public AbstractDocument(String name, String domain, Long number) {
 		super("doc", name, domain);
 
 		get(number);
@@ -75,7 +75,7 @@ public abstract class Document extends StructuredData implements
 	 * @param username
 	 *            the username
 	 */
-	public Document(String name, String domain, String username) {
+	public AbstractDocument(String name, String domain, String username) {
 		super("doc", name, domain);
 		setUsername(username);
 
@@ -102,7 +102,7 @@ public abstract class Document extends StructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#addFindAllOrders(
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders(
 	 * com.mongodb.BasicDBObject)
 	 */
 	@Override
@@ -115,7 +115,7 @@ public abstract class Document extends StructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#addFindAllQueryParameters
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllQueryParameters
 	 * (com.mongodb.BasicDBObject)
 	 */
 	@Override
@@ -154,7 +154,7 @@ public abstract class Document extends StructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#initGlobalStructure()
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#initGlobalStructure()
 	 */
 	@Override
 	protected void initGlobalStructure() {
@@ -190,7 +190,7 @@ public abstract class Document extends StructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.StructuredData#onInitDbStruct(com
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct(com
 	 * .mongodb.BasicDBObject, com.mongodb.DBCollection)
 	 */
 	@Override
