@@ -196,12 +196,13 @@ public abstract class AbstractStructuredData {
 			BasicDBObject q = new BasicDBObject();
 			BasicDBObject w = new BasicDBObject();
 			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_trash, false);
+
 			addFindAllQueryParameters(q);
 			w.put("$query", q);
 
 			BasicDBObject o = new BasicDBObject();
 			o.put(fieldname_number, 1);
-			q.put(fieldname_trash, false);
 			addFindAllOrders(o);
 			w.put("$orderby", o);
 
@@ -452,7 +453,7 @@ public abstract class AbstractStructuredData {
 	 * @param doc
 	 *            the doc
 	 */
-	private void load(DBObject doc) {
+	protected void load(DBObject doc) {
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {

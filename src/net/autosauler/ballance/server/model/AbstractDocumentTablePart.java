@@ -15,10 +15,19 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * The Class AbstractDocumentTablePart.
@@ -97,6 +106,41 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 		return docnum;
 	}
 
+	/**
+	 * Gets the records.
+	 * 
+	 * @return the records
+	 */
+	public Set<HashMap<String, Object>> getRecords() {
+		Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
+		DB db = Database.get();
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(getTableName());
+			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_document, getDocnum());
+			q.put(fieldname_trash, false);
+			w.put("$query", q);
+
+			BasicDBObject o = new BasicDBObject();
+			o.put(fieldname_number, 1);
+			addFindAllOrders(o);
+			w.put("$orderby", o);
+
+			DBCursor cur = coll.find(w);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				load(myDoc);
+				HashMap<String, Object> map = toMap();
+				set.add(map);
+			}
+			Database.release();
+		}
+		return set;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -140,6 +184,21 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 */
 	public void setDocnum(Long docnum) {
 		this.docnum = docnum;
+	}
+
+	/**
+	 * Update records.
+	 * 
+	 * @param set
+	 *            the set
+	 */
+	public void updateRecords(Set<HashMap<String, Object>> set) {
+		Iterator<HashMap<String, Object>> i = set.iterator();
+		while (i.hasNext()) {
+			HashMap<String, Object> map = i.next();
+			fromMap(map);
+			save();
+		}
 	}
 
 }

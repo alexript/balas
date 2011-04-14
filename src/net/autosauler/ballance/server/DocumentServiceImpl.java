@@ -195,6 +195,21 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * net.autosauler.ballance.client.DocumentService#getTable(java.lang.String,
+	 * java.lang.Long, java.lang.String)
+	 */
+	@Override
+	public Set<HashMap<String, Object>> getTable(String docname, Long number,
+			String tablename) {
+		UserRole role = getRole();
+		// TODO: logic
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * net.autosauler.ballance.client.DocumentService#unactivate(java.lang.String
 	 * , java.lang.Long)
 	 */
@@ -264,6 +279,24 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			}
 		}
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.DocumentService#updateTable(java.lang.
+	 * String, java.lang.Long, java.lang.String, java.util.Set)
+	 */
+	@Override
+	public void updateTable(String docname, Long number, String tablename,
+			Set<HashMap<String, Object>> set) {
+		UserRole role = getRole();
+
+		// TODO: logic
+
+		return;
+
 	}
 
 }

@@ -196,6 +196,23 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	}
 
 	/**
+	 * Gets the table records.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the table records
+	 */
+	public Set<HashMap<String, Object>> getTableRecords(String name) {
+		Set<HashMap<String, Object>> set = null;
+		AbstractDocumentTablePart table = getPart(name);
+		if (table != null) {
+			set = table.getRecords();
+		}
+
+		return set;
+	}
+
+	/**
 	 * Checks for tables.
 	 * 
 	 * @return true, if successful
@@ -282,6 +299,14 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * @return true, if successful
 	 */
 	protected abstract boolean onUnActivation();
+
+	public void saveTableRecords(String name, Set<HashMap<String, Object>> set) {
+
+		AbstractDocumentTablePart table = getPart(name);
+		if (table != null) {
+			table.updateRecords(set);
+		}
+	}
 
 	/**
 	 * Sets the activationdate.

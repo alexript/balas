@@ -111,6 +111,22 @@ public interface DocumentServiceAsync {
 	void getAll(String docname, AsyncCallback<Set<Long>> callback);
 
 	/**
+	 * Gets the table.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param tablename
+	 *            the tablename
+	 * @param callback
+	 *            the callback
+	 * @return the table
+	 */
+	void getTable(String docname, Long number, String tablename,
+			AsyncCallback<Set<HashMap<String, Object>>> callback);
+
+	/**
 	 * Unactivate.
 	 * 
 	 * @param docname
@@ -155,5 +171,22 @@ public interface DocumentServiceAsync {
 	 */
 	void updateAndActivate(String docname, Long number,
 			HashMap<String, Object> map, AsyncCallback<Boolean> callback);
+
+	/**
+	 * Update table.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param tablename
+	 *            the tablename
+	 * @param set
+	 *            the set
+	 * @param callback
+	 *            the callback
+	 */
+	void updateTable(String docname, Long number, String tablename,
+			Set<HashMap<String, Object>> set, AsyncCallback<Void> callback);
 
 }

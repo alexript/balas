@@ -94,6 +94,20 @@ public interface DocumentService extends RemoteService {
 	public Set<Long> getAll(String docname);
 
 	/**
+	 * Gets the table.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param tablename
+	 *            the tablename
+	 * @return the table
+	 */
+	public Set<HashMap<String, Object>> getTable(String docname, Long number,
+			String tablename);
+
+	/**
 	 * Unactivate.
 	 * 
 	 * @param docname
@@ -130,4 +144,19 @@ public interface DocumentService extends RemoteService {
 	 */
 	public boolean updateAndActivate(String docname, Long number,
 			HashMap<String, Object> map);
+
+	/**
+	 * Update table.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param number
+	 *            the number
+	 * @param tablename
+	 *            the tablename
+	 * @param set
+	 *            the set
+	 */
+	public void updateTable(String docname, Long number, String tablename,
+			Set<HashMap<String, Object>> set);
 }
