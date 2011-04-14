@@ -18,6 +18,8 @@ package net.autosauler.ballance.server.model;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.mongodb.BasicDBObject;
+
 /**
  * The Class Partner.
  * 
@@ -52,6 +54,30 @@ public class Partner extends AbstractCatalog {
 	 */
 	public Partner(String domain, String username) {
 		super(catname, domain, username);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addFindLastNumberParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addFindLastNumberParams(BasicDBObject w) {
+		return;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addGetRecordParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addGetRecordParams(BasicDBObject query) {
+		return;
 
 	}
 

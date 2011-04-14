@@ -17,8 +17,14 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
+
+import com.mongodb.BasicDBObject;
 
 /**
  * The Class IncomingPayment.
@@ -75,7 +81,57 @@ public class IncomingPayment extends AbstractDocument {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.AbstractDocument#initStructure()
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addFindLastNumberParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addFindLastNumberParams(final BasicDBObject w) {
+		return;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addGetRecordParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addGetRecordParams(BasicDBObject query) {
+		return;
+
+	}
+
+	/**
+	 * Gets the.
+	 * 
+	 * @param numbers
+	 *            the numbers
+	 * @return the sets the
+	 */
+
+	@Override
+	public Set<HashMap<String, Object>> get(Set<Long> numbers) {
+		{
+			Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
+			Iterator<Long> i = numbers.iterator();
+			while (i.hasNext()) {
+				Long number = i.next();
+				IncomingPayment doc = new IncomingPayment(getDomain(), number);
+				if (doc != null) {
+					set.add(doc.toMap());
+				}
+			}
+			return set;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractDocument#initStructure()
 	 */
 	@Override
 	protected void initStructure() {
@@ -87,6 +143,18 @@ public class IncomingPayment extends AbstractDocument {
 		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
 				new Long(0L));
 		struct.add(fieldname_comments, DataTypes.DT_STRING, "");
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractDocument#initTableParts()
+	 */
+	@Override
+	protected void initTableParts() {
+		return; // this document have not table parts
 
 	}
 
@@ -107,7 +175,8 @@ public class IncomingPayment extends AbstractDocument {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.AbstractDocument#onGenerateDefaultScript()
+	 * net.autosauler.ballance.server.model.AbstractDocument#onGenerateDefaultScript
+	 * ()
 	 */
 	@Override
 	protected String onGenerateDefaultScript() {
@@ -118,7 +187,8 @@ public class IncomingPayment extends AbstractDocument {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.AbstractDocument#onUnActivation()
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractDocument#onUnActivation()
 	 */
 	@Override
 	protected boolean onUnActivation() {

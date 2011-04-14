@@ -17,6 +17,9 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -37,6 +40,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	/** The Constant fieldname_activationdate. */
 	private static final String fieldname_activationdate = "activationdate";
 
+	/** The tables. */
+	private final HashMap<String, AbstractDocumentTablePart> tables;
+
 	/**
 	 * Instantiates a new document.
 	 * 
@@ -47,6 +53,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain) {
 		super("doc", name, domain);
+		tables = new HashMap<String, AbstractDocumentTablePart>();
+		initTableParts();
 	}
 
 	/**
@@ -61,7 +69,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain, Long number) {
 		super("doc", name, domain);
-
+		tables = new HashMap<String, AbstractDocumentTablePart>();
+		initTableParts();
 		get(number);
 	}
 
@@ -77,6 +86,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain, String username) {
 		super("doc", name, domain);
+		tables = new HashMap<String, AbstractDocumentTablePart>();
+		initTableParts();
 		setUsername(username);
 
 	}
@@ -102,8 +113,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders(
-	 * com.mongodb.BasicDBObject)
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders
+	 * ( com.mongodb.BasicDBObject)
 	 */
 	@Override
 	protected void addFindAllOrders(BasicDBObject o) {
@@ -114,14 +125,25 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllQueryParameters
-	 * (com.mongodb.BasicDBObject)
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addFindAllQueryParameters (com.mongodb.BasicDBObject)
 	 */
 	@Override
 	protected void addFindAllQueryParameters(BasicDBObject q) {
 		return;
 
+	}
+
+	/**
+	 * Adds the table part.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param part
+	 *            the part
+	 */
+	public void addTablePart(String name, AbstractDocumentTablePart part) {
+		tables.put(name, part);
 	}
 
 	/*
@@ -142,6 +164,15 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	}
 
 	/**
+	 * Gets the.
+	 * 
+	 * @param numbers
+	 *            the numbers
+	 * @return the sets the
+	 */
+	public abstract Set<HashMap<String, Object>> get(Set<Long> numbers);
+
+	/**
 	 * Gets the activationdate.
 	 * 
 	 * @return the activationdate
@@ -150,11 +181,34 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		return (Date) values.get(fieldname_activationdate);
 	}
 
+	/**
+	 * Gets the part.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the part
+	 */
+	public AbstractDocumentTablePart getPart(String name) {
+		if (tables.containsKey(name)) {
+			return tables.get(name);
+		}
+		return null;
+	}
+
+	/**
+	 * Checks for tables.
+	 * 
+	 * @return true, if successful
+	 */
+	public boolean hasTables() {
+		return !tables.isEmpty();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#initGlobalStructure()
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * initGlobalStructure()
 	 */
 	@Override
 	protected void initGlobalStructure() {
@@ -162,6 +216,11 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		struct.add(fieldname_active, DataTypes.DT_BOOLEAN, new Boolean(false));
 		struct.add(fieldname_activationdate, DataTypes.DT_DATE, new Date());
 	}
+
+	/**
+	 * Inits the table parts.
+	 */
+	protected abstract void initTableParts();
 
 	/**
 	 * Checks if is active.
@@ -190,8 +249,25 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct(com
-	 * .mongodb.BasicDBObject, com.mongodb.DBCollection)
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onGetRecord
+	 * (java.lang.Long)
+	 */
+	@Override
+	protected void onGetRecord(Long number) {
+		Set<String> names = tables.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			tables.get(name).setDocnum(number);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct
+	 * (com .mongodb.BasicDBObject, com.mongodb.DBCollection)
 	 */
 	@Override
 	protected void onInitDbStruct(final BasicDBObject i, final DBCollection coll) {

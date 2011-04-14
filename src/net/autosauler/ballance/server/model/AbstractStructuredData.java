@@ -109,6 +109,22 @@ public abstract class AbstractStructuredData {
 	protected abstract void addFindAllQueryParameters(final BasicDBObject q);
 
 	/**
+	 * Adds the find last number params.
+	 * 
+	 * @param w
+	 *            the w
+	 */
+	protected abstract void addFindLastNumberParams(final BasicDBObject w);
+
+	/**
+	 * Adds the get record params.
+	 * 
+	 * @param query
+	 *            the query
+	 */
+	protected abstract void addGetRecordParams(final BasicDBObject query);
+
+	/**
 	 * Creates the record.
 	 * 
 	 * @return true, if successful
@@ -212,9 +228,11 @@ public abstract class AbstractStructuredData {
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
+			BasicDBObject w = new BasicDBObject();
+			w.put(fieldname_domain, getDomain());
+			addFindLastNumberParams(w);
 			BasicDBObject query = new BasicDBObject();
-			query.put("$query",
-					new BasicDBObject(fieldname_domain, getDomain()));
+			query.put("$query", w);
 			query.put("$orderby", new BasicDBObject(fieldname_number, -1));
 
 			DBObject doc = null;
@@ -273,30 +291,6 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
-	 * Gets the.
-	 * 
-	 * @param numbers
-	 *            the numbers
-	 * @return the sets the
-	 */
-
-	public Set<HashMap<String, Object>> get(Set<Long> numbers) {
-		{
-			Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
-			Iterator<Long> i = numbers.iterator();
-			while (i.hasNext()) {
-				Long number = i.next();
-				IncomingPayment doc = new IncomingPayment(getDomain(), number);
-				if (doc != null) {
-					set.add(doc.toMap());
-				}
-			}
-			return set;
-		}
-
-	}
-
-	/**
 	 * Gets the createdate.
 	 * 
 	 * @return the createdate
@@ -347,10 +341,12 @@ public abstract class AbstractStructuredData {
 			DBCollection coll = db.getCollection(getTableName());
 			BasicDBObject query = new BasicDBObject();
 			query.put(fieldname_domain, getDomain());
+			addGetRecordParams(query);
 			query.put(fieldname_number, number);
 
 			doc = coll.findOne(query);
 			Database.release();
+			onGetRecord(number);
 		}
 
 		return doc;
@@ -466,6 +462,14 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
+	 * On get record.
+	 * 
+	 * @param number
+	 *            the number
+	 */
+	protected abstract void onGetRecord(Long number);
+
+	/**
 	 * On init db struct.
 	 * 
 	 * @param i
@@ -539,6 +543,7 @@ public abstract class AbstractStructuredData {
 	 */
 	public void setNumber(Long number) {
 		values.set(fieldname_number, number);
+		onGetRecord(number);
 	}
 
 	/**

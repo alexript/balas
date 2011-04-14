@@ -73,8 +73,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders(
-	 * com.mongodb.BasicDBObject)
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllOrders
+	 * ( com.mongodb.BasicDBObject)
 	 */
 	@Override
 	protected void addFindAllOrders(final BasicDBObject o) {
@@ -84,9 +84,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#addFindAllQueryParameters
-	 * (com.mongodb.BasicDBObject)
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addFindAllQueryParameters (com.mongodb.BasicDBObject)
 	 */
 	@Override
 	protected void addFindAllQueryParameters(final BasicDBObject q) {
@@ -186,8 +185,20 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct(com
-	 * .mongodb.BasicDBObject, com.mongodb.DBCollection)
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onGetRecord
+	 * (java.lang.Long)
+	 */
+	@Override
+	protected void onGetRecord(Long number) {
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct
+	 * (com .mongodb.BasicDBObject, com.mongodb.DBCollection)
 	 */
 	@Override
 	protected void onInitDbStruct(final BasicDBObject i, final DBCollection coll) {
