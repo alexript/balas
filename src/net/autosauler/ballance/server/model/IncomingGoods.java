@@ -141,7 +141,7 @@ public class IncomingGoods extends AbstractDocument {
 	 */
 	@Override
 	protected void initStructure() {
-		struct.add(fieldname_partner, DataTypes.DT_LONG, new Long(0L));
+		struct.add(fieldname_partner, DataTypes.DT_CATALOGRECORD, new Long(0L));
 		struct.add(fieldname_senddate, DataTypes.DT_DATE, new Date());
 		struct.add(fieldname_invoicenum, DataTypes.DT_STRING, "");
 		struct.add(fieldname_goodsnumber, DataTypes.DT_INT, new Integer(0));
@@ -159,21 +159,11 @@ public class IncomingGoods extends AbstractDocument {
 	 */
 	@Override
 	protected void initTableParts() {
-		// TODO Auto-generated method stub
+		GoodsTablePart goods = new GoodsTablePart(getDomain());
+		addTablePart("goods", goods);
+		GoodsAddPaysTablePart addpay = new GoodsAddPaysTablePart(getDomain());
+		addTablePart("goodsaddpay", addpay);
 
-		// content:
-		// partner
-		// weight
-		// summ
-		// currency
-		// boxesnum
-
-		// additional pays:
-		// partner
-		// date
-		// summ
-		// currency
-		// decription
 	}
 
 	/*
