@@ -49,7 +49,8 @@ public interface DocumentService extends RemoteService {
 	 *            the map
 	 * @return true, if successful
 	 */
-	public boolean create(String docname, HashMap<String, Object> map);
+	public boolean create(String docname, HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts);
 
 	/**
 	 * Creates the and activate.
@@ -60,7 +61,9 @@ public interface DocumentService extends RemoteService {
 	 *            the map
 	 * @return true, if successful
 	 */
-	public boolean createAndActivate(String docname, HashMap<String, Object> map);
+	public boolean createAndActivate(String docname,
+			HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts);
 
 	/**
 	 * Gets the.
@@ -129,7 +132,8 @@ public interface DocumentService extends RemoteService {
 	 * @return true, if successful
 	 */
 	public boolean update(String docname, Long number,
-			HashMap<String, Object> map);
+			HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts);
 
 	/**
 	 * Update and activate.
@@ -143,7 +147,8 @@ public interface DocumentService extends RemoteService {
 	 * @return true, if successful
 	 */
 	public boolean updateAndActivate(String docname, Long number,
-			HashMap<String, Object> map);
+			HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts);
 
 	/**
 	 * Update table.

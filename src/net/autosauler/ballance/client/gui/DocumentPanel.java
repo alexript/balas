@@ -231,7 +231,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.create(documentname, map,
+					service.create(documentname, map, null, // TODO: add
+															// tableparts
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -256,7 +257,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 								}
 							});
 				} else {
-					service.update(documentname, editformnumber, map,
+					service.update(documentname, editformnumber, map, null, // TODO:add
+																			// tableparts
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -295,7 +297,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.createAndActivate(documentname, map,
+					service.createAndActivate(documentname, map, null, // TODO:
+																		// add
+																		// tableparts
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -318,7 +322,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 							});
 				} else {
 					service.updateAndActivate(documentname, editformnumber,
-							map, new AsyncCallback<Boolean>() {
+							map, null, // TODO: add tableparts
+							new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable caught) {

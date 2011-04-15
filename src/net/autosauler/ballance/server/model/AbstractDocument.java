@@ -300,6 +300,32 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	protected abstract boolean onUnActivation();
 
+	/**
+	 * Save table records.
+	 * 
+	 * @param tableparts
+	 *            the tableparts
+	 */
+	public void saveTableRecords(
+			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
+		if (tableparts != null) {
+			Set<String> names = tableparts.keySet();
+			Iterator<String> i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				saveTableRecords(name, tableparts.get(name));
+			}
+		}
+	}
+
+	/**
+	 * Save table records.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param set
+	 *            the set
+	 */
 	public void saveTableRecords(String name, Set<HashMap<String, Object>> set) {
 
 		AbstractDocumentTablePart table = getPart(name);

@@ -55,6 +55,7 @@ public interface DocumentServiceAsync {
 	 *      java.util.HashMap)
 	 */
 	void create(String docname, HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts,
 			AsyncCallback<Boolean> callback);
 
 	/**
@@ -68,6 +69,7 @@ public interface DocumentServiceAsync {
 	 *            the callback
 	 */
 	void createAndActivate(String docname, HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts,
 			AsyncCallback<Boolean> callback);
 
 	/**
@@ -155,6 +157,7 @@ public interface DocumentServiceAsync {
 	 *      java.lang.Long, java.util.HashMap)
 	 */
 	void update(String docname, Long number, HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts,
 			AsyncCallback<Boolean> callback);
 
 	/**
@@ -170,7 +173,9 @@ public interface DocumentServiceAsync {
 	 *            the callback
 	 */
 	void updateAndActivate(String docname, Long number,
-			HashMap<String, Object> map, AsyncCallback<Boolean> callback);
+			HashMap<String, Object> map,
+			HashMap<String, Set<HashMap<String, Object>>> tableparts,
+			AsyncCallback<Boolean> callback);
 
 	/**
 	 * Update table.
