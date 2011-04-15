@@ -255,6 +255,33 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	protected abstract boolean onActivation();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#onDump()
+	 */
+	@Override
+	protected StringBuilder onDump() {
+		if (!hasTables()) {
+			return null;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<tables>\n");
+		Set<String> names = tables.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			AbstractDocumentTablePart part = tables.get(name);
+
+			sb.append(part.dump());
+		}
+		sb.append("</tables>\n");
+
+		return sb;
+	}
+
 	/**
 	 * On generate default script.
 	 * 

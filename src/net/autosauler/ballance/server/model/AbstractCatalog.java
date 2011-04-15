@@ -181,6 +181,11 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	@Override
 	protected abstract void initStructure();
 
+	@Override
+	protected StringBuilder onDump() {
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

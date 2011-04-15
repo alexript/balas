@@ -176,6 +176,10 @@ public abstract class AbstractStructuredData {
 		}
 
 		sb.append("</records>\n");
+		StringBuilder child = onDump();
+		if (child != null) {
+			sb.append(child.toString());
+		}
 		sb.append("</" + getPrefix() + ">\n");
 
 		return sb.toString();
@@ -461,6 +465,11 @@ public abstract class AbstractStructuredData {
 			values.set(name, doc.get(name));
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	protected abstract StringBuilder onDump();
 
 	/**
 	 * On get record.

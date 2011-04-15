@@ -166,6 +166,16 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#onDump()
+	 */
+	@Override
+	protected StringBuilder onDump() {
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct
 	 * (com.mongodb.BasicDBObject, com.mongodb.DBCollection)
