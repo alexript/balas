@@ -66,6 +66,13 @@ public interface MenuMessages extends Messages {
 	String icoClosePane();
 
 	/**
+	 * Item changelog.
+	 * 
+	 * @return the string
+	 */
+	String itemChangelog();
+
+	/**
 	 * Item database.
 	 * 
 	 * @return the string

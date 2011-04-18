@@ -1,0 +1,143 @@
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-18 18:00:08 +0400): IncomingGoods header fix unactivation favicon fix Integer serialization<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-18 16:52:31 +0400): IncomingGoodsPanel skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-15 20:44:52 +0400): script for calc source code lines number<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-15 20:40:34 +0400): dump tableparts<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-15 20:28:36 +0400): add tableparts into rpc<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-15 19:57:35 +0400): IncomingGoods table parts<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-14 20:08:43 +0400): IncomingGoods skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-14 19:45:51 +0400): get and update table parts of document<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-14 18:02:39 +0400): AbstractDocumentTablePart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-14 17:18:02 +0400): rename StructuredData to AbstractStructuredData rename Catalog to AbstractCatalog rename Document to AbstractDocument<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-13 20:14:23 +0400): database dump from database panel refactor serialization for data struct<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-13 18:57:20 +0400): all stuctured data have trash<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-13 18:43:46 +0400): fix refactoring errors<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-13 17:35:09 +0400): refactor catalog and document. structures in superclass.<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-12 21:03:15 +0400): structs dump<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-12 20:23:54 +0400): structure and structvalues in catalogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-12 20:05:43 +0400): remove fields from catalogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-12 19:39:16 +0400): refactor catalog classes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-12 19:18:48 +0400): data types data type structures documents have data type structure<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-07 19:39:53 +0400): load and store script from database<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-06 20:58:18 +0400): add sixx library<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-04 21:35:14 +0400): edit document on click<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-04 20:44:47 +0400): document info for incoming pays forview in catalogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-04 19:58:57 +0400): Fix active column width for documents list<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-04 19:33:15 +0400): add paymethod and comments into incoming pay document<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-04 19:07:30 +0400): fix double documents list loading<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-30 22:12:21 +0400): document creation<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-30 19:11:18 +0400): document activation on server<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-30 18:37:58 +0400): Documents list skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-29 21:18:28 +0400): DocumentPanel skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-29 20:36:15 +0400): documents on server side<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-29 19:03:05 +0400): fix partners panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-29 18:49:18 +0400): currency type for field of catalog record<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-28 21:15:19 +0400): partners get paytype<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-28 19:31:03 +0400): little catalog list view fix<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-28 19:25:42 +0400): paymethod catalog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-28 18:28:29 +0400): fixed field fullname for catalog records<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-25 21:12:03 +0300): refactor partners panel into catalog panel many improvements<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-25 18:56:28 +0300): fix creation of catalog table fix lastNumber calculation<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-24 21:30:46 +0300): Skeleton for partners panel fix scroll for big panes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-24 19:44:35 +0300): catalog service<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-24 19:23:05 +0300): catalog record to/from hashmap (for communication)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-24 19:11:18 +0300): catalogs skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-24 19:10:53 +0300): mongodb concurency<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 20:39:18 +0300): global settings editor remove database mutex (strange bugs)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 19:15:22 +0300): set default currency for top panel fix null session in role detector on server settings in database panel (skeleton)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 18:28:50 +0300): receive currency list for top panel from global settings<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 18:11:02 +0300): get default currency from global settings<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 18:03:50 +0300): rename constant for settings table name<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 18:02:44 +0300): remove old comments<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-23 18:01:37 +0300): global settings for server<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-22 20:53:03 +0300): autoclosing database connecion retain-release database connection model<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 19:37:49 +0300): blinking title<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 18:15:05 +0300): better look for users list<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 17:59:33 +0300): remove fixed width for roles widget<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 17:56:53 +0300): remove unused ToolsCell<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 17:46:44 +0300): fix unhiddable busy panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 17:42:02 +0300): RolesWidget in users list<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 17:13:50 +0300): user roles widget<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 16:33:04 +0300): create top panel move language selector into top panel move today's currency values into top panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-18 15:38:30 +0300): fix eclipse project<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 20:59:55 +0300): javadoc testing generation<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 20:47:53 +0300): fix localization bug<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 20:32:04 +0300): some comments<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 20:30:56 +0300): little buggy fade and appear of currency values<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 19:36:23 +0300): script.aculo.us library<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 19:33:26 +0300): currency reload from auth panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 18:40:33 +0300): some comments<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 18:37:33 +0300): Show currency values for EUR and USD in auth panel SimpleDateParser from gwtwidgets<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-17 17:30:50 +0300): currency values service and client's cache<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-16 21:11:59 +0300): currency values storage<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-16 19:54:18 +0300): update user<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-03-16 19:31:11 +0300): user trashing<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 22:17:28 +0300): fix trash question<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 22:14:12 +0300): utf8<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 22:08:26 +0300): catch trash user event<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 20:34:58 +0300): Revert "eclipse want gwt-dev.jar in classpath."<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 20:16:38 +0300): eclipse want gwt-dev.jar in classpath.<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-28 20:05:05 +0300): replace toolcell with buttons under celltable remove editedtextcell replace isactive with images<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-24 21:30:22 +0300): Add icons for tools in users list. Not working. Rewrite.<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-24 18:53:55 +0300): live/trashed users list<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-22 21:26:26 +0300): Create user dialog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 21:06:08 +0300): gwt-log support<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 20:51:52 +0300): important todo comment<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 20:48:36 +0300): close database on exceptions in Database.class<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 20:43:32 +0300): additional checks on database close<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 20:42:30 +0300): mutex on database close<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-16 20:39:33 +0300): database close method<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 21:06:21 +0300): importand todo<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 20:57:43 +0300): final fixes in tab close algorithm<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 20:37:31 +0300): Userlist table some fixes in History pushing (actualy, bad fixes)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 18:36:57 +0300): move net.autosauler.ballance.shared.User initialization into server code<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 18:21:24 +0300): UsersPanel skeleton some eclipse automatisation on save files<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 17:37:08 +0300): userlist rpc classes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 17:17:45 +0300): incapsulate fields<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 17:13:03 +0300): methods for select userlist from database<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 16:30:25 +0300): add new compilation tree (gwt 2.2.0, war/deploy folder) into gitignore<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 16:25:25 +0300): little upper dialogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 16:22:57 +0300): catch database disconnection<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-14 15:58:20 +0300): gwt 2.2.0<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 23:06:50 +0300): fix unused import<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 23:05:27 +0300): fix all Window.alert() add icoRefresh into CommInfoPanel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 22:50:26 +0300): Alert dialog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 22:04:41 +0300): Database service drop database rpc some little fixes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 21:36:31 +0300): Create universal question dialog Remove Logout dialog Create database panel add drop database dialog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 20:17:54 +0300): icons for menuitems and tab headers close icon for tabs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 18:38:02 +0300): Apache lecense<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 17:53:53 +0300): helloToAll panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 17:34:28 +0300): some localization<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 17:24:28 +0300): simple reaction on left menu items<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 16:23:47 +0300): iconset chmod<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 16:23:31 +0300): iconset chmod<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 16:21:58 +0300): iconset chmod<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 16:20:03 +0300): disconnect on database drop<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-12 16:10:27 +0300): iconset<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 20:14:15 +0300): left menu skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 20:13:37 +0300): left menu skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 20:13:02 +0300): left menu skeleton<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 17:25:21 +0300): Mutex class synchronized Database Database drop method<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:44:36 +0300): README file addeded<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:38:36 +0300): some gitignore<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:35:52 +0300): mongodb macosx start script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:34:22 +0300): mongodb macosx start script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:30:49 +0300): mongodb macosx start script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-09 15:28:29 +0300): start script for mongodb (macosx)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-08 17:20:07 +0300): create date, isactive and istrash for User<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-08 17:00:07 +0300): javadoc for new classes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-08 16:41:01 +0300): User and UserList models script for start mongodb<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-02-08 03:55:03 +0300): fix default user<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 03:08:39 +0300): auth from database<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 02:25:11 +0300): UserRoles username, userroles, uid in session<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 01:20:36 +0300): username in sessionid<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 01:11:21 +0300): fix auth fields sizes<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 01:04:57 +0300): BCrypt module focuse in auth form on enter key press<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-08 00:25:48 +0300): auth session<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 22:07:46 +0300): localization flags<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 21:25:53 +0300): compile with gwt compiler<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 21:06:45 +0300): auth communication<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 19:47:03 +0300): Auth localization<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 18:50:18 +0300): logout dialog<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 17:52:30 +0300): simple main panel auth form<br/>
+* alexript &lt;alexript@MAINTOP&gt; (2011-02-07 15:49:33 +0300): fix classpath for mongodb.jar<br/>
+* alexript &lt;alexript@gmail.com&gt; (2011-02-07 15:45:30 +0300): initial release<br/>

@@ -135,6 +135,9 @@ public class LeftMenu extends Composite {
 		if (!role.isGuest()) {
 			VerticalPanel allpanel = new VerticalPanel();
 
+			allpanel.add(getMenuItem(l.itemChangelog(), "changelog",
+					images.icoChangelog()));
+
 			String forAllHeader = getHeaderString(l.forAllPanel(),
 					images.forAllPanel());
 			panel.add(allpanel, forAllHeader, true);

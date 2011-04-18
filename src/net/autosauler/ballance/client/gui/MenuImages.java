@@ -67,6 +67,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource guestPanel();
 
 	/**
+	 * Ico changelog.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource icoChangelog();
+
+	/**
 	 * Ico close.
 	 * 
 	 * @return the image resource
