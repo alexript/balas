@@ -736,8 +736,16 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Reload list.
 	 */
+	@SuppressWarnings("unchecked")
 	private void reloadList() {
 		db.getDataProvider().reload();
+
+		HashMap<String, Object> selection = ((SingleSelectionModel<HashMap<String, Object>>) cellTable
+				.getSelectionModel()).getSelectedObject();
+		if (selection != null) {
+
+			cellTable.getSelectionModel().setSelected(selection, false);
+		}
 		if (!list.isVisible() && (editor != null) && editor.isVisible()) {
 			effectHide(editor.getElement());
 			effectShow(list.getElement());
