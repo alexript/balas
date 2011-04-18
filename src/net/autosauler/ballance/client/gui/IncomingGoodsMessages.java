@@ -23,5 +23,15 @@ import com.google.gwt.i18n.client.Messages;
  * 
  */
 public interface IncomingGoodsMessages extends Messages {
+	public String lblAWB();
 
+	public String lblGoodsNum();
+
+	public String lblGTD();
+
+	public String lblInvoice();
+
+	public String lblPartner();
+
+	public String lblSendDate();
 }

@@ -94,6 +94,8 @@ public class Structure {
 			obj = Double.parseDouble((String) val);
 		} else if (type == DataTypes.DT_MONEY) {
 			obj = Double.parseDouble((String) val);
+		} else if (type == DataTypes.DT_INT) {
+			obj = Integer.parseInt((String) val);
 		} else {
 			obj = val;
 		}
@@ -171,6 +173,8 @@ public class Structure {
 			obj = ((Double) object).toString();
 		} else if (type == DataTypes.DT_MONEY) {
 			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_INT) {
+			obj = ((Integer) object).toString();
 		} else {
 			obj = object;
 		}

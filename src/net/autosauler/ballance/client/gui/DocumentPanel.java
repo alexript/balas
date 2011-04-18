@@ -27,7 +27,6 @@ import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
@@ -498,10 +497,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectHide(Element element) /*-{
-													new $wnd.Effect.DropOut(element, {
-													queue : 'end'
-													});
-													}-*/;
+		new $wnd.Effect.DropOut(element, {
+			queue : 'end'
+		});
+	}-*/;
 
 	/**
 	 * Effect show.
@@ -510,10 +509,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectShow(Element element) /*-{
-													new $wnd.Effect.SlideDown(element, {
-													queue : 'end'
-													});
-													}-*/;
+		new $wnd.Effect.SlideDown(element, {
+			queue : 'end'
+		});
+	}-*/;
 
 	/**
 	 * Fill editor.
@@ -649,11 +648,11 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		// Doc creation date.
 		// ----------------------------------------------------------
-		Column<HashMap<String, Object>, Date> docDateColumn = new Column<HashMap<String, Object>, Date>(
-				new DateCell()) {
+		Column<HashMap<String, Object>, String> docDateColumn = new Column<HashMap<String, Object>, String>(
+				new TextCell()) {
 			@Override
-			public Date getValue(HashMap<String, Object> map) {
-				return new Date((Long) map.get("createdate"));
+			public String getValue(HashMap<String, Object> map) {
+				return formatter.format(new Date((Long) map.get("createdate")));
 			}
 		};
 		cellTable.addColumn(docDateColumn, l.colCreateDate());
@@ -666,7 +665,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 				new TextCell()) {
 			@Override
 			public String getValue(HashMap<String, Object> map) {
-				return (String) map.get("author");
+				return (String) map.get("username");
 			}
 		};
 		cellTable.addColumn(docAuthorColumn, l.colAuthor());

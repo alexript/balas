@@ -145,7 +145,7 @@ public class IncomingGoods extends AbstractDocument {
 		struct.add(fieldname_senddate, DataTypes.DT_DATE, new Date());
 		struct.add(fieldname_invoicenum, DataTypes.DT_STRING, "");
 		struct.add(fieldname_goodsnumber, DataTypes.DT_INT, new Integer(0));
-		struct.add(fieldname_invoicenum, DataTypes.DT_STRING, "");
+
 		struct.add(fieldname_awb, DataTypes.DT_STRING, "");
 		struct.add(fieldname_gtd, DataTypes.DT_STRING, "");
 

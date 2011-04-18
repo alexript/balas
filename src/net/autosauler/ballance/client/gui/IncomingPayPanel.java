@@ -33,7 +33,7 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 
 	/** The date format. */
 	private static DateTimeFormat dateFormat = DateTimeFormat
-			.getFormat("dd/MM/yyyy");
+			.getFormat("yyyy/MM/dd");
 
 	/** The paydate. */
 	private DateBox paydate;

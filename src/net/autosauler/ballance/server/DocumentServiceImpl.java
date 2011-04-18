@@ -280,6 +280,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				IncomingPayment doc = new IncomingPayment(
 						HttpUtilities.getUserDomain(getSession()), number);
 				doc.unactivation();
+				doc.save();
 
 			}
 		} else if (docname.equals("ingoods")) {
@@ -287,6 +288,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				IncomingGoods doc = new IncomingGoods(
 						HttpUtilities.getUserDomain(getSession()), number);
 				doc.unactivation();
+				doc.save();
 
 			}
 		}
