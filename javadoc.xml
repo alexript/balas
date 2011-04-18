@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" additionalparam=" -encoding &quot;UTF-8&quot; -charset &quot;UTF-8&quot; -docencoding &quot;UTF-8&quot;" author="true" classpath="war/WEB-INF/lib/gwt-log-3.1.0.jar:test-classes:/Users/alexript/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar:war/WEB-INF/lib/mongo-2.4.jar:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/gwt-user.jar:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/gwt-dev.jar" destdir="doc" doctitle="BalAS API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="net.autosauler.ballance.client,net.autosauler.ballance.server.util,net.autosauler.ballance.shared,net.autosauler.ballance.client.gui,net.autosauler.ballance.server,net.autosauler.ballance.server.model,net.autosauler.ballance.server.mongodb,net.autosauler.ballance.client.databases,net.autosauler.ballance.server.crypt,net.autosauler.ballance.client.utils" source="1.6" sourcepath="test:src" splitindex="true" use="true" version="true"/>
-    </target>
-</project>
