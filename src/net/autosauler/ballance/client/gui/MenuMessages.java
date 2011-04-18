@@ -87,6 +87,13 @@ public interface MenuMessages extends Messages {
 	String itemIncPay();
 
 	/**
+	 * Item in goods.
+	 * 
+	 * @return the string
+	 */
+	String itemInGoods();
+
+	/**
 	 * Item license.
 	 * 
 	 * @return the string

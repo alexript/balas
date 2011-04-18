@@ -101,6 +101,9 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isDocuments()) {
 			VerticalPanel documentspanel = new VerticalPanel();
 
+			documentspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
+					images.icoInGoods()));
+
 			String documentsHeader = getHeaderString(l.documentsPanel(),
 					images.documentsPanel());
 			panel.add(documentspanel, documentsHeader, true);
@@ -116,6 +119,8 @@ public class LeftMenu extends Composite {
 
 			financesspanel.add(getMenuItem(l.itemIncPay(), "incpay",
 					images.icoIncPay()));
+			financesspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
+					images.icoInGoods()));
 
 			String financesHeader = getHeaderString(l.financesPanel(),
 					images.financesPanel());

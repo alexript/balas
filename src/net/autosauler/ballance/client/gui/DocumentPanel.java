@@ -26,6 +26,7 @@ import net.autosauler.ballance.client.databases.DocumentsDatabase;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
@@ -207,10 +208,15 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
+		Widget editform = createDocumentHeaderEditor();
+		if (editform == null) {
+			Log.error("Document editor form is not implemented!!!");
+			return;
+		}
 		editor = new VerticalPanel();
 		editor.setVisible(false);
 
-		editor.add(createDocumentHeaderEditor());
+		editor.add(editform);
 
 		if (hasTablePart()) {
 			// TODO: tableparts
@@ -492,10 +498,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectHide(Element element) /*-{
-		new $wnd.Effect.DropOut(element, {
-			queue : 'end'
-		});
-	}-*/;
+													new $wnd.Effect.DropOut(element, {
+													queue : 'end'
+													});
+													}-*/;
 
 	/**
 	 * Effect show.
@@ -504,10 +510,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectShow(Element element) /*-{
-		new $wnd.Effect.SlideDown(element, {
-			queue : 'end'
-		});
-	}-*/;
+													new $wnd.Effect.SlideDown(element, {
+													queue : 'end'
+													});
+													}-*/;
 
 	/**
 	 * Fill editor.
@@ -709,6 +715,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the map
 	 */
 	private void openEditor(HashMap<String, Object> map) {
+		if (editor == null) {
+			Log.error("Not implemented yet.");
+			return;
+		}
 		if (editformnumber.equals(-1L) && (map == null)) {
 			btnActivate.setVisible(false);
 		} else {

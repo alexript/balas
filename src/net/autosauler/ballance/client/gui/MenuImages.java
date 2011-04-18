@@ -109,6 +109,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource icoInfo();
 
 	/**
+	 * Ico in goods.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource icoInGoods();
+
+	/**
 	 * Ico partners.
 	 * 
 	 * @return the image resource
