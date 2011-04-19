@@ -37,8 +37,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
  * 
  * @author alexript
  */
-public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu,
-		IDialogYesReceiver {
+public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 
 	/** The l. */
 	private static IncomingGoodsMessages l = GWT
@@ -247,6 +246,23 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu,
 	protected boolean hasTablePart() {
 
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.DocumentPanel#initTableParts(net.
+	 * autosauler.ballance.client.gui.DocumentTableParts)
+	 */
+	@Override
+	protected void initTableParts(final DocumentTableParts parts) {
+		GoodsTablePart part = new GoodsTablePart(l.tableGoods());
+		parts.addPart("goods", part);
+
+		AdditionalPaysTablePart part2 = new AdditionalPaysTablePart(
+				l.tableAddPays());
+		parts.addPart("goodsaddpay", part2);
+
 	}
 
 }

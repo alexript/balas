@@ -25,8 +25,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
  * 
  * @author alexript
  */
-public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
-		IDialogYesReceiver {
+public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 
 	/** The partner. */
 	private CatalogSelector partner;
@@ -252,6 +251,18 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu,
 	@Override
 	protected boolean hasTablePart() {
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.gui.DocumentPanel#initTableParts(net.
+	 * autosauler.ballance.client.gui.DocumentTableParts)
+	 */
+	@Override
+	protected void initTableParts(DocumentTableParts parts) {
+		return;
+
 	}
 
 }

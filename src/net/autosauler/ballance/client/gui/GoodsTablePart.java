@@ -13,71 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.i18n.client.Messages;
-
 /**
- * The Interface IncomingGoodsMessages.
- * 
  * @author alexript
+ * 
  */
-public interface IncomingGoodsMessages extends Messages {
+public class GoodsTablePart extends DocumentTablePart {
 
 	/**
-	 * Lbl awb.
-	 * 
-	 * @return the string
+	 * @param title
 	 */
-	public String lblAWB();
+	public GoodsTablePart(String title) {
+		super(title);
 
-	/**
-	 * Lbl goods num.
-	 * 
-	 * @return the string
-	 */
-	public String lblGoodsNum();
+	}
 
-	/**
-	 * Lbl gtd.
-	 * 
-	 * @return the string
-	 */
-	public String lblGTD();
-
-	/**
-	 * Lbl invoice.
-	 * 
-	 * @return the string
-	 */
-	public String lblInvoice();
-
-	/**
-	 * Lbl partner.
-	 * 
-	 * @return the string
-	 */
-	public String lblPartner();
-
-	/**
-	 * Lbl send date.
-	 * 
-	 * @return the string
-	 */
-	public String lblSendDate();
-
-	/**
-	 * Table add pays.
-	 * 
-	 * @return the string
-	 */
-	public String tableAddPays();
-
-	/**
-	 * Table goods.
-	 * 
-	 * @return the string
-	 */
-	public String tableGoods();
 }

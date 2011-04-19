@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.DocumentService;
@@ -64,8 +65,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
-		IDialogYesReceiver {
+public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 	/** The documentname. */
 	private final String documentname;
@@ -128,6 +128,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/** The db. */
 	private DocumentsDatabase db;
+
+	/** The parts. */
+	private DocumentTableParts parts;
 
 	/** The Constant KEY_PROVIDER. */
 	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
@@ -218,7 +221,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		editor.add(editform);
 
 		if (hasTablePart()) {
-			// TODO: tableparts
+			parts = new DocumentTableParts();
+			initTableParts(parts);
+			parts.selectTab(0);
+			editor.add(parts);
 		}
 
 		HorizontalPanel buttons = new HorizontalPanel();
@@ -236,8 +242,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.create(documentname, map, null, // TODO: add
-															// tableparts
+					service.create(documentname, map, getTablesValues(),
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -262,9 +267,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 								}
 							});
 				} else {
-					service.update(documentname, editformnumber, map, null, // TODO:add
-																			// tableparts
-							new AsyncCallback<Boolean>() {
+					service.update(documentname, editformnumber, map,
+							getTablesValues(), new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
@@ -302,10 +306,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.createAndActivate(documentname, map, null, // TODO:
-																		// add
-																		// tableparts
-							new AsyncCallback<Boolean>() {
+					service.createAndActivate(documentname, map,
+							getTablesValues(), new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
@@ -327,7 +329,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 							});
 				} else {
 					service.updateAndActivate(documentname, editformnumber,
-							map, null, // TODO: add tableparts
+							map, getTablesValues(),
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -455,6 +457,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 						if (map != null) {
 							editformnumber = (Long) map.get("number");
 							editformisactive = (Boolean) map.get("active");
+							if (hasTablePart()) {
+								loadTables();
+							}
 							openEditor(map);
 						} else {
 							// edit.setEnabled(false);
@@ -575,12 +580,28 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 							editformnumber = -1L;
 							editformisactive = false;
 							cleanEditForm();
+							if (hasTablePart()) {
+								parts.cleanTables();
+							}
 							openEditor(null);
 						}
 					});
 		}
 		return menu;
 
+	}
+
+	/**
+	 * Gets the tables values.
+	 * 
+	 * @return the tables values
+	 */
+	private HashMap<String, Set<HashMap<String, Object>>> getTablesValues() {
+		HashMap<String, Set<HashMap<String, Object>>> tableparts = null;
+		if (hasTablePart()) {
+			tableparts = parts.getValues();
+		}
+		return tableparts;
 	}
 
 	/**
@@ -694,17 +715,20 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Inits the table parts.
 	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.IDialogYesReceiver#onDialogYesButtonClick
-	 * (java.lang.String, java.lang.Object)
+	 * @param parts
+	 *            the parts
 	 */
-	@Override
-	public void onDialogYesButtonClick(String tag, Object tag2) {
-		// TODO Auto-generated method stub
+	protected abstract void initTableParts(final DocumentTableParts parts);
 
+	/**
+	 * Load tables.
+	 * 
+	 */
+	private void loadTables() {
+		parts.loadData(documentname, editformnumber);
 	}
 
 	/**

@@ -16,68 +16,27 @@
 
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Tree;
 
 /**
- * The Interface IncomingGoodsMessages.
+ * The Interface TablePartImages.
  * 
  * @author alexript
  */
-public interface IncomingGoodsMessages extends Messages {
+public interface TablePartImages extends Tree.Resources {
 
 	/**
-	 * Lbl awb.
+	 * Minus.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	public String lblAWB();
+	ImageResource Minus();
 
 	/**
-	 * Lbl goods num.
+	 * Plus.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	public String lblGoodsNum();
-
-	/**
-	 * Lbl gtd.
-	 * 
-	 * @return the string
-	 */
-	public String lblGTD();
-
-	/**
-	 * Lbl invoice.
-	 * 
-	 * @return the string
-	 */
-	public String lblInvoice();
-
-	/**
-	 * Lbl partner.
-	 * 
-	 * @return the string
-	 */
-	public String lblPartner();
-
-	/**
-	 * Lbl send date.
-	 * 
-	 * @return the string
-	 */
-	public String lblSendDate();
-
-	/**
-	 * Table add pays.
-	 * 
-	 * @return the string
-	 */
-	public String tableAddPays();
-
-	/**
-	 * Table goods.
-	 * 
-	 * @return the string
-	 */
-	public String tableGoods();
+	ImageResource Plus();
 }
