@@ -192,7 +192,7 @@ public class IncomingPayment extends AbstractDocument {
 	 */
 	@Override
 	protected boolean onUnActivation() {
-		// TODO Auto-generated method stub
+
 		return true;
 	}
 
