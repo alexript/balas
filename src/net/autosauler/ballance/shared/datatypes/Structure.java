@@ -16,7 +16,6 @@
 
 package net.autosauler.ballance.shared.datatypes;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -88,17 +87,7 @@ public class Structure {
 	public Object fromMapping(String name, Object val) {
 		Object obj = null;
 		int type = getType(name);
-		if (type == DataTypes.DT_DATE) {
-			obj = new Date((Long) val);
-		} else if (type == DataTypes.DT_DOUBLE) {
-			obj = Double.parseDouble((String) val);
-		} else if (type == DataTypes.DT_MONEY) {
-			obj = Double.parseDouble((String) val);
-		} else if (type == DataTypes.DT_INT) {
-			obj = Integer.parseInt((String) val);
-		} else {
-			obj = val;
-		}
+		obj = DataTypes.fromMapping(type, val);
 		return obj;
 	}
 
@@ -167,17 +156,7 @@ public class Structure {
 	public Object toMapping(String name, Object object) {
 		Object obj = null;
 		int type = getType(name);
-		if (type == DataTypes.DT_DATE) {
-			obj = ((Date) object).getTime();
-		} else if (type == DataTypes.DT_DOUBLE) {
-			obj = ((Double) object).toString();
-		} else if (type == DataTypes.DT_MONEY) {
-			obj = ((Double) object).toString();
-		} else if (type == DataTypes.DT_INT) {
-			obj = ((Integer) object).toString();
-		} else {
-			obj = object;
-		}
+		obj = DataTypes.toMapping(type, object);
 		return obj;
 
 	}

@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.shared.datatypes;
 
+import java.util.Date;
+
 /**
  * The Class DataTypes.
  * 
@@ -73,4 +75,55 @@ public class DataTypes {
 
 	/** The Constant DT_SCRIPT. */
 	final public static int DT_SCRIPT = 16;
+
+	/**
+	 * From mapping.
+	 * 
+	 * @param type
+	 *            the type
+	 * @param val
+	 *            the val
+	 * @return the object
+	 */
+	public static Object fromMapping(int type, Object val) {
+		Object obj = null;
+		if (type == DataTypes.DT_DATE) {
+			obj = new Date((Long) val);
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = Double.parseDouble((String) val);
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = Double.parseDouble((String) val);
+		} else if (type == DataTypes.DT_INT) {
+			obj = Integer.parseInt((String) val);
+		} else {
+			obj = val;
+		}
+		return obj;
+	}
+
+	/**
+	 * To mapping.
+	 * 
+	 * @param type
+	 *            the type
+	 * @param object
+	 *            the object
+	 * @return the object
+	 */
+	public static Object toMapping(int type, Object object) {
+		Object obj = null;
+		if (type == DataTypes.DT_DATE) {
+			obj = ((Date) object).getTime();
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_INT) {
+			obj = ((Integer) object).toString();
+		} else {
+			obj = object;
+		}
+		return obj;
+
+	}
 }

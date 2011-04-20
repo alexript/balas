@@ -18,11 +18,13 @@ package net.autosauler.ballance.client.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.DocumentService;
 import net.autosauler.ballance.client.DocumentServiceAsync;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -49,7 +51,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public class DocumentTablePart extends Composite {
+public abstract class DocumentTablePart extends Composite {
 
 	/** The title. */
 	private final String title;
@@ -65,16 +67,22 @@ public class DocumentTablePart extends Composite {
 	private static final TablePartImages images = GWT
 			.create(TablePartImages.class);
 
+	private static final DocumentTableMessages l = GWT
+			.create(DocumentTableMessages.class);
+
 	/** The btn plus. */
 	private Image btnPlus;
 
 	/** The btn minus. */
 	private Image btnMinus;
 
+	private final HashMap<String, Integer> datatypes;
+
 	/** The cell table. */
 	@UiField(provided = true)
 	private CellTable<HashMap<String, Object>> cellTable;
 
+	/** The data provider. */
 	private ListDataProvider<HashMap<String, Object>> dataProvider;
 
 	/** The Constant KEY_PROVIDER. */
@@ -93,8 +101,12 @@ public class DocumentTablePart extends Composite {
 		}
 	};
 
+	/** The Constant selectionModel. */
 	private static final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
 			KEY_PROVIDER);
+
+	/** The defaultvalues. */
+	private final HashMap<String, Object> defaultvalues;
 
 	/**
 	 * Instantiates a new document table part.
@@ -104,7 +116,44 @@ public class DocumentTablePart extends Composite {
 	 */
 	public DocumentTablePart(String title) {
 		this.title = title;
+		defaultvalues = new HashMap<String, Object>();
+		datatypes = new HashMap<String, Integer>();
 		cleanTable();
+	}
+
+	/**
+	 * Adds the column.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param field
+	 *            the field
+	 * @param type
+	 *            the type
+	 * @param width
+	 *            the width
+	 * @param iseditable
+	 *            the iseditable
+	 * @param defval
+	 *            the defval
+	 * @param helper
+	 *            the helper
+	 */
+	public void addColumn(final String name, final String field,
+			final int type, final int width, final boolean iseditable,
+			final Object defval, final Object helper) {
+
+		if (iseditable) {
+			DataTypeFactory.addEditableCell(cellTable, name, field, type,
+					width, defval, helper);
+		} else {
+			DataTypeFactory.addCell(cellTable, name, field, type, width,
+					defval, helper);
+		}
+
+		defaultvalues.put(field, defval);
+		datatypes.put(field, type);
+
 	}
 
 	/**
@@ -114,6 +163,15 @@ public class DocumentTablePart extends Composite {
 		// Window.alert("Add row into " + title);
 		HashMap<String, Object> row = new HashMap<String, Object>();
 		row.put("number", new Long(0L));
+		Set<String> names = defaultvalues.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			row.put(name,
+					DataTypes.toMapping(datatypes.get(name),
+							defaultvalues.get(name)));
+		}
+
 		dataset.add(row);
 		dataProvider.refresh();
 	}
@@ -148,6 +206,8 @@ public class DocumentTablePart extends Composite {
 		tools.setSpacing(3);
 
 		btnPlus = new Image(images.Plus());
+		btnPlus.setTitle(l.btnAddrow());
+		btnPlus.setAltText(l.btnAddrow());
 		btnPlus.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -157,6 +217,8 @@ public class DocumentTablePart extends Composite {
 		});
 
 		btnMinus = new Image(images.Minus());
+		btnMinus.setTitle(l.btnDelrow());
+		btnMinus.setAltText(l.btnDelrow());
 		btnMinus.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -182,6 +244,7 @@ public class DocumentTablePart extends Composite {
 								.getSelectedObject();
 						if (map != null) {
 							Long recnum = (Long) map.get("number");
+							recnum.toString(); // NOP
 							// onselect
 						} else {
 							// edit.setEnabled(false);
@@ -208,11 +271,11 @@ public class DocumentTablePart extends Composite {
 			}
 		};
 
-		cellTable.addColumn(recNumberColumn, "N-");
+		cellTable.addColumn(recNumberColumn, l.colNumber());
 
 		cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
 
-		initTableColumns(selectionModel);
+		initTableColumns();
 
 		dataProvider = new ListDataProvider<HashMap<String, Object>>();
 		dataProvider.addDataDisplay(cellTable);
@@ -251,13 +314,10 @@ public class DocumentTablePart extends Composite {
 	}
 
 	/**
-	 * @param selectionModel
+	 * Inits the table columns.
+	 * 
 	 */
-	private void initTableColumns(
-			SelectionModel<HashMap<String, Object>> selectionModel) {
-		// TODO Auto-generated method stub
-
-	}
+	protected abstract void initTableColumns();
 
 	/**
 	 * Load data.
@@ -306,10 +366,10 @@ public class DocumentTablePart extends Composite {
 				dataProvider.setList(dataset);
 				dataProvider.refresh();
 			} else {
-				new AlertDialog("You can't delete this record").show();
+				new AlertDialog(l.msgCantdelete()).show();
 			}
 		} else {
-			new AlertDialog("You must select record before delete").show();
+			new AlertDialog(l.msgMustselect()).show();
 		}
 	}
 

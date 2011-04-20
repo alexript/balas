@@ -15,11 +15,20 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
+import java.util.Date;
+
+import net.autosauler.ballance.shared.datatypes.DataTypes;
+
+import com.google.gwt.core.client.GWT;
+
 /**
  * @author alexript
  * 
  */
 public class AdditionalPaysTablePart extends DocumentTablePart {
+
+	private static final IncomingGoodsMessages l = GWT
+			.create(IncomingGoodsMessages.class);
 
 	/**
 	 * @param title
@@ -27,6 +36,27 @@ public class AdditionalPaysTablePart extends DocumentTablePart {
 	public AdditionalPaysTablePart(String title) {
 		super(title);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.DocumentTablePart#initTableColumns()
+	 */
+	@Override
+	protected void initTableColumns() {
+
+		addColumn(l.colPartner(), "partner", DataTypes.DT_CATALOGRECORD, 100,
+				false, new Long(0L), new PartnersPanel());
+		addColumn(l.colPaydate(), "paydate", DataTypes.DT_DATE, 100, false,
+				new Date(), null);
+		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, false,
+				new Double(0.0D), null);
+		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50,
+				false, "RUR", null);
+		addColumn(l.colComments(), "descr", DataTypes.DT_STRING, 250, false,
+				"", null);
 	}
 
 }

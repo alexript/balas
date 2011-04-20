@@ -26,6 +26,55 @@ import com.google.gwt.i18n.client.Messages;
 public interface IncomingGoodsMessages extends Messages {
 
 	/**
+	 * Col boxesnum.
+	 * 
+	 * @return the string
+	 */
+	public String colBoxesnum();
+
+	/**
+	 * Col comments.
+	 * 
+	 * @return the string
+	 */
+	public String colComments();
+
+	/**
+	 * Col currency.
+	 * 
+	 * @return the string
+	 */
+	public String colCurrency();
+
+	/**
+	 * Col partner.
+	 * 
+	 * @return the string
+	 */
+	public String colPartner();
+
+	/**
+	 * Col paydate.
+	 * 
+	 * @return the string
+	 */
+	public String colPaydate();
+
+	/**
+	 * Col price.
+	 * 
+	 * @return the string
+	 */
+	public String colPrice();
+
+	/**
+	 * Col weight.
+	 * 
+	 * @return the string
+	 */
+	public String colWeight();
+
+	/**
 	 * Lbl awb.
 	 * 
 	 * @return the string
