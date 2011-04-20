@@ -15,24 +15,35 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.DocumentService;
 import net.autosauler.ballance.client.DocumentServiceAsync;
 
+import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.ProvidesKey;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 /**
  * The Class DocumentTablePart.
@@ -45,7 +56,7 @@ public class DocumentTablePart extends Composite {
 	private final String title;
 
 	/** The dataset. */
-	private Set<HashMap<String, Object>> dataset = null;
+	private List<HashMap<String, Object>> dataset = null;
 
 	/** The service. */
 	private static DocumentServiceAsync service = GWT
@@ -60,6 +71,28 @@ public class DocumentTablePart extends Composite {
 
 	/** The btn minus. */
 	private Image btnMinus;
+
+	/** The cell table. */
+	@UiField(provided = true)
+	private CellTable<HashMap<String, Object>> cellTable;
+
+	private ListDataProvider<HashMap<String, Object>> dataProvider;
+
+	/** The Constant KEY_PROVIDER. */
+	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
+
+		/**
+		 * Gets the key.
+		 * 
+		 * @param item
+		 *            the item
+		 * @return the key
+		 */
+		@Override
+		public Object getKey(HashMap<String, Object> map) {
+			return map == null ? null : map.get("number");
+		}
+	};
 
 	/**
 	 * Instantiates a new document table part.
@@ -76,8 +109,9 @@ public class DocumentTablePart extends Composite {
 	 * Adds the row.
 	 */
 	private void addRow() {
-		Window.alert("Add row into " + title);
-		// TODO: add row into table
+		// Window.alert("Add row into " + title);
+		dataset.add(new HashMap<String, Object>());
+		dataProvider.refresh();
 	}
 
 	/**
@@ -87,10 +121,12 @@ public class DocumentTablePart extends Composite {
 		if (dataset != null) {
 			dataset.clear();
 		} else {
-			dataset = new HashSet<HashMap<String, Object>>();
+			dataset = new ArrayList<HashMap<String, Object>>();
 		}
-		// TODO: remove rows
-
+		if (dataProvider != null) {
+			dataProvider.setList(dataset);
+			dataProvider.refresh();
+		}
 	}
 
 	/**
@@ -130,8 +166,55 @@ public class DocumentTablePart extends Composite {
 		tools.add(btnMinus);
 		panel.add(tools);
 
-		ScrollPanel scroll = new ScrollPanel(new Label(title)); // TODO: build
-																// table
+		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
+		cellTable.setWidth("100%", true);
+
+		final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
+				KEY_PROVIDER);
+
+		selectionModel
+				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+
+					@Override
+					public void onSelectionChange(SelectionChangeEvent event) {
+						HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
+								.getSelectedObject();
+						if (map != null) {
+							Long recnum = (Long) map.get("number");
+							// onselect
+						} else {
+							// edit.setEnabled(false);
+							// del.setEnabled(false);
+
+						}
+					}
+				});
+
+		// Record number.
+		// ----------------------------------------------------------
+		Column<HashMap<String, Object>, String> recNumberColumn = new Column<HashMap<String, Object>, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(HashMap<String, Object> map) {
+				return ((Long) map.get("number")).toString();
+			}
+		};
+
+		cellTable.addColumn(recNumberColumn, "N-");
+
+		cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
+
+		initTableColumns(selectionModel);
+
+		dataProvider = new ListDataProvider<HashMap<String, Object>>() {
+		};
+		dataProvider.addDataDisplay(cellTable);
+
+		dataProvider.refresh(); // ?
+
+		cellTable.setSelectionModel(selectionModel);
+
+		ScrollPanel scroll = new ScrollPanel(cellTable);
 		scroll.setSize("100%", "200px");
 
 		panel.add(scroll);
@@ -155,7 +238,18 @@ public class DocumentTablePart extends Composite {
 	 * @return the values
 	 */
 	public Set<HashMap<String, Object>> getValues() {
-		return dataset;
+		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>(
+				dataset);
+		return ds;
+	}
+
+	/**
+	 * @param selectionModel
+	 */
+	private void initTableColumns(
+			SelectionModel<HashMap<String, Object>> selectionModel) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -206,7 +300,8 @@ public class DocumentTablePart extends Composite {
 	 *            the set
 	 */
 	private void setData(Set<HashMap<String, Object>> set) {
-		dataset = set;
-		// TODO: fill table
+		dataset = new ArrayList<HashMap<String, Object>>(set);
+		dataProvider.setList(dataset);
+		dataProvider.refresh();
 	}
 }
