@@ -32,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -94,6 +93,9 @@ public class DocumentTablePart extends Composite {
 		}
 	};
 
+	private static final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
+			KEY_PROVIDER);
+
 	/**
 	 * Instantiates a new document table part.
 	 * 
@@ -110,7 +112,9 @@ public class DocumentTablePart extends Composite {
 	 */
 	private void addRow() {
 		// Window.alert("Add row into " + title);
-		dataset.add(new HashMap<String, Object>());
+		HashMap<String, Object> row = new HashMap<String, Object>();
+		row.put("number", new Long(0L));
+		dataset.add(row);
 		dataProvider.refresh();
 	}
 
@@ -169,9 +173,6 @@ public class DocumentTablePart extends Composite {
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
 		cellTable.setWidth("100%", true);
 
-		final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
-				KEY_PROVIDER);
-
 		selectionModel
 				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
@@ -196,7 +197,14 @@ public class DocumentTablePart extends Composite {
 				new TextCell()) {
 			@Override
 			public String getValue(HashMap<String, Object> map) {
-				return ((Long) map.get("number")).toString();
+				if (!map.containsKey("number")) {
+					return "0";
+				}
+				Object o = map.get("number");
+				if (o == null) {
+					return "0";
+				}
+				return ((Long) o).toString();
 			}
 		};
 
@@ -206,8 +214,7 @@ public class DocumentTablePart extends Composite {
 
 		initTableColumns(selectionModel);
 
-		dataProvider = new ListDataProvider<HashMap<String, Object>>() {
-		};
+		dataProvider = new ListDataProvider<HashMap<String, Object>>();
 		dataProvider.addDataDisplay(cellTable);
 
 		dataProvider.refresh(); // ?
@@ -289,8 +296,21 @@ public class DocumentTablePart extends Composite {
 	 * Removes the row.
 	 */
 	private void removeRow() {
-		Window.alert("Remove row from " + title);
-		// TODO: remove row from table
+		// Window.alert("Remove row from " + title);
+		HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
+				.getSelectedObject();
+		if (map != null) {
+			Long num = (Long) map.get("number");
+			if (num.equals(0L)) {
+				dataset.remove(map);
+				dataProvider.setList(dataset);
+				dataProvider.refresh();
+			} else {
+				new AlertDialog("You can't delete this record").show();
+			}
+		} else {
+			new AlertDialog("You must select record before delete").show();
+		}
 	}
 
 	/**
