@@ -23,6 +23,8 @@ import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -145,7 +147,7 @@ public class DataTypeFactory {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addEditableCell(final CellTable table, String name,
-			final String field, int type, int width, final Object defval,
+			final String field, final int type, int width, final Object defval,
 			final Object helper) {
 		Column column = null;
 
@@ -155,29 +157,126 @@ public class DataTypeFactory {
 				@Override
 				public Boolean getValue(HashMap<String, Object> map) {
 
-					Object o = map.get(field);
-
-					return (Boolean) o;
+					return (Boolean) DataTypes
+							.fromMapping(type, map.get(field));
 				}
 			};
-		} else if (type == DataTypes.DT_OBJECT) {
-		} else if (type == DataTypes.DT_INT) {
-		} else if (type == DataTypes.DT_DOUBLE) {
-		} else if (type == DataTypes.DT_STRING) {
-		} else if (type == DataTypes.DT_DATE) {
-		} else if (type == DataTypes.DT_LONG) {
-		} else if (type == DataTypes.DT_CURRENCY) {
-		} else if (type == DataTypes.DT_CATALOG) {
-		} else if (type == DataTypes.DT_CATALOGRECORD) {
-		} else if (type == DataTypes.DT_DOCUMENT) {
-		} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-		} else if (type == DataTypes.DT_SETTING) {
-		} else if (type == DataTypes.DT_SETTINGVALUE) {
-		} else if (type == DataTypes.DT_DOMAIN) {
-		} else if (type == DataTypes.DT_MONEY) {
-		} else if (type == DataTypes.DT_SCRIPT) {
-		} else {
 
+			// TODO: add this types
+			// } else if (type == DataTypes.DT_DATE) {
+			// } else if (type == DataTypes.DT_CURRENCY) {
+			// } else if (type == DataTypes.DT_CATALOGRECORD) {
+			// } else if (type == DataTypes.DT_DOCUMENTRECORD) {
+			// } else if (type == DataTypes.DT_SETTINGVALUE) {
+		} else if (type == DataTypes.DT_INT) {
+			column = new Column<HashMap<String, Object>, String>(
+					new EditTextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+
+					return (DataTypes.fromMapping(type, map.get(field)))
+							.toString();
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						String value) {
+					object.put(field,
+							DataTypes.toMapping(type, Integer.parseInt(value)));
+
+				}
+			});
+		} else if (type == DataTypes.DT_LONG) {
+			column = new Column<HashMap<String, Object>, String>(
+					new EditTextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+
+					return (DataTypes.fromMapping(type, map.get(field)))
+							.toString();
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						String value) {
+					object.put(field,
+							DataTypes.toMapping(type, Long.parseLong(value)));
+
+				}
+			});
+		} else if (type == DataTypes.DT_MONEY) {
+			column = new Column<HashMap<String, Object>, String>(
+					new EditTextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+
+					return (DataTypes.fromMapping(type, map.get(field)))
+							.toString();
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						String value) {
+					object.put(field, DataTypes.toMapping(type,
+							Double.parseDouble(value)));
+
+				}
+			});
+		} else if (type == DataTypes.DT_DOUBLE) {
+			column = new Column<HashMap<String, Object>, String>(
+					new EditTextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+
+					return (DataTypes.fromMapping(type, map.get(field)))
+							.toString();
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						String value) {
+					object.put(field, DataTypes.toMapping(type,
+							Double.parseDouble(value)));
+
+				}
+			});
+		} else {
+			column = new Column<HashMap<String, Object>, String>(
+					new EditTextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+
+					return (DataTypes.fromMapping(type, map.get(field)))
+							.toString();
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						String value) {
+					object.put(field, DataTypes.toMapping(type, value));
+
+				}
+			});
 		}
 
 		if (column != null) {

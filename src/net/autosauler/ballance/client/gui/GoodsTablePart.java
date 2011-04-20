@@ -45,14 +45,14 @@ public class GoodsTablePart extends DocumentTablePart {
 	protected void initTableColumns() {
 
 		addColumn(l.colPartner(), "partner", DataTypes.DT_CATALOGRECORD, 100,
-				false, new Long(0L), new PartnersPanel());
-		addColumn(l.colWeight(), "weight", DataTypes.DT_DOUBLE, 50, false,
+				true, new Long(0L), new PartnersPanel());
+		addColumn(l.colWeight(), "weight", DataTypes.DT_DOUBLE, 50, true,
 				new Double(0.0D), null);
-		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, false,
+		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, true,
 				new Double(0.0D), null);
-		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50,
-				false, "RUR", null);
-		addColumn(l.colBoxesnum(), "boxesnum", DataTypes.DT_INT, 50, false,
+		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50, true,
+				"RUR", null);
+		addColumn(l.colBoxesnum(), "boxesnum", DataTypes.DT_INT, 50, true,
 				new Integer(0), null);
 
 	}

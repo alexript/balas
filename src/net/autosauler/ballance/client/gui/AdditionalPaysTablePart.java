@@ -48,15 +48,15 @@ public class AdditionalPaysTablePart extends DocumentTablePart {
 	protected void initTableColumns() {
 
 		addColumn(l.colPartner(), "partner", DataTypes.DT_CATALOGRECORD, 100,
-				false, new Long(0L), new PartnersPanel());
-		addColumn(l.colPaydate(), "paydate", DataTypes.DT_DATE, 100, false,
+				true, new Long(0L), new PartnersPanel());
+		addColumn(l.colPaydate(), "paydate", DataTypes.DT_DATE, 100, true,
 				new Date(), null);
-		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, false,
+		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, true,
 				new Double(0.0D), null);
-		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50,
-				false, "RUR", null);
-		addColumn(l.colComments(), "descr", DataTypes.DT_STRING, 250, false,
-				"", null);
+		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50, true,
+				"RUR", null);
+		addColumn(l.colComments(), "descr", DataTypes.DT_STRING, 250, true, "",
+				null);
 	}
 
 }

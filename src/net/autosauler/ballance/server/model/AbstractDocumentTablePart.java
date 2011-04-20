@@ -50,6 +50,8 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	public AbstractDocumentTablePart(String partname, String domain) {
 		super("doctab", partname, domain);
 		setDocnum(new Long(0L));
+		// TODO: set docnum and author (case: created document, add row, save =>
+		// empty docnum and author)
 	}
 
 	/*

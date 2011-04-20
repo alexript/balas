@@ -153,7 +153,7 @@ public abstract class DocumentTablePart extends Composite {
 
 		defaultvalues.put(field, defval);
 		datatypes.put(field, type);
-
+		// TODO: clean selection
 	}
 
 	/**
