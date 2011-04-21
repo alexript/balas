@@ -178,6 +178,9 @@ public class LeftMenu extends Composite {
 			managerpanel.add(getMenuItem(l.itemPartners(), "partners",
 					images.icoPartners()));
 
+			managerpanel.add(getMenuItem(l.itemTarif(), "tarifs",
+					images.icoTarif()));
+
 			String managerHeader = getHeaderString(l.managerPanel(),
 					images.managerPanel());
 			panel.add(managerpanel, managerHeader, true);

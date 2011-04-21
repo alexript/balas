@@ -36,6 +36,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class CatalogServiceImpl extends RemoteServiceServlet implements
 		CatalogService {
+	// TODO: refactoring
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5604719619146321115L;
@@ -69,7 +70,7 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				result = p.save();
 			}
 		} else if (catalogname.equals("tarifs")) {
-			if (role.isAdmin() || role.isFinances()) {
+			if (role.isAdmin() || role.isFinances() || role.isManager()) {
 				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
 						HttpUtilities.getUserLogo(httpSession));
 				p.fromMap(map);
@@ -292,7 +293,7 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				result = p.save();
 			}
 		} else if (catalogname.equals("tarifs")) {
-			if (role.isAdmin() || role.isFinances()) {
+			if (role.isAdmin() || role.isFinances() || role.isManager()) {
 				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
 						number);
 				p.fromMap(map);

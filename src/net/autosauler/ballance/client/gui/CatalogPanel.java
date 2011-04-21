@@ -142,6 +142,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * @param panel
 	 *            the panel
 	 */
+	// TODO: beauty and unification
+
 	abstract void buildEditor(VerticalPanel panel);
 
 	/**

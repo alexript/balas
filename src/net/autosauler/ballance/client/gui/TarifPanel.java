@@ -80,7 +80,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	boolean canCreate(UserRole role) {
 
-		return (role.isAdmin() || role.isFinances());
+		return (role.isAdmin() || role.isFinances() || role.isManager());
 	}
 
 	/*
@@ -92,7 +92,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canEdit(UserRole role) {
-		return (role.isAdmin() || role.isFinances());
+		return (role.isAdmin() || role.isFinances() || role.isManager());
 
 	}
 
@@ -105,7 +105,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canTrash(UserRole role) {
-		return (role.isAdmin() || role.isFinances());
+		return (role.isAdmin() || role.isFinances() || role.isManager());
 
 	}
 
