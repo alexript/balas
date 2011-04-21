@@ -230,7 +230,7 @@ public class DataTypeFactory {
 				public void update(int index, HashMap<String, Object> object,
 						String value) {
 					object.put(field, DataTypes.toMapping(type,
-							Double.parseDouble(value)));
+							Double.parseDouble(value.replace(',', '.'))));
 
 				}
 			});
@@ -252,7 +252,7 @@ public class DataTypeFactory {
 				public void update(int index, HashMap<String, Object> object,
 						String value) {
 					object.put(field, DataTypes.toMapping(type,
-							Double.parseDouble(value)));
+							Double.parseDouble(value.replace(',', '.'))));
 
 				}
 			});

@@ -22,8 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.DocumentService;
 import net.autosauler.ballance.client.DocumentServiceAsync;
+import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.TextCell;
@@ -75,6 +77,8 @@ public abstract class DocumentTablePart extends Composite {
 
 	/** The btn minus. */
 	private Image btnMinus;
+
+	private Long newnumber = 0L;
 
 	private final HashMap<String, Integer> datatypes;
 
@@ -153,7 +157,7 @@ public abstract class DocumentTablePart extends Composite {
 
 		defaultvalues.put(field, defval);
 		datatypes.put(field, type);
-		// TODO: clean selection
+
 	}
 
 	/**
@@ -161,8 +165,14 @@ public abstract class DocumentTablePart extends Composite {
 	 */
 	private void addRow() {
 		// Window.alert("Add row into " + title);
+		HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
+				.getSelectedObject();
+		if (map != null) {
+			selectionModel.setSelected(map, false);
+		}
+
 		HashMap<String, Object> row = new HashMap<String, Object>();
-		row.put("number", new Long(0L));
+		row.put("number", newnumber);
 		Set<String> names = defaultvalues.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
@@ -172,8 +182,10 @@ public abstract class DocumentTablePart extends Composite {
 							defaultvalues.get(name)));
 		}
 
+		newnumber = newnumber - 1L;
 		dataset.add(row);
 		dataProvider.refresh();
+
 	}
 
 	/**
@@ -189,6 +201,7 @@ public abstract class DocumentTablePart extends Composite {
 			dataProvider.setList(dataset);
 			dataProvider.refresh();
 		}
+		newnumber = 0L;
 	}
 
 	/**
@@ -254,26 +267,29 @@ public abstract class DocumentTablePart extends Composite {
 					}
 				});
 
-		// Record number.
-		// ----------------------------------------------------------
-		Column<HashMap<String, Object>, String> recNumberColumn = new Column<HashMap<String, Object>, String>(
-				new TextCell()) {
-			@Override
-			public String getValue(HashMap<String, Object> map) {
-				if (!map.containsKey("number")) {
-					return "0";
+		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
+		if (role.isAdmin()) {
+			// Record number.
+			// ----------------------------------------------------------
+			Column<HashMap<String, Object>, String> recNumberColumn = new Column<HashMap<String, Object>, String>(
+					new TextCell()) {
+				@Override
+				public String getValue(HashMap<String, Object> map) {
+					if (!map.containsKey("number")) {
+						return "0";
+					}
+					Object o = map.get("number");
+					if (o == null) {
+						return "0";
+					}
+					return ((Long) o).toString();
 				}
-				Object o = map.get("number");
-				if (o == null) {
-					return "0";
-				}
-				return ((Long) o).toString();
-			}
-		};
+			};
 
-		cellTable.addColumn(recNumberColumn, l.colNumber());
+			cellTable.addColumn(recNumberColumn, l.colNumber());
 
-		cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
+			cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
+		}
 
 		initTableColumns();
 
@@ -361,10 +377,11 @@ public abstract class DocumentTablePart extends Composite {
 				.getSelectedObject();
 		if (map != null) {
 			Long num = (Long) map.get("number");
-			if (num.equals(0L)) {
+			if (num < 1L) {
 				dataset.remove(map);
 				dataProvider.setList(dataset);
 				dataProvider.refresh();
+
 			} else {
 				new AlertDialog(l.msgCantdelete()).show();
 			}
@@ -383,5 +400,6 @@ public abstract class DocumentTablePart extends Composite {
 		dataset = new ArrayList<HashMap<String, Object>>(set);
 		dataProvider.setList(dataset);
 		dataProvider.refresh();
+		newnumber = 0L;
 	}
 }

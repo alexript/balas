@@ -517,7 +517,7 @@ public abstract class AbstractStructuredData {
 
 		boolean result = false;
 
-		if (getNumber() == 0) {
+		if (getNumber() < 1L) {
 			result = createRecord();
 		} else {
 			result = updateRecord();
