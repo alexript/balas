@@ -97,7 +97,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 						HttpUtilities.getUserLogo(getSession()));
 				doc.fromMap(map);
 				result = doc.save();
-				doc.saveTableRecords(tableparts);
+				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
+						tableparts);
 			}
 		}
 		return result;
@@ -132,7 +133,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 						HttpUtilities.getUserLogo(getSession()));
 				doc.fromMap(map);
 				result = doc.save();
-				doc.saveTableRecords(tableparts);
+				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
+						tableparts);
 				doc.activation();
 				result = result && doc.save();
 			}
@@ -328,7 +330,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 					doc.unactivation();
 				}
 				doc.fromMap(map);
-				doc.saveTableRecords(tableparts);
+				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
+						tableparts);
 				result = doc.save();
 			}
 		}
@@ -367,7 +370,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 					doc.unactivation();
 				}
 				doc.fromMap(map);
-				doc.saveTableRecords(tableparts);
+				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
+						tableparts);
 				doc.activation();
 				result = doc.save();
 			}
@@ -394,7 +398,8 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				if (doc.isActive()) {
 					doc.unactivation();
 				}
-				doc.saveTableRecords(tablename, set);
+				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
+						number, tablename, set);
 			}
 		}
 

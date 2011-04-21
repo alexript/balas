@@ -397,6 +397,8 @@ public abstract class DocumentTablePart extends Composite {
 	 *            the set
 	 */
 	private void setData(Set<HashMap<String, Object>> set) {
+		dataset.clear();
+		dataset = null;
 		dataset = new ArrayList<HashMap<String, Object>>(set);
 		dataProvider.setList(dataset);
 		dataProvider.refresh();

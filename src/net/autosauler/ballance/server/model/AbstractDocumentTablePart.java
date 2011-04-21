@@ -37,7 +37,6 @@ import com.mongodb.DBObject;
 public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 
 	private static final String fieldname_document = "docnum";
-	private Long docnum;
 
 	/**
 	 * Instantiates a new document table part.
@@ -50,8 +49,7 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	public AbstractDocumentTablePart(String partname, String domain) {
 		super("doctab", partname, domain);
 		setDocnum(new Long(0L));
-		// TODO: set docnum and author (case: created document, add row, save =>
-		// empty docnum and author)
+
 	}
 
 	/*
@@ -105,7 +103,7 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * @return the docnum
 	 */
 	public Long getDocnum() {
-		return docnum;
+		return (Long) values.get(fieldname_document);
 	}
 
 	/**
@@ -195,7 +193,8 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 *            the docnum to set
 	 */
 	public void setDocnum(Long docnum) {
-		this.docnum = docnum;
+		values.setObject(fieldname_document, docnum);
+
 	}
 
 	/**
@@ -204,11 +203,18 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * @param set
 	 *            the set
 	 */
-	public void updateRecords(Set<HashMap<String, Object>> set) {
+	public void updateRecords(String username, Long docnumber,
+			Set<HashMap<String, Object>> set) {
 		Iterator<HashMap<String, Object>> i = set.iterator();
 		while (i.hasNext()) {
 			HashMap<String, Object> map = i.next();
 			fromMap(map);
+			setNumber((Long) map.get(fieldname_number));
+			if (getNumber() < 1L) {
+
+				setDocnum(docnumber);
+				setUsername(username);
+			}
 			save();
 		}
 	}

@@ -333,14 +333,19 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * @param tableparts
 	 *            the tableparts
 	 */
-	public void saveTableRecords(
+	public void saveTableRecords(String username,
 			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
 		if (tableparts != null) {
+			Long num = getNumber();
+			if (num.equals(0L)) {
+				save();
+				num = getNumber();
+			}
 			Set<String> names = tableparts.keySet();
 			Iterator<String> i = names.iterator();
 			while (i.hasNext()) {
 				String name = i.next();
-				saveTableRecords(name, tableparts.get(name));
+				saveTableRecords(username, num, name, tableparts.get(name));
 			}
 		}
 	}
@@ -353,11 +358,12 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * @param set
 	 *            the set
 	 */
-	public void saveTableRecords(String name, Set<HashMap<String, Object>> set) {
+	public void saveTableRecords(String username, Long docnumber, String name,
+			Set<HashMap<String, Object>> set) {
 
 		AbstractDocumentTablePart table = getPart(name);
 		if (table != null) {
-			table.updateRecords(set);
+			table.updateRecords(username, docnumber, set);
 		}
 	}
 
