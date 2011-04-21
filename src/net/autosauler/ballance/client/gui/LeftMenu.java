@@ -121,6 +121,8 @@ public class LeftMenu extends Composite {
 					images.icoIncPay()));
 			financesspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
 					images.icoInGoods()));
+			financesspanel.add(getMenuItem(l.itemTarif(), "tarifs",
+					images.icoTarif()));
 
 			String financesHeader = getHeaderString(l.financesPanel(),
 					images.financesPanel());

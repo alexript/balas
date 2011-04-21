@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import net.autosauler.ballance.client.CatalogService;
 import net.autosauler.ballance.server.model.Partner;
 import net.autosauler.ballance.server.model.PayMethod;
+import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -67,6 +68,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				p.fromMap(map);
 				result = p.save();
 			}
+		} else if (catalogname.equals("tarifs")) {
+			if (role.isAdmin() || role.isFinances()) {
+				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+						HttpUtilities.getUserLogo(httpSession));
+				p.fromMap(map);
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -87,6 +95,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		} else if (catalogname.equals("paymethod")) {
 			PayMethod p = new PayMethod(
 					HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.findAll();
+		} else if (catalogname.equals("tarifs")) {
+			Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
 					HttpUtilities.getUserLogo(httpSession));
 			set = p.findAll();
 		}
@@ -113,6 +125,11 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 					HttpUtilities.getUserDomain(httpSession), number);
 
 			map = p.toMap();
+		} else if (catalogname.equals("tarifs")) {
+			Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+					number);
+
+			map = p.toMap();
 		}
 		return map;
 	}
@@ -137,6 +154,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 					HttpUtilities.getUserDomain(httpSession),
 					HttpUtilities.getUserLogo(httpSession));
 			set = p.getSelectData();
+		} else if (catalogname.equals("tarifs")) {
+			Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.getSelectData();
 		}
 		return set;
 	}
@@ -159,6 +180,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		} else if (catalogname.equals("paymethod")) {
 			PayMethod p = new PayMethod(
 					HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession));
+			set = p.getViewData();
+		} else if (catalogname.equals("tarifs")) {
+			Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
 					HttpUtilities.getUserLogo(httpSession));
 			set = p.getViewData();
 		}
@@ -188,6 +213,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin()) {
 				PayMethod p = new PayMethod(
 						HttpUtilities.getUserDomain(httpSession), number);
+				p.restore();
+				result = p.save();
+			}
+		} else if (catalogname.equals("tarifs")) {
+			if (role.isAdmin()) {
+				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+						number);
 				p.restore();
 				result = p.save();
 			}
@@ -221,6 +253,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				p.trash();
 				result = p.save();
 			}
+		} else if (catalogname.equals("tarifs")) {
+			if (role.isAdmin()) {
+				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+						number);
+				p.trash();
+				result = p.save();
+			}
 		}
 		return result;
 	}
@@ -249,6 +288,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin() || role.isManager()) {
 				PayMethod p = new PayMethod(
 						HttpUtilities.getUserDomain(httpSession), number);
+				p.fromMap(map);
+				result = p.save();
+			}
+		} else if (catalogname.equals("tarifs")) {
+			if (role.isAdmin() || role.isFinances()) {
+				Tarifs p = new Tarifs(HttpUtilities.getUserDomain(httpSession),
+						number);
 				p.fromMap(map);
 				result = p.save();
 			}

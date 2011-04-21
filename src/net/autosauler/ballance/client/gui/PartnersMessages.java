@@ -44,4 +44,11 @@ public interface PartnersMessages extends Messages {
 	 * @return the string
 	 */
 	public String lblPaymethod();
+
+	/**
+	 * Lbl tarif.
+	 * 
+	 * @return the string
+	 */
+	public String lblTarif();
 }

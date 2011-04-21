@@ -151,6 +151,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource icoRefresh();
 
 	/**
+	 * Ico tarif.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource icoTarif();
+
+	/**
 	 * Ico user.
 	 * 
 	 * @return the image resource

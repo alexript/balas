@@ -122,6 +122,13 @@ public interface MenuMessages extends Messages {
 	String itemPaymethod();
 
 	/**
+	 * Item tarif.
+	 * 
+	 * @return the string
+	 */
+	String itemTarif();
+
+	/**
 	 * Item users.
 	 * 
 	 * @return the string

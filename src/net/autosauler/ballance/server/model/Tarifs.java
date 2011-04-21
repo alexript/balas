@@ -21,39 +21,20 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
 import com.mongodb.BasicDBObject;
 
 /**
- * The Class Partner.
- * 
  * @author alexript
+ * 
  */
-public class Partner extends AbstractCatalog {
+public class Tarifs extends AbstractCatalog {
+	// TODO: must be periodic
 
-	private static final String catname = "partners";
-	private static final String fieldname_email = "email";
-	private static final String fieldname_paymethod = "paymethod";
-	private static final String fieldname_currency = "currency";
-	private static final String fieldname_tarif = "tarif";
+	private static final String catname = "tarifs";
+	private static final String fieldname_script = "scrpt";
 
-	/**
-	 * Instantiates a new partner.
-	 * 
-	 * @param domain
-	 *            the domain
-	 * @param number
-	 *            the number
-	 */
-	public Partner(String domain, Long number) {
+	public Tarifs(String domain, Long number) {
 		super(catname, domain, number);
 	}
 
-	/**
-	 * Instantiates a new partner.
-	 * 
-	 * @param domain
-	 *            the domain
-	 * @param username
-	 *            the username
-	 */
-	public Partner(String domain, String username) {
+	public Tarifs(String domain, String username) {
 		super(catname, domain, username);
 
 	}
@@ -89,11 +70,9 @@ public class Partner extends AbstractCatalog {
 	 */
 	@Override
 	protected void initStructure() {
-		struct.add(fieldname_email, DataTypes.DT_STRING, "");
-		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
-				new Long(0L));
-		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
-		struct.add(fieldname_tarif, DataTypes.DT_CATALOGRECORD, new Long(0L));
+		struct.add(fieldname_script, DataTypes.DT_SCRIPT, ""); // TODO: default
+																// script
+
 	}
 
 }

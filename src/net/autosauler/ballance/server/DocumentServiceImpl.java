@@ -36,6 +36,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class DocumentServiceImpl extends RemoteServiceServlet implements
 		DocumentService {
 
+	// TODO: trash, restore
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1695208451355559991L;
 

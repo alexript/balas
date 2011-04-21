@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
 package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -29,23 +27,16 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * The Class PartnersPanel.
- * 
  * @author alexript
+ * 
  */
-public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
+public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private TextBox email;
-	private CatalogSelector paymethod;
-	private static PartnersMessages l = GWT.create(PartnersMessages.class);
-	private static PayMethodPanel methods = new PayMethodPanel();
-	private CurrencySelector currency;
-	private static TarifPanel tarifs = new TarifPanel();
-	private CatalogSelector tarif;
+	private TextBox script;
 
-	public PartnersPanel() {
-		super("partners", new Image(images.icoPartners()));
+	public TarifPanel() {
+		super("tarifs", new Image(images.icoTarif()));
 	}
 
 	/*
@@ -59,27 +50,9 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	void buildEditor(VerticalPanel panel) {
 		HorizontalPanel p = new HorizontalPanel();
 
-		p.add(new Label(l.lblEmail()));
-		email = new TextBox();
-		p.add(email);
-		panel.add(p);
-
-		p = new HorizontalPanel();
-		p.add(new Label(l.lblPaymethod()));
-		paymethod = methods.getSelectBox(null);
-		p.add(paymethod);
-		panel.add(p);
-
-		p = new HorizontalPanel();
-		p.add(new Label(l.lblCurrency()));
-		currency = new CurrencySelector(null);
-		p.add(currency);
-		panel.add(p);
-
-		p = new HorizontalPanel();
-		p.add(new Label(l.lblTarif()));
-		tarif = tarifs.getSelectBox(null);
-		p.add(tarif);
+		p.add(new Label("Script"));
+		script = new TextBox(); // TODO: big field
+		p.add(script);
 		panel.add(p);
 
 	}
@@ -93,7 +66,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	Widget buildListRow(HashMap<String, Object> map) {
-		return new Label((String) map.get("email"));
+
+		return null;
 	}
 
 	/*
@@ -105,7 +79,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canCreate(UserRole role) {
-		return role.isAdmin() || role.isManager();
+
+		return (role.isAdmin() || role.isFinances());
 	}
 
 	/*
@@ -117,7 +92,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canEdit(UserRole role) {
-		return role.isAdmin() || role.isManager();
+		return (role.isAdmin() || role.isFinances());
+
 	}
 
 	/*
@@ -129,7 +105,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	boolean canTrash(UserRole role) {
-		return role.isAdmin() || role.isManager();
+		return (role.isAdmin() || role.isFinances());
+
 	}
 
 	/*
@@ -139,10 +116,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void cleanEditForm() {
-		email.setText("");
-		paymethod.reset();
-		currency.reset();
-		tarif.reset();
+		script.setText(""); // TODO: default script
+
 	}
 
 	/*
@@ -154,10 +129,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
-		email.setText((String) map.get("email"));
-		paymethod.select((Long) map.get("paymethod"));
-		currency.select((String) map.get("currency"));
-		tarif.select((Long) map.get("tarif"));
+		script.setText((String) map.get("scrpt"));
+
 	}
 
 	/*
@@ -168,10 +141,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	HashMap<String, Object> getEditorValues() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("email", email.getText().trim());
-		map.put("paymethod", paymethod.getValue());
-		map.put("currency", currency.getValue());
-		map.put("tarif", tarif.getValue());
+		map.put("scrpt", script.getText());
 		return map;
 	}
 

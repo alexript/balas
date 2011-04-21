@@ -25,9 +25,11 @@ import java.util.List;
 
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
+import net.autosauler.ballance.server.model.IncomingGoods;
 import net.autosauler.ballance.server.model.IncomingPayment;
 import net.autosauler.ballance.server.model.Partner;
 import net.autosauler.ballance.server.model.PayMethod;
+import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.server.model.UserList;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -123,10 +125,14 @@ public class Database {
 		sb.append(paymethod.dump());
 		Partner partner = new Partner(domain, username);
 		sb.append(partner.dump());
+		Tarifs tarifs = new Tarifs(domain, username);
+		sb.append(tarifs.dump());
 
 		sb.append("</catalogs>\n<documents>\n");
 		IncomingPayment payments = new IncomingPayment(domain, username);
 		sb.append(payments.dump());
+		IncomingGoods goods = new IncomingGoods(domain, username);
+		sb.append(goods.dump());
 
 		sb.append("</documents>\n");
 		sb.append("</dump>\n");

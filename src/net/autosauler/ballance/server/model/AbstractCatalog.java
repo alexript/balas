@@ -33,6 +33,8 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public abstract class AbstractCatalog extends AbstractStructuredData {
+	// TODO: add periodic catalogs
+	// TODO: add groups
 
 	/** The Constant fieldname_fullname. */
 	private static final String fieldname_fullname = "fullname";
