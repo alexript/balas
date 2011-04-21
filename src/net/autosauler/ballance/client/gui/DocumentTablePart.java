@@ -246,7 +246,7 @@ public abstract class DocumentTablePart extends Composite {
 		panel.add(tools);
 
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
-		cellTable.setWidth("100%", true);
+		cellTable.setWidth("100%", false);
 
 		selectionModel
 				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {

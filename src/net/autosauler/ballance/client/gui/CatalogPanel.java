@@ -448,6 +448,15 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	abstract void fillEditorForm(HashMap<String, Object> map);
 
 	/**
+	 * Gets the catalogname.
+	 * 
+	 * @return the catalogname
+	 */
+	public String getCatalogname() {
+		return catalogname;
+	}
+
+	/**
 	 * Gets the editor values.
 	 * 
 	 * @return the editor values

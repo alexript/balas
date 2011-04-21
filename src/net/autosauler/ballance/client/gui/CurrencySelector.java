@@ -86,6 +86,15 @@ public class CurrencySelector extends Composite {
 	}
 
 	/**
+	 * Gets the list box.
+	 * 
+	 * @return the list box
+	 */
+	public ListBox getListBox() {
+		return box;
+	}
+
+	/**
 	 * Gets the value.
 	 * 
 	 * @return the value

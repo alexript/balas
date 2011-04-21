@@ -16,22 +16,34 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
+import net.autosauler.ballance.client.CatalogService;
+import net.autosauler.ballance.client.CatalogServiceAsync;
+import net.autosauler.ballance.client.CurrencyService;
+import net.autosauler.ballance.client.CurrencyServiceAsync;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageResourceCell;
+import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 /**
@@ -40,12 +52,18 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
  * @author alexript
  */
 public class DataTypeFactory {
+	// TODO: create simple widgets for edit
+	// TODO: create simple widgets for view
+	// TODO: add "onchange" handlers
+	// TODO: rewrite SelectionCell for catalogrecord
 
 	/** The images. */
-	private static MenuImages images = GWT.create(MenuImages.class);
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
-	private static SimpleDateFormat formatter = new SimpleDateFormat(
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			"yyyy/MM/dd");
+	private static final DateTimeFormat dateFormat = DateTimeFormat
+			.getFormat("yyyy/MM/dd");
 
 	/**
 	 * Adds the cell.
@@ -146,9 +164,9 @@ public class DataTypeFactory {
 	 *            the defval
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void addEditableCell(final CellTable table, String name,
-			final String field, final int type, int width, final Object defval,
-			final Object helper) {
+	public static void addEditableCell(final CellTable table,
+			final String name, final String field, final int type,
+			final int width, final Object defval, final Object helper) {
 		Column column = null;
 
 		if (type == DataTypes.DT_BOOLEAN) {
@@ -162,10 +180,158 @@ public class DataTypeFactory {
 				}
 			};
 
-			// TODO: add this types
-			// } else if (type == DataTypes.DT_DATE) {
-			// } else if (type == DataTypes.DT_CURRENCY) {
-			// } else if (type == DataTypes.DT_CATALOGRECORD) {
+		} else if (type == DataTypes.DT_DATE) {
+			column = new Column<HashMap<String, Object>, Date>(
+					new DatePickerCell(dateFormat)) {
+				@Override
+				public Date getValue(HashMap<String, Object> map) {
+
+					return (Date) DataTypes.fromMapping(type, map.get(field));
+				}
+
+			};
+
+			column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, Date>() {
+
+				@Override
+				public void update(int index, HashMap<String, Object> object,
+						Date value) {
+					object.put(field, DataTypes.toMapping(type, value));
+
+				}
+			});
+
+		} else if (type == DataTypes.DT_CURRENCY) {
+			final int lastcolumn = table.getColumnCount();
+			MainPanel.setCommInfo(true);
+			CurrencyServiceAsync service = GWT.create(CurrencyService.class);
+			service.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					MainPanel.setCommInfo(false);
+					new AlertDialog(caught.getMessage()).show();
+				}
+
+				@Override
+				public void onSuccess(Set<String> result) {
+					if (result != null) {
+
+						List<String> currlist = new ArrayList<String>(result);
+
+						Column column = new Column<HashMap<String, Object>, String>(
+								new SelectionCell(currlist)) {
+							@Override
+							public String getValue(HashMap<String, Object> map) {
+
+								return (DataTypes.fromMapping(type,
+										map.get(field))).toString();
+							}
+
+						};
+
+						column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+							@Override
+							public void update(int index,
+									HashMap<String, Object> object, String value) {
+								object.put(field,
+										DataTypes.toMapping(type, value));
+
+							}
+						});
+						if (table.getColumnCount() != lastcolumn) {
+							table.insertColumn(lastcolumn, column, name);
+						} else {
+							table.addColumn(column, name);
+						}
+						table.setColumnWidth(column, width, Unit.PX);
+
+					}
+
+					MainPanel.setCommInfo(false);
+
+				}
+			});
+
+		} else if (type == DataTypes.DT_CATALOGRECORD) {
+
+			final int lastcolumn = table.getColumnCount();
+			MainPanel.setCommInfo(true);
+			CatalogServiceAsync service = GWT.create(CatalogService.class);
+			service.getRecordsForSelection(
+					((CatalogPanel) helper).getCatalogname(),
+					new AsyncCallback<HashMap<String, Long>>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							MainPanel.setCommInfo(false);
+							new AlertDialog(caught.getMessage()).show();
+						}
+
+						@Override
+						public void onSuccess(final HashMap<String, Long> result) {
+							// TODO: there must be easier way...
+							if (result != null) {
+								final HashMap<Long, String> mylist = new HashMap<Long, String>();
+								mylist.put(0L, "[...]");
+								Set<String> names = result.keySet();
+								Iterator<String> i = names.iterator();
+								while (i.hasNext()) {
+									String name = i.next();
+									mylist.put(result.get(name), name);
+								}
+								List<String> reclist = new ArrayList<String>();
+								reclist.add("[...]");
+								reclist.addAll(names);
+
+								Column column = new Column<HashMap<String, Object>, String>(
+										new SelectionCell(reclist)) {
+									@Override
+									public String getValue(
+											HashMap<String, Object> map) {
+
+										return mylist.get((DataTypes
+												.fromMapping(type,
+														map.get(field))));
+									}
+
+								};
+
+								column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+									@Override
+									public void update(int index,
+											HashMap<String, Object> object,
+											String value) {
+										if (!result.containsKey(value)) {
+											object.put(field, DataTypes
+													.toMapping(type, 0L));
+										} else {
+											object.put(field, DataTypes
+													.toMapping(type,
+															result.get(value)));
+										}
+									}
+								});
+
+								// TODO: fix columns order for many async
+								// creations
+								if (table.getColumnCount() != lastcolumn) {
+									table.insertColumn(lastcolumn, column, name);
+								} else {
+									table.addColumn(column, name);
+								}
+								table.setColumnWidth(column, width, Unit.PX);
+
+							}
+
+							MainPanel.setCommInfo(false);
+
+						}
+					});
+
+			// TODO: add this types (sometime in the future)
 			// } else if (type == DataTypes.DT_DOCUMENTRECORD) {
 			// } else if (type == DataTypes.DT_SETTINGVALUE) {
 		} else if (type == DataTypes.DT_INT) {
@@ -286,4 +452,5 @@ public class DataTypeFactory {
 		}
 
 	}
+
 }
