@@ -68,6 +68,36 @@ public class UserList {
 	}
 
 	/**
+	 * Dump.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @return the string
+	 */
+	public static String dump(String domain) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<users>\n");
+		Database.retain();
+		DB db = Database.get(domain);
+		if (db != null) {
+			DBCollection coll = db.getCollection(collectionname);
+			BasicDBObject query = new BasicDBObject();
+
+			query.put("domain", domain);
+			DBCursor cur = coll.find(query);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				User dbuser = new User(myDoc);
+				sb.append(dbuser.dump());
+			}
+
+		}
+		Database.release();
+		sb.append("</users>\n");
+		return sb.toString();
+	}
+
+	/**
 	 * Gets the users list.
 	 * 
 	 * @return the users

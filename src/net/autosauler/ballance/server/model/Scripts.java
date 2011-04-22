@@ -37,6 +37,21 @@ public class Scripts {
 	/** The Constant TABLENAME. */
 	private final static String TABLENAME = "scripts";
 
+	/**
+	 * Dump.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @return the string
+	 */
+	public static String dump(String domain) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<scripts>\n");
+		// TODO: create dump records
+		sb.append("</scripts>\n");
+		return sb.toString();
+	}
+
 	/** The domain. */
 	private final String domain;
 

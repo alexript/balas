@@ -272,6 +272,24 @@ public class User {
 	}
 
 	/**
+	 * @return
+	 */
+	public Object dump() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<user>\n");
+		sb.append(" <hash>" + getHash() + "</hash>\n");
+		sb.append(" <login>" + getLogin() + "</login>\n");
+		sb.append(" <fullname>" + getUsername() + "</fullname>\n");
+		sb.append(" <roles>" + getUserrole().getRole() + "</roles>\n");
+		sb.append(" <createdate>" + getCreatedate().getTime()
+				+ "</createdate>\n");
+		sb.append(" <active>" + isActive() + "</active>\n");
+		sb.append(" <trash>" + isTrash() + "</trash>\n");
+		sb.append("</user>\n");
+		return sb.toString();
+	}
+
+	/**
 	 * Gets the createdate.
 	 * 
 	 * @return the createdate

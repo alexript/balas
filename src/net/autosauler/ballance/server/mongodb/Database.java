@@ -29,6 +29,7 @@ import net.autosauler.ballance.server.model.IncomingGoods;
 import net.autosauler.ballance.server.model.IncomingPayment;
 import net.autosauler.ballance.server.model.Partner;
 import net.autosauler.ballance.server.model.PayMethod;
+import net.autosauler.ballance.server.model.Scripts;
 import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.server.model.UserList;
 
@@ -106,12 +107,16 @@ public class Database {
 			String filename) {
 		// TODO: return boolean, write to stream
 		// TODO: add xml scheme
-		// TODO: add settings, users and scripts
 		// TODO: generate filename
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		sb.append("<dump date=\"" + new Date().getTime() + "\">\n");
+		GlobalSettings settings = new GlobalSettings(domain);
+		sb.append(settings.dump());
+
+		sb.append(UserList.dump(domain));
+
 		sb.append("<catalogs>\n");
 		PayMethod paymethod = new PayMethod(domain, username);
 		sb.append(paymethod.dump());
@@ -127,6 +132,9 @@ public class Database {
 		sb.append(goods.dump());
 
 		sb.append("</documents>\n");
+
+		sb.append(Scripts.dump(domain));
+
 		sb.append("</dump>\n");
 
 		String s = sb.toString();

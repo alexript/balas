@@ -95,6 +95,29 @@ public class GlobalSettings {
 	}
 
 	/**
+	 * Dump.
+	 * 
+	 * @return the string
+	 */
+	public String dump() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<settings>\n");
+
+		Set<String> names = values.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			String val = values.get(name);
+			sb.append("<value name=\"" + name + "\" val=\"" + val + "\">\n");
+		}
+
+		sb.append("</settings>\n");
+
+		return sb.toString();
+	}
+
+	/**
 	 * Gets the Integer value.
 	 * 
 	 * @param name
