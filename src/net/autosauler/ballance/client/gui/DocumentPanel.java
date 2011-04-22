@@ -562,7 +562,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
 	 */
 	@Override
-	public Widget getPaneMenu() {
+	public MenuBar getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
 		menu.addItem(l.menuReload(), new Command() { // reload users list

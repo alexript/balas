@@ -18,7 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * The Class HelloPanel.
@@ -27,19 +27,19 @@ public class HelloPanel extends Composite implements IPaneWithMenu {
 
 	/** The impl. */
 	private static HelloPanel impl = null;
-	
+
 	/**
 	 * Gets the.
 	 * 
 	 * @return the hello panel
 	 */
 	public static HelloPanel get() {
-		if(impl == null) {
+		if (impl == null) {
 			impl = new HelloPanel();
 		}
 		return impl;
 	}
-	
+
 	/**
 	 * Instantiates a new hello panel.
 	 */
@@ -55,7 +55,7 @@ public class HelloPanel extends Composite implements IPaneWithMenu {
 	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
 	 */
 	@Override
-	public Widget getPaneMenu() {
+	public MenuBar getPaneMenu() {
 
 		return null;
 	}

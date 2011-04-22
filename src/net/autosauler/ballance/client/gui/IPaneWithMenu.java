@@ -15,12 +15,18 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * @author alexript
  * 
  */
 public interface IPaneWithMenu {
-	public Widget getPaneMenu();
+
+	/**
+	 * Gets the pane menu.
+	 * 
+	 * @return the pane menu
+	 */
+	public MenuBar getPaneMenu();
 }

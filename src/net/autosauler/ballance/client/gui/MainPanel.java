@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
@@ -38,6 +39,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -62,7 +64,11 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			String newselection = "start";
 
 			int index = tabsIndexes.get(tag);
+
+			VerticalPanel w = (VerticalPanel) mainpane.getWidget(index);
 			mainpane.remove(index);
+			w.clear();
+			w = null;
 			tabsIndexes.remove(tag);
 			Set<String> keys = tabsIndexes.keySet();
 			for (String key : keys) {
@@ -246,12 +252,49 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setHeight("20px");
 		panemenu.setWidth("100%");
 
-		Widget menu = realpane.getPaneMenu();
-		if (menu != null) {
-			panemenu.add(menu);
-			panemenu.setCellHorizontalAlignment(menu,
-					HasHorizontalAlignment.ALIGN_LEFT);
+		MenuBar menu = realpane.getPaneMenu();
+		if (menu == null) {
+			menu = new MenuBar();
 		}
+
+		MenuBar sysmenu = new MenuBar();
+
+		sysmenu.addItem(l.icoReloadPane(), new Command() { // reload users list
+					@Override
+					public void execute() {
+						MainPanel.closeTab(tag);
+						openTab(tag);
+					}
+				});
+
+		sysmenu.addItem(l.icoClosePane(), new Command() { // reload users list
+					@Override
+					public void execute() {
+						MainPanel.closeTab(tag);
+					}
+				});
+
+		menu.addItem(l.menuPanelmenu(), sysmenu);
+
+		panemenu.add(menu);
+		panemenu.setCellHorizontalAlignment(menu,
+				HasHorizontalAlignment.ALIGN_LEFT);
+
+		Image reloadImage = new Image(images.icoReload());
+		reloadImage.setTitle(l.icoReloadPane());
+		reloadImage.setAltText(l.icoReloadPane());
+		reloadImage.addClickHandler(new ClickHandler() {
+			private final String mytag = tag;
+
+			@Override
+			public void onClick(ClickEvent event) {
+				MainPanel.closeTab(mytag);
+				openTab(mytag);
+			}
+
+		});
+		panemenu.add(reloadImage);
+		panemenu.setCellWidth(reloadImage, "20px");
 
 		Image closeImage = new Image(images.icoClose());
 		closeImage.setTitle(l.icoClosePane());
@@ -310,21 +353,32 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		String eventvalue = event.getValue();
-		if ((eventvalue == null) || eventvalue.isEmpty()) {
-			eventvalue = "start";
+		openTab(eventvalue);
+
+	}
+
+	/**
+	 * Open tab.
+	 * 
+	 * @param tag
+	 *            the tag
+	 */
+	private void openTab(String tag) {
+		if ((tag == null) || tag.isEmpty()) {
+			tag = "start";
 		}
-		if ((eventvalue != null) && !eventvalue.isEmpty()) {
-			eventvalue = eventvalue.trim().toLowerCase();
+		if ((tag != null) && !tag.isEmpty()) {
+			tag = tag.trim().toLowerCase();
 			int paneindex = -1;
-			if (tabsIndexes.containsKey(eventvalue)) {
-				paneindex = tabsIndexes.get(eventvalue);
+			if (tabsIndexes.containsKey(tag)) {
+				paneindex = tabsIndexes.get(tag);
 			}
 
 			if (paneindex < 0) {
-				VerticalPanel w = constructTabPane(eventvalue);
+				VerticalPanel w = constructTabPane(tag);
 				if (w != null) {
 					paneindex = mainpane.getWidgetIndex(w);
-					tabsIndexes.put(eventvalue, paneindex);
+					tabsIndexes.put(tag, paneindex);
 				}
 			}
 			mainpane.selectTab(paneindex);
@@ -332,12 +386,11 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			if (initToken.length() == 0) {
 				History.newItem("start");
 			}
-			if (!initToken.equals(eventvalue)) {
-				History.newItem(eventvalue);
+			if (!initToken.equals(tag)) {
+				History.newItem(tag);
 				History.fireCurrentHistoryState();
 			}
 
 		}
-
 	}
 }

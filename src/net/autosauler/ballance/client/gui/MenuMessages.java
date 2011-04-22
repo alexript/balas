@@ -66,6 +66,13 @@ public interface MenuMessages extends Messages {
 	String icoClosePane();
 
 	/**
+	 * Ico reload pane.
+	 * 
+	 * @return the string
+	 */
+	String icoReloadPane();
+
+	/**
 	 * Item changelog.
 	 * 
 	 * @return the string
@@ -141,4 +148,11 @@ public interface MenuMessages extends Messages {
 	 * @return the string
 	 */
 	String managerPanel();
+
+	/**
+	 * Menu panelmenu.
+	 * 
+	 * @return the string
+	 */
+	String menuPanelmenu();
 }

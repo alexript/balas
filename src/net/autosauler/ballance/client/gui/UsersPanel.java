@@ -53,7 +53,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
@@ -118,7 +117,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
 	 */
 	@Override
-	public Widget getPaneMenu() {
+	public MenuBar getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
 		menu.addItem(l.menuAddUser(), new Command() { // create new user
