@@ -297,8 +297,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 								@Override
 								public void onFailure(Throwable caught) {
-									new AlertDialog(l.logTrashError(), caught
-											.getMessage()).show();
+									new AlertDialog(caught).show();
 
 								}
 

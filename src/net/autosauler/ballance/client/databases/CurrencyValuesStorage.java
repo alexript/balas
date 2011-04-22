@@ -121,8 +121,7 @@ public class CurrencyValuesStorage {
 							}
 
 							MainPanel.setCommInfo(false);
-							new AlertDialog("Communication error", caught
-									.getMessage()).show();
+							new AlertDialog(caught).show();
 
 							receiver.doCurrencyValues(date, values);
 
@@ -206,8 +205,7 @@ public class CurrencyValuesStorage {
 				@Override
 				public void onFailure(Throwable caught) {
 					MainPanel.setCommInfo(false);
-					new AlertDialog("Communication error", caught.getMessage())
-							.show();
+					new AlertDialog(caught).show();
 					receiver.doCurrencyValue(mnemo, date, new Double(1.0));
 
 				}

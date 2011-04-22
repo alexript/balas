@@ -208,8 +208,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 										@Override
 										public void onFailure(Throwable caught) {
 											MainPanel.setCommInfo(false);
-											new AlertDialog("Database error",
-													caught.getMessage()).show();
+											new AlertDialog(caught).show();
 										}
 
 										@Override
@@ -335,8 +334,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 							@Override
 							public void onFailure(Throwable caught) {
 								MainPanel.setCommInfo(false);
-								new AlertDialog("Database error", caught
-										.getMessage()).show();
+								new AlertDialog(caught).show();
 
 							}
 
@@ -369,8 +367,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 					@Override
 					public void onFailure(Throwable caught) {
-						new AlertDialog("Database error", caught.getMessage())
-								.show();
+						new AlertDialog(caught).show();
 						MainPanel.setCommInfo(false);
 					}
 

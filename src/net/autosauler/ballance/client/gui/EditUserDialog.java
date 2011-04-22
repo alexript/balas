@@ -244,8 +244,7 @@ public class EditUserDialog extends DialogBox {
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(l.logCreateError(), caught.getMessage())
-								.show();
+						new AlertDialog(caught).show();
 					}
 
 					@Override
@@ -288,8 +287,7 @@ public class EditUserDialog extends DialogBox {
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(l.logGetInfoError(), caught
-								.getMessage()).show();
+						new AlertDialog(caught).show();
 					}
 
 					@Override
@@ -389,8 +387,7 @@ public class EditUserDialog extends DialogBox {
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(l.logCreateError(), caught.getMessage())
-								.show();
+						new AlertDialog(caught).show();
 
 					}
 
@@ -410,8 +407,6 @@ public class EditUserDialog extends DialogBox {
 				});
 
 			}
-			// EditUserDialog.this.hide();
-			// receiver.onDialogYesButtonClick("reload");
 
 		}
 

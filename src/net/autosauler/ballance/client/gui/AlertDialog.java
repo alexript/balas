@@ -64,6 +64,16 @@ public class AlertDialog extends DialogBox {
 	}
 
 	/**
+	 * Instantiates a new alert dialog.
+	 * 
+	 * @param caught
+	 *            the caught
+	 */
+	public AlertDialog(Throwable caught) {
+		initDialog(caught.getMessage(), caught.getStackTrace().toString());
+	}
+
+	/**
 	 * Inits the dialog.
 	 * 
 	 * @param message

@@ -101,8 +101,7 @@ public class UsersDatabase {
 				@Override
 				public void onFailure(Throwable caught) {
 					MainPanel.setCommInfo(false);
-					new AlertDialog("Communication error", caught.getMessage())
-							.show();
+					new AlertDialog(caught).show();
 				}
 
 				@Override
@@ -124,8 +123,7 @@ public class UsersDatabase {
 				@Override
 				public void onFailure(Throwable caught) {
 					MainPanel.setCommInfo(false);
-					new AlertDialog("Communication error", caught.getMessage())
-							.show();
+					new AlertDialog(caught).show();
 				}
 
 				@Override

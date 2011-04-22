@@ -107,7 +107,7 @@ public class DocumentsDataProvider extends
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(caught.getMessage()).show();
+						new AlertDialog(caught).show();
 					}
 
 					@Override
@@ -136,7 +136,7 @@ public class DocumentsDataProvider extends
 			@Override
 			public void onFailure(Throwable caught) {
 				MainPanel.setCommInfo(false);
-				new AlertDialog(caught.getMessage()).show();
+				new AlertDialog(caught).show();
 			}
 
 			@Override

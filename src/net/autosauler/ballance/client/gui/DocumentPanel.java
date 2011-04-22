@@ -250,8 +250,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 									MainPanel.setCommInfo(false);
 
-									new AlertDialog(e.getMessage(), e
-											.toString()).show();
+									new AlertDialog(e).show();
 								}
 
 								@Override
@@ -273,7 +272,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 								@Override
 								public void onFailure(Throwable caught) {
 									MainPanel.setCommInfo(false);
-									new AlertDialog(caught.getMessage()).show();
+									new AlertDialog(caught).show();
 
 								}
 
@@ -312,7 +311,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 								@Override
 								public void onFailure(Throwable caught) {
 									MainPanel.setCommInfo(false);
-									new AlertDialog(caught.getMessage()).show();
+									new AlertDialog(caught).show();
 								}
 
 								@Override
@@ -335,7 +334,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 								@Override
 								public void onFailure(Throwable caught) {
 									MainPanel.setCommInfo(false);
-									new AlertDialog(caught.getMessage()).show();
+									new AlertDialog(caught).show();
 
 								}
 
@@ -370,8 +369,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									@Override
 									public void onFailure(Throwable caught) {
 										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
+										new AlertDialog(caught).show();
 
 									}
 
@@ -388,8 +386,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									@Override
 									public void onFailure(Throwable caught) {
 										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
+										new AlertDialog(caught).show();
 
 									}
 

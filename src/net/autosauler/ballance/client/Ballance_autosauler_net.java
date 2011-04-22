@@ -100,8 +100,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				isloggedin = false;
-				new AlertDialog("Communication error!", caught.getMessage())
-						.show();
+				new AlertDialog(caught).show();
 			}// end onFailure
 
 			@Override

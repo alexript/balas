@@ -124,7 +124,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(caught.getMessage()).show();
+						new AlertDialog(caught).show();
 					}
 
 					@Override
@@ -231,8 +231,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 									@Override
 									public void onFailure(Throwable caught) {
 										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
+										new AlertDialog(caught).show();
 
 									}
 
@@ -255,8 +254,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 									@Override
 									public void onFailure(Throwable caught) {
 										MainPanel.setCommInfo(false);
-										new AlertDialog(caught.getMessage())
-												.show();
+										new AlertDialog(caught).show();
 									}
 
 									@Override
@@ -333,7 +331,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						new AlertDialog(caught.getMessage()).show();
+						new AlertDialog(caught).show();
 					}
 
 					@Override
@@ -371,8 +369,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 														Throwable caught) {
 													MainPanel
 															.setCommInfo(false);
-													new AlertDialog(caught
-															.getMessage())
+													new AlertDialog(caught)
 															.show();
 												}
 
@@ -566,7 +563,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						@Override
 						public void onFailure(Throwable caught) {
 							MainPanel.setCommInfo(false);
-							new AlertDialog(caught.getMessage()).show();
+							new AlertDialog(caught).show();
 						}
 
 						@Override
@@ -614,7 +611,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 			@Override
 			public void onFailure(Throwable caught) {
 				MainPanel.setCommInfo(false);
-				new AlertDialog(caught.getMessage()).show();
+				new AlertDialog(caught).show();
 
 			}
 

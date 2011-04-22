@@ -354,7 +354,7 @@ public abstract class DocumentTablePart extends Composite {
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
 						cleanTable();
-						new AlertDialog(caught.getMessage()).show();
+						new AlertDialog(caught).show();
 
 					}
 
