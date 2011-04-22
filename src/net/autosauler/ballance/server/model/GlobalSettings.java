@@ -37,8 +37,6 @@ public class GlobalSettings {
 	/** The Constant SETTINGSTABLE. */
 	private static final String SETTINGSTABLE = "globalsettings";
 
-	// TODO: add global global setting for 127.0.0.1 domain
-
 	/**
 	 * Creates the default records.
 	 * 
@@ -57,12 +55,15 @@ public class GlobalSettings {
 				coll.insert(rec);
 
 				BasicDBObject i = new BasicDBObject();
+				i.put("domain", 1);
 				i.put("name", 1);
 				coll.createIndex(i);
 
 			}
 		}
 	}
+
+	private String domain = "127.0.0.1";
 
 	/** The values. */
 	private HashMap<String, String> values = null;
@@ -72,23 +73,25 @@ public class GlobalSettings {
 
 	/**
 	 * Instantiates a new global settings.
-	 */
-	public GlobalSettings() {
-		values = new HashMap<String, String>();
-		loadFromDatabase();
-	}
-
-	/**
-	 * Instantiates a new global settings.
 	 * 
 	 * @param isloadfromdatabase
 	 *            the isloadfromdatabase
 	 */
-	public GlobalSettings(boolean isloadfromdatabase) {
+	public GlobalSettings(boolean isloadfromdatabase, String domain) {
+		this.domain = domain;
 		values = new HashMap<String, String>();
 		if (isloadfromdatabase) {
 			loadFromDatabase();
 		}
+	}
+
+	/**
+	 * Instantiates a new global settings.
+	 */
+	public GlobalSettings(String domain) {
+		this.domain = domain;
+		values = new HashMap<String, String>();
+		loadFromDatabase();
 	}
 
 	/**
@@ -136,11 +139,16 @@ public class GlobalSettings {
 	 */
 	private void loadFromDatabase() {
 		Database.retain();
-		DB db = Database.get();
+		DB db = Database.get(domain);
 		if (db != null) {
 			DBCollection coll = db.getCollection(SETTINGSTABLE);
 
-			DBCursor cur = coll.find();
+			BasicDBObject w = new BasicDBObject();
+			BasicDBObject q = new BasicDBObject();
+			q.put("domain", domain);
+			w.put("$query", q);
+
+			DBCursor cur = coll.find(w);
 			if (cur != null) {
 				while (cur.hasNext()) {
 					DBObject myDoc = cur.next();
@@ -160,7 +168,7 @@ public class GlobalSettings {
 		if (changed) {
 			DBObject myDoc = null;
 			Database.retain();
-			DB db = Database.get();
+			DB db = Database.get(domain);
 			if (db != null) {
 				DBCollection coll = db.getCollection(SETTINGSTABLE);
 				Set<String> keys = values.keySet();
@@ -171,6 +179,7 @@ public class GlobalSettings {
 
 					BasicDBObject query = new BasicDBObject();
 					query.put("name", name);
+					query.put("domain", domain);
 					myDoc = coll.findOne(query);
 					if (myDoc != null) {
 						if (!val.equals(myDoc.get("val"))) {
@@ -180,6 +189,7 @@ public class GlobalSettings {
 					} else {
 						myDoc = new BasicDBObject();
 						myDoc.put("name", name);
+						myDoc.put("domain", domain);
 						myDoc.put("val", val);
 						coll.insert(myDoc);
 					}

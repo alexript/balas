@@ -20,6 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import net.autosauler.ballance.client.CurrencyService;
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
@@ -66,9 +68,11 @@ public class CurrencyServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Set<String> getUsedCurrencyes() {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		Set<String> set = new HashSet<String>();
 
-		GlobalSettings stgs = new GlobalSettings();
+		GlobalSettings stgs = new GlobalSettings(
+				HttpUtilities.getUserDomain(httpSession));
 		String list = stgs.get("currency.used.set", "RUR,USD,EUR");
 		stgs.save();
 		String[] s = list.split(",");

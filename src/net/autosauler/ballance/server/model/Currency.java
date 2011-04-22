@@ -110,7 +110,7 @@ public class Currency {
 	 */
 	private static DBObject find(String mnemo, String day) {
 		DBObject myDoc = null;
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(CURRENCYTABLE);
 			BasicDBObject query = new BasicDBObject();
@@ -134,7 +134,7 @@ public class Currency {
 		Long toplimit = day.getTime();
 
 		DBObject myDoc = null;
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(CURRENCYTABLE);
 			BasicDBObject query = new BasicDBObject();
@@ -275,7 +275,7 @@ public class Currency {
 					Log.trace("Information of all valutes");
 					Database.retain();
 					if (database == null) {
-						database = Database.get();
+						database = Database.get(null);
 					}
 					if (database != null) {
 						DBCollection coll = database

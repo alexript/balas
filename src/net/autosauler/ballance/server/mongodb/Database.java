@@ -153,10 +153,10 @@ public class Database {
 	 * 
 	 * @return the dB
 	 */
-	public static synchronized DB get() {
+	public static synchronized DB get(String domain) {
 		if (mongodatabase == null) {
 			try {
-				initConnection();
+				initConnection(domain);
 			} catch (UnknownHostException e) {
 				close();
 				Log.error(e.getMessage());
@@ -177,9 +177,9 @@ public class Database {
 	 * 
 	 * @return the all settings
 	 */
-	public static HashMap<String, String> getAllSettings() {
+	public static HashMap<String, String> getAllSettings(String domain) {
 		if (settings == null) {
-			loadSettings();
+			loadSettings(domain);
 		}
 		return settings.getAll();
 	}
@@ -203,7 +203,7 @@ public class Database {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	private static synchronized void initConnection()
+	private static synchronized void initConnection(String domain)
 			throws UnknownHostException, MongoException, InterruptedException {
 		try {
 			if (mongo == null) {
@@ -243,18 +243,21 @@ public class Database {
 			close();
 		}
 
-		loadSettings();
+		loadSettings(domain);
 
 	}
 
-	private static void loadSettings() {
+	private static void loadSettings(String domain) {
+		if ((domain == null) || domain.isEmpty()) {
+			domain = "127.0.0.1";
+		}
 		if (mongodatabase != null) {
-			settings = new GlobalSettings();
+			settings = new GlobalSettings(domain);
 			retaintimeoutmin = settings.get("database.autoclose.timeout.min",
 					retaintimeoutmin);
 			settings.save();
 		} else {
-			settings = new GlobalSettings(false);
+			settings = new GlobalSettings(false, domain);
 		}
 	}
 

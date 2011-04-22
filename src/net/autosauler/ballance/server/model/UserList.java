@@ -81,7 +81,7 @@ public class UserList {
 		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
 
 		Database.retain();
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(collectionname);
 			BasicDBObject query = new BasicDBObject();

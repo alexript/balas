@@ -79,7 +79,9 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public HashMap<String, String> getSettings() {
-		return Database.getAllSettings();
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		return Database
+				.getAllSettings(HttpUtilities.getUserDomain(httpSession));
 	}
 
 	/*

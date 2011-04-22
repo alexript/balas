@@ -135,7 +135,7 @@ public abstract class AbstractStructuredData {
 		setNumber(findLastNumber());
 		setCreatedate(new Date());
 
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			BasicDBObject doc = (BasicDBObject) store(null);
 			if (doc != null) {
@@ -193,7 +193,7 @@ public abstract class AbstractStructuredData {
 	public Set<Long> findAll() {
 		Set<Long> numbers = new HashSet<Long>();
 
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
@@ -229,7 +229,7 @@ public abstract class AbstractStructuredData {
 	protected Long findLastNumber() {
 		Long last = 0L;
 
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
@@ -340,7 +340,7 @@ public abstract class AbstractStructuredData {
 	 */
 	private DBObject getRecord(Long number) {
 		DBObject doc = null;
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
@@ -388,7 +388,7 @@ public abstract class AbstractStructuredData {
 	 * Inits the db struct.
 	 */
 	private void initDBStruct() {
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
@@ -624,7 +624,7 @@ public abstract class AbstractStructuredData {
 			result = createRecord();
 		} else {
 			doc = store(doc);
-			DB db = Database.get();
+			DB db = Database.get(getDomain());
 			if (db != null) {
 				Database.retain();
 				DBCollection coll = db.getCollection(getTableName());

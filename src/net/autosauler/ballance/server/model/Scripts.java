@@ -115,7 +115,7 @@ public class Scripts {
 	 * Inits the struct.
 	 */
 	private void initStruct() {
-		DB db = Database.get();
+		DB db = Database.get(domain);
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(TABLENAME);
@@ -139,7 +139,7 @@ public class Scripts {
 		String txt = "";
 
 		DBObject doc = null;
-		DB db = Database.get();
+		DB db = Database.get(domain);
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(TABLENAME);
@@ -189,7 +189,7 @@ public class Scripts {
 		text = txt;
 		if (andstore) {
 			DBObject doc = null;
-			DB db = Database.get();
+			DB db = Database.get(domain);
 			if (db != null) {
 				Database.retain();
 				DBCollection coll = db.getCollection(TABLENAME);

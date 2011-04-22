@@ -113,7 +113,7 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 */
 	public Set<HashMap<String, Object>> getRecords() {
 		Set<HashMap<String, Object>> set = new HashSet<HashMap<String, Object>>();
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());

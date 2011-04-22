@@ -76,7 +76,7 @@ public class User {
 	 */
 	private static DBObject findObject(String login) {
 		DBObject myDoc = null;
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 			BasicDBObject query = new BasicDBObject();
@@ -108,7 +108,7 @@ public class User {
 	public static boolean trashUser(String loginanddomain) {
 		boolean result = false;
 		Database.retain();
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 
@@ -139,7 +139,7 @@ public class User {
 	public static boolean updateUser(net.autosauler.ballance.shared.User proxy) {
 		boolean result = false;
 		Database.retain();
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 
@@ -250,7 +250,7 @@ public class User {
 	 */
 	private void create() {
 		Database.retain();
-		DB db = Database.get();
+		DB db = Database.get(null);
 		if (db != null) {
 			createdate = new Date();
 			active = true;

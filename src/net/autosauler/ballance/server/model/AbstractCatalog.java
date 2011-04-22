@@ -110,7 +110,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	 */
 	public HashMap<String, Long> getSelectData() {
 		HashMap<String, Long> map = new HashMap<String, Long>();
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
@@ -142,7 +142,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	 */
 	public HashMap<Long, String> getViewData() {
 		HashMap<Long, String> map = new HashMap<Long, String>();
-		DB db = Database.get();
+		DB db = Database.get(getDomain());
 		if (db != null) {
 			Database.retain();
 			DBCollection coll = db.getCollection(getTableName());
