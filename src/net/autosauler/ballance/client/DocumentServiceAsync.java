@@ -171,21 +171,4 @@ public interface DocumentServiceAsync {
 			HashMap<String, Set<HashMap<String, Object>>> tableparts,
 			AsyncCallback<Boolean> callback);
 
-	/**
-	 * Update table.
-	 * 
-	 * @param docname
-	 *            the docname
-	 * @param number
-	 *            the number
-	 * @param tablename
-	 *            the tablename
-	 * @param set
-	 *            the set
-	 * @param callback
-	 *            the callback
-	 */
-	void updateTable(String docname, Long number, String tablename,
-			Set<HashMap<String, Object>> set, AsyncCallback<Void> callback);
-
 }

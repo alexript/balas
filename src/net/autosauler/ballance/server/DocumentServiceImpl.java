@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.DocumentService;
+import net.autosauler.ballance.server.model.AbstractDocument;
 import net.autosauler.ballance.server.model.IncomingGoods;
 import net.autosauler.ballance.server.model.IncomingPayment;
 import net.autosauler.ballance.shared.UserRole;
@@ -35,7 +36,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class DocumentServiceImpl extends RemoteServiceServlet implements
 		DocumentService {
-	// TODO: refactoring
+
 	// TODO: trash, restore
 
 	/** The Constant serialVersionUID. */
@@ -50,22 +51,25 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public void activate(String docname, Long number) {
+		// TODO: return result
 		UserRole role = getRole();
+		AbstractDocument d = null;
+		String domain = getDomain();
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()), number);
-				doc.activation();
-				doc.save();
+				d = new IncomingPayment(domain, number);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
+				d = new IncomingGoods(domain, number);
 
-				doc.activation();
-				doc.save();
 			}
+		}
+
+		if (d != null) {
+			d.activation();
+			d.save();
 		}
 
 	}
@@ -80,28 +84,27 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public boolean create(String docname, HashMap<String, Object> map,
 			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
-		// Log.error("Docname " + docname);
-		// Log.error(map.toString());
+
 		boolean result = false;
 		UserRole role = getRole();
+		String domain = getDomain();
+		String login = getLogin();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				doc.fromMap(map);
-				result = doc.save();
+				d = new IncomingPayment(domain, login);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				doc.fromMap(map);
-				result = doc.save();
-				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
-						tableparts);
+				d = new IncomingGoods(domain, login);
+
 			}
+		}
+		if (d != null) {
+			d.fromMap(map);
+			result = d.save();
+			result = result && d.saveTableRecords(login, tableparts);
 		}
 		return result;
 	}
@@ -119,27 +122,26 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
 		boolean result = false;
 		UserRole role = getRole();
+		String domain = getDomain();
+		String login = getLogin();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				doc.fromMap(map);
-				doc.activation();
-				result = doc.save();
+				d = new IncomingPayment(domain, login);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				doc.fromMap(map);
-				result = doc.save();
-				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
-						tableparts);
-				doc.activation();
-				result = result && doc.save();
+				d = new IncomingGoods(domain, login);
+
 			}
+		}
+		if (d != null) {
+			d.fromMap(map);
+			result = d.save();
+			result = result && d.saveTableRecords(login, tableparts);
+			d.activation();
+			result = result && d.save();
 		}
 		return result;
 	}
@@ -154,20 +156,22 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	public HashMap<String, Object> get(String docname, Long number) {
 		HashMap<String, Object> map = null;
 		UserRole role = getRole();
+		String domain = getDomain();
+		AbstractDocument d = null;
+
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()), number);
+				d = new IncomingPayment(domain, number);
 
-				map = doc.toMap();
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
+				d = new IncomingGoods(domain, number);
 
-				map = doc.toMap();
 			}
+		}
+		if (d != null) {
+			map = d.toMap();
 		}
 		return map;
 	}
@@ -182,18 +186,21 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	public Set<HashMap<String, Object>> get(String docname, Set<Long> numbers) {
 		Set<HashMap<String, Object>> set = null;
 		UserRole role = getRole();
+		String domain = getDomain();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()));
-				set = doc.get(numbers);
+				d = new IncomingPayment(domain);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()));
-				set = doc.get(numbers);
+				d = new IncomingGoods(domain);
+
 			}
+		}
+		if (d != null) {
+			set = d.get(numbers);
 		}
 		return set;
 	}
@@ -208,22 +215,46 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	public Set<Long> getAll(String docname) {
 		Set<Long> set = null;
 		UserRole role = getRole();
+		String domain = getDomain();
+		String login = getLogin();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				set = doc.findAll();
+				d = new IncomingPayment(domain, login);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()),
-						HttpUtilities.getUserLogo(getSession()));
-				set = doc.findAll();
+				d = new IncomingGoods(domain, login);
+
 			}
 		}
+		if (d != null) {
+			set = d.findAll();
+		}
 		return set;
+	}
+
+	/**
+	 * Gets the domain.
+	 * 
+	 * @return the domain
+	 */
+	private String getDomain() {
+		HttpSession httpSession = getSession();
+		String domain = HttpUtilities.getUserDomain(httpSession);
+		return domain;
+	}
+
+	/**
+	 * Gets the login.
+	 * 
+	 * @return the login
+	 */
+	private String getLogin() {
+		HttpSession httpSession = getSession();
+		String login = HttpUtilities.getUserLogo(httpSession);
+		return login;
 	}
 
 	/**
@@ -259,12 +290,16 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			String tablename) {
 		Set<HashMap<String, Object>> set = null;
 		UserRole role = getRole();
+		String domain = getDomain();
+		AbstractDocument d = null;
 		if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
-				set = doc.getTableRecords(tablename);
+				d = new IncomingGoods(domain, number);
+
 			}
+		}
+		if (d != null) {
+			set = d.getTableRecords(tablename);
 		}
 		return set;
 	}
@@ -278,23 +313,25 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public void unactivate(String docname, Long number) {
+		// TODO: return result
+		String domain = getDomain();
 		UserRole role = getRole();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()), number);
-				doc.unactivation();
-				doc.save();
+				d = new IncomingPayment(domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
-				doc.unactivation();
-				doc.save();
+				d = new IncomingGoods(domain, number);
 
 			}
+		}
+		if (d != null) {
+			d.unactivation();
+			d.save();
+
 		}
 
 	}
@@ -312,30 +349,27 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
 		boolean result = false;
 		UserRole role = getRole();
+		String domain = getDomain();
+		String login = getLogin();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()), number);
+				d = new IncomingPayment(domain, number);
 
-				if (doc.isActive()) {
-					doc.unactivation();
-				}
-				doc.fromMap(map);
-				result = doc.save();
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
+				d = new IncomingGoods(domain, number);
 
-				if (doc.isActive()) {
-					doc.unactivation();
-				}
-				doc.fromMap(map);
-				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
-						tableparts);
-				result = doc.save();
 			}
+		}
+		if (d != null) {
+			if (d.isActive()) {
+				d.unactivation();
+			}
+			d.fromMap(map);
+			result = d.saveTableRecords(login, tableparts);
+			result = result & d.save();
 		}
 		return result;
 	}
@@ -353,60 +387,31 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 			HashMap<String, Set<HashMap<String, Object>>> tableparts) {
 		boolean result = false;
 		UserRole role = getRole();
+		String domain = getDomain();
+		String login = getLogin();
+		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				IncomingPayment doc = new IncomingPayment(
-						HttpUtilities.getUserDomain(getSession()), number);
-				if (doc.isActive()) {
-					doc.unactivation();
-				}
-				doc.fromMap(map);
-				doc.activation();
-				result = doc.save();
+				d = new IncomingPayment(domain, number);
+
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
-				if (doc.isActive()) {
-					doc.unactivation();
-				}
-				doc.fromMap(map);
-				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
-						tableparts);
-				doc.activation();
-				result = doc.save();
+				d = new IncomingGoods(domain, number);
+
 			}
+		}
+		if (d != null) {
+			if (d.isActive()) {
+				d.unactivation();
+			}
+
+			d.fromMap(map);
+			result = d.saveTableRecords(login, tableparts);
+			d.activation();
+			result = result && d.save();
 		}
 		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.DocumentService#updateTable(java.lang.
-	 * String, java.lang.Long, java.lang.String, java.util.Set)
-	 */
-	@Override
-	public void updateTable(String docname, Long number, String tablename,
-			Set<HashMap<String, Object>> set) {
-		UserRole role = getRole();
-
-		if (docname.equals("ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				IncomingGoods doc = new IncomingGoods(
-						HttpUtilities.getUserDomain(getSession()), number);
-				if (doc.isActive()) {
-					doc.unactivation();
-				}
-				doc.saveTableRecords(HttpUtilities.getUserLogo(getSession()),
-						number, tablename, set);
-			}
-		}
-
-		return;
-
 	}
 
 }

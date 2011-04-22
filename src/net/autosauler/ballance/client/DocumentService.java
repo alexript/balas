@@ -150,18 +150,4 @@ public interface DocumentService extends RemoteService {
 			HashMap<String, Object> map,
 			HashMap<String, Set<HashMap<String, Object>>> tableparts);
 
-	/**
-	 * Update table.
-	 * 
-	 * @param docname
-	 *            the docname
-	 * @param number
-	 *            the number
-	 * @param tablename
-	 *            the tablename
-	 * @param set
-	 *            the set
-	 */
-	public void updateTable(String docname, Long number, String tablename,
-			Set<HashMap<String, Object>> set);
 }

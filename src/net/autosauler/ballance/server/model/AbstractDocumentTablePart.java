@@ -203,8 +203,9 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * @param set
 	 *            the set
 	 */
-	public void updateRecords(String username, Long docnumber,
+	public boolean updateRecords(String username, Long docnumber,
 			Set<HashMap<String, Object>> set) {
+		boolean result = true;
 		Iterator<HashMap<String, Object>> i = set.iterator();
 		while (i.hasNext()) {
 			HashMap<String, Object> map = i.next();
@@ -215,8 +216,9 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 				setDocnum(docnumber);
 				setUsername(username);
 			}
-			save();
+			result = result && save();
 		}
+		return result;
 	}
 
 }
