@@ -51,8 +51,6 @@ public interface DocumentServiceAsync {
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.DocumentService#create(java.lang.String,
-	 *      java.util.HashMap)
 	 */
 	void create(String docname, HashMap<String, Object> map,
 			HashMap<String, Set<HashMap<String, Object>>> tableparts,
@@ -107,7 +105,6 @@ public interface DocumentServiceAsync {
 	 *            the docname
 	 * @param callback
 	 *            the callback
-	 * @return the all
 	 * @see net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */
 	void getAll(String docname, AsyncCallback<Set<Long>> callback);
@@ -123,7 +120,6 @@ public interface DocumentServiceAsync {
 	 *            the tablename
 	 * @param callback
 	 *            the callback
-	 * @return the table
 	 */
 	void getTable(String docname, Long number, String tablename,
 			AsyncCallback<Set<HashMap<String, Object>>> callback);
@@ -153,8 +149,6 @@ public interface DocumentServiceAsync {
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.DocumentService#update(java.lang.String,
-	 *      java.lang.Long, java.util.HashMap)
 	 */
 	void update(String docname, Long number, HashMap<String, Object> map,
 			HashMap<String, Set<HashMap<String, Object>>> tableparts,

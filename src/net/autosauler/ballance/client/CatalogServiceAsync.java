@@ -36,7 +36,6 @@ public interface CatalogServiceAsync {
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#addRecord(java.util.HashMap)
 	 */
 	void addRecord(String catalogname, HashMap<String, Object> map,
 			AsyncCallback<Boolean> callback);
@@ -48,8 +47,6 @@ public interface CatalogServiceAsync {
 	 *            the catalogname
 	 * @param callback
 	 *            the callback
-	 * @return the all records
-	 * @see net.autosauler.ballance.client.CatalogService#getAllRecords()
 	 */
 	void getAllRecords(String catalogname, AsyncCallback<Set<Long>> callback);
 
@@ -62,8 +59,6 @@ public interface CatalogServiceAsync {
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @return the record
-	 * @see net.autosauler.ballance.client.CatalogService#getRecord(java.lang.Long)
 	 */
 	void getRecord(String catalogname, Long number,
 			AsyncCallback<HashMap<String, Object>> callback);
@@ -75,7 +70,6 @@ public interface CatalogServiceAsync {
 	 *            the catalogname
 	 * @param callback
 	 *            the callback
-	 * @return the records for selection
 	 */
 	void getRecordsForSelection(String catalogname,
 			AsyncCallback<HashMap<String, Long>> callback);
@@ -87,7 +81,6 @@ public interface CatalogServiceAsync {
 	 *            the catalogname
 	 * @param callback
 	 *            the callback
-	 * @return the records for view
 	 */
 	void getRecordsForView(String catalogname,
 			AsyncCallback<HashMap<Long, String>> callback);
@@ -101,7 +94,6 @@ public interface CatalogServiceAsync {
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#restoreRecord(java.lang.Long)
 	 */
 	void restoreRecord(String catalogname, Long number,
 			AsyncCallback<Boolean> callback);
@@ -115,7 +107,6 @@ public interface CatalogServiceAsync {
 	 *            the number
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#trashRecord(java.lang.Long)
 	 */
 	void trashRecord(String catalogname, Long number,
 			AsyncCallback<Boolean> callback);
@@ -131,8 +122,6 @@ public interface CatalogServiceAsync {
 	 *            the map
 	 * @param callback
 	 *            the callback
-	 * @see net.autosauler.ballance.client.CatalogService#updateRecord(java.lang.Long,
-	 *      java.util.HashMap)
 	 */
 	void updateRecord(String catalogname, Long number,
 			HashMap<String, Object> map, AsyncCallback<Boolean> callback);

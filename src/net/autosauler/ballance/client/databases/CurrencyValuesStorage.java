@@ -165,9 +165,10 @@ public class CurrencyValuesStorage {
 	/**
 	 * Gets the currency value for today.
 	 * 
+	 * @param receiver
+	 *            the receiver
 	 * @param mnemo
 	 *            the mnemo
-	 * @return the double
 	 */
 	public static void get(ICurrencyValuesReceiver receiver, String mnemo) {
 		get(receiver, mnemo, new Date());
@@ -176,11 +177,12 @@ public class CurrencyValuesStorage {
 	/**
 	 * Gets the currency value for day.
 	 * 
+	 * @param receiver
+	 *            the receiver
 	 * @param mnemo
 	 *            the mnemo
 	 * @param date
 	 *            the date
-	 * @return the double
 	 */
 	public static void get(final ICurrencyValuesReceiver receiver,
 			final String mnemo, final Date date) {

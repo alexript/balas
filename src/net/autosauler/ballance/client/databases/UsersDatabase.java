@@ -71,7 +71,7 @@ public class UsersDatabase {
 	 * display will be populated with data.
 	 * 
 	 * @param display
-	 *            a {@Link HasData}.
+	 *            a display.
 	 */
 	public void addDataDisplay(HasData<User> display) {
 		dataProvider.addDataDisplay(display);
@@ -89,7 +89,8 @@ public class UsersDatabase {
 	/**
 	 * Gets the users.
 	 * 
-	 * @return the users
+	 * @param fromtrash
+	 *            the fromtrash
 	 */
 	public void getUsers(boolean fromtrash) {
 		MainPanel.setCommInfo(true);

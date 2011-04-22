@@ -22,17 +22,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * <p>
- * Implementation of the {@link java.util.regex.Pattern} class with a wrapper
- * aroung the Javascript <a href=
+ * Implementation of the java.util.regex.Pattern class with a wrapper aroung the
+ * Javascript <a href=
  * "http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Guide:Regular_Expressions"
  * >RegExp</a> object. As most of the methods delegate to the JavaScript RegExp
  * object, certain differences in the declaration and behaviour of regular
  * expressions must be expected.
- * </p>
- * <p>
- * Please note that neither the {@link java.util.regex.Pattern#compile(String)}
- * method nor {@link Matcher} instances are supported. For the later, consider
- * using {@link Pattern#match(String)}.
  * </p>
  * 
  * @author George Georgovassilis
@@ -50,11 +45,29 @@ public class Pattern {
 	 */
 	public final static int CASE_INSENSITIVE = 2;
 
+	/**
+	 * _create expression.
+	 * 
+	 * @param pattern
+	 *            the pattern
+	 * @param flags
+	 *            the flags
+	 * @return the java script object
+	 */
 	private static native JavaScriptObject _createExpression(String pattern,
 			String flags)/*-{
 		return new RegExp(pattern, flags);
 	}-*/;
 
+	/**
+	 * Creates the expression.
+	 * 
+	 * @param pattern
+	 *            the pattern
+	 * @param flags
+	 *            the flags
+	 * @return the java script object
+	 */
 	private static JavaScriptObject createExpression(String pattern, int flags) {
 		String sFlags = "";
 		if ((flags & MULTILINE) != 0) {
@@ -86,7 +99,8 @@ public class Pattern {
 	 * character even if not neccessary, generating verbose literals.
 	 * 
 	 * @param input
-	 * @return
+	 *            the input
+	 * @return the string
 	 */
 	public static String quote(String input) {
 		String output = "";
@@ -96,10 +110,11 @@ public class Pattern {
 		return output;
 	}
 
+	/** The reg exp. */
 	private final JavaScriptObject regExp;
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 * 
 	 * @param pattern
 	 *            Regular expression
@@ -109,16 +124,25 @@ public class Pattern {
 	}
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 * 
 	 * @param pattern
 	 *            Regular expression
 	 * @param flags
+	 *            the flags
 	 */
 	public Pattern(String pattern, int flags) {
 		regExp = createExpression(pattern, flags);
 	}
 
+	/**
+	 * _match.
+	 * 
+	 * @param text
+	 *            the text
+	 * @param matches
+	 *            the matches
+	 */
 	@SuppressWarnings("rawtypes")
 	private native void _match(String text, List matches)/*-{
 		var regExp = this.@net.autosauler.ballance.client.utils.Pattern::regExp;
@@ -129,6 +153,14 @@ public class Pattern {
 			matches.@java.util.ArrayList::add(Ljava/lang/Object;)(result[i]);
 	}-*/;
 
+	/**
+	 * _split.
+	 * 
+	 * @param input
+	 *            the input
+	 * @param results
+	 *            the results
+	 */
 	@SuppressWarnings("rawtypes")
 	private native void _split(String input, List results)/*-{
 		var regExp = this.@net.autosauler.ballance.client.utils.Pattern::regExp;
@@ -143,6 +175,7 @@ public class Pattern {
 	 * the pattern's regular expression
 	 * 
 	 * @param text
+	 *            the text
 	 * @return Array of strings following java's Pattern convention for groups:
 	 *         Group 0 is the entire input string and the remaining groups are
 	 *         the matched parenthesis. In case nothing was matched an empty
@@ -160,10 +193,11 @@ public class Pattern {
 	}
 
 	/**
-	 * Determines wether a provided text matches the regular expression
+	 * Determines wether a provided text matches the regular expression.
 	 * 
 	 * @param text
-	 * @return
+	 *            the text
+	 * @return true, if successful
 	 */
 	public native boolean matches(String text)/*-{
 		var regExp = this.@net.autosauler.ballance.client.utils.Pattern::regExp;
@@ -171,9 +205,9 @@ public class Pattern {
 	}-*/;
 
 	/**
-	 * Returns the regular expression for this pattern
+	 * Returns the regular expression for this pattern.
 	 * 
-	 * @return
+	 * @return the string
 	 */
 	public native String pattern()/*-{
 		var regExp = this.@net.autosauler.ballance.client.utils.Pattern::regExp;
@@ -181,9 +215,10 @@ public class Pattern {
 	}-*/;
 
 	/**
-	 * Split an input string by the pattern's regular expression
+	 * Split an input string by the pattern's regular expression.
 	 * 
 	 * @param input
+	 *            the input
 	 * @return Array of strings
 	 */
 	@SuppressWarnings("rawtypes")

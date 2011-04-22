@@ -33,6 +33,14 @@ public interface DatabaseServiceAsync {
 	 */
 	void dropDatabase(AsyncCallback<Boolean> callback);
 
+	/**
+	 * Dump database.
+	 * 
+	 * @param filename
+	 *            the filename
+	 * @param callback
+	 *            the callback
+	 */
 	void dumpDatabase(String filename, AsyncCallback<Void> callback);
 
 	/**
@@ -40,7 +48,6 @@ public interface DatabaseServiceAsync {
 	 * 
 	 * @param callback
 	 *            the callback
-	 * @return the settings
 	 */
 	void getSettings(AsyncCallback<HashMap<String, String>> callback);
 

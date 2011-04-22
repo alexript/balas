@@ -62,7 +62,6 @@ public interface CurrencyServiceAsync {
 	 * 
 	 * @param callback
 	 *            the callback
-	 * @return the used currencyes
 	 */
 	void getUsedCurrencyes(AsyncCallback<Set<String>> callback);
 

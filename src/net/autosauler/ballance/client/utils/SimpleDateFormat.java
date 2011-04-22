@@ -65,19 +65,42 @@ import java.util.Date;
  * @version $Revision: 0.0 $
  */
 public class SimpleDateFormat {
+
+	/**
+	 * New date.
+	 * 
+	 * @param time
+	 *            the time
+	 * @return the date
+	 */
 	@SuppressWarnings("unused")
 	private static Date newDate(long time) {
 		return new Date(time);
 	}
 
+	/** The format. */
 	private final String format;
 
+	/** The locale. */
 	private DateLocale locale = new DateLocale();
 
+	/**
+	 * Instantiates a new simple date format.
+	 * 
+	 * @param pattern
+	 *            the pattern
+	 */
 	public SimpleDateFormat(String pattern) {
 		format = pattern;
 	}
 
+	/**
+	 * Format.
+	 * 
+	 * @param date
+	 *            the date
+	 * @return the string
+	 */
 	public String format(Date date) {
 		String f = "";
 		if ((format != null) && (format.length() > 0)) {
@@ -110,9 +133,9 @@ public class SimpleDateFormat {
 	}
 
 	/**
-	 * Gets the support locale for formatting and parsing dates
+	 * Gets the support locale for formatting and parsing dates.
 	 * 
-	 * @return
+	 * @return the locale
 	 */
 	public DateLocale getLocale() {
 		return locale;
@@ -210,12 +233,19 @@ public class SimpleDateFormat {
 	 * Parses text and returns the corresponding date object.
 	 * 
 	 * @param source
+	 *            the source
 	 * @return java.util.Date
 	 */
 	public Date parse(String source) {
 		return SimpleDateParser.parse(source, format);
 	}
 
+	/**
+	 * Sets the locale.
+	 * 
+	 * @param locale
+	 *            the new locale
+	 */
 	public void setLocale(DateLocale locale) {
 		this.locale = locale;
 	}
@@ -227,7 +257,8 @@ public class SimpleDateFormat {
 	 * most 2 characters.
 	 * 
 	 * @param num
-	 * @return
+	 *            the num
+	 * @return the string
 	 */
 	private String twoCharDateField(int num) {
 		String res = Integer.toString(num + 1900);

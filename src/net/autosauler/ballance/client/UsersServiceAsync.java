@@ -41,7 +41,6 @@ public interface UsersServiceAsync {
 	 * 
 	 * @param callback
 	 *            the callback
-	 * @return the trashed users
 	 */
 	void getTrashedUsers(AsyncCallback<UserList> callback);
 
@@ -52,7 +51,6 @@ public interface UsersServiceAsync {
 	 *            the login
 	 * @param callback
 	 *            the callback
-	 * @return the user
 	 */
 	void getUser(String login, AsyncCallback<User> callback);
 
@@ -61,7 +59,6 @@ public interface UsersServiceAsync {
 	 * 
 	 * @param callback
 	 *            the callback
-	 * @return the users
 	 */
 	void getUsers(AsyncCallback<UserList> callback);
 

@@ -19,20 +19,32 @@ package net.autosauler.ballance.server.model;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 /**
- * @author alexript
+ * The Class GoodsTablePart.
  * 
+ * @author alexript
  */
 public class GoodsTablePart extends AbstractDocumentTablePart {
 
+	/** The Constant fieldname_partner. */
 	private static final String fieldname_partner = "partner";
+
+	/** The Constant fieldname_weight. */
 	private static final String fieldname_weight = "weight";
+
+	/** The Constant fieldname_summ. */
 	private static final String fieldname_summ = "summ";
+
+	/** The Constant fieldname_currency. */
 	private static final String fieldname_currency = "currency";
+
+	/** The Constant fieldname_boxesnum. */
 	private static final String fieldname_boxesnum = "boxesnum";
 
 	/**
-	 * @param partname
+	 * Instantiates a new goods table part.
+	 * 
 	 * @param domain
+	 *            the domain
 	 */
 	public GoodsTablePart(String domain) {
 		super("goods", domain);
