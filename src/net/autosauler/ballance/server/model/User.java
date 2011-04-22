@@ -35,26 +35,6 @@ public class User {
 	final private static String USERSTABLE = "registredusers";
 
 	/**
-	 * Find user by login.
-	 * 
-	 * @param login
-	 *            the login
-	 * @return the user or null if not found
-	 */
-	public static User find(String login) {
-		User user = null;
-
-		Database.retain();
-		DBObject myDoc = findObject(login);
-		if (myDoc != null) {
-			user = new User(myDoc);
-		}
-		Database.release();
-
-		return user;
-	}
-
-	/**
 	 * Find.
 	 * 
 	 * @param login
@@ -64,7 +44,16 @@ public class User {
 	 * @return the user
 	 */
 	public static User find(String login, String domain) {
-		return find(login.trim() + "@" + domain.trim());
+		User user = null;
+
+		Database.retain();
+		DBObject myDoc = findObject(login, domain);
+		if (myDoc != null) {
+			user = new User(myDoc);
+		}
+		Database.release();
+
+		return user;
 	}
 
 	/**
@@ -74,13 +63,14 @@ public class User {
 	 *            the login
 	 * @return the dB object
 	 */
-	private static DBObject findObject(String login) {
+	private static DBObject findObject(String login, String domain) {
 		DBObject myDoc = null;
-		DB db = Database.get(null);
+		DB db = Database.get(domain);
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 			BasicDBObject query = new BasicDBObject();
 			query.put("login", login);
+			query.put("domain", domain);
 			myDoc = coll.findOne(query);
 		}
 
@@ -105,15 +95,16 @@ public class User {
 	 *            the loginanddomain
 	 * @return true, if successful
 	 */
-	public static boolean trashUser(String loginanddomain) {
+	public static boolean trashUser(String login, String domain) {
 		boolean result = false;
 		Database.retain();
-		DB db = Database.get(null);
+		DB db = Database.get(domain);
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 
 			BasicDBObject query = new BasicDBObject();
-			query.put("login", loginanddomain);
+			query.put("login", login);
+			query.put("domain", domain);
 
 			BasicDBObject obj = new BasicDBObject();
 			obj.put("istrash", true);
@@ -139,12 +130,13 @@ public class User {
 	public static boolean updateUser(net.autosauler.ballance.shared.User proxy) {
 		boolean result = false;
 		Database.retain();
-		DB db = Database.get(null);
+		DB db = Database.get(proxy.getDomain());
 		if (db != null) {
 			DBCollection coll = db.getCollection(USERSTABLE);
 
 			BasicDBObject query = new BasicDBObject();
-			query.put("login", proxy.getLogin() + "@" + proxy.getDomain());
+			query.put("login", proxy.getLogin());
+			query.put("domain", proxy.getDomain());
 
 			BasicDBObject obj = new BasicDBObject();
 			obj.put("isactive", proxy.isActive());
@@ -170,6 +162,9 @@ public class User {
 
 	/** The login. */
 	private String login;
+
+	/** The domain. */
+	private String domain;
 
 	/** The hash. */
 	private String hash;
@@ -208,6 +203,7 @@ public class User {
 	public User(DBObject myDoc) {
 		userrole = new UserRole();
 		setLogin((String) myDoc.get("login"));
+		setDomain((String) myDoc.get("domain"));
 		setHash((String) myDoc.get("hash"));
 		setUsername((String) myDoc.get("fullname"));
 		userrole.setRole((Integer) myDoc.get("roles"));
@@ -224,7 +220,8 @@ public class User {
 	 *            the proxy
 	 */
 	public User(net.autosauler.ballance.shared.User proxy) {
-		this.setLogin(proxy.getLogin(), proxy.getDomain());
+		setLogin(proxy.getLogin());
+		setDomain(proxy.getDomain());
 		setUsername(proxy.getUsername());
 		setUserrole(proxy.getUserrole());
 		setActive(proxy.isActive());
@@ -237,7 +234,7 @@ public class User {
 	 * @return true, if successful
 	 */
 	public boolean addNewUser() {
-		User user = User.find(getLogin());
+		User user = User.find(getLogin(), getDomain());
 		if (user != null) {
 			return false;
 		}
@@ -262,6 +259,7 @@ public class User {
 
 			doc.put("hash", hash);
 			doc.put("login", login);
+			doc.put("domain", domain);
 			doc.put("fullname", username);
 			doc.put("roles", userrole.getRole());
 			doc.put("createdate", createdate);
@@ -283,17 +281,10 @@ public class User {
 	}
 
 	/**
-	 * Gets the domain of login.
-	 * 
-	 * @return the domain of login
+	 * @return the domain
 	 */
-	public String getDomainOfLogin() {
-		String l = getLogin();
-		String[] arr = l.split("@", 2);
-		if (arr.length != 2) {
-			return "";
-		}
-		return arr[1];
+	public String getDomain() {
+		return domain;
 	}
 
 	/**
@@ -315,28 +306,14 @@ public class User {
 	}
 
 	/**
-	 * Gets the login without domain.
-	 * 
-	 * @return the login without domain
-	 */
-	public String getLoginWithoutDomain() {
-		String l = getLogin();
-		String[] arr = l.split("@", 2);
-		if (arr.length != 2) {
-			return l;
-		}
-		return arr[0];
-	}
-
-	/**
 	 * Gets the proxy.
 	 * 
 	 * @return the proxy
 	 */
 	public net.autosauler.ballance.shared.User getProxy() {
 		net.autosauler.ballance.shared.User user = new net.autosauler.ballance.shared.User();
-		user.setLogin(getLoginWithoutDomain());
-		user.setDomain(getDomainOfLogin());
+		user.setLogin(getLogin());
+		user.setDomain(getDomain());
 		user.setUsername(getUsername());
 		user.setUserrole(new UserRole(getUserrole()));
 		user.setCreatedate(getCreatedate());
@@ -421,6 +398,14 @@ public class User {
 	}
 
 	/**
+	 * @param domain
+	 *            the domain to set
+	 */
+	public void setDomain(String domain) {
+		this.domain = domain.trim();
+	}
+
+	/**
 	 * Sets the hash.
 	 * 
 	 * @param hash
@@ -437,19 +422,7 @@ public class User {
 	 *            the new login
 	 */
 	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	/**
-	 * Sets the login.
-	 * 
-	 * @param login
-	 *            the login
-	 * @param domain
-	 *            the domain
-	 */
-	public void setLogin(String login, String domain) {
-		setLogin(login.trim() + "@" + domain.trim());
+		this.login = login.trim();
 	}
 
 	/**

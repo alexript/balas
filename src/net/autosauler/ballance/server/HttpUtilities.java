@@ -32,9 +32,11 @@ public class HttpUtilities {
 	 * @return the user domain
 	 */
 	public static String getUserDomain(HttpSession session) {
-		String login = getUserLogin(session);
-		String[] parts = login.split("@", 2);
-		return parts[1];
+		if (session == null) {
+			return "127.0.0.1";
+		}
+
+		return (String) session.getAttribute("domain");
 	}
 
 	/**
@@ -46,7 +48,7 @@ public class HttpUtilities {
 	 */
 	private static String getUserLogin(HttpSession session) {
 		if (session == null) {
-			return "uncknown@127.0.0.1";
+			return "uncknown";
 		}
 
 		return (String) session.getAttribute("login");
@@ -60,9 +62,8 @@ public class HttpUtilities {
 	 * @return the user logo
 	 */
 	public static String getUserLogo(HttpSession session) {
-		String login = getUserLogin(session);
-		String[] parts = login.split("@", 2);
-		return parts[0];
+		return getUserLogin(session);
+
 	}
 
 	/**

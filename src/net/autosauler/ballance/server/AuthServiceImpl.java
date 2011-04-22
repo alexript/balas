@@ -27,6 +27,7 @@ import net.autosauler.ballance.client.SessionId;
 import net.autosauler.ballance.server.model.User;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -50,12 +51,13 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		password = password.trim();
 		HttpServletRequest request = getThreadLocalRequest();
 		String urlAddress = request.getRequestURL().toString();
+		String hostname = "127.0.0.1";
 		try {
 			URL url = new URL(urlAddress);
-			String hostname = url.getHost().trim();
-			login = login + "@" + hostname;
+			hostname = url.getHost().trim();
+
 		} catch (MalformedURLException e) {
-			login = login + "@127.0.0.1";
+			Log.error(e.getMessage());
 		}
 
 		boolean valid = false;
@@ -64,7 +66,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 		UserRole userrole = new UserRole();
 		Long uid = -1L;
 
-		User user = User.find(login);
+		User user = User.find(login, hostname);
 		if (user != null) {
 			valid = user.isValidUser(password) && user.isActive()
 					&& !user.isTrash();
@@ -84,6 +86,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 				sessionid.setUid(uid);
 				httpSession.setAttribute("uid", uid);
 				httpSession.setAttribute("login", login);
+				httpSession.setAttribute("domain", hostname);
 				return sessionid;
 
 			}
@@ -100,6 +103,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements
 	public void logoff() {
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		httpSession.removeAttribute("login");
+		httpSession.removeAttribute("domain");
 		httpSession.removeAttribute("uid");
 		httpSession.removeAttribute("username");
 		httpSession.removeAttribute("userrole");

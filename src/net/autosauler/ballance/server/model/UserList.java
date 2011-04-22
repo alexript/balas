@@ -49,13 +49,20 @@ public class UserList {
 
 				User user = new User();
 				user.setPassword("admin");
-				user.setLogin("admin@127.0.0.1");
+				user.setLogin("admin");
+				user.setDomain("127.0.0.1");
 				user.setUsername("Admin The Great");
 				user.setUserrole(defaultroles);
 				user.addNewUser();
 
-				coll.createIndex(new BasicDBObject("login", 1));
-				coll.createIndex(new BasicDBObject("istrash", 1));
+				BasicDBObject i = new BasicDBObject();
+				i.put("login", 1);
+				i.put("domain", 1);
+
+				coll.createIndex(i);
+
+				i.put("istrash", 1);
+				coll.createIndex(i);
 			}
 		}
 	}
@@ -65,8 +72,8 @@ public class UserList {
 	 * 
 	 * @return the users
 	 */
-	public static net.autosauler.ballance.shared.UserList getUsers() {
-		return getUsers(false);
+	public static net.autosauler.ballance.shared.UserList getUsers(String domain) {
+		return getUsers(domain, false);
 	}
 
 	/**
@@ -77,15 +84,16 @@ public class UserList {
 	 * @return the users
 	 */
 	private static net.autosauler.ballance.shared.UserList getUsers(
-			boolean fromtrash) {
+			String domain, boolean fromtrash) {
 		net.autosauler.ballance.shared.UserList list = new net.autosauler.ballance.shared.UserList();
 
 		Database.retain();
-		DB db = Database.get(null);
+		DB db = Database.get(domain);
 		if (db != null) {
 			DBCollection coll = db.getCollection(collectionname);
 			BasicDBObject query = new BasicDBObject();
 			query.put("istrash", fromtrash);
+			query.put("domain", domain);
 			DBCursor cur = coll.find(query);
 			while (cur.hasNext()) {
 				DBObject myDoc = cur.next();
@@ -105,8 +113,9 @@ public class UserList {
 	 * 
 	 * @return the users from trash
 	 */
-	public static net.autosauler.ballance.shared.UserList getUsersFromTrash() {
-		return getUsers(true);
+	public static net.autosauler.ballance.shared.UserList getUsersFromTrash(
+			String domain) {
+		return getUsers(domain, true);
 	}
 
 	/**

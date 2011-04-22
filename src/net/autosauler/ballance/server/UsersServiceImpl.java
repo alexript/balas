@@ -80,7 +80,7 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		if (role.isAdmin()) {
 			list = net.autosauler.ballance.server.model.UserList
-					.getUsersFromTrash();
+					.getUsersFromTrash(HttpUtilities.getUserDomain(httpSession));
 		}
 		return list;
 	}
@@ -98,7 +98,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		if (role.isAdmin()) {
 			net.autosauler.ballance.server.model.User dbuser = net.autosauler.ballance.server.model.User
-					.find(login);
+					.find(login, HttpUtilities.getUserDomain(httpSession));
+
 			if (dbuser != null) {
 				user = dbuser.getProxy();
 			}
@@ -117,7 +118,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		if (role.isAdmin()) {
-			list = net.autosauler.ballance.server.model.UserList.getUsers();
+			list = net.autosauler.ballance.server.model.UserList
+					.getUsers(HttpUtilities.getUserDomain(httpSession));
 		}
 		return list;
 	}
@@ -134,7 +136,8 @@ public class UsersServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		if (role.isAdmin()) {
-			result = net.autosauler.ballance.server.model.User.trashUser(login);
+			result = net.autosauler.ballance.server.model.User.trashUser(login,
+					HttpUtilities.getUserDomain(httpSession));
 		}
 		return result;
 	}

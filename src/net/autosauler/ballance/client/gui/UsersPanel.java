@@ -389,7 +389,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 			public void onClick(ClickEvent event) {
 				User user = ((SingleSelectionModel<User>) selectionModel)
 						.getSelectedObject();
+
 				if (user != null) {
+
 					new EditUserDialog(user.getId(), UsersPanel.this);
 				}
 

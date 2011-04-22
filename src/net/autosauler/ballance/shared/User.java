@@ -97,7 +97,7 @@ public class User implements Serializable {
 	 * @return the id
 	 */
 	public String getId() {
-		return getLogin() + "@" + getDomain();
+		return getLogin();
 	}
 
 	/**
