@@ -14,28 +14,34 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.resources;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
- * The Interface ToolsMessages.
- * 
- * @author alexript
+ * The Interface BalasResources.
  */
-public interface ToolsMessages extends Messages {
+public interface BalasResources extends ClientBundle {
+
+	/** The Constant INSTANCE. */
+	public static final BalasResources INSTANCE = GWT
+			.create(BalasResources.class);
 
 	/**
-	 * Btn delete.
+	 * Hello pane.
 	 * 
-	 * @return the string
+	 * @return the text resource
 	 */
-	String btnDelete();
+	@Source("hello.html")
+	public TextResource helloPane();
 
 	/**
-	 * Btn edit.
+	 * License pane.
 	 * 
-	 * @return the string
+	 * @return the text resource
 	 */
-	String btnEdit();
+	@Source("license.html")
+	public TextResource licensePane();
 }

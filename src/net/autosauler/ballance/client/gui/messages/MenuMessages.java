@@ -13,105 +13,146 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package net.autosauler.ballance.client.gui;
+
+package net.autosauler.ballance.client.gui.messages;
 
 import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface DocumentMessages.
- * 
- * @author alexript
+ * The Interface MenuMessages.
  */
-public interface DocumentMessages extends Messages {
+public interface MenuMessages extends Messages {
 
 	/**
-	 * Btn activate.
+	 * Admin panel.
 	 * 
 	 * @return the string
 	 */
-	public String btnActivate();
+	String adminPanel();
 
 	/**
-	 * Btn cancel.
+	 * Documents panel.
 	 * 
 	 * @return the string
 	 */
-	public String btnCancel();
+	String documentsPanel();
 
 	/**
-	 * Btn save.
+	 * Finances panel.
 	 * 
 	 * @return the string
 	 */
-	public String btnSave();
+	String financesPanel();
 
 	/**
-	 * Btn save and activate.
+	 * For all panel.
 	 * 
 	 * @return the string
 	 */
-	public String btnSaveAndActivate();
+	String forAllPanel();
 
 	/**
-	 * Btn un activate.
+	 * Guest panel.
 	 * 
 	 * @return the string
 	 */
-	public String btnUnActivate();
+	String guestPanel();
 
 	/**
-	 * Col author.
+	 * Ico close pane.
 	 * 
 	 * @return the string
 	 */
-	public String colAuthor();
+	String icoClosePane();
 
 	/**
-	 * Col create date.
+	 * Ico reload pane.
 	 * 
 	 * @return the string
 	 */
-	public String colCreateDate();
+	String icoReloadPane();
 
 	/**
-	 * Col document.
+	 * Item changelog.
 	 * 
 	 * @return the string
 	 */
-	public String colDocument();
+	String itemChangelog();
 
 	/**
-	 * Col number.
+	 * Item database.
 	 * 
 	 * @return the string
 	 */
-	public String colNumber();
+	String itemDatabase();
 
 	/**
-	 * Menu create.
+	 * Item hello to all.
 	 * 
 	 * @return the string
 	 */
-	public String menuCreate();
+	String itemHelloToAll();
 
 	/**
-	 * Menu reload.
+	 * Item inc pay.
 	 * 
 	 * @return the string
 	 */
-	public String menuReload();
+	String itemIncPay();
 
 	/**
-	 * Msg create error.
+	 * Item in goods.
 	 * 
 	 * @return the string
 	 */
-	public String msgCreateError();
+	String itemInGoods();
 
 	/**
-	 * Msg update error.
+	 * Item license.
 	 * 
 	 * @return the string
 	 */
-	public String msgUpdateError();
+	String itemLicense();
+
+	/**
+	 * Item partners.
+	 * 
+	 * @return the string
+	 */
+	String itemPartners();
+
+	/**
+	 * Item paymethod.
+	 * 
+	 * @return the string
+	 */
+	String itemPaymethod();
+
+	/**
+	 * Item tarif.
+	 * 
+	 * @return the string
+	 */
+	String itemTarif();
+
+	/**
+	 * Item users.
+	 * 
+	 * @return the string
+	 */
+	String itemUsers();
+
+	/**
+	 * Manager panel.
+	 * 
+	 * @return the string
+	 */
+	String managerPanel();
+
+	/**
+	 * Menu panelmenu.
+	 * 
+	 * @return the string
+	 */
+	String menuPanelmenu();
 }

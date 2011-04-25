@@ -13,50 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package net.autosauler.ballance.client.gui;
+
+package net.autosauler.ballance.client.gui.messages;
 
 import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface DocumentTableMessages.
- * 
- * @author alexript
+ * The Interface DatabaseMessages.
  */
-public interface DocumentTableMessages extends Messages {
+public interface DatabaseMessages extends Messages {
 
 	/**
-	 * Btn addrow.
+	 * Btn execute.
 	 * 
 	 * @return the string
 	 */
-	public String btnAddrow();
+	String btnExecute();
 
 	/**
-	 * Btn delrow.
+	 * Btn sore changes.
 	 * 
 	 * @return the string
 	 */
-	public String btnDelrow();
+	String btnSoreChanges();
 
 	/**
-	 * Col number.
+	 * Msg drop database title.
 	 * 
 	 * @return the string
 	 */
-	public String colNumber();
+	String msgDropDatabaseTitle();
 
 	/**
-	 * Msg cantdelete.
+	 * Msg dump database title.
 	 * 
 	 * @return the string
 	 */
-	public String msgCantdelete();
+	String msgDumpDatabaseTitle();
 
 	/**
-	 * Msg mustselect.
+	 * Qst drop database.
 	 * 
 	 * @return the string
 	 */
-	public String msgMustselect();
-
+	String qstDropDatabase();
 }

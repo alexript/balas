@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client.gui;
 
+import net.autosauler.ballance.client.gui.images.RolesImages;
+import net.autosauler.ballance.client.gui.messages.UsersMessages;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;

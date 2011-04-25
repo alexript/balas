@@ -13,35 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package net.autosauler.ballance.client.gui.messages;
 
-package net.autosauler.ballance.client.gui;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface BalasResources.
+ * The Interface PartnersMessages.
+ * 
+ * @author alexript
  */
-public interface BalasResources extends ClientBundle {
-
-	/** The Constant INSTANCE. */
-	public static final BalasResources INSTANCE = GWT
-			.create(BalasResources.class);
+public interface PartnersMessages extends Messages {
 
 	/**
-	 * Hello pane.
+	 * Lbl currency.
 	 * 
-	 * @return the text resource
+	 * @return the string
 	 */
-	@Source("hello.html")
-	public TextResource helloPane();
+	public String lblCurrency();
 
 	/**
-	 * License pane.
+	 * Lbl email.
 	 * 
-	 * @return the text resource
+	 * @return the string
 	 */
-	@Source("license.html")
-	public TextResource licensePane();
+	public String lblEmail();
+
+	/**
+	 * Lbl paymethod.
+	 * 
+	 * @return the string
+	 */
+	public String lblPaymethod();
+
+	/**
+	 * Lbl tarif.
+	 * 
+	 * @return the string
+	 */
+	public String lblTarif();
 }

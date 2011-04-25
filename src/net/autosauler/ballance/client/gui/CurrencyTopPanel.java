@@ -25,6 +25,7 @@ import java.util.Set;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
 import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
+import net.autosauler.ballance.client.gui.images.MenuImages;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;

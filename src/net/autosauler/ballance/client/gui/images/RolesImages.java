@@ -14,47 +14,50 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.images;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Tree;
 
 /**
- * The Interface DatabaseMessages.
+ * The Interface RolesImages.
+ * 
+ * @author alexript
  */
-public interface DatabaseMessages extends Messages {
+public interface RolesImages extends Tree.Resources {
 
 	/**
-	 * Btn execute.
+	 * Checks if is admin.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	String btnExecute();
+	ImageResource isAdmin();
 
 	/**
-	 * Btn sore changes.
+	 * Checks if is documents.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	String btnSoreChanges();
+	ImageResource isDocuments();
 
 	/**
-	 * Msg drop database title.
+	 * Checks if is finances.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	String msgDropDatabaseTitle();
+	ImageResource isFinances();
 
 	/**
-	 * Msg dump database title.
+	 * Checks if is guest.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	String msgDumpDatabaseTitle();
+	ImageResource isGuest();
 
 	/**
-	 * Qst drop database.
+	 * Checks if is manager.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	String qstDropDatabase();
+	ImageResource isManager();
 }

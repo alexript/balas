@@ -15,6 +15,7 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
+import net.autosauler.ballance.client.gui.messages.IncomingGoodsMessages;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.core.client.GWT;

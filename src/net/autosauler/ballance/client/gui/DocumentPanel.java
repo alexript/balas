@@ -23,6 +23,8 @@ import java.util.Set;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.DocumentsDatabase;
+import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.messages.DocumentMessages;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 

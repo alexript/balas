@@ -21,6 +21,7 @@ import java.util.Date;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.SessionId;
+import net.autosauler.ballance.client.gui.messages.AuthMessages;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;

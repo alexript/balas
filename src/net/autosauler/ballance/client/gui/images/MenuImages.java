@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.images;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Tree;

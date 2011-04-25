@@ -14,50 +14,54 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.messages;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface RolesImages.
- * 
- * @author alexript
+ * The Interface DialogMessages.
  */
-public interface RolesImages extends Tree.Resources {
+public interface DialogMessages extends Messages {
 
 	/**
-	 * Checks if is admin.
+	 * Btn no.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource isAdmin();
+	String btnNo();
 
 	/**
-	 * Checks if is documents.
+	 * Btn ok.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource isDocuments();
+	String btnOk();
 
 	/**
-	 * Checks if is finances.
+	 * Btn yes.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource isFinances();
+	String btnYes();
 
 	/**
-	 * Checks if is guest.
+	 * Msg additional info.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource isGuest();
+	String msgAdditionalInfo();
 
 	/**
-	 * Checks if is manager.
+	 * Msg alert title.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource isManager();
+	String msgAlertTitle();
+
+	/**
+	 * Msg title.
+	 * 
+	 * @return the string
+	 */
+	String msgTitle();
 }

@@ -16,6 +16,9 @@
 
 package net.autosauler.ballance.client.gui;
 
+import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.messages.CommMessages;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;

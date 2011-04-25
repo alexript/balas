@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.gui.images.MenuImages;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

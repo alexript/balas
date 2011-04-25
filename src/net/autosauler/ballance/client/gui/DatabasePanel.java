@@ -21,6 +21,8 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.messages.DatabaseMessages;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;

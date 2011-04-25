@@ -14,56 +14,29 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.images;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Tree;
 
 /**
- * The Interface IncomingPayMessages.
+ * The Interface TablePartImages.
  * 
  * @author alexript
  */
-public interface IncomingPayMessages extends Messages {
+public interface TablePartImages extends Tree.Resources {
 
 	/**
-	 * Lbl comments.
+	 * Minus.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	public String lblComments();
+	ImageResource Minus();
 
 	/**
-	 * Lbl currency.
+	 * Plus.
 	 * 
-	 * @return the string
+	 * @return the image resource
 	 */
-	public String lblCurrency();
-
-	/**
-	 * Lbl method.
-	 * 
-	 * @return the string
-	 */
-	public String lblMethod();
-
-	/**
-	 * Lbl partner.
-	 * 
-	 * @return the string
-	 */
-	public String lblPartner();
-
-	/**
-	 * Lbl pay date.
-	 * 
-	 * @return the string
-	 */
-	public String lblPayDate();
-
-	/**
-	 * Lbl value.
-	 * 
-	 * @return the string
-	 */
-	public String lblValue();
+	ImageResource Plus();
 }

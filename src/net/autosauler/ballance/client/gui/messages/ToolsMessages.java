@@ -14,54 +14,28 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.messages;
 
 import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface DialogMessages.
+ * The Interface ToolsMessages.
+ * 
+ * @author alexript
  */
-public interface DialogMessages extends Messages {
+public interface ToolsMessages extends Messages {
 
 	/**
-	 * Btn no.
+	 * Btn delete.
 	 * 
 	 * @return the string
 	 */
-	String btnNo();
+	String btnDelete();
 
 	/**
-	 * Btn ok.
+	 * Btn edit.
 	 * 
 	 * @return the string
 	 */
-	String btnOk();
-
-	/**
-	 * Btn yes.
-	 * 
-	 * @return the string
-	 */
-	String btnYes();
-
-	/**
-	 * Msg additional info.
-	 * 
-	 * @return the string
-	 */
-	String msgAdditionalInfo();
-
-	/**
-	 * Msg alert title.
-	 * 
-	 * @return the string
-	 */
-	String msgAlertTitle();
-
-	/**
-	 * Msg title.
-	 * 
-	 * @return the string
-	 */
-	String msgTitle();
+	String btnEdit();
 }

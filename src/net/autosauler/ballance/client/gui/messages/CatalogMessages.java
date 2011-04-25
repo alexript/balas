@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.client.gui;
+package net.autosauler.ballance.client.gui.messages;
 
 import com.google.gwt.i18n.client.Messages;
 

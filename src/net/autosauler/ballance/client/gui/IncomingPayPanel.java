@@ -6,6 +6,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.messages.IncomingPayMessages;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;

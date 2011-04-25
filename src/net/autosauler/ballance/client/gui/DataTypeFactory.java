@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.gui.images.MenuImages;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 

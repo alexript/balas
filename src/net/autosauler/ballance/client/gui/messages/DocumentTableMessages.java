@@ -13,30 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package net.autosauler.ballance.client.gui.messages;
 
-package net.autosauler.ballance.client.gui;
-
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface TablePartImages.
+ * The Interface DocumentTableMessages.
  * 
  * @author alexript
  */
-public interface TablePartImages extends Tree.Resources {
+public interface DocumentTableMessages extends Messages {
 
 	/**
-	 * Minus.
+	 * Btn addrow.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource Minus();
+	public String btnAddrow();
 
 	/**
-	 * Plus.
+	 * Btn delrow.
 	 * 
-	 * @return the image resource
+	 * @return the string
 	 */
-	ImageResource Plus();
+	public String btnDelrow();
+
+	/**
+	 * Col number.
+	 * 
+	 * @return the string
+	 */
+	public String colNumber();
+
+	/**
+	 * Msg cantdelete.
+	 * 
+	 * @return the string
+	 */
+	public String msgCantdelete();
+
+	/**
+	 * Msg mustselect.
+	 * 
+	 * @return the string
+	 */
+	public String msgMustselect();
+
 }

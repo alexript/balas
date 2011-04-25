@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.messages.PartnersMessages;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.core.client.GWT;

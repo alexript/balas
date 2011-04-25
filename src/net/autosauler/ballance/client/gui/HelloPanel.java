@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client.gui;
 
+import net.autosauler.ballance.client.gui.resources.BalasResources;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;

@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package net.autosauler.ballance.client.gui;
+
+package net.autosauler.ballance.client.gui.messages;
 
 import com.google.gwt.i18n.client.Messages;
 
 /**
- * The Interface PartnersMessages.
+ * The Interface IncomingPayMessages.
  * 
  * @author alexript
  */
-public interface PartnersMessages extends Messages {
+public interface IncomingPayMessages extends Messages {
+
+	/**
+	 * Lbl comments.
+	 * 
+	 * @return the string
+	 */
+	public String lblComments();
 
 	/**
 	 * Lbl currency.
@@ -32,23 +40,30 @@ public interface PartnersMessages extends Messages {
 	public String lblCurrency();
 
 	/**
-	 * Lbl email.
+	 * Lbl method.
 	 * 
 	 * @return the string
 	 */
-	public String lblEmail();
+	public String lblMethod();
 
 	/**
-	 * Lbl paymethod.
+	 * Lbl partner.
 	 * 
 	 * @return the string
 	 */
-	public String lblPaymethod();
+	public String lblPartner();
 
 	/**
-	 * Lbl tarif.
+	 * Lbl pay date.
 	 * 
 	 * @return the string
 	 */
-	public String lblTarif();
+	public String lblPayDate();
+
+	/**
+	 * Lbl value.
+	 * 
+	 * @return the string
+	 */
+	public String lblValue();
 }
