@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.DatabaseMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -76,9 +76,6 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	/** The l. */
 	private static final DatabaseMessages l = GWT
 			.create(DatabaseMessages.class);
-
-	/** The images. */
-	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/** The btn drop database. */
 	private Button btnDropDatabase;
@@ -293,7 +290,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 */
 	private DecoratorPanel createSettingsPanel() {
 		DecoratorPanel panel = new DecoratorPanel();
-		Image spinner = new Image(images.spinner());
+		Image spinner = new Image(Images.menu.spinner());
 		panel.setWidget(spinner);
 		return panel;
 	}

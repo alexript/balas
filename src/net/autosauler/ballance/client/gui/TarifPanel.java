@@ -17,6 +17,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -36,7 +37,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	private TextBox script;
 
 	public TarifPanel() {
-		super("tarifs", new Image(images.icoTarif()));
+		super("tarifs", new Image(Images.menu.icoTarif()));
 	}
 
 	/*

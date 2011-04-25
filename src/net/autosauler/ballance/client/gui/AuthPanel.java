@@ -70,7 +70,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 	private Button logoutButton = null;
 
 	/** The l18n. */
-	private AuthMessages l = null;
+	private static final AuthMessages l = GWT.create(AuthMessages.class);
 
 	/** The message label. */
 	private Label messageLabel = null;
@@ -88,7 +88,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 	 *            the title
 	 */
 	public AuthPanel(String title) {
-		l = GWT.create(AuthMessages.class);
 
 		formname = title;
 		authPanel.setWidth("244px");

@@ -17,7 +17,7 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.MenuMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -46,9 +46,6 @@ public class LeftMenu extends Composite {
 	/** The l. */
 	private static final MenuMessages l = GWT.create(MenuMessages.class);
 
-	/** The images. */
-	private static final MenuImages images = GWT.create(MenuImages.class);
-
 	/**
 	 * Instantiates a new left menu.
 	 */
@@ -68,12 +65,12 @@ public class LeftMenu extends Composite {
 			VerticalPanel adminpanel = new VerticalPanel();
 
 			adminpanel.add(getMenuItem(l.itemDatabase(), "dbpane",
-					images.icoDatabase()));
+					Images.menu.icoDatabase()));
 			adminpanel.add(getMenuItem(l.itemUsers(), "editusers",
-					images.icoUser()));
+					Images.menu.icoUser()));
 
 			String adminHeader = getHeaderString(l.adminPanel(),
-					images.adminPanel());
+					Images.menu.adminPanel());
 
 			panel.add(adminpanel, adminHeader, true);
 
@@ -102,10 +99,10 @@ public class LeftMenu extends Composite {
 			VerticalPanel documentspanel = new VerticalPanel();
 
 			documentspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
-					images.icoInGoods()));
+					Images.menu.icoInGoods()));
 
 			String documentsHeader = getHeaderString(l.documentsPanel(),
-					images.documentsPanel());
+					Images.menu.documentsPanel());
 			panel.add(documentspanel, documentsHeader, true);
 		}
 	}
@@ -118,14 +115,14 @@ public class LeftMenu extends Composite {
 			VerticalPanel financesspanel = new VerticalPanel();
 
 			financesspanel.add(getMenuItem(l.itemIncPay(), "incpay",
-					images.icoIncPay()));
+					Images.menu.icoIncPay()));
 			financesspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
-					images.icoInGoods()));
+					Images.menu.icoInGoods()));
 			financesspanel.add(getMenuItem(l.itemTarif(), "tarifs",
-					images.icoTarif()));
+					Images.menu.icoTarif()));
 
 			String financesHeader = getHeaderString(l.financesPanel(),
-					images.financesPanel());
+					Images.menu.financesPanel());
 			panel.add(financesspanel, financesHeader, true);
 		}
 	}
@@ -138,10 +135,10 @@ public class LeftMenu extends Composite {
 			VerticalPanel allpanel = new VerticalPanel();
 
 			allpanel.add(getMenuItem(l.itemChangelog(), "changelog",
-					images.icoChangelog()));
+					Images.menu.icoChangelog()));
 
 			String forAllHeader = getHeaderString(l.forAllPanel(),
-					images.forAllPanel());
+					Images.menu.forAllPanel());
 			panel.add(allpanel, forAllHeader, true);
 		}
 	}
@@ -154,13 +151,13 @@ public class LeftMenu extends Composite {
 		VerticalPanel guestpanel = new VerticalPanel();
 
 		guestpanel.add(getMenuItem(l.itemHelloToAll(), "start",
-				images.icoInfo()));
+				Images.menu.icoInfo()));
 
 		guestpanel.add(getMenuItem(l.itemLicense(), "license",
-				images.icoCopyright()));
+				Images.menu.icoCopyright()));
 
 		String guestHeader = getHeaderString(l.guestPanel(),
-				images.guestPanel());
+				Images.menu.guestPanel());
 		panel.add(guestpanel, guestHeader, true);
 
 	}
@@ -173,16 +170,16 @@ public class LeftMenu extends Composite {
 			VerticalPanel managerpanel = new VerticalPanel();
 
 			managerpanel.add(getMenuItem(l.itemPaymethod(), "paymethod",
-					images.icoPaymethod()));
+					Images.menu.icoPaymethod()));
 
 			managerpanel.add(getMenuItem(l.itemPartners(), "partners",
-					images.icoPartners()));
+					Images.menu.icoPartners()));
 
 			managerpanel.add(getMenuItem(l.itemTarif(), "tarifs",
-					images.icoTarif()));
+					Images.menu.icoTarif()));
 
 			String managerHeader = getHeaderString(l.managerPanel(),
-					images.managerPanel());
+					Images.menu.managerPanel());
 			panel.add(managerpanel, managerHeader, true);
 		}
 	}

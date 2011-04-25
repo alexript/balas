@@ -16,7 +16,7 @@
 
 package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.client.gui.images.RolesImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.UsersMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -35,9 +35,6 @@ public class RolesWidget extends Composite {
 
 	/** The panel. */
 	private final HorizontalPanel panel;
-
-	/** The images. */
-	private static final RolesImages images = GWT.create(RolesImages.class);
 
 	/** The img guest. */
 	private Image imgGuest;
@@ -82,23 +79,23 @@ public class RolesWidget extends Composite {
 	 */
 	private void chkResources() {
 
-		imgGuest = new Image(images.isGuest());
+		imgGuest = new Image(Images.roles.isGuest());
 		imgGuest.setTitle(l.isguest());
 		imgGuest.setAltText(l.isguest());
 
-		imgAdmin = new Image(images.isAdmin());
+		imgAdmin = new Image(Images.roles.isAdmin());
 		imgAdmin.setTitle(l.isadmin());
 		imgAdmin.setAltText(l.isadmin());
 
-		imgDocuments = new Image(images.isDocuments());
+		imgDocuments = new Image(Images.roles.isDocuments());
 		imgDocuments.setTitle(l.isdocuments());
 		imgDocuments.setAltText(l.isdocuments());
 
-		imgFinances = new Image(images.isFinances());
+		imgFinances = new Image(Images.roles.isFinances());
 		imgFinances.setTitle(l.isfinances());
 		imgFinances.setAltText(l.isfinances());
 
-		imgManager = new Image(images.isManager());
+		imgManager = new Image(Images.roles.isManager());
 		imgManager.setTitle(l.ismanager());
 		imgManager.setAltText(l.ismanager());
 

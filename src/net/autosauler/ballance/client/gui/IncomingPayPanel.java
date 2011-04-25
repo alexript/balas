@@ -6,6 +6,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.IncomingPayMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -65,7 +66,7 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	 * 
 	 */
 	public IncomingPayPanel() {
-		super("inpay", new Image(images.icoIncPay()));
+		super("inpay", new Image(Images.menu.icoIncPay()));
 	}
 
 	/*

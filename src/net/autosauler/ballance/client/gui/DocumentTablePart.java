@@ -24,7 +24,7 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.TablePartImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.DocumentTableMessages;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -61,10 +61,6 @@ public abstract class DocumentTablePart extends Composite {
 
 	/** The dataset. */
 	private List<HashMap<String, Object>> dataset = null;
-
-	/** The Constant images. */
-	private static final TablePartImages images = GWT
-			.create(TablePartImages.class);
 
 	private static final DocumentTableMessages l = GWT
 			.create(DocumentTableMessages.class);
@@ -215,7 +211,7 @@ public abstract class DocumentTablePart extends Composite {
 		tools.setHeight("20px");
 		tools.setSpacing(3);
 
-		btnPlus = new Image(images.Plus());
+		btnPlus = new Image(Images.table.Plus());
 		btnPlus.setTitle(l.btnAddrow());
 		btnPlus.setAltText(l.btnAddrow());
 		btnPlus.addClickHandler(new ClickHandler() {
@@ -226,7 +222,7 @@ public abstract class DocumentTablePart extends Composite {
 			}
 		});
 
-		btnMinus = new Image(images.Minus());
+		btnMinus = new Image(Images.table.Minus());
 		btnMinus.setTitle(l.btnDelrow());
 		btnMinus.setAltText(l.btnDelrow());
 		btnMinus.addClickHandler(new ClickHandler() {

@@ -17,7 +17,7 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.DialogMessages;
 
 import com.google.gwt.core.client.GWT;
@@ -47,9 +47,6 @@ public class QuestionDialog extends DialogBox {
 
 	/** The mytag2. */
 	private final Object mytag2;
-
-	/** The images. */
-	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new question dialog.
@@ -115,7 +112,7 @@ public class QuestionDialog extends DialogBox {
 
 		HorizontalPanel qpanel = new HorizontalPanel();
 		qpanel.setSpacing(15);
-		qpanel.add(new Image(images.icoQuestion()));
+		qpanel.add(new Image(Images.menu.icoQuestion()));
 		qpanel.add(new Label(question));
 		vpanel.add(qpanel);
 

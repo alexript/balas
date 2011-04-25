@@ -25,10 +25,9 @@ import java.util.Set;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
 import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -66,9 +65,8 @@ public class CurrencyTopPanel extends Composite implements
 	 * Instantiates a new currency top panel.
 	 */
 	public CurrencyTopPanel() {
-		MenuImages images = GWT.create(MenuImages.class);
 
-		reload = new Image(images.reload());
+		reload = new Image(Images.menu.reload());
 		reload.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -84,7 +82,7 @@ public class CurrencyTopPanel extends Composite implements
 
 		currvalues.setSpacing(3);
 		currvalues.setVisible(false);
-		progress = new Image(images.progress());
+		progress = new Image(Images.menu.progress());
 
 		currencypanel.add(currvalues);
 		currencypanel.add(progress);

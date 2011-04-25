@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.MenuMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -155,9 +155,6 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	/** The l. */
 	private static final MenuMessages l = GWT.create(MenuMessages.class);
 
-	/** The images. */
-	private static final MenuImages images = GWT.create(MenuImages.class);
-
 	/**
 	 * Instantiates a new main panel.
 	 */
@@ -194,35 +191,35 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 
 		if (name.equals("start")) {
 			w = constructTabPaneContent(HelloPanel.get(), l.itemHelloToAll(),
-					images.icoInfo(), name);
+					Images.menu.icoInfo(), name);
 		} else if (name.equals("dbpane") && role.isAdmin()) {
 			w = constructTabPaneContent(DatabasePanel.get(), l.itemDatabase(),
-					images.icoDatabase(), name);
+					Images.menu.icoDatabase(), name);
 
 		} else if (name.equals("editusers") && role.isAdmin()) {
 			w = constructTabPaneContent(UsersPanel.get(), l.itemUsers(),
-					images.icoUser(), name);
+					Images.menu.icoUser(), name);
 		} else if (name.equals("license")) {
 			w = constructTabPaneContent(LicensePanel.get(), l.itemLicense(),
-					images.icoCopyright(), name);
+					Images.menu.icoCopyright(), name);
 		} else if (name.equals("partners")) {
 			w = constructTabPaneContent(new PartnersPanel().getListForm(),
-					l.itemPartners(), images.icoPartners(), name);
+					l.itemPartners(), Images.menu.icoPartners(), name);
 		} else if (name.equals("tarifs")) {
 			w = constructTabPaneContent(new TarifPanel().getListForm(),
-					l.itemTarif(), images.icoTarif(), name);
+					l.itemTarif(), Images.menu.icoTarif(), name);
 		} else if (name.equals("paymethod")) {
 			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
-					l.itemPaymethod(), images.icoPaymethod(), name);
+					l.itemPaymethod(), Images.menu.icoPaymethod(), name);
 		} else if (name.equals("incpay")) {
 			w = constructTabPaneContent(new IncomingPayPanel().getListForm(),
-					l.itemIncPay(), images.icoIncPay(), name);
+					l.itemIncPay(), Images.menu.icoIncPay(), name);
 		} else if (name.equals("ingoods")) {
 			w = constructTabPaneContent(new IncomingGoodsPanel().getListForm(),
-					l.itemInGoods(), images.icoInGoods(), name);
+					l.itemInGoods(), Images.menu.icoInGoods(), name);
 		} else if (name.equals("changelog")) {
 			w = constructTabPaneContent(ChangeLogPanel.get(),
-					l.itemChangelog(), images.icoChangelog(), name);
+					l.itemChangelog(), Images.menu.icoChangelog(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}
@@ -280,7 +277,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setCellHorizontalAlignment(menu,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
-		Image reloadImage = new Image(images.icoReload());
+		Image reloadImage = new Image(Images.menu.icoReload());
 		reloadImage.setTitle(l.icoReloadPane());
 		reloadImage.setAltText(l.icoReloadPane());
 		reloadImage.addClickHandler(new ClickHandler() {
@@ -296,7 +293,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.add(reloadImage);
 		panemenu.setCellWidth(reloadImage, "20px");
 
-		Image closeImage = new Image(images.icoClose());
+		Image closeImage = new Image(Images.menu.icoClose());
 		closeImage.setTitle(l.icoClosePane());
 		closeImage.setAltText(l.icoClosePane());
 		closeImage.addClickHandler(new ClickHandler() {

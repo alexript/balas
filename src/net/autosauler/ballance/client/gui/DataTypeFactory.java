@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -35,7 +35,6 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ImageResource;
@@ -54,9 +53,6 @@ public class DataTypeFactory {
 	// TODO: create simple widgets for view
 	// TODO: add "onchange" handlers
 	// TODO: rewrite SelectionCell for catalogrecord
-
-	/** The images. */
-	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			"yyyy/MM/dd");
@@ -94,9 +90,9 @@ public class DataTypeFactory {
 					Boolean isactive = (Boolean) DataTypes.fromMapping(type,
 							map.get(field));
 					if (isactive) {
-						return images.Ok();
+						return Images.menu.Ok();
 					}
-					return images.Cancel();
+					return Images.menu.Cancel();
 				}
 			};
 

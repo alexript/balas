@@ -17,6 +17,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.Image;
@@ -35,7 +36,7 @@ public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 	 * Instantiates a new pay method panel.
 	 */
 	public PayMethodPanel() {
-		super("paymethod", new Image(images.icoPaymethod()));
+		super("paymethod", new Image(Images.menu.icoPaymethod()));
 	}
 
 	/*

@@ -16,7 +16,7 @@
 
 package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.DialogMessages;
 
 import com.google.gwt.core.client.GWT;
@@ -39,10 +39,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AlertDialog extends DialogBox {
 
 	/** The l. */
-	private DialogMessages l;
-
-	/** The images. */
-	private MenuImages images;
+	private static final DialogMessages l = GWT.create(DialogMessages.class);
 
 	/**
 	 * Instantiates a new alert dialog.
@@ -85,8 +82,7 @@ public class AlertDialog extends DialogBox {
 	 *            the additionalinfo
 	 */
 	private void initDialog(String message, String additionalinfo) {
-		l = GWT.create(DialogMessages.class);
-		images = (MenuImages) GWT.create(MenuImages.class);
+
 		setText(l.msgAlertTitle());
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
@@ -107,7 +103,7 @@ public class AlertDialog extends DialogBox {
 
 		HorizontalPanel qpanel = new HorizontalPanel();
 		qpanel.setSpacing(15);
-		qpanel.add(new Image(images.icoExclamation()));
+		qpanel.add(new Image(Images.menu.icoExclamation()));
 		qpanel.add(new Label(message));
 		vpanel.add(qpanel);
 

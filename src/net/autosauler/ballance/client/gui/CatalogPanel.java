@@ -23,7 +23,7 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.CatalogMessages;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
@@ -87,10 +87,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The linecounter. */
 	private Long linecounter = 0L;
 
-	/** The images. */
-	protected final static MenuImages images = GWT.create(MenuImages.class);
 	/** The progress. */
-	private final static Image progress = new Image(images.progress());
+	private final static Image progress = new Image(Images.menu.progress());
 
 	/** The viewdata. */
 	private HashMap<Long, String> viewdata = null;

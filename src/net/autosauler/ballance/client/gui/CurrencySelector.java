@@ -20,9 +20,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -41,9 +40,6 @@ public class CurrencySelector extends Composite {
 	/** The box. */
 	private final ListBox box;
 
-	/** The images. */
-	private final static MenuImages images = GWT.create(MenuImages.class);
-
 	/**
 	 * Instantiates a new currency selector.
 	 * 
@@ -57,7 +53,7 @@ public class CurrencySelector extends Composite {
 		panel.setSpacing(3);
 		panel.add(box);
 
-		Image reload = new Image(images.reload());
+		Image reload = new Image(Images.menu.reload());
 
 		reload.addClickHandler(new ClickHandler() {
 

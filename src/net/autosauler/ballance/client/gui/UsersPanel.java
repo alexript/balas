@@ -22,7 +22,7 @@ import java.util.Date;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.UsersDatabase;
-import net.autosauler.ballance.client.gui.images.MenuImages;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.ToolsMessages;
 import net.autosauler.ballance.client.gui.messages.UsersMessages;
 import net.autosauler.ballance.shared.User;
@@ -71,7 +71,6 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 	/** The l. */
 	private static final UsersMessages l = GWT.create(UsersMessages.class);
-	private static final MenuImages images = GWT.create(MenuImages.class);
 	private static final ToolsMessages tools = GWT.create(ToolsMessages.class);
 
 	/** The cell table. */
@@ -249,9 +248,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 			@Override
 			public ImageResource getValue(User user) {
 				if (user.isActive()) {
-					return images.Ok();
+					return Images.menu.Ok();
 				}
-				return images.Cancel();
+				return Images.menu.Cancel();
 			}
 		};
 		activeColumn.setSortable(true);

@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.HashMap;
 
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.PartnersMessages;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -47,7 +48,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	private CatalogSelector tarif;
 
 	public PartnersPanel() {
-		super("partners", new Image(images.icoPartners()));
+		super("partners", new Image(Images.menu.icoPartners()));
 	}
 
 	/*
