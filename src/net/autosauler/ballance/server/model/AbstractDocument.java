@@ -33,6 +33,7 @@ import com.mongodb.DBCollection;
  */
 public abstract class AbstractDocument extends AbstractStructuredData implements
 		IScriptableObject {
+	// TODO: parent document link
 
 	/** The Constant fieldname_active. */
 	private static final String fieldname_active = "active";
@@ -156,7 +157,33 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(def onactivate ())");
+		sb.append("(define onactivate ())\n");
+		sb.append("(define onunactivate ())\n");
+		sb.append("(define oncreate ())\n");
+		sb.append("(define ontrash ())\n");
+		sb.append("(define onrestore ())\n");
+
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = "onchange." + i.next();
+			sb.append("(define " + name + " ())\n");
+		}
+
+		names = tables.keySet();
+		i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			String prefix = "onchange." + name + ".";
+			AbstractDocumentTablePart part = tables.get(name);
+			Set<String> fields = part.struct.getNames();
+			Iterator<String> j = fields.iterator();
+			while (j.hasNext()) {
+				String field = j.next();
+				sb.append("(define " + prefix + field + " ())\n");
+			}
+
+		}
 
 		sb.append(onGenerateDefaultScript());
 

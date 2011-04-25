@@ -19,9 +19,8 @@ package net.autosauler.ballance.server.model;
 import java.util.List;
 
 import net.autosauler.ballance.server.mongodb.Database;
-import sixx.Sixx;
+import net.autosauler.ballance.server.schemevm.VM;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -62,13 +61,16 @@ public class Scripts {
 	private String text;
 
 	/** The vm. */
-	private static Sixx vm = null;
+	private static final VM vm = new VM();
 
+	/** The caller. */
 	private final IScriptableObject caller;
 
 	/**
 	 * Instantiates a new scripts.
 	 * 
+	 * @param obj
+	 *            the obj
 	 * @param domain
 	 *            the domain
 	 * @param name
@@ -79,42 +81,46 @@ public class Scripts {
 		this.domain = domain;
 		caller = obj;
 
-		if (vm == null) {
-			try {
-				vm = new Sixx();
-			} catch (Exception e) {
-				Log.error(e.getMessage());
-				vm = null;
-			}
+		if (vm != null) {
+			initStruct();
+			loadText();
+
+			vm.eval(text);
+
 		}
+	}
+
+	/**
+	 * Instantiates a new scripts.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @param name
+	 *            the name
+	 */
+	public Scripts(String domain, String name) {
+		this.name = name;
+		this.domain = domain;
+		caller = null;
 
 		if (vm != null) {
 			initStruct();
 			loadText();
-			try {
-				vm.eval(text, vm.r6rs);
-			} catch (Exception e) {
-				Log.error(e.getMessage());
-			}
+
+			vm.eval(text);
+
 		}
 	}
 
 	/**
 	 * Eval.
 	 * 
-	 * @param str
-	 *            the str
+	 * @param cmd
+	 *            the cmd
 	 * @return the object
 	 */
-	public Object eval(String str) {
-		Object obj = null;
-		try {
-			obj = vm.eval(str, vm.r6rs);
-		} catch (Exception e) {
-			Log.error(e.getMessage());
-			obj = null;
-		}
-		return obj;
+	public Object eval(String cmd) {
+		return vm.eval(cmd);
 	}
 
 	/**
@@ -177,7 +183,17 @@ public class Scripts {
 
 		}
 		if ((txt == null) || txt.isEmpty()) {
-			txt = caller.generateDefaultScript();
+			if (caller != null) {
+				txt = caller.generateDefaultScript();
+				txt = "(library " + name
+						+ "\n  (export)\n  (import r6rs sixx)\n\n" + txt
+						+ "\n)\n";
+			} else {
+				txt = "(library " + name
+						+ "\n  (export)\n  (import r6rs sixx)\n\n)\n";
+			}
+			setText(txt, true);
+			return;
 		}
 		setText(txt, false);
 	}
