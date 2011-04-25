@@ -19,8 +19,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.autosauler.ballance.client.CurrencyService;
-import net.autosauler.ballance.client.CurrencyServiceAsync;
+import net.autosauler.ballance.client.Services;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,20 +37,11 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class CurrencySelector extends Composite {
 
-	/** The service. */
-	private static CurrencyServiceAsync service = GWT
-			.create(CurrencyService.class);
-
 	/** The box. */
 	private final ListBox box;
 
 	/** The images. */
-	private static MenuImages images;
-
-	static {
-		images = GWT.create(MenuImages.class);
-
-	}
+	private final static MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new currency selector.
@@ -115,7 +105,7 @@ public class CurrencySelector extends Composite {
 		box.clear();
 
 		MainPanel.setCommInfo(true);
-		service.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
+		Services.currency.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

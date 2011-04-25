@@ -38,7 +38,8 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 
 	private TextBox email;
 	private CatalogSelector paymethod;
-	private static PartnersMessages l = GWT.create(PartnersMessages.class);
+	private static final PartnersMessages l = GWT
+			.create(PartnersMessages.class);
 	private static PayMethodPanel methods = new PayMethodPanel();
 	private CurrencySelector currency;
 	private static TarifPanel tarifs = new TarifPanel();

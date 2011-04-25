@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.DatabaseService;
-import net.autosauler.ballance.client.DatabaseServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -73,10 +72,11 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	private VerticalPanel root = null;
 
 	/** The l. */
-	private final DatabaseMessages l;
+	private static final DatabaseMessages l = GWT
+			.create(DatabaseMessages.class);
 
 	/** The images. */
-	private final MenuImages images;
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/** The btn drop database. */
 	private Button btnDropDatabase;
@@ -89,10 +89,6 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 	/** The settingspanel. */
 	private final DecoratorPanel settingspanel;
-
-	/** The service. */
-	private final DatabaseServiceAsync service = GWT
-			.create(DatabaseService.class);
 
 	/** The setings list. */
 	private CellList<String> setingsList;
@@ -110,8 +106,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * Instantiates a new database panel.
 	 */
 	private DatabasePanel() {
-		l = GWT.create(DatabaseMessages.class);
-		images = GWT.create(MenuImages.class);
+
 		root = new VerticalPanel();
 		root.setSpacing(5);
 		root.add(createDropDatabasePanel());
@@ -121,119 +116,129 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		initWidget(root);
 
 		MainPanel.setCommInfo(true);
-		service.getSettings(new AsyncCallback<HashMap<String, String>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				settingspanel.clear();
-				Label err = new Label(caught.getMessage());
-				err.setVisible(false);
-				settingspanel.add(err);
-				effectAppear(err.getElement());
-				Log.error(caught.getMessage());
-			}
-
-			@Override
-			public void onSuccess(HashMap<String, String> result) {
-				MainPanel.setCommInfo(false);
-				settings = result;
-				settingspanel.clear();
-
-				final Button btn = new Button();
-				btn.setText(l.btnSoreChanges());
-				btn.setEnabled(false);
-
-				settingvalue = new TextBox();
-				settingvalue.setWidth("200px");
-				settingvalue.addChangeHandler(new ChangeHandler() {
+		Services.database
+				.getSettings(new AsyncCallback<HashMap<String, String>>() {
 
 					@Override
-					public void onChange(ChangeEvent event) {
-						btn.setEnabled(true);
-
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						settingspanel.clear();
+						Label err = new Label(caught.getMessage());
+						err.setVisible(false);
+						settingspanel.add(err);
+						effectAppear(err.getElement());
+						Log.error(caught.getMessage());
 					}
-				});
 
-				// create celllist ============================================
-				ProvidesKey<String> provider = new ProvidesKey<String>() {
 					@Override
-					public Object getKey(String item) {
-						return item == null ? null : item;
-					}
-				};
+					public void onSuccess(HashMap<String, String> result) {
+						MainPanel.setCommInfo(false);
+						settings = result;
+						settingspanel.clear();
 
-				ListDataProvider<String> dataProvider = new ListDataProvider<String>();
-				dataProvider.setList(new ArrayList<String>(settings.keySet()));
+						final Button btn = new Button();
+						btn.setText(l.btnSoreChanges());
+						btn.setEnabled(false);
 
-				setingsList = new CellList<String>(new TextCell() {
-				}, provider);
-				setingsList.setPageSize(30);
-				setingsList
-						.setKeyboardPagingPolicy(KeyboardPagingPolicy.INCREASE_RANGE);
-				setingsList
-						.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
+						settingvalue = new TextBox();
+						settingvalue.setWidth("200px");
+						settingvalue.addChangeHandler(new ChangeHandler() {
 
-				// Add a selection model so we can select cells.
-				final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>(
-						provider);
-				setingsList.setSelectionModel(selectionModel);
-				selectionModel
-						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 							@Override
-							public void onSelectionChange(
-									SelectionChangeEvent event) {
-								settingvalue.setText(settings
-										.get(selectionModel.getSelectedObject()));
+							public void onChange(ChangeEvent event) {
+								btn.setEnabled(true);
+
 							}
 						});
 
-				dataProvider.addDataDisplay(setingsList);
-				// celllist created
-				// =======================================================
+						// create celllist
+						// ============================================
+						ProvidesKey<String> provider = new ProvidesKey<String>() {
+							@Override
+							public Object getKey(String item) {
+								return item == null ? null : item;
+							}
+						};
 
-				btn.addClickHandler(new ClickHandler() {
+						ListDataProvider<String> dataProvider = new ListDataProvider<String>();
+						dataProvider.setList(new ArrayList<String>(settings
+								.keySet()));
 
-					@Override
-					public void onClick(ClickEvent event) {
-						String name = selectionModel.getSelectedObject();
-						String value = settingvalue.getText().trim();
-						if (!value.isEmpty()) {
-							HashMap<String, String> values = new HashMap<String, String>();
-							values.put(name, value);
-							MainPanel.setCommInfo(true);
-							service.setSettings(values,
-									new AsyncCallback<Void>() {
+						setingsList = new CellList<String>(new TextCell() {
+						}, provider);
+						setingsList.setPageSize(30);
+						setingsList
+								.setKeyboardPagingPolicy(KeyboardPagingPolicy.INCREASE_RANGE);
+						setingsList
+								.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
-										@Override
-										public void onFailure(Throwable caught) {
-											MainPanel.setCommInfo(false);
-											new AlertDialog(caught).show();
-										}
+						// Add a selection model so we can select cells.
+						final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>(
+								provider);
+						setingsList.setSelectionModel(selectionModel);
+						selectionModel
+								.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+									@Override
+									public void onSelectionChange(
+											SelectionChangeEvent event) {
+										settingvalue.setText(settings
+												.get(selectionModel
+														.getSelectedObject()));
+									}
+								});
 
-										@Override
-										public void onSuccess(Void result) {
-											MainPanel.setCommInfo(false);
-											btn.setEnabled(false);
-										}
-									});
-						}
+						dataProvider.addDataDisplay(setingsList);
+						// celllist created
+						// =======================================================
 
+						btn.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								String name = selectionModel
+										.getSelectedObject();
+								String value = settingvalue.getText().trim();
+								if (!value.isEmpty()) {
+									HashMap<String, String> values = new HashMap<String, String>();
+									values.put(name, value);
+									MainPanel.setCommInfo(true);
+									Services.database.setSettings(values,
+											new AsyncCallback<Void>() {
+
+												@Override
+												public void onFailure(
+														Throwable caught) {
+													MainPanel
+															.setCommInfo(false);
+													new AlertDialog(caught)
+															.show();
+												}
+
+												@Override
+												public void onSuccess(
+														Void result) {
+													MainPanel
+															.setCommInfo(false);
+													btn.setEnabled(false);
+												}
+											});
+								}
+
+							}
+						});
+
+						HorizontalPanel panel = new HorizontalPanel();
+						panel.setSpacing(4);
+						panel.setWidth("500px");
+						panel.setVisible(false);
+						panel.add(setingsList);
+						panel.setCellWidth(setingsList, "200px");
+						panel.add(settingvalue);
+						panel.add(btn);
+						settingspanel.add(panel);
+						effectAppear(panel.getElement());
 					}
 				});
-
-				HorizontalPanel panel = new HorizontalPanel();
-				panel.setSpacing(4);
-				panel.setWidth("500px");
-				panel.setVisible(false);
-				panel.add(setingsList);
-				panel.setCellWidth(setingsList, "200px");
-				panel.add(settingvalue);
-				panel.add(btn);
-				settingspanel.add(panel);
-				effectAppear(panel.getElement());
-			}
-		});
 	}
 
 	/**
@@ -328,7 +333,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if (role.isAdmin()) {
 				MainPanel.setCommInfo(true);
-				service.dumpDatabase(dumpfile.getText().trim(),
+				Services.database.dumpDatabase(dumpfile.getText().trim(),
 						new AsyncCallback<Void>() {
 
 							@Override
@@ -363,7 +368,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 			if (role.isAdmin()) {
 				MainPanel.setCommInfo(true);
 
-				service.dropDatabase(new AsyncCallback<Boolean>() {
+				Services.database.dropDatabase(new AsyncCallback<Boolean>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

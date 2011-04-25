@@ -22,13 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.autosauler.ballance.client.DocumentService;
-import net.autosauler.ballance.client.DocumentServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.MainPanel;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
@@ -47,10 +45,6 @@ public class DocumentsDataProvider extends
 
 	/** The numbers. */
 	private Long[] numbers = null;
-
-	/** The service. */
-	private static DocumentServiceAsync service = GWT
-			.create(DocumentService.class);
 
 	private HasData<HashMap<String, Object>> d = null;
 
@@ -101,7 +95,7 @@ public class DocumentsDataProvider extends
 		}
 		// Window.alert(receivenumbers.toString());
 		MainPanel.setCommInfo(true);
-		service.get(docname, receivenumbers,
+		Services.documents.get(docname, receivenumbers,
 				new AsyncCallback<Set<HashMap<String, Object>>>() {
 
 					@Override
@@ -131,7 +125,7 @@ public class DocumentsDataProvider extends
 	 */
 	public void reload() {
 		MainPanel.setCommInfo(true);
-		service.getAll(docname, new AsyncCallback<Set<Long>>() {
+		Services.documents.getAll(docname, new AsyncCallback<Set<Long>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

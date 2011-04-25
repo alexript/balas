@@ -42,17 +42,15 @@ public class LeftMenu extends Composite {
 	private UserRole role = null;
 
 	/** The l. */
-	private final MenuMessages l;
+	private static final MenuMessages l = GWT.create(MenuMessages.class);
 
 	/** The images. */
-	private final MenuImages images;
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new left menu.
 	 */
 	public LeftMenu() {
-		l = GWT.create(MenuMessages.class);
-		images = (MenuImages) GWT.create(MenuImages.class);
 		panel = new DecoratedStackPanel();
 		panel.setWidth("244px");
 

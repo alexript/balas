@@ -38,7 +38,7 @@ public class QuestionDialog extends DialogBox {
 	private final IDialogYesReceiver yesreceiver;
 
 	/** The l. */
-	private final DialogMessages l;
+	private static final DialogMessages l = GWT.create(DialogMessages.class);
 
 	/** The mytag. */
 	private final String mytag;
@@ -47,7 +47,7 @@ public class QuestionDialog extends DialogBox {
 	private final Object mytag2;
 
 	/** The images. */
-	private final MenuImages images;
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new question dialog.
@@ -81,8 +81,6 @@ public class QuestionDialog extends DialogBox {
 		yesreceiver = receiver;
 		mytag = tag;
 		mytag2 = tag2;
-		l = GWT.create(DialogMessages.class);
-		images = (MenuImages) GWT.create(MenuImages.class);
 
 		setText(l.msgTitle());
 		setAnimationEnabled(true);

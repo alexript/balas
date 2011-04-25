@@ -20,8 +20,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.UsersService;
-import net.autosauler.ballance.client.UsersServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.UsersDatabase;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
@@ -68,9 +67,9 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	private VerticalPanel root = null;
 
 	/** The l. */
-	private final UsersMessages l;
-	private final MenuImages images;
-	private final ToolsMessages tools;
+	private static final UsersMessages l = GWT.create(UsersMessages.class);
+	private static final MenuImages images = GWT.create(MenuImages.class);
+	private static final ToolsMessages tools = GWT.create(ToolsMessages.class);
 
 	/** The cell table. */
 	@UiField(provided = true)
@@ -101,9 +100,6 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 * Instantiates a new users panel.
 	 */
 	private UsersPanel() {
-		l = GWT.create(UsersMessages.class);
-		images = GWT.create(MenuImages.class);
-		tools = GWT.create(ToolsMessages.class);
 		trashstate = false;
 		root = new VerticalPanel();
 		root.setWidth("100%");
@@ -291,8 +287,8 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 						.getSelectionModel();
 				User user = selectionModel.getSelectedObject();
 				if (user != null) {
-					UsersServiceAsync service = GWT.create(UsersService.class);
-					service.trashUser(user.getId(),
+
+					Services.users.trashUser(user.getId(),
 							new AsyncCallback<Boolean>() {
 
 								@Override

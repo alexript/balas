@@ -29,16 +29,14 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class CommInfoPanel extends PopupPanel {
 
 	/** The l. */
-	private CommMessages l = null;
-	private MenuImages images = null;
+	private static final CommMessages l = GWT.create(CommMessages.class);
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new comm info panel.
 	 */
 	public CommInfoPanel() {
 		super(false);
-		l = GWT.create(CommMessages.class);
-		images = GWT.create(MenuImages.class);
 		Image i = new Image(images.icoRefresh());
 		Label msg = new Label(l.commInProgress());
 

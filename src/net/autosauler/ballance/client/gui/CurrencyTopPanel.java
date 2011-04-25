@@ -22,8 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.autosauler.ballance.client.DatabaseService;
-import net.autosauler.ballance.client.DatabaseServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.CurrencyValuesStorage;
 import net.autosauler.ballance.client.databases.ICurrencyValuesReceiver;
 
@@ -57,9 +56,6 @@ public class CurrencyTopPanel extends Composite implements
 
 	/** The reload button icon. */
 	private final Image reload;
-
-	private final DatabaseServiceAsync service = GWT
-			.create(DatabaseService.class);
 
 	private static String showcurrency = "EUR,USD";
 
@@ -199,40 +195,41 @@ public class CurrencyTopPanel extends Composite implements
 		}
 		CurrencyValuesStorage.get(this, set);
 		MainPanel.setCommInfo(true);
-		service.getSettings(new AsyncCallback<HashMap<String, String>>() {
+		Services.database
+				.getSettings(new AsyncCallback<HashMap<String, String>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				Log.trace(caught.getMessage());
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						Log.trace(caught.getMessage());
+					}
 
-			@Override
-			public void onSuccess(HashMap<String, String> result) {
+					@Override
+					public void onSuccess(HashMap<String, String> result) {
 
-				if (result.containsKey(settingname)) {
-					MainPanel.setCommInfo(false);
-					showcurrency = result.get(settingname);
-				} else {
-					HashMap<String, String> additionalvalues = new HashMap<String, String>();
-					additionalvalues.put(settingname, showcurrency);
-					service.setSettings(additionalvalues,
-							new AsyncCallback<Void>() {
+						if (result.containsKey(settingname)) {
+							MainPanel.setCommInfo(false);
+							showcurrency = result.get(settingname);
+						} else {
+							HashMap<String, String> additionalvalues = new HashMap<String, String>();
+							additionalvalues.put(settingname, showcurrency);
+							Services.database.setSettings(additionalvalues,
+									new AsyncCallback<Void>() {
 
-								@Override
-								public void onFailure(Throwable caught) {
-									MainPanel.setCommInfo(false);
-									Log.error(caught.getMessage());
-								}
+										@Override
+										public void onFailure(Throwable caught) {
+											MainPanel.setCommInfo(false);
+											Log.error(caught.getMessage());
+										}
 
-								@Override
-								public void onSuccess(Void result) {
-									MainPanel.setCommInfo(false);
+										@Override
+										public void onSuccess(Void result) {
+											MainPanel.setCommInfo(false);
 
-								}
-							});
-				}
-			}
-		});
+										}
+									});
+						}
+					}
+				});
 	}
 }

@@ -23,13 +23,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.autosauler.ballance.client.CurrencyService;
-import net.autosauler.ballance.client.CurrencyServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.MainPanel;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -45,10 +43,6 @@ public class CurrencyValuesStorage {
 
 	/** The Constant KEYDATEFORMATTER. */
 	private static final String KEYDATEFORMATTER = "yyyyMMdd";
-
-	/** The service. */
-	private static CurrencyServiceAsync service = GWT
-			.create(CurrencyService.class);
 
 	/**
 	 * Clean cache.
@@ -105,7 +99,7 @@ public class CurrencyValuesStorage {
 
 		if (!notfoundmnemos.isEmpty()) { // if not found some mnemos
 			MainPanel.setCommInfo(true);
-			service.get(notfoundmnemos, date,
+			Services.currency.get(notfoundmnemos, date,
 					new AsyncCallback<HashMap<String, Double>>() { // get values
 						// from
 						// server
@@ -200,7 +194,7 @@ public class CurrencyValuesStorage {
 
 		if (!cache.containsKey(key)) {
 			MainPanel.setCommInfo(true);
-			service.get(mnemo, date, new AsyncCallback<Double>() {
+			Services.currency.get(mnemo, date, new AsyncCallback<Double>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

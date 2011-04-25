@@ -23,7 +23,6 @@ import net.autosauler.ballance.client.gui.LeftPanel;
 import net.autosauler.ballance.client.gui.MainPanel;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Cookies;
@@ -45,10 +44,6 @@ public class Ballance_autosauler_net implements EntryPoint {
 
 	/** The main panel. */
 	public static MainPanel mainpanel = null;
-
-	/** The auth service. */
-	public static AuthServiceAsync authService = (AuthServiceAsync) GWT
-			.create(AuthService.class);
 
 	/** The Constant COOKIE_TIME. */
 	public final static long COOKIE_TIME = 1000 * 60 * 60;
@@ -136,7 +131,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 			}// end onSucess
 		};// end AsyncCallback<String> asyncCallback = new
 			// AsyncCallback<String>()
-		authService.session(sessionId, asyncCallback);
+		Services.auth.session(sessionId, asyncCallback);
 
 	}
 }

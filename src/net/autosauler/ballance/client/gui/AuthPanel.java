@@ -19,6 +19,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.SessionId;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -308,22 +309,21 @@ public class AuthPanel extends Composite implements ClickHandler,
 	public void onDialogYesButtonClick(String tag, Object tag2) {
 		if (tag.equals("logout")) {
 			MainPanel.setCommInfo(true);
-			Ballance_autosauler_net.authService
-					.logoff(new AsyncCallback<Void>() {
+			Services.auth.logoff(new AsyncCallback<Void>() {
 
-						@Override
-						public void onFailure(Throwable caught) {
-							MainPanel.setCommInfo(false);
-							new AlertDialog(caught).show();
+				@Override
+				public void onFailure(Throwable caught) {
+					MainPanel.setCommInfo(false);
+					new AlertDialog(caught).show();
 
-						}
+				}
 
-						@Override
-						public void onSuccess(Void result) {
-							Ballance_autosauler_net.logoutSequence();
-							MainPanel.setCommInfo(false);
-						}
-					});
+				@Override
+				public void onSuccess(Void result) {
+					Ballance_autosauler_net.logoutSequence();
+					MainPanel.setCommInfo(false);
+				}
+			});
 
 		}
 
@@ -375,44 +375,40 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		messageLabel.setText("");
 		MainPanel.setCommInfo(true);
-		Ballance_autosauler_net.authService.chkAuth(login, password,
-				new AsyncCallback<SessionId>() {
+		Services.auth.chkAuth(login, password, new AsyncCallback<SessionId>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						MainPanel.setCommInfo(false);
-						messageLabel.setText(l.commError());
-						new AlertDialog(caught).show();
-					}
+			@Override
+			public void onFailure(Throwable caught) {
+				MainPanel.setCommInfo(false);
+				messageLabel.setText(l.commError());
+				new AlertDialog(caught).show();
+			}
 
-					@Override
-					public void onSuccess(SessionId result) {
-						if (result != null) {
-							Ballance_autosauler_net.setLoggedInState(true);
+			@Override
+			public void onSuccess(SessionId result) {
+				if (result != null) {
+					Ballance_autosauler_net.setLoggedInState(true);
 
-							Cookies.setCookie(
-									"session",
-									result.getSessionId(),
-									new Date(
-											System.currentTimeMillis()
-													+ Ballance_autosauler_net.COOKIE_TIME));
-							Ballance_autosauler_net.sessionId
-									.setSessionId(result.getSessionId());
-							Ballance_autosauler_net.sessionId
-									.setUsername(result.getUsername());
-							Ballance_autosauler_net.sessionId
-									.setUserrole(result.getUserrole());
-							loginAction();
+					Cookies.setCookie("session", result.getSessionId(),
+							new Date(System.currentTimeMillis()
+									+ Ballance_autosauler_net.COOKIE_TIME));
+					Ballance_autosauler_net.sessionId.setSessionId(result
+							.getSessionId());
+					Ballance_autosauler_net.sessionId.setUsername(result
+							.getUsername());
+					Ballance_autosauler_net.sessionId.setUserrole(result
+							.getUserrole());
+					loginAction();
 
-						} else {
-							Ballance_autosauler_net.setLoggedInState(false);
-							logoffAction();
-							messageLabel.setText(l.badAuth());
-						}// end else
+				} else {
+					Ballance_autosauler_net.setLoggedInState(false);
+					logoffAction();
+					messageLabel.setText(l.badAuth());
+				}// end else
 
-						MainPanel.setCommInfo(false);
-					}
-				});
+				MainPanel.setCommInfo(false);
+			}
+		});
 
 	}
 

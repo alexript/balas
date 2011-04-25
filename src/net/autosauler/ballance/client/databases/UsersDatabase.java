@@ -16,15 +16,13 @@
 
 package net.autosauler.ballance.client.databases;
 
-import net.autosauler.ballance.client.UsersService;
-import net.autosauler.ballance.client.UsersServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.MainPanel;
 import net.autosauler.ballance.client.gui.UsersPanel;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserList;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
@@ -94,9 +92,9 @@ public class UsersDatabase {
 	 */
 	public void getUsers(boolean fromtrash) {
 		MainPanel.setCommInfo(true);
-		UsersServiceAsync service = GWT.create(UsersService.class);
+
 		if (fromtrash) {
-			service.getTrashedUsers(new AsyncCallback<UserList>() {
+			Services.users.getTrashedUsers(new AsyncCallback<UserList>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -118,7 +116,7 @@ public class UsersDatabase {
 				}
 			});
 		} else {
-			service.getUsers(new AsyncCallback<UserList>() {
+			Services.users.getUsers(new AsyncCallback<UserList>() {
 
 				@Override
 				public void onFailure(Throwable caught) {

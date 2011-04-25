@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.DocumentService;
-import net.autosauler.ballance.client.DocumentServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -60,10 +59,6 @@ public abstract class DocumentTablePart extends Composite {
 
 	/** The dataset. */
 	private List<HashMap<String, Object>> dataset = null;
-
-	/** The service. */
-	private static DocumentServiceAsync service = GWT
-			.create(DocumentService.class);
 
 	/** The Constant images. */
 	private static final TablePartImages images = GWT
@@ -347,7 +342,7 @@ public abstract class DocumentTablePart extends Composite {
 	 */
 	public void loadData(String documentname, Long number, String tablename) {
 		MainPanel.setCommInfo(true);
-		service.getTable(documentname, number, tablename,
+		Services.documents.getTable(documentname, number, tablename,
 				new AsyncCallback<Set<HashMap<String, Object>>>() {
 
 					@Override

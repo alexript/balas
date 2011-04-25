@@ -50,7 +50,7 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	private TextBox comments;
 
 	/** The l. */
-	private static IncomingPayMessages l = GWT
+	private static final IncomingPayMessages l = GWT
 			.create(IncomingPayMessages.class);
 
 	/** The pp. */

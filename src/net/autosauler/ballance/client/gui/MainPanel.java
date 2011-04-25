@@ -151,17 +151,15 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	private static CommInfoPanel comminfo = null;
 
 	/** The l. */
-	private final MenuMessages l;
+	private static final MenuMessages l = GWT.create(MenuMessages.class);
 
 	/** The images. */
-	private final MenuImages images;
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new main panel.
 	 */
 	public MainPanel() {
-		l = GWT.create(MenuMessages.class);
-		images = (MenuImages) GWT.create(MenuImages.class);
 		panel.addWest(leftPanel, 250);
 		TopPanel toppanel = new TopPanel();
 		panel.addNorth(toppanel, 32);

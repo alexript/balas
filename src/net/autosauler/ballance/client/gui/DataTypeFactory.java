@@ -23,10 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import net.autosauler.ballance.client.CatalogService;
-import net.autosauler.ballance.client.CatalogServiceAsync;
-import net.autosauler.ballance.client.CurrencyService;
-import net.autosauler.ballance.client.CurrencyServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -204,62 +201,66 @@ public class DataTypeFactory {
 		} else if (type == DataTypes.DT_CURRENCY) {
 			final int lastcolumn = table.getColumnCount();
 			MainPanel.setCommInfo(true);
-			CurrencyServiceAsync service = GWT.create(CurrencyService.class);
-			service.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
 
-				@Override
-				public void onFailure(Throwable caught) {
-					MainPanel.setCommInfo(false);
-					new AlertDialog(caught).show();
-				}
+			Services.currency
+					.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
 
-				@Override
-				public void onSuccess(Set<String> result) {
-					if (result != null) {
-
-						List<String> currlist = new ArrayList<String>(result);
-
-						Column column = new Column<HashMap<String, Object>, String>(
-								new SelectionCell(currlist)) {
-							@Override
-							public String getValue(HashMap<String, Object> map) {
-
-								return (DataTypes.fromMapping(type,
-										map.get(field))).toString();
-							}
-
-						};
-
-						column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
-
-							@Override
-							public void update(int index,
-									HashMap<String, Object> object, String value) {
-								object.put(field,
-										DataTypes.toMapping(type, value));
-
-							}
-						});
-						if (table.getColumnCount() != lastcolumn) {
-							table.insertColumn(lastcolumn, column, name);
-						} else {
-							table.addColumn(column, name);
+						@Override
+						public void onFailure(Throwable caught) {
+							MainPanel.setCommInfo(false);
+							new AlertDialog(caught).show();
 						}
-						table.setColumnWidth(column, width, Unit.PX);
 
-					}
+						@Override
+						public void onSuccess(Set<String> result) {
+							if (result != null) {
 
-					MainPanel.setCommInfo(false);
+								List<String> currlist = new ArrayList<String>(
+										result);
 
-				}
-			});
+								Column column = new Column<HashMap<String, Object>, String>(
+										new SelectionCell(currlist)) {
+									@Override
+									public String getValue(
+											HashMap<String, Object> map) {
+
+										return (DataTypes.fromMapping(type,
+												map.get(field))).toString();
+									}
+
+								};
+
+								column.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, String>() {
+
+									@Override
+									public void update(int index,
+											HashMap<String, Object> object,
+											String value) {
+										object.put(field, DataTypes.toMapping(
+												type, value));
+
+									}
+								});
+								if (table.getColumnCount() != lastcolumn) {
+									table.insertColumn(lastcolumn, column, name);
+								} else {
+									table.addColumn(column, name);
+								}
+								table.setColumnWidth(column, width, Unit.PX);
+
+							}
+
+							MainPanel.setCommInfo(false);
+
+						}
+					});
 
 		} else if (type == DataTypes.DT_CATALOGRECORD) {
 
 			final int lastcolumn = table.getColumnCount();
 			MainPanel.setCommInfo(true);
-			CatalogServiceAsync service = GWT.create(CatalogService.class);
-			service.getRecordsForSelection(
+
+			Services.catalogs.getRecordsForSelection(
 					((CatalogPanel) helper).getCatalogname(),
 					new AsyncCallback<HashMap<String, Long>>() {
 

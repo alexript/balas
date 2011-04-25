@@ -16,8 +16,7 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.UsersService;
-import net.autosauler.ballance.client.UsersServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -45,7 +44,7 @@ public class EditUserDialog extends DialogBox {
 	private final IDialogYesReceiver receiver;
 
 	/** The l. */
-	private UsersMessages l;
+	private static final UsersMessages l = GWT.create(UsersMessages.class);
 
 	/** The editlogin. */
 	private String editlogin;
@@ -79,9 +78,6 @@ public class EditUserDialog extends DialogBox {
 
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue";
-
-	/** The service. */
-	private UsersServiceAsync service;
 
 	/**
 	 * Instantiates a new edits the user dialog.
@@ -239,7 +235,7 @@ public class EditUserDialog extends DialogBox {
 		if (role.isAdmin()) {
 			if (updateMembers()) {
 				MainPanel.setCommInfo(true);
-				service.createUser(user, new AsyncCallback<Boolean>() {
+				Services.users.createUser(user, new AsyncCallback<Boolean>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -282,7 +278,7 @@ public class EditUserDialog extends DialogBox {
 			if (role.isAdmin()) {
 				MainPanel.setCommInfo(true);
 
-				service.getUser(editlogin, new AsyncCallback<User>() {
+				Services.users.getUser(editlogin, new AsyncCallback<User>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -311,8 +307,7 @@ public class EditUserDialog extends DialogBox {
 	 */
 	private void init(String login) {
 		editlogin = login;
-		service = GWT.create(UsersService.class);
-		l = GWT.create(UsersMessages.class);
+
 		getUser();
 	}
 
@@ -382,7 +377,7 @@ public class EditUserDialog extends DialogBox {
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if (role.isAdmin()) {
 				MainPanel.setCommInfo(true);
-				service.updateUser(user, new AsyncCallback<Boolean>() {
+				Services.users.updateUser(user, new AsyncCallback<Boolean>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

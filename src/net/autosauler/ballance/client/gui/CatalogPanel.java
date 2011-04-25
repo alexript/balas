@@ -22,8 +22,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.CatalogService;
-import net.autosauler.ballance.client.CatalogServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -55,17 +54,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The catalogname. */
 	private final String catalogname;
 
-	/** The service. */
-	private static CatalogServiceAsync service = null;
-
 	/** The tabimage. */
 	private final Image tabimage;
 
 	/** The l. */
-	private static CatalogMessages l = null;
-
-	/** The progress. */
-	private static Image progress = null;
+	private static final CatalogMessages l = GWT.create(CatalogMessages.class);
 
 	/** The root. */
 	private AbsolutePanel root;
@@ -80,7 +73,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	private static final String DATEFORMATTER = "yyyy/MM/dd HH:mm";
 
 	/** The date formatter. */
-	private static SimpleDateFormat formatter = null;
+	private final static SimpleDateFormat formatter = new SimpleDateFormat(
+			DATEFORMATTER);
 
 	/** The editformnumber. */
 	private Long editformnumber;
@@ -92,7 +86,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	private Long linecounter = 0L;
 
 	/** The images. */
-	protected static MenuImages images = GWT.create(MenuImages.class);
+	protected final static MenuImages images = GWT.create(MenuImages.class);
+	/** The progress. */
+	private final static Image progress = new Image(images.progress());
 
 	/** The viewdata. */
 	private HashMap<Long, String> viewdata = null;
@@ -109,16 +105,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		this.catalogname = catalogname;
 		editformnumber = -1L;
 		tabimage = image;
-		if (service == null) {
-			service = GWT.create(CatalogService.class);
-			l = GWT.create(CatalogMessages.class);
-			progress = new Image(images.progress());
-			formatter = new SimpleDateFormat(DATEFORMATTER);
-		}
+
 		linecounter = 0L;
 
 		MainPanel.setCommInfo(true);
-		service.getRecordsForView(catalogname,
+		Services.catalogs.getRecordsForView(catalogname,
 				new AsyncCallback<HashMap<Long, String>>() {
 
 					@Override
@@ -225,7 +216,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					map.put("fullname", fname);
 					MainPanel.setCommInfo(true);
 					if (editformnumber.equals(-1L)) {
-						service.addRecord(catalogname, map,
+						Services.catalogs.addRecord(catalogname, map,
 								new AsyncCallback<Boolean>() {
 
 									@Override
@@ -248,7 +239,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 									}
 								});
 					} else {
-						service.updateRecord(catalogname, editformnumber, map,
+						Services.catalogs.updateRecord(catalogname,
+								editformnumber, map,
 								new AsyncCallback<Boolean>() {
 
 									@Override
@@ -325,7 +317,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		panel.add(progress);
 
 		MainPanel.setCommInfo(true);
-		service.getRecord(catalogname, number,
+		Services.catalogs.getRecord(catalogname, number,
 				new AsyncCallback<HashMap<String, Object>>() {
 
 					@Override
@@ -359,32 +351,34 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 								@Override
 								public void onClick(ClickEvent event) {
 									MainPanel.setCommInfo(true);
-									service.getRecord(
-											catalogname,
-											number,
-											new AsyncCallback<HashMap<String, Object>>() {
+									Services.catalogs
+											.getRecord(
+													catalogname,
+													number,
+													new AsyncCallback<HashMap<String, Object>>() {
 
-												@Override
-												public void onFailure(
-														Throwable caught) {
-													MainPanel
-															.setCommInfo(false);
-													new AlertDialog(caught)
-															.show();
-												}
+														@Override
+														public void onFailure(
+																Throwable caught) {
+															MainPanel
+																	.setCommInfo(false);
+															new AlertDialog(
+																	caught)
+																	.show();
+														}
 
-												@Override
-												public void onSuccess(
-														HashMap<String, Object> result) {
-													MainPanel
-															.setCommInfo(false);
-													editformnumber = number;
-													fullname.setText((String) result
-															.get("fullname"));
-													fillEditorForm(result);
-													openEditor();
-												}
-											});
+														@Override
+														public void onSuccess(
+																HashMap<String, Object> result) {
+															MainPanel
+																	.setCommInfo(false);
+															editformnumber = number;
+															fullname.setText((String) result
+																	.get("fullname"));
+															fillEditorForm(result);
+															openEditor();
+														}
+													});
 
 								}
 							});
@@ -557,7 +551,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	public void onDialogYesButtonClick(String tag, Object tag2) {
 		if (tag.equals("trashrecord")) {
 			MainPanel.setCommInfo(true);
-			service.trashRecord(catalogname, (Long) tag2,
+			Services.catalogs.trashRecord(catalogname, (Long) tag2,
 					new AsyncCallback<Boolean>() {
 
 						@Override
@@ -599,40 +593,42 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		list.add(progress);
 
 		MainPanel.setCommInfo(true);
-		service.getAllRecords(catalogname, new AsyncCallback<Set<Long>>() {
+		Services.catalogs.getAllRecords(catalogname,
+				new AsyncCallback<Set<Long>>() {
 
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang
-			 * .Throwable)
-			 */
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				new AlertDialog(caught).show();
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @see
+					 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure
+					 * (java.lang .Throwable)
+					 */
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(caught).show();
 
-			}
+					}
 
-			@Override
-			public void onSuccess(Set<Long> result) {
-				linecounter = 0L;
-				list.clear();
-				Label lab = new Label(l.titleList());
-				list.add(lab);
-				list.setCellHeight(lab, "30px");
-				MainPanel.setCommInfo(false);
-				Iterator<Long> i = result.iterator();
-				while (i.hasNext()) {
-					Long number = i.next();
-					list.add(createListRecordRow(number));
-				}
-				if (!list.isVisible() && (editor != null) && editor.isVisible()) {
-					effectHide(editor.getElement());
-					effectShow(list.getElement());
-				}
-			}
-		});
+					@Override
+					public void onSuccess(Set<Long> result) {
+						linecounter = 0L;
+						list.clear();
+						Label lab = new Label(l.titleList());
+						list.add(lab);
+						list.setCellHeight(lab, "30px");
+						MainPanel.setCommInfo(false);
+						Iterator<Long> i = result.iterator();
+						while (i.hasNext()) {
+							Long number = i.next();
+							list.add(createListRecordRow(number));
+						}
+						if (!list.isVisible() && (editor != null)
+								&& editor.isVisible()) {
+							effectHide(editor.getElement());
+							effectShow(list.getElement());
+						}
+					}
+				});
 	}
 }

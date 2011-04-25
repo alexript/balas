@@ -21,8 +21,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
-import net.autosauler.ballance.client.DocumentService;
-import net.autosauler.ballance.client.DocumentServiceAsync;
+import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.DocumentsDatabase;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
@@ -70,26 +69,24 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 	/** The documentname. */
 	private final String documentname;
 
-	/** The service. */
-	private static DocumentServiceAsync service = null;
-
 	/** The tabimage. */
 	private final Image tabimage;
 
 	/** The l. */
-	private static DocumentMessages l = null;
-
-	/** The progress. */
-	private static Image progress = null;
+	private static final DocumentMessages l = GWT
+			.create(DocumentMessages.class);
 
 	/** The images. */
-	protected static MenuImages images = GWT.create(MenuImages.class);
+	protected static final MenuImages images = GWT.create(MenuImages.class);
+	/** The progress. */
+	private static final Image progress = new Image(images.progress());
 
 	/** The Constant DATEFORMATTER. */
 	private static final String DATEFORMATTER = "yyyy/MM/dd HH:mm";
 
 	/** The formatter. */
-	private static SimpleDateFormat formatter = null;
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+			DATEFORMATTER);
 
 	/** The root. */
 	private AbsolutePanel root;
@@ -159,12 +156,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 	public DocumentPanel(String docname, Image image) {
 		documentname = docname;
 		tabimage = image;
-		if (service == null) {
-			service = GWT.create(DocumentService.class);
-			l = GWT.create(DocumentMessages.class);
-			progress = new Image(images.progress());
-			formatter = new SimpleDateFormat(DATEFORMATTER);
-		}
+
 	}
 
 	/**
@@ -242,8 +234,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.create(documentname, map, getTablesValues(),
-							new AsyncCallback<Boolean>() {
+					Services.documents.create(documentname, map,
+							getTablesValues(), new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable e) {
@@ -266,8 +258,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 								}
 							});
 				} else {
-					service.update(documentname, editformnumber, map,
-							getTablesValues(), new AsyncCallback<Boolean>() {
+					Services.documents.update(documentname, editformnumber,
+							map, getTablesValues(),
+							new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
@@ -305,7 +298,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 				MainPanel.setCommInfo(true);
 				if (editformnumber.equals(-1L)) {
-					service.createAndActivate(documentname, map,
+					Services.documents.createAndActivate(documentname, map,
 							getTablesValues(), new AsyncCallback<Boolean>() {
 
 								@Override
@@ -327,8 +320,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 								}
 							});
 				} else {
-					service.updateAndActivate(documentname, editformnumber,
-							map, getTablesValues(),
+					Services.documents.updateAndActivate(documentname,
+							editformnumber, map, getTablesValues(),
 							new AsyncCallback<Boolean>() {
 
 								@Override
@@ -363,8 +356,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 				if (!editformnumber.equals(-1L)) {
 					MainPanel.setCommInfo(true);
 					if (editformisactive) {
-						service.unactivate(documentname, editformnumber,
-								new AsyncCallback<Void>() {
+						Services.documents.unactivate(documentname,
+								editformnumber, new AsyncCallback<Void>() {
 
 									@Override
 									public void onFailure(Throwable caught) {
@@ -380,8 +373,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									}
 								});
 					} else {
-						service.activate(documentname, editformnumber,
-								new AsyncCallback<Void>() {
+						Services.documents.activate(documentname,
+								editformnumber, new AsyncCallback<Void>() {
 
 									@Override
 									public void onFailure(Throwable caught) {

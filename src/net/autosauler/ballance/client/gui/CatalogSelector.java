@@ -20,8 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.autosauler.ballance.client.CatalogService;
-import net.autosauler.ballance.client.CatalogServiceAsync;
+import net.autosauler.ballance.client.Services;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -39,22 +38,13 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class CatalogSelector extends Composite {
 
-	/** The service. */
-	private static CatalogServiceAsync service = GWT
-			.create(CatalogService.class);
-
 	/** The catalogname. */
 	private final String catalogname;
 
 	/** The box. */
 	private final ListBox box;
 
-	private static MenuImages images;
-
-	static {
-		images = GWT.create(MenuImages.class);
-
-	}
+	private static final MenuImages images = GWT.create(MenuImages.class);
 
 	/**
 	 * Instantiates a new catalog selector.
@@ -117,7 +107,7 @@ public class CatalogSelector extends Composite {
 		box.addItem("<not selected>", "0");
 
 		MainPanel.setCommInfo(true);
-		service.getRecordsForSelection(catalogname,
+		Services.catalogs.getRecordsForSelection(catalogname,
 				new AsyncCallback<HashMap<String, Long>>() {
 
 					@Override

@@ -35,7 +35,7 @@ public class RolesWidget extends Composite {
 	private final HorizontalPanel panel;
 
 	/** The images. */
-	private RolesImages images = null;
+	private static final RolesImages images = GWT.create(RolesImages.class);
 
 	/** The img guest. */
 	private Image imgGuest;
@@ -53,7 +53,7 @@ public class RolesWidget extends Composite {
 	private Image imgManager;
 
 	/** The l. */
-	private UsersMessages l;
+	private static final UsersMessages l = GWT.create(UsersMessages.class);
 
 	/**
 	 * Instantiates a new roles widget.
@@ -79,8 +79,7 @@ public class RolesWidget extends Composite {
 	 * Chk resources.
 	 */
 	private void chkResources() {
-		l = GWT.create(UsersMessages.class);
-		images = GWT.create(RolesImages.class);
+
 		imgGuest = new Image(images.isGuest());
 		imgGuest.setTitle(l.isguest());
 		imgGuest.setAltText(l.isguest());
