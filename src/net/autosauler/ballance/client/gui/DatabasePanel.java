@@ -22,12 +22,11 @@ import java.util.HashMap;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.DatabaseMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -72,10 +71,6 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 	/** The root. */
 	private VerticalPanel root = null;
-
-	/** The l. */
-	private static final DatabaseMessages l = GWT
-			.create(DatabaseMessages.class);
 
 	/** The btn drop database. */
 	private Button btnDropDatabase;
@@ -136,7 +131,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 						settingspanel.clear();
 
 						final Button btn = new Button();
-						btn.setText(l.btnSoreChanges());
+						btn.setText(M.database.btnSoreChanges());
 						btn.setEnabled(false);
 
 						settingvalue = new TextBox();
@@ -249,9 +244,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		HorizontalPanel p = new HorizontalPanel();
 		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		p.setSpacing(6);
-		p.add(new Label(l.msgDropDatabaseTitle()));
+		p.add(new Label(M.database.msgDropDatabaseTitle()));
 
-		btnDropDatabase = new Button(l.btnExecute());
+		btnDropDatabase = new Button(M.database.btnExecute());
 		btnDropDatabase.addClickHandler(this);
 		p.add(btnDropDatabase);
 		DecoratorPanel panel = new DecoratorPanel();
@@ -268,12 +263,12 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		HorizontalPanel p = new HorizontalPanel();
 		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		p.setSpacing(6);
-		p.add(new Label(l.msgDumpDatabaseTitle()));
+		p.add(new Label(M.database.msgDumpDatabaseTitle()));
 
 		dumpfile = new TextBox(); // TODO: replace with list of old dump files
 		p.add(dumpfile);
 
-		btnDumpDatabase = new Button(l.btnExecute());
+		btnDumpDatabase = new Button(M.database.btnExecute());
 		btnDumpDatabase.addClickHandler(this);
 		p.add(btnDumpDatabase);
 		// TODO: add restore button
@@ -327,7 +322,8 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	@Override
 	public void onClick(ClickEvent event) {
 		if (event.getSource().equals(btnDropDatabase)) {
-			new QuestionDialog(l.qstDropDatabase(), this, "dropdb").show();
+			new QuestionDialog(M.database.qstDropDatabase(), this, "dropdb")
+					.show();
 		} else if (event.getSource().equals(btnDumpDatabase)) {
 			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 			if (role.isAdmin()) {

@@ -24,7 +24,7 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.DocumentsDatabase;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.DocumentMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -73,10 +73,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 	/** The tabimage. */
 	private final Image tabimage;
-
-	/** The l. */
-	private static final DocumentMessages l = GWT
-			.create(DocumentMessages.class);
 
 	/** The progress. */
 	private static final Image progress = new Image(Images.menu.progress());
@@ -222,7 +218,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		HorizontalPanel buttons = new HorizontalPanel();
 		buttons.setSpacing(3);
 
-		btnSave = new Button(l.btnSave());
+		btnSave = new Button(M.document.btnSave());
 		btnSave.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -251,8 +247,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									if (result) {
 										reloadList();
 									} else {
-										new AlertDialog(l.msgCreateError())
-												.show();
+										new AlertDialog(M.document
+												.msgCreateError()).show();
 									}
 
 								}
@@ -275,8 +271,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									if (result) {
 										reloadList();
 									} else {
-										new AlertDialog(l.msgUpdateError())
-												.show();
+										new AlertDialog(M.document
+												.msgUpdateError()).show();
 									}
 
 								}
@@ -286,7 +282,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		});
 		buttons.add(btnSave);
 
-		btnSaveActivate = new Button(l.btnSaveAndActivate());
+		btnSaveActivate = new Button(M.document.btnSaveAndActivate());
 		btnSaveActivate.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -313,8 +309,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									if (result) {
 										reloadList();
 									} else {
-										new AlertDialog(l.msgCreateError())
-												.show();
+										new AlertDialog(M.document
+												.msgCreateError()).show();
 									}
 
 								}
@@ -337,8 +333,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 									if (result) {
 										reloadList();
 									} else {
-										new AlertDialog(l.msgUpdateError())
-												.show();
+										new AlertDialog(M.document
+												.msgUpdateError()).show();
 									}
 
 								}
@@ -348,7 +344,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		});
 		buttons.add(btnSaveActivate);
 
-		btnActivate = new Button(l.btnActivate());
+		btnActivate = new Button(M.document.btnActivate());
 		btnActivate.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -399,7 +395,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		});
 		buttons.add(btnActivate);
 
-		btnCancel = new Button(l.btnCancel());
+		btnCancel = new Button(M.document.btnCancel());
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -555,7 +551,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 	public MenuBar getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
-		menu.addItem(l.menuReload(), new Command() { // reload users list
+		menu.addItem(M.document.menuReload(), new Command() { // reload users
+																// list
 					@Override
 					public void execute() {
 						reloadList();
@@ -564,7 +561,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 
 		if (canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
 
-			menu.addItem(l.menuCreate(), new Command() { // reload users list
+			menu.addItem(M.document.menuCreate(), new Command() { // reload
+																	// users
+																	// list
 						@Override
 						public void execute() {
 							editformnumber = -1L;
@@ -631,7 +630,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		// return n1.compareTo(n2);
 		// }
 		// });
-		cellTable.addColumn(docNumberColumn, l.colNumber());
+		cellTable.addColumn(docNumberColumn, M.document.colNumber());
 
 		cellTable.setColumnWidth(docNumberColumn, 50, Unit.PX);
 
@@ -666,7 +665,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 				return formatter.format(new Date((Long) map.get("createdate")));
 			}
 		};
-		cellTable.addColumn(docDateColumn, l.colCreateDate());
+		cellTable.addColumn(docDateColumn, M.document.colCreateDate());
 
 		cellTable.setColumnWidth(docDateColumn, 150, Unit.PX);
 
@@ -679,7 +678,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 				return (String) map.get("username");
 			}
 		};
-		cellTable.addColumn(docAuthorColumn, l.colAuthor());
+		cellTable.addColumn(docAuthorColumn, M.document.colAuthor());
 
 		cellTable.setColumnWidth(docAuthorColumn, 100, Unit.PX);
 
@@ -699,7 +698,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		};
 		rolesColumn.setSortable(false);
 
-		cellTable.addColumn(rolesColumn, l.colDocument());
+		cellTable.addColumn(rolesColumn, M.document.colDocument());
 
 		cellTable.setColumnWidth(rolesColumn, 300, Unit.PX);
 
@@ -737,9 +736,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 		} else {
 			fillEditor(map);
 			if (editformisactive) {
-				btnActivate.setText(l.btnUnActivate());
+				btnActivate.setText(M.document.btnUnActivate());
 			} else {
-				btnActivate.setText(l.btnActivate());
+				btnActivate.setText(M.document.btnActivate());
 			}
 			btnActivate.setVisible(true);
 		}

@@ -17,9 +17,8 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.DialogMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -37,9 +36,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * The Class AlertDialog.
  */
 public class AlertDialog extends DialogBox {
-
-	/** The l. */
-	private static final DialogMessages l = GWT.create(DialogMessages.class);
 
 	/**
 	 * Instantiates a new alert dialog.
@@ -83,11 +79,11 @@ public class AlertDialog extends DialogBox {
 	 */
 	private void initDialog(String message, String additionalinfo) {
 
-		setText(l.msgAlertTitle());
+		setText(M.dialog.msgAlertTitle());
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
 
-		Button ok = new Button(l.btnOk());
+		Button ok = new Button(M.dialog.btnOk());
 
 		ok.addClickHandler(new ClickHandler() {
 
@@ -109,7 +105,7 @@ public class AlertDialog extends DialogBox {
 
 		if ((additionalinfo != null) && !additionalinfo.isEmpty()) {
 			DisclosurePanel advancedDisclosure = new DisclosurePanel(
-					l.msgAdditionalInfo());
+					M.dialog.msgAdditionalInfo());
 			advancedDisclosure.setAnimationEnabled(true);
 			TextArea textArea = new TextArea();
 			textArea.setVisibleLines(10);

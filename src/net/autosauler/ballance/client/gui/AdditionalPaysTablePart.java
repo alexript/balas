@@ -17,19 +17,14 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
 
-import net.autosauler.ballance.client.gui.messages.IncomingGoodsMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
-
-import com.google.gwt.core.client.GWT;
 
 /**
  * @author alexript
  * 
  */
 public class AdditionalPaysTablePart extends DocumentTablePart {
-
-	private static final IncomingGoodsMessages l = GWT
-			.create(IncomingGoodsMessages.class);
 
 	/**
 	 * @param title
@@ -48,16 +43,17 @@ public class AdditionalPaysTablePart extends DocumentTablePart {
 	@Override
 	protected void initTableColumns() {
 
-		addColumn(l.colPartner(), "partner", DataTypes.DT_CATALOGRECORD, 100,
-				true, new Long(0L), new PartnersPanel());
-		addColumn(l.colPaydate(), "paydate", DataTypes.DT_DATE, 100, true,
-				new Date(), null);
-		addColumn(l.colPrice(), "summ", DataTypes.DT_MONEY, 50, true,
-				new Double(0.0D), null);
-		addColumn(l.colCurrency(), "currency", DataTypes.DT_CURRENCY, 50, true,
-				"RUR", null);
-		addColumn(l.colComments(), "descr", DataTypes.DT_STRING, 250, true, "",
-				null);
+		addColumn(M.incominggoods.colPartner(), "partner",
+				DataTypes.DT_CATALOGRECORD, 100, true, new Long(0L),
+				new PartnersPanel());
+		addColumn(M.incominggoods.colPaydate(), "paydate", DataTypes.DT_DATE,
+				100, true, new Date(), null);
+		addColumn(M.incominggoods.colPrice(), "summ", DataTypes.DT_MONEY, 50,
+				true, new Double(0.0D), null);
+		addColumn(M.incominggoods.colCurrency(), "currency",
+				DataTypes.DT_CURRENCY, 50, true, "RUR", null);
+		addColumn(M.incominggoods.colComments(), "descr", DataTypes.DT_STRING,
+				250, true, "", null);
 	}
 
 }

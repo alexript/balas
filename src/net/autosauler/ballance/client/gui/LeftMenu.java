@@ -18,10 +18,9 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.MenuMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
@@ -43,9 +42,6 @@ public class LeftMenu extends Composite {
 	/** The role. */
 	private UserRole role = null;
 
-	/** The l. */
-	private static final MenuMessages l = GWT.create(MenuMessages.class);
-
 	/**
 	 * Instantiates a new left menu.
 	 */
@@ -64,12 +60,12 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin()) {
 			VerticalPanel adminpanel = new VerticalPanel();
 
-			adminpanel.add(getMenuItem(l.itemDatabase(), "dbpane",
+			adminpanel.add(getMenuItem(M.menu.itemDatabase(), "dbpane",
 					Images.menu.icoDatabase()));
-			adminpanel.add(getMenuItem(l.itemUsers(), "editusers",
+			adminpanel.add(getMenuItem(M.menu.itemUsers(), "editusers",
 					Images.menu.icoUser()));
 
-			String adminHeader = getHeaderString(l.adminPanel(),
+			String adminHeader = getHeaderString(M.menu.adminPanel(),
 					Images.menu.adminPanel());
 
 			panel.add(adminpanel, adminHeader, true);
@@ -98,10 +94,10 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isDocuments()) {
 			VerticalPanel documentspanel = new VerticalPanel();
 
-			documentspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
+			documentspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
 					Images.menu.icoInGoods()));
 
-			String documentsHeader = getHeaderString(l.documentsPanel(),
+			String documentsHeader = getHeaderString(M.menu.documentsPanel(),
 					Images.menu.documentsPanel());
 			panel.add(documentspanel, documentsHeader, true);
 		}
@@ -114,14 +110,14 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isFinances()) {
 			VerticalPanel financesspanel = new VerticalPanel();
 
-			financesspanel.add(getMenuItem(l.itemIncPay(), "incpay",
+			financesspanel.add(getMenuItem(M.menu.itemIncPay(), "incpay",
 					Images.menu.icoIncPay()));
-			financesspanel.add(getMenuItem(l.itemInGoods(), "ingoods",
+			financesspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
 					Images.menu.icoInGoods()));
-			financesspanel.add(getMenuItem(l.itemTarif(), "tarifs",
+			financesspanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
 					Images.menu.icoTarif()));
 
-			String financesHeader = getHeaderString(l.financesPanel(),
+			String financesHeader = getHeaderString(M.menu.financesPanel(),
 					Images.menu.financesPanel());
 			panel.add(financesspanel, financesHeader, true);
 		}
@@ -134,10 +130,10 @@ public class LeftMenu extends Composite {
 		if (!role.isGuest()) {
 			VerticalPanel allpanel = new VerticalPanel();
 
-			allpanel.add(getMenuItem(l.itemChangelog(), "changelog",
+			allpanel.add(getMenuItem(M.menu.itemChangelog(), "changelog",
 					Images.menu.icoChangelog()));
 
-			String forAllHeader = getHeaderString(l.forAllPanel(),
+			String forAllHeader = getHeaderString(M.menu.forAllPanel(),
 					Images.menu.forAllPanel());
 			panel.add(allpanel, forAllHeader, true);
 		}
@@ -150,13 +146,13 @@ public class LeftMenu extends Composite {
 
 		VerticalPanel guestpanel = new VerticalPanel();
 
-		guestpanel.add(getMenuItem(l.itemHelloToAll(), "start",
+		guestpanel.add(getMenuItem(M.menu.itemHelloToAll(), "start",
 				Images.menu.icoInfo()));
 
-		guestpanel.add(getMenuItem(l.itemLicense(), "license",
+		guestpanel.add(getMenuItem(M.menu.itemLicense(), "license",
 				Images.menu.icoCopyright()));
 
-		String guestHeader = getHeaderString(l.guestPanel(),
+		String guestHeader = getHeaderString(M.menu.guestPanel(),
 				Images.menu.guestPanel());
 		panel.add(guestpanel, guestHeader, true);
 
@@ -169,16 +165,16 @@ public class LeftMenu extends Composite {
 		if (role.isAdmin() || role.isManager()) {
 			VerticalPanel managerpanel = new VerticalPanel();
 
-			managerpanel.add(getMenuItem(l.itemPaymethod(), "paymethod",
+			managerpanel.add(getMenuItem(M.menu.itemPaymethod(), "paymethod",
 					Images.menu.icoPaymethod()));
 
-			managerpanel.add(getMenuItem(l.itemPartners(), "partners",
+			managerpanel.add(getMenuItem(M.menu.itemPartners(), "partners",
 					Images.menu.icoPartners()));
 
-			managerpanel.add(getMenuItem(l.itemTarif(), "tarifs",
+			managerpanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
 					Images.menu.icoTarif()));
 
-			String managerHeader = getHeaderString(l.managerPanel(),
+			String managerHeader = getHeaderString(M.menu.managerPanel(),
 					Images.menu.managerPanel());
 			panel.add(managerpanel, managerHeader, true);
 		}

@@ -20,10 +20,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.IncomingGoodsMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -40,10 +39,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
  * @author alexript
  */
 public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
-
-	/** The l. */
-	private static IncomingGoodsMessages l = GWT
-			.create(IncomingGoodsMessages.class);
 
 	/** The date format. */
 	private static DateTimeFormat dateFormat = DateTimeFormat
@@ -143,29 +138,29 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	protected Widget createDocumentHeaderEditor() {
 		Grid header = new Grid(6, 2);
 
-		header.setWidget(0, 0, new Label(l.lblPartner()));
+		header.setWidget(0, 0, new Label(M.incominggoods.lblPartner()));
 
 		partner = pp.getSelectBox(0L);
 		header.setWidget(0, 1, partner);
 
-		header.setWidget(1, 0, new Label(l.lblSendDate()));
+		header.setWidget(1, 0, new Label(M.incominggoods.lblSendDate()));
 		senddate = new DateBox();
 		senddate.setFormat(new DateBox.DefaultFormat(dateFormat));
 		header.setWidget(1, 1, senddate);
 
-		header.setWidget(2, 0, new Label(l.lblGoodsNum()));
+		header.setWidget(2, 0, new Label(M.incominggoods.lblGoodsNum()));
 		goodsnumber = new TextBox();
 		header.setWidget(2, 1, goodsnumber);
 
-		header.setWidget(3, 0, new Label(l.lblInvoice()));
+		header.setWidget(3, 0, new Label(M.incominggoods.lblInvoice()));
 		invoicenum = new TextBox();
 		header.setWidget(3, 1, invoicenum);
 
-		header.setWidget(4, 0, new Label(l.lblAWB()));
+		header.setWidget(4, 0, new Label(M.incominggoods.lblAWB()));
 		awb = new TextBox();
 		header.setWidget(4, 1, awb);
 
-		header.setWidget(5, 0, new Label(l.lblGTD()));
+		header.setWidget(5, 0, new Label(M.incominggoods.lblGTD()));
 		gtd = new TextBox();
 		header.setWidget(5, 1, gtd);
 
@@ -258,11 +253,11 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected void initTableParts(final DocumentTableParts parts) {
-		GoodsTablePart part = new GoodsTablePart(l.tableGoods());
+		GoodsTablePart part = new GoodsTablePart(M.incominggoods.tableGoods());
 		parts.addPart("goods", part);
 
 		AdditionalPaysTablePart part2 = new AdditionalPaysTablePart(
-				l.tableAddPays());
+				M.incominggoods.tableAddPays());
 		parts.addPart("goodsaddpay", part2);
 
 	}

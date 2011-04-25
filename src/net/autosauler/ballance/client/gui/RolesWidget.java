@@ -17,10 +17,9 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.UsersMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -51,9 +50,6 @@ public class RolesWidget extends Composite {
 	/** The img manager. */
 	private Image imgManager;
 
-	/** The l. */
-	private static final UsersMessages l = GWT.create(UsersMessages.class);
-
 	/**
 	 * Instantiates a new roles widget.
 	 * 
@@ -80,24 +76,24 @@ public class RolesWidget extends Composite {
 	private void chkResources() {
 
 		imgGuest = new Image(Images.roles.isGuest());
-		imgGuest.setTitle(l.isguest());
-		imgGuest.setAltText(l.isguest());
+		imgGuest.setTitle(M.users.isguest());
+		imgGuest.setAltText(M.users.isguest());
 
 		imgAdmin = new Image(Images.roles.isAdmin());
-		imgAdmin.setTitle(l.isadmin());
-		imgAdmin.setAltText(l.isadmin());
+		imgAdmin.setTitle(M.users.isadmin());
+		imgAdmin.setAltText(M.users.isadmin());
 
 		imgDocuments = new Image(Images.roles.isDocuments());
-		imgDocuments.setTitle(l.isdocuments());
-		imgDocuments.setAltText(l.isdocuments());
+		imgDocuments.setTitle(M.users.isdocuments());
+		imgDocuments.setAltText(M.users.isdocuments());
 
 		imgFinances = new Image(Images.roles.isFinances());
-		imgFinances.setTitle(l.isfinances());
-		imgFinances.setAltText(l.isfinances());
+		imgFinances.setTitle(M.users.isfinances());
+		imgFinances.setAltText(M.users.isfinances());
 
 		imgManager = new Image(Images.roles.isManager());
-		imgManager.setTitle(l.ismanager());
-		imgManager.setAltText(l.ismanager());
+		imgManager.setTitle(M.users.ismanager());
+		imgManager.setAltText(M.users.ismanager());
 
 	}
 

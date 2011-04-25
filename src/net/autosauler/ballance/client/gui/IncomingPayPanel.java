@@ -7,11 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.IncomingPayMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -50,10 +49,6 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 
 	/** The comments. */
 	private TextBox comments;
-
-	/** The l. */
-	private static final IncomingPayMessages l = GWT
-			.create(IncomingPayMessages.class);
 
 	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
@@ -136,30 +131,30 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	protected Widget createDocumentHeaderEditor() {
 		Grid header = new Grid(6, 2);
 
-		header.setWidget(0, 0, new Label(l.lblPartner()));
+		header.setWidget(0, 0, new Label(M.incomingpay.lblPartner()));
 
 		partner = pp.getSelectBox(0L);
 		header.setWidget(0, 1, partner);
 
-		header.setWidget(1, 0, new Label(l.lblPayDate()));
+		header.setWidget(1, 0, new Label(M.incomingpay.lblPayDate()));
 		paydate = new DateBox();
 		paydate.setFormat(new DateBox.DefaultFormat(dateFormat));
 		header.setWidget(1, 1, paydate);
 
-		header.setWidget(2, 0, new Label(l.lblCurrency()));
+		header.setWidget(2, 0, new Label(M.incomingpay.lblCurrency()));
 		currency = new CurrencySelector(null);
 		header.setWidget(2, 1, currency);
 
-		header.setWidget(3, 0, new Label(l.lblValue()));
+		header.setWidget(3, 0, new Label(M.incomingpay.lblValue()));
 		payvalue = new TextBox();
 		header.setWidget(3, 1, payvalue);
 
-		header.setWidget(4, 0, new Label(l.lblMethod()));
+		header.setWidget(4, 0, new Label(M.incomingpay.lblMethod()));
 
 		paymethod = pmp.getSelectBox(0L);
 		header.setWidget(4, 1, paymethod);
 
-		header.setWidget(5, 0, new Label(l.lblComments()));
+		header.setWidget(5, 0, new Label(M.incomingpay.lblComments()));
 		comments = new TextBox();
 		header.setWidget(5, 1, comments);
 

@@ -21,10 +21,9 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.MenuMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -152,9 +151,6 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	/** The comminfo. */
 	private static CommInfoPanel comminfo = null;
 
-	/** The l. */
-	private static final MenuMessages l = GWT.create(MenuMessages.class);
-
 	/**
 	 * Instantiates a new main panel.
 	 */
@@ -190,36 +186,36 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
 		if (name.equals("start")) {
-			w = constructTabPaneContent(HelloPanel.get(), l.itemHelloToAll(),
-					Images.menu.icoInfo(), name);
+			w = constructTabPaneContent(HelloPanel.get(),
+					M.menu.itemHelloToAll(), Images.menu.icoInfo(), name);
 		} else if (name.equals("dbpane") && role.isAdmin()) {
-			w = constructTabPaneContent(DatabasePanel.get(), l.itemDatabase(),
-					Images.menu.icoDatabase(), name);
+			w = constructTabPaneContent(DatabasePanel.get(),
+					M.menu.itemDatabase(), Images.menu.icoDatabase(), name);
 
 		} else if (name.equals("editusers") && role.isAdmin()) {
-			w = constructTabPaneContent(UsersPanel.get(), l.itemUsers(),
+			w = constructTabPaneContent(UsersPanel.get(), M.menu.itemUsers(),
 					Images.menu.icoUser(), name);
 		} else if (name.equals("license")) {
-			w = constructTabPaneContent(LicensePanel.get(), l.itemLicense(),
-					Images.menu.icoCopyright(), name);
+			w = constructTabPaneContent(LicensePanel.get(),
+					M.menu.itemLicense(), Images.menu.icoCopyright(), name);
 		} else if (name.equals("partners")) {
 			w = constructTabPaneContent(new PartnersPanel().getListForm(),
-					l.itemPartners(), Images.menu.icoPartners(), name);
+					M.menu.itemPartners(), Images.menu.icoPartners(), name);
 		} else if (name.equals("tarifs")) {
 			w = constructTabPaneContent(new TarifPanel().getListForm(),
-					l.itemTarif(), Images.menu.icoTarif(), name);
+					M.menu.itemTarif(), Images.menu.icoTarif(), name);
 		} else if (name.equals("paymethod")) {
 			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
-					l.itemPaymethod(), Images.menu.icoPaymethod(), name);
+					M.menu.itemPaymethod(), Images.menu.icoPaymethod(), name);
 		} else if (name.equals("incpay")) {
 			w = constructTabPaneContent(new IncomingPayPanel().getListForm(),
-					l.itemIncPay(), Images.menu.icoIncPay(), name);
+					M.menu.itemIncPay(), Images.menu.icoIncPay(), name);
 		} else if (name.equals("ingoods")) {
 			w = constructTabPaneContent(new IncomingGoodsPanel().getListForm(),
-					l.itemInGoods(), Images.menu.icoInGoods(), name);
+					M.menu.itemInGoods(), Images.menu.icoInGoods(), name);
 		} else if (name.equals("changelog")) {
 			w = constructTabPaneContent(ChangeLogPanel.get(),
-					l.itemChangelog(), Images.menu.icoChangelog(), name);
+					M.menu.itemChangelog(), Images.menu.icoChangelog(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}
@@ -256,7 +252,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 
 		MenuBar sysmenu = new MenuBar();
 
-		sysmenu.addItem(l.icoReloadPane(), new Command() { // reload users list
+		sysmenu.addItem(M.menu.icoReloadPane(), new Command() { // reload users
+																// list
 					@Override
 					public void execute() {
 						MainPanel.closeTab(tag);
@@ -264,22 +261,23 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 					}
 				});
 
-		sysmenu.addItem(l.icoClosePane(), new Command() { // reload users list
+		sysmenu.addItem(M.menu.icoClosePane(), new Command() { // reload users
+																// list
 					@Override
 					public void execute() {
 						MainPanel.closeTab(tag);
 					}
 				});
 
-		menu.addItem(l.menuPanelmenu(), sysmenu);
+		menu.addItem(M.menu.menuPanelmenu(), sysmenu);
 
 		panemenu.add(menu);
 		panemenu.setCellHorizontalAlignment(menu,
 				HasHorizontalAlignment.ALIGN_LEFT);
 
 		Image reloadImage = new Image(Images.menu.icoReload());
-		reloadImage.setTitle(l.icoReloadPane());
-		reloadImage.setAltText(l.icoReloadPane());
+		reloadImage.setTitle(M.menu.icoReloadPane());
+		reloadImage.setAltText(M.menu.icoReloadPane());
 		reloadImage.addClickHandler(new ClickHandler() {
 			private final String mytag = tag;
 
@@ -294,8 +292,8 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		panemenu.setCellWidth(reloadImage, "20px");
 
 		Image closeImage = new Image(Images.menu.icoClose());
-		closeImage.setTitle(l.icoClosePane());
-		closeImage.setAltText(l.icoClosePane());
+		closeImage.setTitle(M.menu.icoClosePane());
+		closeImage.setAltText(M.menu.icoClosePane());
 		closeImage.addClickHandler(new ClickHandler() {
 			private final String mytag = tag;
 

@@ -24,11 +24,10 @@ import java.util.Set;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.CatalogMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -58,9 +57,6 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 	/** The tabimage. */
 	private final Image tabimage;
-
-	/** The l. */
-	private static final CatalogMessages l = GWT.create(CatalogMessages.class);
 
 	/** The root. */
 	private AbsolutePanel root;
@@ -185,11 +181,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		editor = new VerticalPanel();
 		editor.setVisible(false);
 		editor.setSpacing(5);
-		editor.add(new Label(l.titleEditor()));
+		editor.add(new Label(M.catalog.titleEditor()));
 
 		HorizontalPanel namepanel = new HorizontalPanel();
 		namepanel.setSpacing(5);
-		namepanel.add(new Label(l.labelFullname()));
+		namepanel.add(new Label(M.catalog.labelFullname()));
 		fullname = new TextBox();
 		fullname.setWidth("200px");
 		namepanel.add(fullname);
@@ -198,7 +194,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 		HorizontalPanel buttons = new HorizontalPanel();
 		buttons.setSpacing(5);
-		Button b = new Button(l.btnSave());
+		Button b = new Button(M.catalog.btnSave());
 		b.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -211,7 +207,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 				String fname = fullname.getText().trim();
 				if (fname.isEmpty()) {
-					new AlertDialog(l.errEmptyFullname()).show();
+					new AlertDialog(M.catalog.errEmptyFullname()).show();
 				} else {
 					map.put("fullname", fname);
 					MainPanel.setCommInfo(true);
@@ -232,8 +228,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 										if (result) {
 											reloadList();
 										} else {
-											new AlertDialog(l.msgCreateError())
-													.show();
+											new AlertDialog(M.catalog
+													.msgCreateError()).show();
 										}
 
 									}
@@ -255,8 +251,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 										if (result) {
 											reloadList();
 										} else {
-											new AlertDialog(l.msgUpdateError())
-													.show();
+											new AlertDialog(M.catalog
+													.msgUpdateError()).show();
 										}
 
 									}
@@ -270,7 +266,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 		buttons.add(b);
 
-		Button btnCancel = new Button(l.btnCancel());
+		Button btnCancel = new Button(M.catalog.btnCancel());
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -339,13 +335,13 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						}
 						Date date = new Date((Long) result.get("createdate"));
 						String day = formatter.format(date);
-						vp.add(new Label(day + " " + l.labelAuthor() + ": "
-								+ (String) result.get("username")));
+						vp.add(new Label(day + " " + M.catalog.labelAuthor()
+								+ ": " + (String) result.get("username")));
 						panel.add(vp);
 						panel.setCellWidth(vp, "400px;");
 						if (canEdit(Ballance_autosauler_net.sessionId
 								.getUserrole())) {
-							Button btnEdit = new Button(l.btnEdit());
+							Button btnEdit = new Button(M.catalog.btnEdit());
 							btnEdit.addClickHandler(new ClickHandler() {
 
 								@Override
@@ -387,12 +383,13 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						if (canTrash(Ballance_autosauler_net.sessionId
 								.getUserrole())) {
 
-							Button btnDelete = new Button(l.btnDelete());
+							Button btnDelete = new Button(M.catalog.btnDelete());
 							btnDelete.addClickHandler(new ClickHandler() {
 
 								@Override
 								public void onClick(ClickEvent event) {
-									new QuestionDialog(l.qstDeleteRecord()
+									new QuestionDialog(M.catalog
+											.qstDeleteRecord()
 											+ " "
 											+ (String) result.get("fullname"),
 											CatalogPanel.this, "trashrecord",
@@ -506,7 +503,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	public MenuBar getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
-		menu.addItem(l.menuReload(), new Command() { // reload users list
+		menu.addItem(M.catalog.menuReload(), new Command() { // reload users
+																// list
 					@Override
 					public void execute() {
 						reloadList();
@@ -515,7 +513,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 		if (canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
 
-			menu.addItem(l.menuCreate(), new Command() { // reload users list
+			menu.addItem(M.catalog.menuCreate(), new Command() { // reload users
+																	// list
 						@Override
 						public void execute() {
 							editformnumber = -1L;
@@ -566,7 +565,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 							if (result) {
 								reloadList();
 							} else {
-								new AlertDialog(l.msgTrashError()).show();
+								new AlertDialog(M.catalog.msgTrashError())
+										.show();
 							}
 
 						}
@@ -614,7 +614,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					public void onSuccess(Set<Long> result) {
 						linecounter = 0L;
 						list.clear();
-						Label lab = new Label(l.titleList());
+						Label lab = new Label(M.catalog.titleList());
 						list.add(lab);
 						list.setCellHeight(lab, "30px");
 						MainPanel.setCommInfo(false);

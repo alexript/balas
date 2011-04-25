@@ -17,9 +17,8 @@
 package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.CommMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -31,16 +30,13 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class CommInfoPanel extends PopupPanel {
 
-	/** The l. */
-	private static final CommMessages l = GWT.create(CommMessages.class);
-
 	/**
 	 * Instantiates a new comm info panel.
 	 */
 	public CommInfoPanel() {
 		super(false);
 		Image i = new Image(Images.menu.icoRefresh());
-		Label msg = new Label(l.commInProgress());
+		Label msg = new Label(M.comm.commInProgress());
 
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setWidth("200px");

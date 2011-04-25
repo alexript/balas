@@ -23,8 +23,7 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.UsersDatabase;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.ToolsMessages;
-import net.autosauler.ballance.client.gui.messages.UsersMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -68,10 +67,6 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 
 	/** The root. */
 	private VerticalPanel root = null;
-
-	/** The l. */
-	private static final UsersMessages l = GWT.create(UsersMessages.class);
-	private static final ToolsMessages tools = GWT.create(ToolsMessages.class);
 
 	/** The cell table. */
 	@UiField(provided = true)
@@ -118,21 +113,22 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	public MenuBar getPaneMenu() {
 		MenuBar menu = new MenuBar();
 
-		menu.addItem(l.menuAddUser(), new Command() { // create new user
+		menu.addItem(M.users.menuAddUser(), new Command() { // create new user
 					@Override
 					public void execute() {
 						new EditUserDialog(UsersPanel.this);
 					}
 				});
 
-		menu.addItem(l.menuReload(), new Command() { // reload users list
+		menu.addItem(M.users.menuReload(), new Command() { // reload users list
 					@Override
 					public void execute() {
 						reloadList();
 					}
 				});
 
-		menu.addItem(l.menuNotTrashedUsers(), new Command() { // Live users
+		menu.addItem(M.users.menuNotTrashedUsers(), new Command() { // Live
+																	// users
 					@Override
 					public void execute() {
 						trashstate = false;
@@ -140,7 +136,8 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 					}
 				});
 
-		menu.addItem(l.menuTrashedUsers(), new Command() { // Trashed users
+		menu.addItem(M.users.menuTrashedUsers(), new Command() { // Trashed
+																	// users
 					@Override
 					public void execute() {
 						trashstate = true;
@@ -194,7 +191,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				return o1.getUsername().compareTo(o2.getUsername());
 			}
 		});
-		cellTable.addColumn(firstNameColumn, l.userName());
+		cellTable.addColumn(firstNameColumn, M.users.userName());
 
 		cellTable.setColumnWidth(firstNameColumn, 150, Unit.PCT);
 
@@ -216,7 +213,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		rolesColumn.setSortable(false);
 		rolesColumn.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
-		cellTable.addColumn(rolesColumn, l.columnRoles());
+		cellTable.addColumn(rolesColumn, M.users.columnRoles());
 
 		cellTable.setColumnWidth(rolesColumn, 90, Unit.PX);
 
@@ -236,7 +233,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				return o1.getCreatedate().compareTo(o2.getCreatedate());
 			}
 		});
-		cellTable.addColumn(createdateColumn, l.crateDate());
+		cellTable.addColumn(createdateColumn, M.users.crateDate());
 
 		cellTable.setColumnWidth(createdateColumn, 200, Unit.PX);
 
@@ -264,7 +261,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 			}
 		});
 
-		cellTable.addColumn(activeColumn, l.isActive());
+		cellTable.addColumn(activeColumn, M.users.isActive());
 
 		cellTable.setColumnWidth(activeColumn, 100, Unit.PX);
 
@@ -304,7 +301,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 									if (result) {
 										reloadList();
 									} else {
-										new AlertDialog(l.logTrashError())
+										new AlertDialog(M.users.logTrashError())
 												.show();
 									}
 
@@ -378,7 +375,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		bottom.add(pager);
 
 		edit = new Button();
-		edit.setText(tools.btnEdit());
+		edit.setText(M.tools.btnEdit());
 		edit.setEnabled(false);
 		edit.addClickHandler(new ClickHandler() {
 
@@ -397,7 +394,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 		bottom.add(edit);
 
 		del = new Button();
-		del.setText(tools.btnDelete());
+		del.setText(M.tools.btnDelete());
 		del.setEnabled(false);
 		del.addClickHandler(new ClickHandler() {
 
@@ -406,7 +403,7 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 				User user = ((SingleSelectionModel<User>) selectionModel)
 						.getSelectedObject();
 				if (user != null) {
-					new QuestionDialog(l.qstTrashUser() + " "
+					new QuestionDialog(M.users.qstTrashUser() + " "
 							+ user.getUsername(), UsersPanel.this, "trashuser")
 							.show();
 				}

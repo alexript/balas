@@ -18,9 +18,8 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.DialogMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -38,9 +37,6 @@ public class QuestionDialog extends DialogBox {
 
 	/** The question dialog receiver. */
 	private final IDialogYesReceiver yesreceiver;
-
-	/** The l. */
-	private static final DialogMessages l = GWT.create(DialogMessages.class);
 
 	/** The mytag. */
 	private final String mytag;
@@ -81,11 +77,11 @@ public class QuestionDialog extends DialogBox {
 		mytag = tag;
 		mytag2 = tag2;
 
-		setText(l.msgTitle());
+		setText(M.dialog.msgTitle());
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
 
-		Button yes = new Button(l.btnYes());
+		Button yes = new Button(M.dialog.btnYes());
 
 		yes.addClickHandler(new ClickHandler() {
 
@@ -97,7 +93,7 @@ public class QuestionDialog extends DialogBox {
 
 		});
 
-		Button no = new Button(l.btnNo());
+		Button no = new Button(M.dialog.btnNo());
 		no.addClickHandler(new ClickHandler() {
 
 			@Override

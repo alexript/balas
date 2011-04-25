@@ -19,10 +19,9 @@ package net.autosauler.ballance.client.gui;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.PartnersMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -40,8 +39,6 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 
 	private TextBox email;
 	private CatalogSelector paymethod;
-	private static final PartnersMessages l = GWT
-			.create(PartnersMessages.class);
 	private static PayMethodPanel methods = new PayMethodPanel();
 	private CurrencySelector currency;
 	private static TarifPanel tarifs = new TarifPanel();
@@ -62,25 +59,25 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	void buildEditor(VerticalPanel panel) {
 		HorizontalPanel p = new HorizontalPanel();
 
-		p.add(new Label(l.lblEmail()));
+		p.add(new Label(M.partners.lblEmail()));
 		email = new TextBox();
 		p.add(email);
 		panel.add(p);
 
 		p = new HorizontalPanel();
-		p.add(new Label(l.lblPaymethod()));
+		p.add(new Label(M.partners.lblPaymethod()));
 		paymethod = methods.getSelectBox(null);
 		p.add(paymethod);
 		panel.add(p);
 
 		p = new HorizontalPanel();
-		p.add(new Label(l.lblCurrency()));
+		p.add(new Label(M.partners.lblCurrency()));
 		currency = new CurrencySelector(null);
 		p.add(currency);
 		panel.add(p);
 
 		p = new HorizontalPanel();
-		p.add(new Label(l.lblTarif()));
+		p.add(new Label(M.partners.lblTarif()));
 		tarif = tarifs.getSelectBox(null);
 		p.add(tarif);
 		panel.add(p);

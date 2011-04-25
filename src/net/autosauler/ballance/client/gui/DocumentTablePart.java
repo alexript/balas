@@ -25,12 +25,11 @@ import java.util.Set;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.DocumentTableMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -61,9 +60,6 @@ public abstract class DocumentTablePart extends Composite {
 
 	/** The dataset. */
 	private List<HashMap<String, Object>> dataset = null;
-
-	private static final DocumentTableMessages l = GWT
-			.create(DocumentTableMessages.class);
 
 	/** The btn plus. */
 	private Image btnPlus;
@@ -212,8 +208,8 @@ public abstract class DocumentTablePart extends Composite {
 		tools.setSpacing(3);
 
 		btnPlus = new Image(Images.table.Plus());
-		btnPlus.setTitle(l.btnAddrow());
-		btnPlus.setAltText(l.btnAddrow());
+		btnPlus.setTitle(M.table.btnAddrow());
+		btnPlus.setAltText(M.table.btnAddrow());
 		btnPlus.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -223,8 +219,8 @@ public abstract class DocumentTablePart extends Composite {
 		});
 
 		btnMinus = new Image(Images.table.Minus());
-		btnMinus.setTitle(l.btnDelrow());
-		btnMinus.setAltText(l.btnDelrow());
+		btnMinus.setTitle(M.table.btnDelrow());
+		btnMinus.setAltText(M.table.btnDelrow());
 		btnMinus.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -279,7 +275,7 @@ public abstract class DocumentTablePart extends Composite {
 				}
 			};
 
-			cellTable.addColumn(recNumberColumn, l.colNumber());
+			cellTable.addColumn(recNumberColumn, M.table.colNumber());
 
 			cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
 		}
@@ -376,10 +372,10 @@ public abstract class DocumentTablePart extends Composite {
 				dataProvider.refresh();
 
 			} else {
-				new AlertDialog(l.msgCantdelete()).show();
+				new AlertDialog(M.table.msgCantdelete()).show();
 			}
 		} else {
-			new AlertDialog(l.msgMustselect()).show();
+			new AlertDialog(M.table.msgMustselect()).show();
 		}
 	}
 

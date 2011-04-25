@@ -21,10 +21,9 @@ import java.util.Date;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.SessionId;
-import net.autosauler.ballance.client.gui.messages.AuthMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -68,9 +67,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 	/** The logout button. */
 	private Button logoutButton = null;
-
-	/** The l18n. */
-	private static final AuthMessages l = GWT.create(AuthMessages.class);
 
 	/** The message label. */
 	private Label messageLabel = null;
@@ -134,7 +130,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		loginPanel.setSpacing(3);
 
 		Label loginLabel = new Label();
-		loginLabel.setText(l.labelLogin());
+		loginLabel.setText(M.auth.labelLogin());
 		loginLabel.setWidth("70px");
 		loginPanel.add(loginLabel);
 
@@ -164,7 +160,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		passwordPanel.setSpacing(3);
 
 		Label passwordLabel = new Label();
-		passwordLabel.setText(l.labelPssword());
+		passwordLabel.setText(M.auth.labelPssword());
 		passwordLabel.setWidth("70px");
 		passwordPanel.add(passwordLabel);
 
@@ -182,12 +178,12 @@ public class AuthPanel extends Composite implements ClickHandler,
 		buttonsPanel.setSpacing(3);
 
 		okButton = new Button();
-		okButton.setText(l.btnLogin());
+		okButton.setText(M.auth.btnLogin());
 		okButton.addClickHandler(this);
 		buttonsPanel.add(okButton);
 
 		cancelButton = new Button();
-		cancelButton.setText(l.btnCancel());
+		cancelButton.setText(M.auth.btnCancel());
 		cancelButton.addClickHandler(this);
 		buttonsPanel.add(cancelButton);
 
@@ -208,8 +204,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 		cancelButton = null;
 
 		Label helloLabel = new Label();
-		helloLabel.setText(l.helloUserMsg(Ballance_autosauler_net.sessionId
-				.getUsername()));
+		helloLabel.setText(M.auth
+				.helloUserMsg(Ballance_autosauler_net.sessionId.getUsername()));
 		helloLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(helloLabel);
 
@@ -220,7 +216,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 				HasHorizontalAlignment.ALIGN_CENTER);
 
 		logoutButton = new Button();
-		logoutButton.setText(l.btnLogout());
+		logoutButton.setText(M.auth.btnLogout());
 		logoutButton.addClickHandler(this);
 		authPanel.add(logoutButton);
 
@@ -293,7 +289,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 			}
 			messageLabel.setText("");
 		} else if (event.getSource().equals(logoutButton)) {
-			new QuestionDialog(l.qtnLogout(), this, "logout").show();
+			new QuestionDialog(M.auth.qtnLogout(), this, "logout").show();
 		}
 
 	}
@@ -368,7 +364,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 		}
 
 		if (!fieldsok) {
-			messageLabel.setText(l.badFieldValue());
+			messageLabel.setText(M.auth.badFieldValue());
 			loginText.setFocus(true);
 			return;
 		}
@@ -380,7 +376,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 			@Override
 			public void onFailure(Throwable caught) {
 				MainPanel.setCommInfo(false);
-				messageLabel.setText(l.commError());
+				messageLabel.setText(M.auth.commError());
 				new AlertDialog(caught).show();
 			}
 
@@ -403,7 +399,7 @@ public class AuthPanel extends Composite implements ClickHandler,
 				} else {
 					Ballance_autosauler_net.setLoggedInState(false);
 					logoffAction();
-					messageLabel.setText(l.badAuth());
+					messageLabel.setText(M.auth.badAuth());
 				}// end else
 
 				MainPanel.setCommInfo(false);

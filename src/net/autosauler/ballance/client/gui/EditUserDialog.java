@@ -17,11 +17,10 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.messages.UsersMessages;
+import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -43,9 +42,6 @@ public class EditUserDialog extends DialogBox {
 
 	/** The receiver. */
 	private final IDialogYesReceiver receiver;
-
-	/** The l. */
-	private static final UsersMessages l = GWT.create(UsersMessages.class);
 
 	/** The editlogin. */
 	private String editlogin;
@@ -111,16 +107,16 @@ public class EditUserDialog extends DialogBox {
 	private void createGUI() {
 
 		if (editlogin == null) {
-			setText(l.menuAddUser());
+			setText(M.users.menuAddUser());
 		} else {
-			setText(l.titleEditUser());
+			setText(M.users.titleEditUser());
 		}
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
 
-		String addText = l.btnAdd();
+		String addText = M.users.btnAdd();
 		if (editlogin != null) {
-			addText = l.btnUpdate();
+			addText = M.users.btnUpdate();
 		}
 		Button btnAdd = new Button(addText);
 
@@ -137,7 +133,7 @@ public class EditUserDialog extends DialogBox {
 
 		});
 
-		Button btnCancel = new Button(l.btnCancel());
+		Button btnCancel = new Button(M.users.btnCancel());
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -154,12 +150,12 @@ public class EditUserDialog extends DialogBox {
 		FlexTable layout = new FlexTable();
 		layout.setCellSpacing(6);
 
-		layout.setHTML(0, 0, l.fullName());
+		layout.setHTML(0, 0, M.users.fullName());
 		name = new TextBox();
 		name.setText(user.getUsername());
 		layout.setWidget(0, 1, name);
 
-		layout.setHTML(1, 0, l.login());
+		layout.setHTML(1, 0, M.users.login());
 		login = new TextBox();
 		login.setText(user.getLogin());
 		if (editlogin != null) {
@@ -167,39 +163,39 @@ public class EditUserDialog extends DialogBox {
 		}
 		layout.setWidget(1, 1, login);
 
-		layout.setHTML(2, 0, l.password());
+		layout.setHTML(2, 0, M.users.password());
 		password = new TextBox();
 		password.setText("");
 		layout.setWidget(2, 1, password);
 
-		layout.setHTML(3, 0, l.isactive());
+		layout.setHTML(3, 0, M.users.isactive());
 		isactive = new CheckBox();
 		isactive.setValue(user.isActive());
 		layout.setWidget(3, 1, isactive);
 
-		layout.setHTML(4, 0, l.access());
+		layout.setHTML(4, 0, M.users.access());
 
 		UserRole role = user.getUserrole();
 
 		FlexTable access = new FlexTable();
 		access.setCellSpacing(6);
 
-		access.setHTML(0, 0, l.isadmin());
+		access.setHTML(0, 0, M.users.isadmin());
 		isadmin = new CheckBox();
 		isadmin.setValue(role.isAdmin());
 		access.setWidget(0, 1, isadmin);
 
-		access.setHTML(1, 0, l.isdocuments());
+		access.setHTML(1, 0, M.users.isdocuments());
 		isdocuments = new CheckBox();
 		isdocuments.setValue(role.isDocuments());
 		access.setWidget(1, 1, isdocuments);
 
-		access.setHTML(2, 0, l.isfinances());
+		access.setHTML(2, 0, M.users.isfinances());
 		isfinances = new CheckBox();
 		isfinances.setValue(role.isFinances());
 		access.setWidget(2, 1, isfinances);
 
-		access.setHTML(3, 0, l.ismanager());
+		access.setHTML(3, 0, M.users.ismanager());
 		ismanager = new CheckBox();
 		ismanager.setValue(role.isManager());
 		access.setWidget(3, 1, ismanager);
@@ -253,7 +249,7 @@ public class EditUserDialog extends DialogBox {
 							receiver.onDialogYesButtonClick("reload", null);
 
 						} else {
-							new AlertDialog(l.logCreateError()).show();
+							new AlertDialog(M.users.logCreateError()).show();
 						}
 					}
 
@@ -396,7 +392,7 @@ public class EditUserDialog extends DialogBox {
 							receiver.onDialogYesButtonClick("reload", null);
 
 						} else {
-							new AlertDialog(l.logCreateError()).show();
+							new AlertDialog(M.users.logCreateError()).show();
 						}
 
 					}
