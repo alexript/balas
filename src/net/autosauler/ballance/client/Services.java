@@ -25,27 +25,31 @@ import com.google.gwt.core.client.GWT;
  */
 public class Services {
 
-	/** The Constant auth. */
+	/** The Constant auth service RPC. */
 	public static final AuthServiceAsync auth = GWT.create(AuthService.class);
 
-	/** The Constant catalogs. */
+	/** The Constant catalogs service RPC. */
 	public static final CatalogServiceAsync catalogs = GWT
 			.create(CatalogService.class);
 
-	/** The Constant currency. */
+	/** The Constant currency service RPC. */
 	public static final CurrencyServiceAsync currency = GWT
 			.create(CurrencyService.class);
 
-	/** The Constant database. */
+	/** The Constant database service RPC. */
 	public static final DatabaseServiceAsync database = GWT
 			.create(DatabaseService.class);
 
-	/** The Constant documents. */
+	/** The Constant documents service RPC. */
 	public static final DocumentServiceAsync documents = GWT
 			.create(DocumentService.class);
 
-	/** The Constant users. */
+	/** The Constant users service RPC. */
 	public static final UsersServiceAsync users = GWT
 			.create(UsersService.class);
+
+	/** The Constant scripts service RPC. */
+	public static final ScriptsServiceAsync scripts = GWT
+			.create(ScriptsService.class);
 
 }

@@ -4,71 +4,88 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>authServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.AuthServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>authServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/auth</url-pattern>
-  </servlet-mapping>
+	<display-name>BalAS system</display-name>
+	<mime-mapping>
+		<extension>js</extension>
+		<mime-type>text/javascript</mime-type>
+	</mime-mapping>
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>authServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.AuthServiceImpl</servlet-class>
+	</servlet>
 
-  <servlet>
-    <servlet-name>dbServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.DatabaseServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>dbServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/database</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>authServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/auth</url-pattern>
+	</servlet-mapping>
 
-  <servlet>
-    <servlet-name>usersServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.UsersServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>usersServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/users</url-pattern>
-  </servlet-mapping>
+	<servlet>
+		<servlet-name>dbServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.DatabaseServiceImpl</servlet-class>
+	</servlet>
 
-  <servlet>
-    <servlet-name>currencyServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.CurrencyServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>currencyServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/currency</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dbServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/database</url-pattern>
+	</servlet-mapping>
 
-  <servlet>
-    <servlet-name>catalogServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.CatalogServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>catalogServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/catalog</url-pattern>
-  </servlet-mapping>
+	<servlet>
+		<servlet-name>usersServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.UsersServiceImpl</servlet-class>
+	</servlet>
 
-  <servlet>
-    <servlet-name>documentServlet</servlet-name>
-    <servlet-class>net.autosauler.ballance.server.DocumentServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>documentServlet</servlet-name>
-    <url-pattern>/ballance_autosauler_net/document</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+	<servlet-mapping>
+		<servlet-name>usersServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/users</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>currencyServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.CurrencyServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>currencyServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/currency</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>catalogServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.CatalogServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>catalogServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/catalog</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>documentServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.DocumentServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>documentServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/document</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>scriptsServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.ScriptsServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>scriptsServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/scripts</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
 
 </web-app>

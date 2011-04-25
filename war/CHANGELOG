@@ -1,3 +1,26 @@
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 16:03:33 +0400): refactor messages objects<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 15:02:39 +0400): refactor images objects<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 14:37:32 +0400): images, messages and resources are in separate packages<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 14:14:48 +0400): Refactor services objects<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 21:05:06 +0400): new AlertDialog constructor<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 20:52:08 +0400): DocumentServiceImpl refactoring<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 20:17:08 +0400): CatalogServiceImpl refactoring<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 19:43:29 +0400): dump settings and users<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 19:26:44 +0400): split user login to login and domain fields<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 18:08:06 +0400): reload pane image menu in all panes menu contain pane submenu<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 17:14:26 +0400): global settings are domain specific<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-22 16:34:30 +0400): fix javadoc warnings<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-21 19:23:56 +0400): Tarifs accessible for managers<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-21 19:09:50 +0400): tarifs catalog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-21 18:39:41 +0400): tableparts complete (mostly)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-21 14:14:12 +0400): fix tablepart store hack for cleaning state of dataprovider of tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-21 12:54:48 +0400): fix selection for tablepart (on add row) hide row number in tablepart (without admin)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-20 21:28:51 +0400): simple editable cells for tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-20 20:35:04 +0400): readonly tables for tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-20 17:49:15 +0400): addrow, removerow for tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-20 17:17:28 +0400): celltable for tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-19 17:59:42 +0400): remove unneeded todo's<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-19 17:56:59 +0400): Document TableParts gui skeleton<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-18 20:38:25 +0400): unselect selected document on list reload<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-18 20:24:37 +0400): ant build.xml<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-18 18:46:41 +0400): CHANGELOG generator<br/>
