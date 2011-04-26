@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server.schemevm;
 
 import sixx.Library;
+import sixx.Reader;
 import sixx.Sixx;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -50,7 +51,7 @@ public class VM {
 	@SuppressWarnings("rawtypes")
 	private void addMehod(String name, Class cls, String method,
 			String[] paramtypes) {
-		Log.error("addMethod to vm: " + name);
+		Log.trace("addMethod to vm: " + name);
 		if (vm != null) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("(define ");
@@ -70,10 +71,7 @@ public class VM {
 			}
 			sb.append("))");
 
-			eval(sb.toString()); // TODO: not evaled. stored. rly strange.
-
-			Log.error(sixxlib.symbolTable.toString());
-			Log.error(sixxlib.slots.toString());
+			eval(sb.toString());
 		} else {
 			Log.error("VM is null");
 		}
@@ -92,11 +90,22 @@ public class VM {
 		if (vm != null) {
 			try {
 				// obj = vm.eval(str, vm.r6rs);
-				Log.error("Try eval: " + str);
-				obj = vm.eval(str, sixxlib);
-				Log.error("Result: " + obj.toString());
+				Log.trace("Try eval: " + str);
+				Object form = (new Reader(new java.io.StringReader(
+						"(begin (unspecified) " + str + ")"))).read();
+				Log.trace("Form: " + form.toString());
+				obj = vm.eval(form, sixxlib);
+				if (obj != null) {
+					Log.trace("Result: " + obj.toString());
+				} else {
+					Log.trace("Result: null.");
+				}
+				Log.trace(sixxlib.symbolTable.toString());
+				Log.trace(sixxlib.slots.toString());
+
 			} catch (Exception e) {
-				Log.error(e.getMessage());
+				Log.error("Eval exception: " + e.getMessage());
+				Log.trace(e.getStackTrace().toString());
 				obj = null;
 			}
 		}
@@ -108,11 +117,13 @@ public class VM {
 	 */
 	private void initContext() {
 		if (vm != null) {
-			Log.error("Init vm");
+			Log.trace("Init vm");
 			sixxlib = vm.getLib("sixx");
-			addMehod("log.error", Log.class, "error", new String[] { "string" });
-			addMehod("log.trace", Log.class, "trace", new String[] { "string" });
-			eval("(log.error \"test\")");
+			addMehod("log.error", Log.class, "error",
+					new String[] { "java.lang.String" });
+			addMehod("log.trace", Log.class, "trace",
+					new String[] { "java.lang.String" });
+			// eval("(log.error \"test\")");
 
 		} else {
 			Log.error("VM IS NULL. NOT INIT");

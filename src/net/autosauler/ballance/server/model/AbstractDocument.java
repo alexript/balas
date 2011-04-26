@@ -102,7 +102,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("(onactivate)"); // TODO: do it right
+				script.eval("(doc." + getSuffix() + ".onactivate)"); // TODO: do
+																		// it
+																		// right
 
 				setActive(true);
 				setActivationdate(new Date()); // document activation
@@ -157,30 +159,36 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(define onactivate ())\n");
-		sb.append("(define onunactivate ())\n");
-		sb.append("(define oncreate ())\n");
-		sb.append("(define ontrash ())\n");
-		sb.append("(define onrestore ())\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".onactivate) (log.error \"not defined\"))\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".onunactivate) (log.error \"not defined\"))\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".oncreate) (log.error \"not defined\"))\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".ontrash) (log.error \"not defined\"))\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".onrestore) (log.error \"not defined\"))\n");
 
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
-			String name = "onchange." + i.next();
-			sb.append("(define " + name + " ())\n");
+			String name = "doc." + getSuffix() + ".onchange." + i.next();
+			sb.append("(define (" + name + ") (log.error \"not defined\"))\n");
 		}
 
 		names = tables.keySet();
 		i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			String prefix = "onchange." + name + ".";
+			String prefix = "doc." + getSuffix() + ".onchange." + name + ".";
 			AbstractDocumentTablePart part = tables.get(name);
 			Set<String> fields = part.struct.getNames();
 			Iterator<String> j = fields.iterator();
 			while (j.hasNext()) {
 				String field = j.next();
-				sb.append("(define " + prefix + field + " ())\n");
+				sb.append("(define (" + prefix + field
+						+ ") (log.error \"not defined\"))\n");
 			}
 
 		}
@@ -436,7 +444,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			if (onUnActivation()) {
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("(onunactivate)"); // TODO: do it right
+				script.eval("(doc." + getSuffix() + ".onunactivate)"); // TODO:
+																		// do it
+																		// right
 
 				setActive(false);
 			}

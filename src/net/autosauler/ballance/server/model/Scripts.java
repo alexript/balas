@@ -185,12 +185,12 @@ public class Scripts {
 		if ((txt == null) || txt.isEmpty()) {
 			if (caller != null) {
 				txt = caller.generateDefaultScript();
-				txt = "(library " + name
-						+ "\n  (export)\n  (import r6rs sixx)\n\n" + txt
-						+ "\n)\n";
-			} else {
-				txt = "(library " + name
-						+ "\n  (export)\n  (import r6rs sixx)\n\n)\n";
+				// txt = "(library " + name
+				// + "\n  (export)\n \n\n" + txt
+				// + "\n)\n";
+				// } else {
+				// txt = "(library " + name
+				// + "\n  (export)\n  (import r6rs sixx)\n\n)\n";
 			}
 			setText(txt, true);
 			return;
