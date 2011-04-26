@@ -1,3 +1,8 @@
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 19:03:54 +0400): oncreate, onsave, ontrash, onrestore handlers defaultscript generator for catalogs fields for parent-child links in documents<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 18:16:38 +0400): scripts dump<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 17:04:48 +0400): basic scripting logic is done<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 20:09:50 +0400): next little step to scripting<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 16:35:51 +0400): Scripts service skeleton<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 16:03:33 +0400): refactor messages objects<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 15:02:39 +0400): refactor images objects<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-25 14:37:32 +0400): images, messages and resources are in separate packages<br/>

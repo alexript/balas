@@ -305,7 +305,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * @return true, if successful
 	 */
 	public boolean hasTables() {
-		return !tables.isEmpty();
+		return (tables != null) && !tables.isEmpty();
 	}
 
 	/*
