@@ -16,14 +16,18 @@
 
 package net.autosauler.ballance.server.model;
 
+import java.io.IOException;
 import java.util.List;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.schemevm.VM;
+import net.autosauler.ballance.server.util.Base64;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
@@ -46,7 +50,33 @@ public class Scripts {
 	public static String dump(String domain) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<scripts>\n");
-		// TODO: create dump records
+		DB db = Database.get(domain);
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(TABLENAME);
+			BasicDBObject q = new BasicDBObject();
+
+			q.put("domain", domain);
+
+			DBCursor cur = coll.find(q);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+
+				String txt;
+				try {
+					txt = Base64.encodeObject((String) myDoc.get("text"));
+					sb.append("<script name=\"");
+					sb.append((String) myDoc.get("name"));
+					sb.append("\">");
+					sb.append(txt);
+					sb.append("</script>\n");
+				} catch (IOException e) {
+					Log.error(e.getMessage());
+				}
+
+			}
+			Database.release();
+		}
 		sb.append("</scripts>\n");
 		return sb.toString();
 	}

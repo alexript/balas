@@ -31,6 +31,8 @@ public class VM {
 
 	/** The vm. */
 	private static Sixx vm = null;
+
+	/** The sixxlib. */
 	private static Library sixxlib;
 
 	/**
@@ -48,6 +50,18 @@ public class VM {
 		}
 	}
 
+	/**
+	 * Adds the mehod.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param cls
+	 *            the cls
+	 * @param method
+	 *            the method
+	 * @param paramtypes
+	 *            the paramtypes
+	 */
 	@SuppressWarnings("rawtypes")
 	private void addMehod(String name, Class cls, String method,
 			String[] paramtypes) {
