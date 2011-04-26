@@ -96,4 +96,17 @@ public class Partner extends AbstractCatalog {
 		struct.add(fieldname_tarif, DataTypes.DT_CATALOGRECORD, new Long(0L));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractCatalog#onGenerateDefaultScript
+	 * ()
+	 */
+	@Override
+	protected String onGenerateDefaultScript() {
+
+		return "";
+	}
+
 }

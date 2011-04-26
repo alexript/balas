@@ -134,7 +134,7 @@ public abstract class AbstractStructuredData {
 		boolean result = false;
 		setNumber(findLastNumber());
 		setCreatedate(new Date());
-
+		onCreate();
 		DB db = Database.get(getDomain());
 		if (db != null) {
 			BasicDBObject doc = (BasicDBObject) store(null);
@@ -467,6 +467,11 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
+	 * On create.
+	 */
+	protected abstract void onCreate();
+
+	/**
 	 * @return
 	 */
 	protected abstract StringBuilder onDump();
@@ -489,6 +494,11 @@ public abstract class AbstractStructuredData {
 	 */
 	protected abstract void onInitDbStruct(final BasicDBObject i,
 			final DBCollection coll);
+
+	/**
+	 * On update.
+	 */
+	protected abstract void onUpdate();
 
 	/**
 	 * Restore.
@@ -623,6 +633,7 @@ public abstract class AbstractStructuredData {
 		if (doc == null) {
 			result = createRecord();
 		} else {
+			onUpdate();
 			doc = store(doc);
 			DB db = Database.get(getDomain());
 			if (db != null) {

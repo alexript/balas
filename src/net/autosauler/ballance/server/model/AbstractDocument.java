@@ -18,13 +18,18 @@ package net.autosauler.ballance.server.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * The Class AbstractDocument.
@@ -33,13 +38,18 @@ import com.mongodb.DBCollection;
  */
 public abstract class AbstractDocument extends AbstractStructuredData implements
 		IScriptableObject {
-	// TODO: parent document link
 
 	/** The Constant fieldname_active. */
 	private static final String fieldname_active = "active";
 
 	/** The Constant fieldname_activationdate. */
 	private static final String fieldname_activationdate = "activationdate";
+
+	/** The Constant fieldname_parentdoc. */
+	private static final String fieldname_parentdoc = "pardoc";
+
+	/** The Constant fieldname_parentdocname. */
+	private static final String fieldname_parentdocname = "pardocname";
 
 	/** The tables. */
 	private final HashMap<String, AbstractDocumentTablePart> tables;
@@ -149,6 +159,44 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		tables.put(name, part);
 	}
 
+	/**
+	 * Find all childs.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @return the sets the
+	 */
+	public Set<Long> findAllChilds(String docname) {
+		Set<Long> numbers = new HashSet<Long>();
+
+		DB db = Database.get(getDomain());
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection("doc_" + docname);
+			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname_trash, false);
+			q.put(fieldname_parentdoc, getNumber());
+			q.put(fieldname_parentdocname, getSuffix());
+			w.put("$query", q);
+
+			BasicDBObject o = new BasicDBObject();
+			o.put(fieldname_number, 1);
+			addFindAllOrders(o);
+			w.put("$orderby", o);
+
+			DBCursor cur = coll.find(w);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				numbers.add((Long) myDoc.get(fieldname_number));
+			}
+			Database.release();
+		}
+
+		return numbers;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -169,6 +217,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 				+ ".ontrash) (log.error \"not defined\"))\n");
 		sb.append("(define (doc." + getSuffix()
 				+ ".onrestore) (log.error \"not defined\"))\n");
+		sb.append("(define (doc." + getSuffix()
+				+ ".onsave) (log.error \"not defined\"))\n");
 
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
@@ -267,6 +317,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 
 		struct.add(fieldname_active, DataTypes.DT_BOOLEAN, new Boolean(false));
 		struct.add(fieldname_activationdate, DataTypes.DT_DATE, new Date());
+		struct.add(fieldname_parentdoc, DataTypes.DT_DOCUMENTRECORD, new Long(
+				0L));
+		struct.add(fieldname_parentdocname, DataTypes.DT_DOCUMENT, "");
 	}
 
 	/**
@@ -289,6 +342,21 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 * @return true, if successful
 	 */
 	protected abstract boolean onActivation();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onCreate()
+	 */
+	@Override
+	protected void onCreate() {
+		Scripts script = new Scripts(this, getDomain(), "document."
+				+ getSuffix());
+		script.eval("(doc." + getSuffix() + ".oncreate)"); // TODO:
+															// do it
+															// right
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -362,6 +430,38 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	protected abstract boolean onUnActivation();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onUpdate()
+	 */
+	@Override
+	protected void onUpdate() {
+		Scripts script = new Scripts(this, getDomain(), "document."
+				+ getSuffix());
+		script.eval("(doc." + getSuffix() + ".onupdate)"); // TODO:
+		// do it
+		// right
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#restore()
+	 */
+	@Override
+	public void restore() {
+		super.restore();
+		Scripts script = new Scripts(this, getDomain(), "document."
+				+ getSuffix());
+		script.eval("(doc." + getSuffix() + ".onrestore)"); // TODO:
+															// do it
+															// right
+
+	}
+
 	/**
 	 * Save table records.
 	 * 
@@ -434,6 +534,46 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public void setActive(boolean active) {
 		values.set(fieldname_active, active);
+	}
+
+	/**
+	 * Sets the parent.
+	 * 
+	 * @param d
+	 *            the new parent
+	 */
+	public void setParent(AbstractDocument d) {
+		values.set(fieldname_parentdocname, d.getSuffix());
+		values.set(fieldname_parentdoc, d.getNumber());
+	}
+
+	/**
+	 * Sets the parent.
+	 * 
+	 * @param docname
+	 *            the docname
+	 * @param num
+	 *            the new parent
+	 */
+	public void setParent(String docname, Long num) {
+		values.set(fieldname_parentdocname, docname);
+		values.set(fieldname_parentdoc, num);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#trash()
+	 */
+	@Override
+	public void trash() {
+		super.trash();
+		Scripts script = new Scripts(this, getDomain(), "document."
+				+ getSuffix());
+		script.eval("(doc." + getSuffix() + ".ontrash)"); // TODO:
+															// do it
+															// right
+
 	}
 
 	/**

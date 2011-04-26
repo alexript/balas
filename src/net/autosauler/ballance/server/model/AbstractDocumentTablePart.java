@@ -166,6 +166,17 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onCreate()
+	 */
+	@Override
+	public void onCreate() {
+		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#onDump()
 	 */
 	@Override
@@ -186,6 +197,17 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 
 		coll.createIndex(i);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onUpdate()
+	 */
+	@Override
+	protected void onUpdate() {
+		return;
 	}
 
 	/**

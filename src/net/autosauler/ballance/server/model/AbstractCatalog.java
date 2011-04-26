@@ -17,6 +17,8 @@
 package net.autosauler.ballance.server.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -32,7 +34,8 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public abstract class AbstractCatalog extends AbstractStructuredData {
+public abstract class AbstractCatalog extends AbstractStructuredData implements
+		IScriptableObject {
 	// TODO: add periodic catalogs
 	// TODO: add groups
 
@@ -92,6 +95,37 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	@Override
 	protected void addFindAllQueryParameters(final BasicDBObject q) {
 		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.IScriptableObject#generateDefaultScript
+	 * ()
+	 */
+	@Override
+	public String generateDefaultScript() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(define (cat." + getSuffix()
+				+ ".oncreate) (log.error \"not defined\"))\n");
+		sb.append("(define (cat." + getSuffix()
+				+ ".ontrash) (log.error \"not defined\"))\n");
+		sb.append("(define (cat." + getSuffix()
+				+ ".onrestore) (log.error \"not defined\"))\n");
+		sb.append("(define (cat." + getSuffix()
+				+ ".onsave) (log.error \"not defined\"))\n");
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = "cat." + getSuffix() + ".onchange." + i.next();
+			sb.append("(define (" + name + ") (log.error \"not defined\"))\n");
+		}
+
+		sb.append(onGenerateDefaultScript());
+
+		return sb.toString();
+
 	}
 
 	/**
@@ -183,10 +217,32 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	@Override
 	protected abstract void initStructure();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onCreate()
+	 */
+	@Override
+	protected void onCreate() {
+		Scripts script = new Scripts(this, getDomain(), "catalog."
+				+ getSuffix());
+		script.eval("(cat." + getSuffix() + ".oncreate)"); // TODO:
+															// do it
+															// right
+	}
+
 	@Override
 	protected StringBuilder onDump() {
 		return null;
 	}
+
+	/**
+	 * On generate default script.
+	 * 
+	 * @return the string
+	 */
+	protected abstract String onGenerateDefaultScript();
 
 	/*
 	 * (non-Javadoc)
@@ -215,6 +271,38 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onUpdate()
+	 */
+	@Override
+	protected void onUpdate() {
+		Scripts script = new Scripts(this, getDomain(), "catalog."
+				+ getSuffix());
+		script.eval("(cat." + getSuffix() + ".onupdate)"); // TODO:
+															// do it
+															// right
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#restore()
+	 */
+	@Override
+	public void restore() {
+		super.restore();
+		Scripts script = new Scripts(this, getDomain(), "catalog."
+				+ getSuffix());
+		script.eval("(cat." + getSuffix() + ".onrestore)"); // TODO:
+															// do it
+															// right
+
+	}
+
 	/**
 	 * Sets the fullname.
 	 * 
@@ -223,6 +311,22 @@ public abstract class AbstractCatalog extends AbstractStructuredData {
 	 */
 	public void setFullname(String fullname) {
 		values.set(fieldname_fullname, fullname);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#trash()
+	 */
+	@Override
+	public void trash() {
+		super.trash();
+		Scripts script = new Scripts(this, getDomain(), "catalog."
+				+ getSuffix());
+		script.eval("(cat." + getSuffix() + ".ontrash)"); // TODO:
+															// do it
+															// right
+
 	}
 
 }
