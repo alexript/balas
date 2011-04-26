@@ -112,9 +112,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("(doc." + getSuffix() + ".onactivate)"); // TODO: do
-																		// it
-																		// right
+				script.eval("(doc." + getSuffix() + ".onactivate)");
+				// TODO: do it right
 
 				setActive(true);
 				setActivationdate(new Date()); // document activation
@@ -227,20 +226,23 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			sb.append("(define (" + name + ") (log.error \"not defined\"))\n");
 		}
 
-		names = tables.keySet();
-		i = names.iterator();
-		while (i.hasNext()) {
-			String name = i.next();
-			String prefix = "doc." + getSuffix() + ".onchange." + name + ".";
-			AbstractDocumentTablePart part = tables.get(name);
-			Set<String> fields = part.struct.getNames();
-			Iterator<String> j = fields.iterator();
-			while (j.hasNext()) {
-				String field = j.next();
-				sb.append("(define (" + prefix + field
-						+ ") (log.error \"not defined\"))\n");
-			}
+		if (hasTables()) {
+			names = tables.keySet();
+			i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				String prefix = "doc." + getSuffix() + ".onchange." + name
+						+ ".";
+				AbstractDocumentTablePart part = tables.get(name);
+				Set<String> fields = part.struct.getNames();
+				Iterator<String> j = fields.iterator();
+				while (j.hasNext()) {
+					String field = j.next();
+					sb.append("(define (" + prefix + field
+							+ ") (log.error \"not defined\"))\n");
+				}
 
+			}
 		}
 
 		sb.append(onGenerateDefaultScript());
@@ -353,9 +355,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	protected void onCreate() {
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("(doc." + getSuffix() + ".oncreate)"); // TODO:
-															// do it
-															// right
+		script.eval("(doc." + getSuffix() + ".oncreate)");
+		// TODO: do it right
 	}
 
 	/*
@@ -440,9 +441,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	protected void onUpdate() {
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("(doc." + getSuffix() + ".onupdate)"); // TODO:
-		// do it
-		// right
+		script.eval("(doc." + getSuffix() + ".onupdate)");
+		// TODO: do it right
 	}
 
 	/*
@@ -456,9 +456,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		super.restore();
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("(doc." + getSuffix() + ".onrestore)"); // TODO:
-															// do it
-															// right
+		script.eval("(doc." + getSuffix() + ".onrestore)");
+		// TODO: do it right
 
 	}
 
@@ -570,9 +569,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		super.trash();
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("(doc." + getSuffix() + ".ontrash)"); // TODO:
-															// do it
-															// right
+		script.eval("(doc." + getSuffix() + ".ontrash)");
+		// TODO: do it right
 
 	}
 
@@ -584,9 +582,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			if (onUnActivation()) {
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("(doc." + getSuffix() + ".onunactivate)"); // TODO:
-																		// do it
-																		// right
+				script.eval("(doc." + getSuffix() + ".onunactivate)");
+				// TODO: do it right
 
 				setActive(false);
 			}

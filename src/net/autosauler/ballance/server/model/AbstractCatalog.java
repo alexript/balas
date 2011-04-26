@@ -227,9 +227,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	protected void onCreate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".oncreate)"); // TODO:
-															// do it
-															// right
+		script.eval("(cat." + getSuffix() + ".oncreate)");
+		// TODO: do it right
 	}
 
 	@Override
@@ -281,9 +280,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	protected void onUpdate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".onupdate)"); // TODO:
-															// do it
-															// right
+		script.eval("(cat." + getSuffix() + ".onupdate)");
+		// TODO: do it right
 	}
 
 	/*
@@ -297,9 +295,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 		super.restore();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".onrestore)"); // TODO:
-															// do it
-															// right
+		script.eval("(cat." + getSuffix() + ".onrestore)");
+		// TODO: do it right
 
 	}
 
@@ -323,9 +320,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 		super.trash();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".ontrash)"); // TODO:
-															// do it
-															// right
+		script.eval("(cat." + getSuffix() + ".ontrash)");
+		// TODO: do it right
 
 	}
 
