@@ -119,6 +119,7 @@ public class VM {
 
 			} catch (Exception e) {
 				Log.error("Eval exception: " + e.getMessage());
+				Log.error("Code: " + str);
 				Log.trace(e.getStackTrace().toString());
 				obj = null;
 			}

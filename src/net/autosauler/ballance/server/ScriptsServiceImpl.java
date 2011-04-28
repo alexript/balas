@@ -18,7 +18,11 @@ package net.autosauler.ballance.server;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import net.autosauler.ballance.client.ScriptsService;
+import net.autosauler.ballance.server.model.Scripts;
+import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -57,6 +61,73 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 			String mainparam, HashMap<String, Object> params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Gets the domain.
+	 * 
+	 * @return the domain
+	 */
+	private String getDomain() {
+		HttpSession httpSession = getSession();
+		String domain = HttpUtilities.getUserDomain(httpSession);
+		return domain;
+	}
+
+	/**
+	 * Gets the role.
+	 * 
+	 * @return the role
+	 */
+	private UserRole getRole() {
+		HttpSession httpSession = getSession();
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		return role;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.ScriptsService#getScript(java.lang.String)
+	 */
+	@Override
+	public String getScript(String scriptname) {
+		UserRole role = getRole();
+		if (role.isAdmin()) {
+			Scripts scr = new Scripts(getDomain(), scriptname);
+			String text = scr.getText();
+			return text;
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the session.
+	 * 
+	 * @return the session
+	 */
+	private HttpSession getSession() {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		return httpSession;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.ScriptsService#saveScript(java.lang.String
+	 * , java.lang.String)
+	 */
+	@Override
+	public Boolean saveScript(String scriptname, String script) {
+		UserRole role = getRole();
+		if (role.isAdmin()) {
+			Scripts scr = new Scripts(getDomain(), scriptname);
+			scr.setText(script, true);
+			return true;
+		}
+		return false;
 	}
 
 }

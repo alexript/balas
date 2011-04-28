@@ -78,6 +78,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	/** The btn dump database. */
 	private Button btnDumpDatabase;
 
+	/** The btn global script. */
+	private Button btnGlobalScript;
+
 	/** The impl. */
 	private static DatabasePanel impl = null;
 
@@ -103,6 +106,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 		root = new VerticalPanel();
 		root.setSpacing(5);
+		root.add(createGlobalScriptPanel());
 		root.add(createDropDatabasePanel());
 		root.add(createDumpDatabasePanel());
 		settingspanel = createSettingsPanel();
@@ -279,6 +283,25 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	}
 
 	/**
+	 * Creates the global script panel.
+	 * 
+	 * @return the decorator panel
+	 */
+	private DecoratorPanel createGlobalScriptPanel() {
+		HorizontalPanel p = new HorizontalPanel();
+		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		p.setSpacing(6);
+		p.add(new Label(M.database.msgGlobalScript()));
+
+		btnGlobalScript = new Button(M.database.btnGlobalScript());
+		btnGlobalScript.addClickHandler(this);
+		p.add(btnGlobalScript);
+		DecoratorPanel panel = new DecoratorPanel();
+		panel.setWidget(p);
+		return panel;
+	}
+
+	/**
 	 * Creates the settings panel.
 	 * 
 	 * @return the decorator panel
@@ -345,6 +368,8 @@ public class DatabasePanel extends Composite implements ClickHandler,
 							}
 						});
 			}
+		} else if (event.getSource().equals(btnGlobalScript)) {
+			new ScriptEditor("global", null);
 		}
 
 	}

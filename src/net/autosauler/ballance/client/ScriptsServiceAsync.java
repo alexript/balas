@@ -62,4 +62,28 @@ public interface ScriptsServiceAsync {
 			HashMap<String, Object> params,
 			AsyncCallback<HashMap<String, Object>> callback);
 
+	/**
+	 * Gets the script.
+	 * 
+	 * @param scriptname
+	 *            the scriptname
+	 * @param callback
+	 *            the callback
+	 * @return the script
+	 */
+	void getScript(String scriptname, AsyncCallback<String> callback);
+
+	/**
+	 * Save script.
+	 * 
+	 * @param scriptname
+	 *            the scriptname
+	 * @param script
+	 *            the script
+	 * @param callback
+	 *            the callback
+	 */
+	void saveScript(String scriptname, String script,
+			AsyncCallback<Boolean> callback);
+
 }

@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.autosauler.ballance.server.mongodb.Database;
@@ -91,10 +92,16 @@ public class Scripts {
 	private String text;
 
 	/** The vm. */
-	private static final VM vm = new VM();
+	private static VM vm = null;
+	// TODO: vm per domain
 
 	/** The caller. */
 	private final IScriptableObject caller;
+
+	/** The loadedscripts. */
+	private static List<String> loadedscripts;
+
+	// TODO: list per domain
 
 	/**
 	 * Instantiates a new scripts.
@@ -110,12 +117,14 @@ public class Scripts {
 		this.name = name;
 		this.domain = domain;
 		caller = obj;
-
+		initVM();
 		if (vm != null) {
 			initStruct();
 			loadText();
-
-			vm.eval(text);
+			if (!loadedscripts.contains(name)) {
+				vm.eval(text);
+				loadedscripts.add(name);
+			}
 
 		}
 	}
@@ -132,12 +141,15 @@ public class Scripts {
 		this.name = name;
 		this.domain = domain;
 		caller = null;
-
+		initVM();
 		if (vm != null) {
 			initStruct();
 			loadText();
 
-			vm.eval(text);
+			if (!loadedscripts.contains(name)) {
+				vm.eval(text);
+				loadedscripts.add(name);
+			}
 
 		}
 	}
@@ -150,6 +162,7 @@ public class Scripts {
 	 * @return the object
 	 */
 	public Object eval(String cmd) {
+		initVM();
 		return vm.eval(cmd);
 	}
 
@@ -184,6 +197,19 @@ public class Scripts {
 	}
 
 	/**
+	 * Inits the vm.
+	 */
+	private void initVM() {
+		if (vm == null) {
+			vm = new VM();
+			loadedscripts = new ArrayList<String>();
+			Scripts global = new Scripts(domain, "global");
+			global.nop();
+		}
+
+	}
+
+	/**
 	 * Load text.
 	 */
 	private void loadText() {
@@ -215,17 +241,19 @@ public class Scripts {
 		if ((txt == null) || txt.isEmpty()) {
 			if (caller != null) {
 				txt = caller.generateDefaultScript();
-				// txt = "(library " + name
-				// + "\n  (export)\n \n\n" + txt
-				// + "\n)\n";
-				// } else {
-				// txt = "(library " + name
-				// + "\n  (export)\n  (import r6rs sixx)\n\n)\n";
+
 			}
 			setText(txt, true);
 			return;
 		}
 		setText(txt, false);
+	}
+
+	/**
+	 * Nop. (no operations)
+	 */
+	private void nop() {
+		return;
 	}
 
 	/**
@@ -273,6 +301,7 @@ public class Scripts {
 
 				Database.release();
 			}
+			vm = null;
 		}
 	}
 }

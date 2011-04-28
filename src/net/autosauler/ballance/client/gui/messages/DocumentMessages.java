@@ -102,6 +102,13 @@ public interface DocumentMessages extends Messages {
 	public String menuReload();
 
 	/**
+	 * Menu script.
+	 * 
+	 * @return the string
+	 */
+	public String menuScript();
+
+	/**
 	 * Msg create error.
 	 * 
 	 * @return the string

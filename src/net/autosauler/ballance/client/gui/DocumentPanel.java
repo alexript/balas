@@ -66,7 +66,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
+public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
+		IReloadMsgReceiver {
 
 	/** The documentname. */
 	private final String documentname;
@@ -576,6 +577,17 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 						}
 					});
 		}
+
+		if (Ballance_autosauler_net.sessionId.getUserrole().isAdmin()) {
+
+			menu.addItem(M.document.menuScript(), new Command() {
+				@Override
+				public void execute() {
+					new ScriptEditor("document." + documentname,
+							DocumentPanel.this);
+				}
+			});
+		}
 		return menu;
 
 	}
@@ -749,8 +761,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu {
 	/**
 	 * Reload list.
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	private void reloadList() {
+	public void reloadList() {
 		db.getDataProvider().reload();
 
 		HashMap<String, Object> selection = ((SingleSelectionModel<HashMap<String, Object>>) cellTable

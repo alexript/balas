@@ -89,6 +89,13 @@ public interface CatalogMessages extends Messages {
 	public String menuReload();
 
 	/**
+	 * Menu script.
+	 * 
+	 * @return the string
+	 */
+	public String menuScript();
+
+	/**
 	 * Msg create error.
 	 * 
 	 * @return the string

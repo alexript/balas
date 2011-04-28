@@ -31,6 +31,13 @@ public interface DatabaseMessages extends Messages {
 	String btnExecute();
 
 	/**
+	 * Btn global script.
+	 * 
+	 * @return the string
+	 */
+	String btnGlobalScript();
+
+	/**
 	 * Btn sore changes.
 	 * 
 	 * @return the string
@@ -50,6 +57,13 @@ public interface DatabaseMessages extends Messages {
 	 * @return the string
 	 */
 	String msgDumpDatabaseTitle();
+
+	/**
+	 * Msg global script.
+	 * 
+	 * @return the string
+	 */
+	String msgGlobalScript();
 
 	/**
 	 * Qst drop database.

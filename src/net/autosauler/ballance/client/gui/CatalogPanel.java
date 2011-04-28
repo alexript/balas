@@ -50,7 +50,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author alexript
  */
 public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
-		IDialogYesReceiver {
+		IDialogYesReceiver, IReloadMsgReceiver {
 
 	/** The catalogname. */
 	private final String catalogname;
@@ -524,6 +524,17 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						}
 					});
 		}
+
+		if (Ballance_autosauler_net.sessionId.getUserrole().isAdmin()) {
+
+			menu.addItem(M.catalog.menuScript(), new Command() {
+				@Override
+				public void execute() {
+					new ScriptEditor("catalog." + catalogname,
+							CatalogPanel.this);
+				}
+			});
+		}
 		return menu;
 
 	}
@@ -587,7 +598,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Reload list.
 	 */
-	private void reloadList() {
+	@Override
+	public void reloadList() {
 
 		list.clear();
 		list.add(progress);
