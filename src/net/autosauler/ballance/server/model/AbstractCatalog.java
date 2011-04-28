@@ -107,19 +107,24 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	@Override
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(define (cat." + getSuffix()
-				+ ".oncreate) (log.error \"not defined\"))\n");
-		sb.append("(define (cat." + getSuffix()
-				+ ".ontrash) (log.error \"not defined\"))\n");
-		sb.append("(define (cat." + getSuffix()
-				+ ".onrestore) (log.error \"not defined\"))\n");
-		sb.append("(define (cat." + getSuffix()
-				+ ".onsave) (log.error \"not defined\"))\n");
+		String methodname = "cat." + getSuffix() + ".oncreate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "cat." + getSuffix() + ".ontrash";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "cat." + getSuffix() + ".onrestore";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "cat." + getSuffix() + ".onupdate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = "cat." + getSuffix() + ".onchange." + i.next();
-			sb.append("(define (" + name + ") (log.error \"not defined\"))\n");
+			sb.append("(define (" + name + ") (log.error \"" + name
+					+ " not defined\"))\n");
 		}
 
 		sb.append(onGenerateDefaultScript());

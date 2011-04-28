@@ -89,7 +89,7 @@ public abstract class AbstractStructuredData {
 		initMetaStructure();
 		initDBStruct();
 		setDomain(domain);
-		restore();
+		setTrash(false);
 	}
 
 	/**
@@ -504,7 +504,7 @@ public abstract class AbstractStructuredData {
 	 * Restore.
 	 */
 	public void restore() {
-		values.set(fieldname_trash, new Boolean(false));
+		setTrash(false);
 
 	}
 
@@ -567,6 +567,16 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
+	 * Sets the trash.
+	 * 
+	 * @param flag
+	 *            the new trash
+	 */
+	public void setTrash(Boolean flag) {
+		values.set(fieldname_trash, flag);
+	}
+
+	/**
 	 * Sets the username.
 	 * 
 	 * @param username
@@ -619,7 +629,7 @@ public abstract class AbstractStructuredData {
 	 * Trash.
 	 */
 	public void trash() {
-		values.set(fieldname_trash, new Boolean(true));
+		setTrash(true);
 	}
 
 	/**

@@ -206,24 +206,31 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(define (doc." + getSuffix()
-				+ ".onactivate) (log.error \"not defined\"))\n");
-		sb.append("(define (doc." + getSuffix()
-				+ ".onunactivate) (log.error \"not defined\"))\n");
-		sb.append("(define (doc." + getSuffix()
-				+ ".oncreate) (log.error \"not defined\"))\n");
-		sb.append("(define (doc." + getSuffix()
-				+ ".ontrash) (log.error \"not defined\"))\n");
-		sb.append("(define (doc." + getSuffix()
-				+ ".onrestore) (log.error \"not defined\"))\n");
-		sb.append("(define (doc." + getSuffix()
-				+ ".onsave) (log.error \"not defined\"))\n");
+		String methodname = "doc." + getSuffix() + ".onactivate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "doc." + getSuffix() + ".onunactivate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "doc." + getSuffix() + ".oncreate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "doc." + getSuffix() + ".ontrash";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "doc." + getSuffix() + ".onrestore";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
+		methodname = "doc." + getSuffix() + ".onupdate";
+		sb.append("(define (" + methodname + ") (log.error \"" + methodname
+				+ " not defined\"))\n");
 
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = "doc." + getSuffix() + ".onchange." + i.next();
-			sb.append("(define (" + name + ") (log.error \"not defined\"))\n");
+			sb.append("(define (" + name + ") (log.error \"" + name
+					+ " not defined\"))\n");
 		}
 
 		if (hasTables()) {
@@ -238,8 +245,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 				Iterator<String> j = fields.iterator();
 				while (j.hasNext()) {
 					String field = j.next();
-					sb.append("(define (" + prefix + field
-							+ ") (log.error \"not defined\"))\n");
+					sb.append("(define (" + prefix + field + ") (log.error \""
+							+ prefix + field + " not defined\"))\n");
 				}
 
 			}
