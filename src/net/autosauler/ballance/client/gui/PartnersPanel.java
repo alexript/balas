@@ -25,7 +25,6 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,42 +35,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private HeaderField email;
-	private HeaderField paymethod;
-	private HeaderField currency;
-	private HeaderField tarif;
-
 	public PartnersPanel() {
 		super("partners", new Image(Images.menu.icoPartners()));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#buildEditor(com.google
-	 * .gwt.user.client.ui.VerticalPanel)
-	 */
-	@Override
-	void buildEditor(VerticalPanel panel) {
-
-		email = DataTypeFactory.addField(M.partners.lblEmail(), "email",
-				DataTypes.DT_STRING, "", null);
-		panel.add(email);
-
-		paymethod = DataTypeFactory.addField(M.partners.lblPaymethod(),
-				"paymethod", DataTypes.DT_CATALOGRECORD, null,
-				new PayMethodPanel());
-		panel.add(paymethod);
-
-		currency = DataTypeFactory.addField(M.partners.lblCurrency(),
-				"currency", DataTypes.DT_CURRENCY, "RUR", null);
-		panel.add(currency);
-
-		tarif = DataTypeFactory.addField(M.partners.lblTarif(), "tarif",
-				DataTypes.DT_CATALOGRECORD, null, new TarifPanel());
-		panel.add(tarif);
-
 	}
 
 	/*
@@ -125,44 +90,21 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#cleanEditForm()
+	 * @see net.autosauler.ballance.client.gui.CatalogPanel#createStructure()
 	 */
 	@Override
-	void cleanEditForm() {
-		email.reset();
-		paymethod.reset();
-		currency.reset();
-		tarif.reset();
-	}
+	protected void createStructure() {
+		addField(M.partners.lblEmail(), "email", DataTypes.DT_STRING, "", null);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#fillEditorForm(java.util
-	 * .HashMap)
-	 */
-	@Override
-	void fillEditorForm(HashMap<String, Object> map) {
-		email.setValue(map.get("email"));
-		paymethod.setValue(map.get("paymethod"));
-		currency.setValue(map.get("currency"));
-		tarif.setValue(map.get("tarif"));
-	}
+		addField(M.partners.lblPaymethod(), "paymethod",
+				DataTypes.DT_CATALOGRECORD, null, new PayMethodPanel());
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#getEditorValues()
-	 */
-	@Override
-	HashMap<String, Object> getEditorValues() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("email", ((String) email.getValue()).trim());
-		map.put("paymethod", paymethod.getValue());
-		map.put("currency", currency.getValue());
-		map.put("tarif", tarif.getValue());
-		return map;
+		addField(M.partners.lblCurrency(), "currency", DataTypes.DT_CURRENCY,
+				"RUR", null);
+
+		addField(M.partners.lblTarif(), "tarif", DataTypes.DT_CATALOGRECORD,
+				null, new TarifPanel());
+
 	}
 
 }

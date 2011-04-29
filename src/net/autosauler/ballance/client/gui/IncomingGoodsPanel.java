@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The Class IncomingGoodsPanel.
@@ -39,24 +38,6 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 
 	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
-
-	/** The partner. */
-	private HeaderField partner;
-
-	/** The senddate. */
-	private HeaderField senddate;
-
-	/** The goodsnumber. */
-	private HeaderField goodsnumber;
-
-	/** The invoicenum. */
-	private HeaderField invoicenum;
-
-	/** The awb. */
-	private HeaderField awb;
-
-	/** The gtd. */
-	private HeaderField gtd;
 
 	/**
 	 * Instantiates a new incoming goods panel.
@@ -107,55 +88,26 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#cleanEditForm()
+	 * @see net.autosauler.ballance.client.gui.DocumentPanel#createStructure()
 	 */
 	@Override
-	void cleanEditForm() {
-		partner.reset();
-		senddate.reset();
-		goodsnumber.reset();
-		invoicenum.reset();
-		awb.reset();
-		gtd.reset();
+	protected void createStructure() {
+		addField(M.incominggoods.lblPartner(), "partner",
+				DataTypes.DT_CATALOGRECORD, null, pp);
 
-	}
+		addField(M.incominggoods.lblSendDate(), "senddate", DataTypes.DT_DATE,
+				(new Date()).getTime(), null);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#createDocumentHeaderEditor
-	 * ()
-	 */
-	@Override
-	protected Widget createDocumentHeaderEditor() {
-		VerticalPanel p = new VerticalPanel();
+		addField(M.incominggoods.lblGoodsNum(), "gnum", DataTypes.DT_INT, "0",
+				null);
 
-		partner = DataTypeFactory.addField(M.incominggoods.lblPartner(),
-				"partner", DataTypes.DT_CATALOGRECORD, null, pp);
-		p.add(partner);
+		addField(M.incominggoods.lblInvoice(), "invoice", DataTypes.DT_STRING,
+				"", null);
 
-		senddate = DataTypeFactory.addField(M.incominggoods.lblSendDate(),
-				"senddate", DataTypes.DT_DATE, (new Date()).getTime(), null);
-		p.add(senddate);
+		addField(M.incominggoods.lblAWB(), "awb", DataTypes.DT_STRING, "", null);
 
-		goodsnumber = DataTypeFactory.addField(M.incominggoods.lblGoodsNum(),
-				"gnum", DataTypes.DT_INT, "0", null);
-		p.add(goodsnumber);
+		addField(M.incominggoods.lblGTD(), "gtd", DataTypes.DT_STRING, "", null);
 
-		invoicenum = DataTypeFactory.addField(M.incominggoods.lblInvoice(),
-				"invoice", DataTypes.DT_STRING, "", null);
-		p.add(invoicenum);
-
-		awb = DataTypeFactory.addField(M.incominggoods.lblAWB(), "awb",
-				DataTypes.DT_STRING, "", null);
-		p.add(awb);
-
-		gtd = DataTypeFactory.addField(M.incominggoods.lblGTD(), "gtd",
-				DataTypes.DT_STRING, "", null);
-		p.add(gtd);
-
-		return p;
 	}
 
 	/*
@@ -179,43 +131,6 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 		panel.add(row);
 
 		return panel.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#fillEditor(java.util
-	 * .HashMap)
-	 */
-	@Override
-	protected void fillEditor(HashMap<String, Object> map) {
-		partner.setValue(map.get("partner"));
-		senddate.setValue(map.get("senddate"));
-		goodsnumber.setValue(map.get("gnum"));
-		invoicenum.setValue(map.get("invoice"));
-		awb.setValue(map.get("awb"));
-		gtd.setValue(map.get("gtd"));
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#getEditorValues()
-	 */
-	@Override
-	protected HashMap<String, Object> getEditorValues() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-
-		map.put("partner", partner.getValue());
-		map.put("senddate", senddate.getValue());
-		map.put("gnum", goodsnumber.getValue());
-		map.put("invoice", invoicenum.getValue());
-		map.put("awb", awb.getValue());
-		map.put("gtd", gtd.getValue());
-
-		return map;
 	}
 
 	/*

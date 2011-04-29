@@ -81,6 +81,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The viewdata. */
 	private HashMap<Long, String> viewdata = null;
 
+	/** The fields. */
+	private HashMap<String, HeaderField> fields;
+
 	/**
 	 * Instantiates a new catalog panel.
 	 * 
@@ -116,13 +119,26 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
-	 * Builds the editor.
+	 * Adds the field.
 	 * 
-	 * @param panel
-	 *            the panel
+	 * @param name
+	 *            the name
+	 * @param field
+	 *            the field
+	 * @param type
+	 *            the type
+	 * @param defval
+	 *            the defval
+	 * @param helper
+	 *            the helper
 	 */
-
-	abstract void buildEditor(VerticalPanel panel);
+	protected void addField(String name, String field, int type, Object defval,
+			Object helper) {
+		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
+				helper);
+		fields.put(field, hf);
+		editor.add(hf);
+	}
 
 	/**
 	 * Builds the list row.
@@ -163,7 +179,15 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Clean edit form.
 	 */
-	abstract void cleanEditForm();
+	private void cleanEditForm() {
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			HeaderField hf = fields.get(name);
+			hf.reset();
+		}
+	}
 
 	/**
 	 * Creates the editor form.
@@ -177,7 +201,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		fullname = DataTypeFactory.addField(M.catalog.labelFullname(),
 				"fullname", DataTypes.DT_STRING, "", null);
 		editor.add(fullname);
-		buildEditor(editor);
+		fields = new HashMap<String, HeaderField>();
+		createStructure();
 
 		HorizontalPanel buttons = new HorizontalPanel();
 		buttons.setSpacing(5);
@@ -393,6 +418,11 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
+	 * Creates the structure.
+	 */
+	protected abstract void createStructure();
+
+	/**
 	 * Effect hide.
 	 * 
 	 * @param element
@@ -422,7 +452,15 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * @param map
 	 *            the map
 	 */
-	abstract void fillEditorForm(HashMap<String, Object> map);
+	private void fillEditorForm(HashMap<String, Object> map) {
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			HeaderField hf = fields.get(name);
+			hf.setValue(map.get(name));
+		}
+	}
 
 	/**
 	 * Gets the catalogname.
@@ -438,7 +476,18 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * 
 	 * @return the editor values
 	 */
-	abstract HashMap<String, Object> getEditorValues();
+	private HashMap<String, Object> getEditorValues() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			HeaderField hf = fields.get(name);
+			map.put(name, hf.getValue());
+		}
+		return map;
+	}
 
 	/**
 	 * Gets the list form.

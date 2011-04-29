@@ -22,7 +22,6 @@ import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -32,25 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private HeaderField script;
-
 	public TarifPanel() {
 		super("tarifs", new Image(Images.menu.icoTarif()));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#buildEditor(com.google
-	 * .gwt.user.client.ui.VerticalPanel)
-	 */
-	@Override
-	void buildEditor(VerticalPanel panel) {
-		script = DataTypeFactory.addField("Script", "scrpt",
-				DataTypes.DT_SCRIPT, "", null); // TODO: default script
-		panel.add(script);
-
 	}
 
 	/*
@@ -108,37 +90,13 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#cleanEditForm()
+	 * @see net.autosauler.ballance.client.gui.CatalogPanel#createStructure()
 	 */
 	@Override
-	void cleanEditForm() {
-		script.reset();
+	protected void createStructure() {
+		addField("Script", "scrpt", DataTypes.DT_SCRIPT, "", null);
+		// TODO: default script
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#fillEditorForm(java.util
-	 * .HashMap)
-	 */
-	@Override
-	void fillEditorForm(HashMap<String, Object> map) {
-		script.setValue(map.get("scrpt"));
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#getEditorValues()
-	 */
-	@Override
-	HashMap<String, Object> getEditorValues() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("scrpt", script.getValue());
-		return map;
 	}
 
 }

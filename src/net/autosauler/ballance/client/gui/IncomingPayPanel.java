@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The Class IncomingPayPanel.
@@ -23,24 +22,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author alexript
  */
 public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
-
-	/** The partner. */
-	private HeaderField partner;
-
-	/** The paydate. */
-	private HeaderField paydate;
-
-	/** The currency. */
-	private HeaderField currency;
-
-	/** The payvalue. */
-	private HeaderField payvalue;
-
-	/** The paymethod. */
-	private HeaderField paymethod;
-
-	/** The comments. */
-	private HeaderField comments;
 
 	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
@@ -97,54 +78,29 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#cleanEditForm()
+	 * @see net.autosauler.ballance.client.gui.DocumentPanel#createStructure()
 	 */
 	@Override
-	void cleanEditForm() {
-		partner.reset();
-		paydate.reset();
-		currency.reset();
-		payvalue.reset();
-		paymethod.reset();
-		comments.reset();
+	protected void createStructure() {
 
-	}
+		addField(M.incomingpay.lblPartner(), "partner",
+				DataTypes.DT_CATALOGRECORD, 0L, pp);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#createDocumentHeaderEditor
-	 * ()
-	 */
-	@Override
-	protected Widget createDocumentHeaderEditor() {
-		VerticalPanel p = new VerticalPanel();
-		partner = DataTypeFactory.addField(M.incomingpay.lblPartner(),
-				"partner", DataTypes.DT_CATALOGRECORD, 0L, pp);
-		p.add(partner);
+		addField(M.incomingpay.lblPayDate(), "paydate", DataTypes.DT_DATE,
+				(new Date()).getTime(), null);
 
-		paydate = DataTypeFactory.addField(M.incomingpay.lblPayDate(),
-				"paydate", DataTypes.DT_DATE, (new Date()).getTime(), null);
-		p.add(paydate);
+		addField(M.incomingpay.lblCurrency(), "currency",
+				DataTypes.DT_CURRENCY, "RUR", null);
 
-		currency = DataTypeFactory.addField(M.incomingpay.lblCurrency(),
-				"currency", DataTypes.DT_CURRENCY, "RUR", null);
-		p.add(currency);
+		addField(M.incomingpay.lblValue(), "payvalue", DataTypes.DT_MONEY,
+				"0.0", null);
 
-		payvalue = DataTypeFactory.addField(M.incomingpay.lblValue(),
-				"payvalue", DataTypes.DT_MONEY, "0.0", null);
-		p.add(payvalue);
+		addField(M.incomingpay.lblMethod(), "paymethod",
+				DataTypes.DT_CATALOGRECORD, 0L, pmp);
 
-		paymethod = DataTypeFactory.addField(M.incomingpay.lblMethod(),
-				"paymethod", DataTypes.DT_CATALOGRECORD, 0L, pmp);
-		p.add(paymethod);
+		addField(M.incomingpay.lblComments(), "comments", DataTypes.DT_STRING,
+				"", null);
 
-		comments = DataTypeFactory.addField(M.incomingpay.lblComments(),
-				"comments", DataTypes.DT_STRING, "", null);
-		p.add(comments);
-
-		return p;
 	}
 
 	/*
@@ -172,43 +128,6 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 		panel.add(new Label((String) map.get("comments")));
 
 		return panel.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#fillEditor(java.lang
-	 * .Long)
-	 */
-	@Override
-	protected void fillEditor(HashMap<String, Object> map) {
-		partner.setValue(map.get("partner"));
-		paydate.setValue(map.get("paydate"));
-		currency.setValue(map.get("currency"));
-		payvalue.setValue(map.get("payvalue"));
-		paymethod.setValue(map.get("paymethod"));
-		comments.setValue(map.get("comments"));
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#getEditorValues()
-	 */
-	@Override
-	protected HashMap<String, Object> getEditorValues() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-
-		map.put("partner", partner.getValue());
-		map.put("paydate", paydate.getValue());
-		map.put("currency", currency.getValue());
-		map.put("payvalue", payvalue.getValue());
-		map.put("paymethod", paymethod.getValue());
-		map.put("comments", comments.getValue());
-
-		return map;
 	}
 
 	/*

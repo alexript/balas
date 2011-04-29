@@ -21,7 +21,6 @@ import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -37,19 +36,6 @@ public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	public PayMethodPanel() {
 		super("paymethod", new Image(Images.menu.icoPaymethod()));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#buildEditor(com.google
-	 * .gwt.user.client.ui.VerticalPanel)
-	 */
-	@Override
-	void buildEditor(VerticalPanel panel) {
-		return;
-
 	}
 
 	/*
@@ -106,36 +92,12 @@ public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#cleanEditForm()
+	 * @see net.autosauler.ballance.client.gui.CatalogPanel#createStructure()
 	 */
 	@Override
-	void cleanEditForm() {
+	protected void createStructure() {
 		return;
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#fillEditorForm(java.util
-	 * .HashMap)
-	 */
-	@Override
-	void fillEditorForm(HashMap<String, Object> map) {
-		return;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#getEditorValues()
-	 */
-	@Override
-	HashMap<String, Object> getEditorValues() {
-
-		return null;
 	}
 
 }

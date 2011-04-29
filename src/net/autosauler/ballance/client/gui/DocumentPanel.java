@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
@@ -55,7 +56,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionModel;
@@ -87,6 +87,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The editor. */
 	private VerticalPanel editor;
 
+	/** The editorscroll. */
 	private ScrollPanel editorscroll;
 
 	/** The btn save. */
@@ -121,6 +122,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The parts. */
 	private DocumentTableParts parts;
 
+	/** The fields. */
+	private HashMap<String, HeaderField> fields;
+
 	/** The Constant KEY_PROVIDER. */
 	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
 
@@ -149,6 +153,27 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		documentname = docname;
 		tabimage = image;
 
+	}
+
+	/**
+	 * Adds the field.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param field
+	 *            the field
+	 * @param type
+	 *            the type
+	 * @param defval
+	 *            the defval
+	 * @param helper
+	 *            the helper
+	 */
+	protected void addField(String name, String field, int type, Object defval,
+			Object helper) {
+		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
+				helper);
+		fields.put(field, hf);
 	}
 
 	/**
@@ -181,20 +206,39 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Clean edit form.
 	 */
-	abstract void cleanEditForm();
+	private void cleanEditForm() {
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			fields.get(name).reset();
+		}
+	}
 
 	/**
 	 * Creates the document header editor.
 	 * 
 	 * @return the widget
 	 */
-	protected abstract Widget createDocumentHeaderEditor();
+	private VerticalPanel createDocumentHeaderEditor() {
+		VerticalPanel p = new VerticalPanel();
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			p.add(fields.get(name));
+		}
+
+		return p;
+	}
 
 	/**
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
-		Widget editform = createDocumentHeaderEditor();
+		fields = new HashMap<String, HeaderField>();
+		createStructure();
+		VerticalPanel editform = createDocumentHeaderEditor();
 		if (editform == null) {
 			Log.error("Document editor form is not implemented!!!");
 			return;
@@ -473,6 +517,11 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
+	 * Creates the structure.
+	 */
+	protected abstract void createStructure();
+
+	/**
 	 * Draw document row for list.
 	 * 
 	 * @param map
@@ -511,14 +560,31 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * @param map
 	 *            the map
 	 */
-	protected abstract void fillEditor(HashMap<String, Object> map);
+	private void fillEditor(HashMap<String, Object> map) {
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			fields.get(name).setValue(map.get(name));
+		}
+	}
 
 	/**
 	 * Gets the editor values.
 	 * 
 	 * @return the editor values
 	 */
-	protected abstract HashMap<String, Object> getEditorValues();
+	private HashMap<String, Object> getEditorValues() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			map.put(name, fields.get(name).getValue());
+		}
+
+		return map;
+	}
 
 	/**
 	 * Gets the list form.
