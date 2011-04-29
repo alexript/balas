@@ -18,6 +18,7 @@ package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.autosauler.ballance.server.mongodb.Database;
@@ -92,16 +93,13 @@ public class Scripts {
 	private String text;
 
 	/** The vm. */
-	private static VM vm = null;
-	// TODO: vm per domain
+	private static final HashMap<String, VM> vms = new HashMap<String, VM>();
 
 	/** The caller. */
 	private final IScriptableObject caller;
 
 	/** The loadedscripts. */
-	private static List<String> loadedscripts;
-
-	// TODO: list per domain
+	private static final HashMap<String, List<String>> loadedscripts = new HashMap<String, List<String>>();
 
 	/**
 	 * Instantiates a new scripts.
@@ -118,12 +116,16 @@ public class Scripts {
 		this.domain = domain;
 		caller = obj;
 		initVM();
-		if (vm != null) {
+		if (vms.containsKey(domain) && (vms.get(domain) != null)) {
 			initStruct();
 			loadText();
-			if (!loadedscripts.contains(name)) {
-				vm.eval(text);
-				loadedscripts.add(name);
+			if (!loadedscripts.containsKey(domain)
+					|| !loadedscripts.get(domain).contains(name)) {
+				vms.get(domain).eval(text);
+				if (!loadedscripts.containsKey(domain)) {
+					loadedscripts.put(domain, new ArrayList<String>());
+				}
+				loadedscripts.get(domain).add(name);
 			}
 
 		}
@@ -142,13 +144,17 @@ public class Scripts {
 		this.domain = domain;
 		caller = null;
 		initVM();
-		if (vm != null) {
+		if (vms.containsKey(domain) && (vms.get(domain) != null)) {
 			initStruct();
 			loadText();
 
-			if (!loadedscripts.contains(name)) {
-				vm.eval(text);
-				loadedscripts.add(name);
+			if (!loadedscripts.containsKey(domain)
+					|| !loadedscripts.get(domain).contains(name)) {
+				vms.get(domain).eval(text);
+				if (!loadedscripts.containsKey(domain)) {
+					loadedscripts.put(domain, new ArrayList<String>());
+				}
+				loadedscripts.get(domain).add(name);
 			}
 
 		}
@@ -163,7 +169,7 @@ public class Scripts {
 	 */
 	public Object eval(String cmd) {
 		initVM();
-		return vm.eval(cmd);
+		return vms.get(domain).eval(cmd);
 	}
 
 	/**
@@ -200,9 +206,10 @@ public class Scripts {
 	 * Inits the vm.
 	 */
 	private void initVM() {
-		if (vm == null) {
-			vm = new VM();
-			loadedscripts = new ArrayList<String>();
+		if (!vms.containsKey(domain) || (vms.get(domain) == null)) {
+			vms.put(domain, new VM());
+
+			loadedscripts.put(domain, new ArrayList<String>());
 			Scripts global = new Scripts(domain, "global");
 			global.nop();
 		}
@@ -300,8 +307,9 @@ public class Scripts {
 				}
 
 				Database.release();
+				vms.put(domain, null);
+
 			}
-			vm = null;
 		}
 	}
 }
