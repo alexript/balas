@@ -25,7 +25,6 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
-import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -66,13 +65,6 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 
 	/** The editor. */
 	private VerticalPanel editor = null;
-
-	/** The Constant DATEFORMATTER. */
-	private static final String DATEFORMATTER = "yyyy/MM/dd HH:mm";
-
-	/** The date formatter. */
-	private final static SimpleDateFormat formatter = new SimpleDateFormat(
-			DATEFORMATTER);
 
 	/** The editformnumber. */
 	private Long editformnumber;
@@ -329,7 +321,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 							vp.add(w);
 						}
 						Date date = new Date((Long) result.get("createdate"));
-						String day = formatter.format(date);
+						String day = DataTypeFactory.formatter.format(date);
 						vp.add(new Label(day + " " + M.catalog.labelAuthor()
 								+ ": " + (String) result.get("username")));
 						panel.add(vp);

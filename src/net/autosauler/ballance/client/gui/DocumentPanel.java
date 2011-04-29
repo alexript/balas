@@ -25,7 +25,6 @@ import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.DocumentsDatabase;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
-import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -78,13 +77,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/** The progress. */
 	private static final Image progress = new Image(Images.menu.progress());
-
-	/** The Constant DATEFORMATTER. */
-	private static final String DATEFORMATTER = "yyyy/MM/dd HH:mm";
-
-	/** The formatter. */
-	private static final SimpleDateFormat formatter = new SimpleDateFormat(
-			DATEFORMATTER);
 
 	/** The root. */
 	private AbsolutePanel root;
@@ -681,7 +673,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 				new TextCell()) {
 			@Override
 			public String getValue(HashMap<String, Object> map) {
-				return formatter.format(new Date((Long) map.get("createdate")));
+				return DataTypeFactory.formatter.format(new Date((Long) map
+						.get("createdate")));
 			}
 		};
 		cellTable.addColumn(docDateColumn, M.document.colCreateDate());
