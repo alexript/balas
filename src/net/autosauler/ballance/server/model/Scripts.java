@@ -119,13 +119,17 @@ public class Scripts {
 		if (vms.containsKey(domain) && (vms.get(domain) != null)) {
 			initStruct();
 			loadText();
-			if (!loadedscripts.containsKey(domain)
-					|| !loadedscripts.get(domain).contains(name)) {
-				vms.get(domain).eval(text);
-				if (!loadedscripts.containsKey(domain)) {
-					loadedscripts.put(domain, new ArrayList<String>());
+			if (text != null) {
+				if (!loadedscripts.containsKey(domain)
+						|| !loadedscripts.get(domain).contains(name)) {
+					vms.get(domain).eval(text);
+					if (!loadedscripts.containsKey(domain)) {
+						loadedscripts.put(domain, new ArrayList<String>());
+					}
+					loadedscripts.get(domain).add(name);
 				}
-				loadedscripts.get(domain).add(name);
+			} else {
+				Log.error("There is no text for script " + name);
 			}
 
 		}
@@ -148,13 +152,17 @@ public class Scripts {
 			initStruct();
 			loadText();
 
-			if (!loadedscripts.containsKey(domain)
-					|| !loadedscripts.get(domain).contains(name)) {
-				vms.get(domain).eval(text);
-				if (!loadedscripts.containsKey(domain)) {
-					loadedscripts.put(domain, new ArrayList<String>());
+			if (text != null) {
+				if (!loadedscripts.containsKey(domain)
+						|| !loadedscripts.get(domain).contains(name)) {
+					vms.get(domain).eval(text);
+					if (!loadedscripts.containsKey(domain)) {
+						loadedscripts.put(domain, new ArrayList<String>());
+					}
+					loadedscripts.get(domain).add(name);
 				}
-				loadedscripts.get(domain).add(name);
+			} else {
+				Log.error("There is no text for script " + name);
 			}
 
 		}
