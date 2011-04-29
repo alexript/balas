@@ -20,6 +20,7 @@ import java.util.Date;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -80,6 +81,10 @@ public class HeaderField extends HorizontalPanel {
 			String v = ((TextBox) w).getText();
 			v = v.trim().replace(',', '.');
 			o = Double.parseDouble(v);
+		} else if (t == DataTypes.DT_DOUBLE) {
+			String v = ((TextBox) w).getText();
+			v = v.trim().replace(',', '.');
+			o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_CURRENCY) {
 			o = ((CurrencySelector) w).getValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
@@ -89,6 +94,11 @@ public class HeaderField extends HorizontalPanel {
 		} else if (t == DataTypes.DT_INT) {
 			String v = ((TextBox) w).getText();
 			o = Integer.parseInt(v);
+		} else if (t == DataTypes.DT_LONG) {
+			String v = ((TextBox) w).getText();
+			o = Long.parseLong(v);
+		} else if (t == DataTypes.DT_BOOLEAN) {
+			o = ((CheckBox) w).getValue();
 		}
 		return DataTypes.toMapping(t, o);
 	}
@@ -111,6 +121,8 @@ public class HeaderField extends HorizontalPanel {
 			((TextBox) w).setText((String) mval);
 		} else if (t == DataTypes.DT_MONEY) {
 			((TextBox) w).setText(((Double) mval).toString());
+		} else if (t == DataTypes.DT_DOUBLE) {
+			((TextBox) w).setText(((Double) mval).toString());
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
@@ -119,6 +131,10 @@ public class HeaderField extends HorizontalPanel {
 			((DateBox) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
 			((TextBox) w).setText(((Integer) mval).toString());
+		} else if (t == DataTypes.DT_LONG) {
+			((TextBox) w).setText(((Long) mval).toString());
+		} else if (t == DataTypes.DT_BOOLEAN) {
+			((CheckBox) w).setValue((Boolean) mval);
 		}
 	}
 

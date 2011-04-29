@@ -41,6 +41,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
@@ -491,11 +492,19 @@ public class DataTypeFactory {
 		} else if (type == DataTypes.DT_MONEY) {
 			w = new TextBox();
 			w.setWidth("100px");
+		} else if (type == DataTypes.DT_DOUBLE) {
+			w = new TextBox();
+			w.setWidth("100px");
 		} else if (type == DataTypes.DT_INT) {
 			w = new TextBox();
 			w.setWidth("100px");
+		} else if (type == DataTypes.DT_LONG) {
+			w = new TextBox();
+			w.setWidth("100px");
+		} else if (type == DataTypes.DT_BOOLEAN) {
+			w = new CheckBox();
 		} else {
-			w = new Label("widget");
+			w = new Label("undefined " + field + " type widget");
 			// TODO: create widgets for all datatypes
 		}
 		HeaderField hf = new HeaderField(name, w, type, defval);
