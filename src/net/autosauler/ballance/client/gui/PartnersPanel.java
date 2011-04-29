@@ -21,11 +21,10 @@ import java.util.HashMap;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -37,12 +36,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private TextBox email;
-	private CatalogSelector paymethod;
-	private static PayMethodPanel methods = new PayMethodPanel();
-	private CurrencySelector currency;
-	private static TarifPanel tarifs = new TarifPanel();
-	private CatalogSelector tarif;
+	private HeaderField email;
+	private HeaderField paymethod;
+	private HeaderField currency;
+	private HeaderField tarif;
 
 	public PartnersPanel() {
 		super("partners", new Image(Images.menu.icoPartners()));
@@ -57,30 +54,23 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void buildEditor(VerticalPanel panel) {
-		HorizontalPanel p = new HorizontalPanel();
 
-		p.add(new Label(M.partners.lblEmail()));
-		email = new TextBox();
-		p.add(email);
-		panel.add(p);
+		email = DataTypeFactory.addField(M.partners.lblEmail(), "email",
+				DataTypes.DT_STRING, "", null);
+		panel.add(email);
 
-		p = new HorizontalPanel();
-		p.add(new Label(M.partners.lblPaymethod()));
-		paymethod = methods.getSelectBox(null);
-		p.add(paymethod);
-		panel.add(p);
+		paymethod = DataTypeFactory.addField(M.partners.lblPaymethod(),
+				"paymethod", DataTypes.DT_CATALOGRECORD, null,
+				new PayMethodPanel());
+		panel.add(paymethod);
 
-		p = new HorizontalPanel();
-		p.add(new Label(M.partners.lblCurrency()));
-		currency = new CurrencySelector(null);
-		p.add(currency);
-		panel.add(p);
+		currency = DataTypeFactory.addField(M.partners.lblCurrency(),
+				"currency", DataTypes.DT_CURRENCY, "RUR", null);
+		panel.add(currency);
 
-		p = new HorizontalPanel();
-		p.add(new Label(M.partners.lblTarif()));
-		tarif = tarifs.getSelectBox(null);
-		p.add(tarif);
-		panel.add(p);
+		tarif = DataTypeFactory.addField(M.partners.lblTarif(), "tarif",
+				DataTypes.DT_CATALOGRECORD, null, new TarifPanel());
+		panel.add(tarif);
 
 	}
 
@@ -139,7 +129,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void cleanEditForm() {
-		email.setText("");
+		email.reset();
 		paymethod.reset();
 		currency.reset();
 		tarif.reset();
@@ -154,10 +144,10 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
-		email.setText((String) map.get("email"));
-		paymethod.select((Long) map.get("paymethod"));
-		currency.select((String) map.get("currency"));
-		tarif.select((Long) map.get("tarif"));
+		email.setValue(map.get("email"));
+		paymethod.setValue(map.get("paymethod"));
+		currency.setValue(map.get("currency"));
+		tarif.setValue(map.get("tarif"));
 	}
 
 	/*
@@ -168,7 +158,7 @@ public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	HashMap<String, Object> getEditorValues() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("email", email.getText().trim());
+		map.put("email", ((String) email.getValue()).trim());
 		map.put("paymethod", paymethod.getValue());
 		map.put("currency", currency.getValue());
 		map.put("tarif", tarif.getValue());

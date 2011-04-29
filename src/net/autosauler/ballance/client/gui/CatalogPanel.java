@@ -27,6 +27,7 @@ import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,7 +41,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -78,7 +78,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	private Long editformnumber;
 
 	/** The fullname. */
-	private TextBox fullname;
+	private HeaderField fullname;
 
 	/** The linecounter. */
 	private Long linecounter = 0L;
@@ -183,13 +183,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		editor.setSpacing(5);
 		editor.add(new Label(M.catalog.titleEditor()));
 
-		HorizontalPanel namepanel = new HorizontalPanel();
-		namepanel.setSpacing(5);
-		namepanel.add(new Label(M.catalog.labelFullname()));
-		fullname = new TextBox();
-		fullname.setWidth("200px");
-		namepanel.add(fullname);
-		editor.add(namepanel);
+		fullname = DataTypeFactory.addField(M.catalog.labelFullname(),
+				"fullname", DataTypes.DT_STRING, "", null);
+		editor.add(fullname);
 		buildEditor(editor);
 
 		HorizontalPanel buttons = new HorizontalPanel();
@@ -205,7 +201,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 					map = new HashMap<String, Object>();
 				}
 
-				String fname = fullname.getText().trim();
+				String fname = ((String) fullname.getValue()).trim();
 				if (fname.isEmpty()) {
 					new AlertDialog(M.catalog.errEmptyFullname()).show();
 				} else {
@@ -369,7 +365,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 															MainPanel
 																	.setCommInfo(false);
 															editformnumber = number;
-															fullname.setText((String) result
+															fullname.setValue(result
 																	.get("fullname"));
 															fillEditorForm(result);
 															openEditor();
@@ -518,7 +514,7 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 						@Override
 						public void execute() {
 							editformnumber = -1L;
-							fullname.setText("");
+							fullname.reset();
 							cleanEditForm();
 							openEditor();
 						}

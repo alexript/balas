@@ -19,11 +19,9 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 		IDialogYesReceiver {
 
-	private TextBox script;
+	private HeaderField script;
 
 	public TarifPanel() {
 		super("tarifs", new Image(Images.menu.icoTarif()));
@@ -49,12 +47,9 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void buildEditor(VerticalPanel panel) {
-		HorizontalPanel p = new HorizontalPanel();
-
-		p.add(new Label("Script"));
-		script = new TextBox(); // TODO: big field
-		p.add(script);
-		panel.add(p);
+		script = DataTypeFactory.addField("Script", "scrpt",
+				DataTypes.DT_SCRIPT, "", null); // TODO: default script
+		panel.add(script);
 
 	}
 
@@ -117,7 +112,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void cleanEditForm() {
-		script.setText(""); // TODO: default script
+		script.reset();
 
 	}
 
@@ -130,7 +125,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	@Override
 	void fillEditorForm(HashMap<String, Object> map) {
-		script.setText((String) map.get("scrpt"));
+		script.setValue(map.get("scrpt"));
 
 	}
 
@@ -142,7 +137,7 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	HashMap<String, Object> getEditorValues() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("scrpt", script.getText());
+		map.put("scrpt", script.getValue());
 		return map;
 	}
 

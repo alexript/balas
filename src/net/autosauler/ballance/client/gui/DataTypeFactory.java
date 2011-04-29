@@ -42,6 +42,10 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A factory for creating DataType objects.
@@ -449,6 +453,45 @@ public class DataTypeFactory {
 			table.setColumnWidth(column, width, Unit.PX);
 		}
 
+	}
+
+	/**
+	 * Adds the field.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param field
+	 *            the field
+	 * @param type
+	 *            the type
+	 * @param defval
+	 *            the defval
+	 * @param helper
+	 *            the helper
+	 * @return the header field
+	 */
+	public static HeaderField addField(final String name, final String field,
+			final int type, final Object defval, final Object helper) {
+
+		Widget w = null;
+		if (type == DataTypes.DT_SCRIPT) {
+			w = new TextArea();
+			w.setWidth("300px");
+			w.setHeight("150px");
+		} else if (type == DataTypes.DT_STRING) {
+			w = new TextBox();
+			w.setWidth("300px");
+		} else if (type == DataTypes.DT_CURRENCY) {
+			w = new CurrencySelector(null);
+		} else if (type == DataTypes.DT_CATALOGRECORD) {
+			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
+		} else {
+			w = new Label("widget");
+			// TODO: create widgets for all datatypes
+		}
+		HeaderField hf = new HeaderField(name, w, type, defval);
+		hf.reset();
+		return hf;
 	}
 
 }
