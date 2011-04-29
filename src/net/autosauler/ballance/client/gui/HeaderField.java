@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.Date;
+
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,6 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * The Class HeaderField.
@@ -68,16 +71,26 @@ public class HeaderField extends HorizontalPanel {
 	 * @return the value
 	 */
 	public Object getValue() {
+		Object o = null;
 		if (t == DataTypes.DT_SCRIPT) {
-			return ((TextArea) w).getText();
+			o = ((TextArea) w).getText();
 		} else if (t == DataTypes.DT_STRING) {
-			return ((TextBox) w).getText();
+			o = ((TextBox) w).getText();
+		} else if (t == DataTypes.DT_MONEY) {
+			String v = ((TextBox) w).getText();
+			v = v.trim().replace(',', '.');
+			o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_CURRENCY) {
-			return ((CurrencySelector) w).getValue();
+			o = ((CurrencySelector) w).getValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			return ((CatalogSelector) w).getValue();
+			o = ((CatalogSelector) w).getValue();
+		} else if (t == DataTypes.DT_DATE) {
+			o = ((DateBox) w).getValue();
+		} else if (t == DataTypes.DT_INT) {
+			String v = ((TextBox) w).getText();
+			o = Integer.parseInt(v);
 		}
-		return null;
+		return DataTypes.toMapping(t, o);
 	}
 
 	public void reset() {
@@ -91,14 +104,21 @@ public class HeaderField extends HorizontalPanel {
 	 *            the new value
 	 */
 	public void setValue(Object val) {
+		Object mval = DataTypes.fromMapping(t, val);
 		if (t == DataTypes.DT_SCRIPT) {
-			((TextArea) w).setText((String) val);
+			((TextArea) w).setText((String) mval);
 		} else if (t == DataTypes.DT_STRING) {
-			((TextBox) w).setText((String) val);
+			((TextBox) w).setText((String) mval);
+		} else if (t == DataTypes.DT_MONEY) {
+			((TextBox) w).setText(((Double) mval).toString());
 		} else if (t == DataTypes.DT_CURRENCY) {
-			((CurrencySelector) w).select((String) val);
+			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			((CatalogSelector) w).select((Long) val);
+			((CatalogSelector) w).select((Long) mval);
+		} else if (t == DataTypes.DT_DATE) {
+			((DateBox) w).setValue((Date) mval);
+		} else if (t == DataTypes.DT_INT) {
+			((TextBox) w).setText(((Integer) mval).toString());
 		}
 	}
 

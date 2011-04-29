@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * A factory for creating DataType objects.
@@ -53,14 +54,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author alexript
  */
 public class DataTypeFactory {
-	// TODO: create simple widgets for edit
 	// TODO: create simple widgets for view
 	// TODO: add "onchange" handlers
 	// TODO: rewrite SelectionCell for catalogrecord
 
-	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+	public static final SimpleDateFormat formatter = new SimpleDateFormat(
 			"yyyy/MM/dd");
-	private static final DateTimeFormat dateFormat = DateTimeFormat
+	public static final DateTimeFormat dateFormat = DateTimeFormat
 			.getFormat("yyyy/MM/dd");
 
 	/**
@@ -485,6 +485,15 @@ public class DataTypeFactory {
 			w = new CurrencySelector(null);
 		} else if (type == DataTypes.DT_CATALOGRECORD) {
 			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
+		} else if (type == DataTypes.DT_DATE) {
+			w = new DateBox();
+			((DateBox) w).setFormat(new DateBox.DefaultFormat(dateFormat));
+		} else if (type == DataTypes.DT_MONEY) {
+			w = new TextBox();
+			w.setWidth("100px");
+		} else if (type == DataTypes.DT_INT) {
+			w = new TextBox();
+			w.setWidth("100px");
 		} else {
 			w = new Label("widget");
 			// TODO: create widgets for all datatypes

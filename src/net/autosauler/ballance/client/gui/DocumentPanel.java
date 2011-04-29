@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ProvidesKey;
@@ -93,6 +94,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/** The editor. */
 	private VerticalPanel editor;
+
+	private ScrollPanel editorscroll;
 
 	/** The btn save. */
 	private Button btnSave;
@@ -205,7 +208,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			return;
 		}
 		editor = new VerticalPanel();
-		editor.setVisible(false);
+		// editor.setVisible(false);
 
 		editor.add(editform);
 
@@ -409,7 +412,11 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		editor.add(buttons);
 
-		root.add(editor, 0, 0);
+		editorscroll = new ScrollPanel(editor);
+		editorscroll.setSize("100%", "450px");
+		editorscroll.setVisible(false);
+
+		root.add(editorscroll, 0, 0);
 	}
 
 	/**
@@ -755,7 +762,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			btnActivate.setVisible(true);
 		}
 		effectHide(list.getElement());
-		effectShow(editor.getElement());
+		effectShow(editorscroll.getElement());
 	}
 
 	/**
@@ -773,7 +780,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			cellTable.getSelectionModel().setSelected(selection, false);
 		}
 		if (!list.isVisible() && (editor != null) && editor.isVisible()) {
-			effectHide(editor.getElement());
+			effectHide(editorscroll.getElement());
 			effectShow(list.getElement());
 		}
 	}

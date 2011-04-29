@@ -9,17 +9,13 @@ import java.util.HashMap;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
-import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * The Class IncomingPayPanel.
@@ -29,30 +25,25 @@ import com.google.gwt.user.datepicker.client.DateBox;
 public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 
 	/** The partner. */
-	private CatalogSelector partner;
-
-	/** The date format. */
-	private static DateTimeFormat dateFormat = DateTimeFormat
-			.getFormat("yyyy/MM/dd");
+	private HeaderField partner;
 
 	/** The paydate. */
-	private DateBox paydate;
+	private HeaderField paydate;
 
 	/** The currency. */
-	private CurrencySelector currency;
+	private HeaderField currency;
 
 	/** The payvalue. */
-	private TextBox payvalue;
+	private HeaderField payvalue;
 
 	/** The paymethod. */
-	private CatalogSelector paymethod;
+	private HeaderField paymethod;
 
 	/** The comments. */
-	private TextBox comments;
+	private HeaderField comments;
 
 	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
-
 	/** The pmp. */
 	private static PayMethodPanel pmp = new PayMethodPanel();
 
@@ -111,12 +102,11 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	@Override
 	void cleanEditForm() {
 		partner.reset();
-		paydate.setValue(new Date());
-
+		paydate.reset();
 		currency.reset();
-		payvalue.setText("0.0");
+		payvalue.reset();
 		paymethod.reset();
-		comments.setText("");
+		comments.reset();
 
 	}
 
@@ -129,36 +119,32 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected Widget createDocumentHeaderEditor() {
-		Grid header = new Grid(6, 2);
+		VerticalPanel p = new VerticalPanel();
+		partner = DataTypeFactory.addField(M.incomingpay.lblPartner(),
+				"partner", DataTypes.DT_CATALOGRECORD, 0L, pp);
+		p.add(partner);
 
-		header.setWidget(0, 0, new Label(M.incomingpay.lblPartner()));
+		paydate = DataTypeFactory.addField(M.incomingpay.lblPayDate(),
+				"paydate", DataTypes.DT_DATE, (new Date()).getTime(), null);
+		p.add(paydate);
 
-		partner = pp.getSelectBox(0L);
-		header.setWidget(0, 1, partner);
+		currency = DataTypeFactory.addField(M.incomingpay.lblCurrency(),
+				"currency", DataTypes.DT_CURRENCY, "RUR", null);
+		p.add(currency);
 
-		header.setWidget(1, 0, new Label(M.incomingpay.lblPayDate()));
-		paydate = new DateBox();
-		paydate.setFormat(new DateBox.DefaultFormat(dateFormat));
-		header.setWidget(1, 1, paydate);
+		payvalue = DataTypeFactory.addField(M.incomingpay.lblValue(),
+				"payvalue", DataTypes.DT_MONEY, "0.0", null);
+		p.add(payvalue);
 
-		header.setWidget(2, 0, new Label(M.incomingpay.lblCurrency()));
-		currency = new CurrencySelector(null);
-		header.setWidget(2, 1, currency);
+		paymethod = DataTypeFactory.addField(M.incomingpay.lblMethod(),
+				"paymethod", DataTypes.DT_CATALOGRECORD, 0L, pmp);
+		p.add(paymethod);
 
-		header.setWidget(3, 0, new Label(M.incomingpay.lblValue()));
-		payvalue = new TextBox();
-		header.setWidget(3, 1, payvalue);
+		comments = DataTypeFactory.addField(M.incomingpay.lblComments(),
+				"comments", DataTypes.DT_STRING, "", null);
+		p.add(comments);
 
-		header.setWidget(4, 0, new Label(M.incomingpay.lblMethod()));
-
-		paymethod = pmp.getSelectBox(0L);
-		header.setWidget(4, 1, paymethod);
-
-		header.setWidget(5, 0, new Label(M.incomingpay.lblComments()));
-		comments = new TextBox();
-		header.setWidget(5, 1, comments);
-
-		return header;
+		return p;
 	}
 
 	/*
@@ -197,13 +183,12 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected void fillEditor(HashMap<String, Object> map) {
-		partner.select((Long) map.get("partner"));
-		paydate.setValue(new Date((Long) map.get("paydate")));
-
-		currency.select((String) map.get("currency"));
-		payvalue.setText((String) map.get("payvalue"));
-		paymethod.select((Long) map.get("paymethod"));
-		comments.setText((String) map.get("comments"));
+		partner.setValue(map.get("partner"));
+		paydate.setValue(map.get("paydate"));
+		currency.setValue(map.get("currency"));
+		payvalue.setValue(map.get("payvalue"));
+		paymethod.setValue(map.get("paymethod"));
+		comments.setValue(map.get("comments"));
 
 	}
 
@@ -217,25 +202,11 @@ public class IncomingPayPanel extends DocumentPanel implements IPaneWithMenu {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		map.put("partner", partner.getValue());
-
-		Date d = paydate.getValue();
-
-		map.put("paydate", d.getTime());
-
+		map.put("paydate", paydate.getValue());
 		map.put("currency", currency.getValue());
-
-		String val = payvalue.getText();
-		val = val.trim().replace(',', '.');
-		Double payvalue = new Double(0.0D);
-		try {
-			payvalue = Double.parseDouble(val);
-		} catch (Exception e) {
-			Log.error(e.getMessage());
-		}
-		map.put("payvalue", payvalue.toString());
-
+		map.put("payvalue", payvalue.getValue());
 		map.put("paymethod", paymethod.getValue());
-		map.put("comments", comments.getText());
+		map.put("comments", comments.getValue());
 
 		return map;
 	}

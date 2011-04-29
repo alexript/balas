@@ -22,16 +22,13 @@ import java.util.HashMap;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * The Class IncomingGoodsPanel.
@@ -40,30 +37,26 @@ import com.google.gwt.user.datepicker.client.DateBox;
  */
 public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 
-	/** The date format. */
-	private static DateTimeFormat dateFormat = DateTimeFormat
-			.getFormat("yyyy/MM/dd");
-
 	/** The pp. */
 	private static PartnersPanel pp = new PartnersPanel();
 
 	/** The partner. */
-	private CatalogSelector partner;
+	private HeaderField partner;
 
 	/** The senddate. */
-	private DateBox senddate;
+	private HeaderField senddate;
 
 	/** The goodsnumber. */
-	private TextBox goodsnumber;
+	private HeaderField goodsnumber;
 
 	/** The invoicenum. */
-	private TextBox invoicenum;
+	private HeaderField invoicenum;
 
 	/** The awb. */
-	private TextBox awb;
+	private HeaderField awb;
 
 	/** The gtd. */
-	private TextBox gtd;
+	private HeaderField gtd;
 
 	/**
 	 * Instantiates a new incoming goods panel.
@@ -119,11 +112,11 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	@Override
 	void cleanEditForm() {
 		partner.reset();
-		senddate.setValue(new Date());
-		goodsnumber.setText("");
-		invoicenum.setText("");
-		awb.setText("");
-		gtd.setText("");
+		senddate.reset();
+		goodsnumber.reset();
+		invoicenum.reset();
+		awb.reset();
+		gtd.reset();
 
 	}
 
@@ -136,35 +129,33 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected Widget createDocumentHeaderEditor() {
-		Grid header = new Grid(6, 2);
+		VerticalPanel p = new VerticalPanel();
 
-		header.setWidget(0, 0, new Label(M.incominggoods.lblPartner()));
+		partner = DataTypeFactory.addField(M.incominggoods.lblPartner(),
+				"partner", DataTypes.DT_CATALOGRECORD, null, pp);
+		p.add(partner);
 
-		partner = pp.getSelectBox(0L);
-		header.setWidget(0, 1, partner);
+		senddate = DataTypeFactory.addField(M.incominggoods.lblSendDate(),
+				"senddate", DataTypes.DT_DATE, (new Date()).getTime(), null);
+		p.add(senddate);
 
-		header.setWidget(1, 0, new Label(M.incominggoods.lblSendDate()));
-		senddate = new DateBox();
-		senddate.setFormat(new DateBox.DefaultFormat(dateFormat));
-		header.setWidget(1, 1, senddate);
+		goodsnumber = DataTypeFactory.addField(M.incominggoods.lblGoodsNum(),
+				"gnum", DataTypes.DT_INT, "0", null);
+		p.add(goodsnumber);
 
-		header.setWidget(2, 0, new Label(M.incominggoods.lblGoodsNum()));
-		goodsnumber = new TextBox();
-		header.setWidget(2, 1, goodsnumber);
+		invoicenum = DataTypeFactory.addField(M.incominggoods.lblInvoice(),
+				"invoice", DataTypes.DT_STRING, "", null);
+		p.add(invoicenum);
 
-		header.setWidget(3, 0, new Label(M.incominggoods.lblInvoice()));
-		invoicenum = new TextBox();
-		header.setWidget(3, 1, invoicenum);
+		awb = DataTypeFactory.addField(M.incominggoods.lblAWB(), "awb",
+				DataTypes.DT_STRING, "", null);
+		p.add(awb);
 
-		header.setWidget(4, 0, new Label(M.incominggoods.lblAWB()));
-		awb = new TextBox();
-		header.setWidget(4, 1, awb);
+		gtd = DataTypeFactory.addField(M.incominggoods.lblGTD(), "gtd",
+				DataTypes.DT_STRING, "", null);
+		p.add(gtd);
 
-		header.setWidget(5, 0, new Label(M.incominggoods.lblGTD()));
-		gtd = new TextBox();
-		header.setWidget(5, 1, gtd);
-
-		return header;
+		return p;
 	}
 
 	/*
@@ -183,9 +174,8 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 		HorizontalPanel row = new HorizontalPanel();
 		row.setSpacing(4);
 		row.add(new Label(pp.getName((Long) map.get("partner"))));
-		row.add(new Label(
-				dateFormat.format(new Date((Long) map.get("senddate"))) + " "
-						+ map.get("gnum")));
+		row.add(new Label(DataTypeFactory.dateFormat.format(new Date((Long) map
+				.get("senddate"))) + " " + map.get("gnum")));
 		panel.add(row);
 
 		return panel.toString();
@@ -200,13 +190,12 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected void fillEditor(HashMap<String, Object> map) {
-		partner.select((Long) map.get("partner"));
-		senddate.setValue(new Date((Long) map.get("senddate")));
-
-		goodsnumber.setText((String) map.get("gnum"));
-		invoicenum.setText((String) map.get("invoice"));
-		awb.setText((String) map.get("awb"));
-		gtd.setText((String) map.get("gtd"));
+		partner.setValue(map.get("partner"));
+		senddate.setValue(map.get("senddate"));
+		goodsnumber.setValue(map.get("gnum"));
+		invoicenum.setValue(map.get("invoice"));
+		awb.setValue(map.get("awb"));
+		gtd.setValue(map.get("gtd"));
 
 	}
 
@@ -220,16 +209,11 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		map.put("partner", partner.getValue());
-
-		Date d = senddate.getValue();
-		map.put("senddate", d.getTime());
-
-		map.put("gnum", goodsnumber.getText());
-
-		map.put("invoice", invoicenum.getText());
-
-		map.put("awb", awb.getText());
-		map.put("gtd", gtd.getText());
+		map.put("senddate", senddate.getValue());
+		map.put("gnum", goodsnumber.getValue());
+		map.put("invoice", invoicenum.getValue());
+		map.put("awb", awb.getValue());
+		map.put("gtd", gtd.getValue());
 
 		return map;
 	}
