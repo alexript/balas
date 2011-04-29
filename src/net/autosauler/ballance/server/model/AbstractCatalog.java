@@ -18,10 +18,14 @@ package net.autosauler.ballance.server.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
+import net.autosauler.ballance.shared.structures.Description;
+import net.autosauler.ballance.shared.structures.Field;
+import net.autosauler.ballance.shared.structures.StructureFactory;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -220,7 +224,15 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	 * Inits the structure.
 	 */
 	@Override
-	protected abstract void initStructure();
+	protected void initStructure() {
+		Description d = StructureFactory.buildCatalog(getSuffix());
+		List<Field> fields = d.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			struct.add(f.getFieldname(), f.getType(), f.getDefval());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -77,16 +77,6 @@ public class PayMethod extends AbstractCatalog {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see net.autosauler.ballance.server.model.AbstractCatalog#initStructure()
-	 */
-	@Override
-	protected void initStructure() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * net.autosauler.ballance.server.model.AbstractCatalog#onGenerateDefaultScript
 	 * ()

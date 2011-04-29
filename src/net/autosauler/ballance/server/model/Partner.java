@@ -16,8 +16,6 @@
 
 package net.autosauler.ballance.server.model;
 
-import net.autosauler.ballance.shared.datatypes.DataTypes;
-
 import com.mongodb.BasicDBObject;
 
 /**
@@ -28,10 +26,6 @@ import com.mongodb.BasicDBObject;
 public class Partner extends AbstractCatalog {
 
 	private static final String catname = "partners";
-	private static final String fieldname_email = "email";
-	private static final String fieldname_paymethod = "paymethod";
-	private static final String fieldname_currency = "currency";
-	private static final String fieldname_tarif = "tarif";
 
 	/**
 	 * Instantiates a new partner.
@@ -80,20 +74,6 @@ public class Partner extends AbstractCatalog {
 	protected void addGetRecordParams(BasicDBObject query) {
 		return;
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.server.model.AbstractCatalog#initStructure()
-	 */
-	@Override
-	protected void initStructure() {
-		struct.add(fieldname_email, DataTypes.DT_STRING, "");
-		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
-				new Long(0L));
-		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
-		struct.add(fieldname_tarif, DataTypes.DT_CATALOGRECORD, new Long(0L));
 	}
 
 	/*

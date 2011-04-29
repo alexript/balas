@@ -89,15 +89,4 @@ public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 		return role.isAdmin();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#createStructure()
-	 */
-	@Override
-	protected void createStructure() {
-		return;
-
-	}
-
 }

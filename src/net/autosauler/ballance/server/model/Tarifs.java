@@ -16,8 +16,6 @@
 
 package net.autosauler.ballance.server.model;
 
-import net.autosauler.ballance.shared.datatypes.DataTypes;
-
 import com.mongodb.BasicDBObject;
 
 /**
@@ -28,7 +26,6 @@ public class Tarifs extends AbstractCatalog {
 	// TODO: must be periodic
 
 	private static final String catname = "tarifs";
-	private static final String fieldname_script = "scrpt";
 
 	public Tarifs(String domain, Long number) {
 		super(catname, domain, number);
@@ -60,18 +57,6 @@ public class Tarifs extends AbstractCatalog {
 	@Override
 	protected void addGetRecordParams(BasicDBObject query) {
 		return;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.server.model.AbstractCatalog#initStructure()
-	 */
-	@Override
-	protected void initStructure() {
-		struct.add(fieldname_script, DataTypes.DT_SCRIPT, ""); // TODO: default
-																// script
 
 	}
 

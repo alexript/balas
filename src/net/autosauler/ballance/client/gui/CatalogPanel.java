@@ -19,6 +19,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
@@ -27,6 +28,9 @@ import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
+import net.autosauler.ballance.shared.structures.Description;
+import net.autosauler.ballance.shared.structures.Field;
+import net.autosauler.ballance.shared.structures.StructureFactory;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -420,7 +424,27 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Creates the structure.
 	 */
-	protected abstract void createStructure();
+	private void createStructure() {
+		Description d = StructureFactory.buildCatalog(catalogname);
+		List<Field> fields = d.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			String helper = f.getHelper();
+			CatalogPanel h = null;
+			// TODO: rewrite helpers
+			if (helper.equals("paymethod")) {
+				h = new PayMethodPanel();
+			} else if (helper.equals("tarifs")) {
+				h = new TarifPanel();
+			} else if (helper.equals("partners")) {
+				h = new PartnersPanel();
+			}
+			// TODO: l16n
+			addField(f.getName().getName("en"), f.getFieldname(), f.getType(),
+					f.getDefval(), h);
+		}
+	}
 
 	/**
 	 * Effect hide.

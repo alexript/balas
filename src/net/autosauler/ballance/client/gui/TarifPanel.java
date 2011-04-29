@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.shared.UserRole;
-import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -84,18 +83,6 @@ public class TarifPanel extends CatalogPanel implements IPaneWithMenu,
 	@Override
 	boolean canTrash(UserRole role) {
 		return (role.isAdmin() || role.isFinances() || role.isManager());
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.CatalogPanel#createStructure()
-	 */
-	@Override
-	protected void createStructure() {
-		addField("Script", "scrpt", DataTypes.DT_SCRIPT, "", null);
-		// TODO: default script
 
 	}
 
