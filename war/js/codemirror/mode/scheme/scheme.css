@@ -1,0 +1,18 @@
+span.scheme-string	{color: green;}
+span.scheme-number	{color: blue;}
+span.scheme-boolean     {color: darkred;}
+span.scheme-character	{color: orange;}
+span.scheme-symbol	{color: steelblue;}
+span.scheme-punctuation {color: black;}
+span.scheme-lparen      {color: black;}
+span.scheme-rparen      {color: black;}
+span.scheme-comment     { color: orange; }
+
+span.good-matching-paren { 
+    font-weight: bold;
+    color: #3399FF;  
+}
+span.bad-matching-paren {
+    font-weight: bold;
+    color: red;
+}

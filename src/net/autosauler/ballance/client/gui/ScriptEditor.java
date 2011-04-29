@@ -17,14 +17,12 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Services;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -44,7 +42,7 @@ public class ScriptEditor extends DialogBox {
 	private String text;
 
 	/** The editor. */
-	private TextArea editor;
+	private ScriptArea editor;
 
 	/**
 	 * Instantiates a new script editor.
@@ -77,7 +75,6 @@ public class ScriptEditor extends DialogBox {
 				if (result != null) {
 					text = result;
 					editor.setText(text);
-					initCodeMirror(editor.getElement());
 					ScriptEditor.this.show();
 				} else {
 					new AlertDialog("Can't load script " + scriptname).show();
@@ -88,30 +85,6 @@ public class ScriptEditor extends DialogBox {
 	};
 
 	/**
-	 * Gets the editor value.
-	 * 
-	 * @return the editor value
-	 */
-	private native String getEditorValue() /*-{
-		return codemirror.getValue();
-	}-*/;
-
-	/**
-	 * Inits the code mirror.
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	// TODO: syntax highlight: http://codemirror.net/manual.html
-	private native void initCodeMirror(Element element) /*-{
-		codemirror = new $wnd.CodeMirror.fromTextArea(element, {
-			mode : "javascript",
-			lineNumbers : true,
-			matchBrackets : true
-		});
-	}-*/;
-
-	/**
 	 * Inits the gui.
 	 */
 	private void initGui() {
@@ -119,10 +92,9 @@ public class ScriptEditor extends DialogBox {
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
 
-		editor = new TextArea();
+		editor = new ScriptArea("scheme");
 		editor.setWidth("500px");
 		editor.setHeight("400px");
-		editor.setText("");
 
 		Button btnSave = new Button("Save");
 
@@ -131,7 +103,7 @@ public class ScriptEditor extends DialogBox {
 			@Override
 			public void onClick(ClickEvent event) {
 				MainPanel.setCommInfo(true);
-				text = getEditorValue();
+				text = editor.getText();
 				Services.scripts.saveScript(scriptname, text,
 						new AsyncCallback<Boolean>() {
 
