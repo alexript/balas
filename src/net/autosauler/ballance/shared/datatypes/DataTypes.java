@@ -133,6 +133,55 @@ public class DataTypes {
 	}
 
 	/**
+	 * From string.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the int
+	 */
+	public static int fromString(String name) {
+		int type = 0;
+
+		if (name.equals("DT_OBJECT")) {
+			type = DT_OBJECT;
+		} else if (name.equals("DT_INT")) {
+			type = DT_INT;
+		} else if (name.equals("DT_DOUBLE")) {
+			type = DT_DOUBLE;
+		} else if (name.equals("DT_STRING")) {
+			type = DT_STRING;
+		} else if (name.equals("DT_DATE")) {
+			type = DT_DATE;
+		} else if (name.equals("DT_LONG")) {
+			type = DT_LONG;
+		} else if (name.equals("DT_CURRENCY")) {
+			type = DT_CURRENCY;
+		} else if (name.equals("DT_CATALOG")) {
+			type = DT_CATALOG;
+		} else if (name.equals("DT_CATALOGRECORD")) {
+			type = DT_CATALOGRECORD;
+		} else if (name.equals("DT_DOCUMENT")) {
+			type = DT_DOCUMENT;
+		} else if (name.equals("DT_DOCUMENTRECORD")) {
+			type = DT_DOCUMENTRECORD;
+		} else if (name.equals("DT_SETTING")) {
+			type = DT_SETTING;
+		} else if (name.equals("DT_SETTINGVALUE")) {
+			type = DT_SETTINGVALUE;
+		} else if (name.equals("DT_DOMAIN")) {
+			type = DT_DOMAIN;
+		} else if (name.equals("DT_BOOLEAN")) {
+			type = DT_BOOLEAN;
+		} else if (name.equals("DT_MONEY")) {
+			type = DT_MONEY;
+		} else if (name.equals("DT_SCRIPT")) {
+			type = DT_SCRIPT;
+		}
+
+		return type;
+	}
+
+	/**
 	 * To mapping.
 	 * 
 	 * @param type

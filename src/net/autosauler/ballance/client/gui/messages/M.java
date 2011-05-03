@@ -62,10 +62,6 @@ public class M {
 	/** The Constant menu. */
 	public static final MenuMessages menu = GWT.create(MenuMessages.class);
 
-	/** The Constant partners. */
-	public static final PartnersMessages partners = GWT
-			.create(PartnersMessages.class);
-
 	/** The Constant tools. */
 	public static final ToolsMessages tools = GWT.create(ToolsMessages.class);
 

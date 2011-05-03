@@ -225,7 +225,8 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void initStructure() {
-		Description d = StructureFactory.buildCatalog(getSuffix());
+		Description d = StructureFactory.loadDescription("catalog."
+				+ getSuffix());
 		List<Field> fields = d.get();
 		Iterator<Field> i = fields.iterator();
 		while (i.hasNext()) {

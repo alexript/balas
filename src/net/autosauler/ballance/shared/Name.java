@@ -18,7 +18,9 @@ package net.autosauler.ballance.shared;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The Class Name.
@@ -69,5 +71,18 @@ public class Name implements Serializable {
 	 */
 	public void setNames(HashMap<String, String> names) {
 		i18n = names;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Set<String> loc = i18n.keySet();
+		Iterator<String> i = loc.iterator();
+		while (i.hasNext()) {
+			String l = i.next();
+			String v = i18n.get(l);
+			sb.append(l + ": " + v + "\n");
+		}
+		return sb.toString();
 	}
 }

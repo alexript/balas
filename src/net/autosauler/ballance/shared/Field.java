@@ -135,6 +135,16 @@ public class Field implements Serializable {
 	}
 
 	/**
+	 * Sets the defval as string.
+	 * 
+	 * @param defval
+	 *            the new defval as string
+	 */
+	public void setDefvalAsString(String defval) {
+		this.defval = defval;
+	}
+
+	/**
 	 * Sets the fieldname.
 	 * 
 	 * @param fieldname
@@ -194,6 +204,20 @@ public class Field implements Serializable {
 	 */
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Fieldname: " + fieldname + "\n");
+		sb.append("type: " + type + "\n");
+		sb.append("defval: " + defval + "\n");
+		sb.append("helper: " + helper + "\n");
+		sb.append("helpertype: " + helpertype + "\n");
+		sb.append("Names: \n");
+		sb.append(name.toString());
+		sb.append("\n");
+		return sb.toString();
 	}
 
 }

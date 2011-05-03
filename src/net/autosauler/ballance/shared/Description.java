@@ -18,8 +18,8 @@ package net.autosauler.ballance.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 
 /**
  * The Class Description.
@@ -90,5 +90,19 @@ public class Description implements Serializable {
 	 */
 	public void setRole(int role) {
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Role=" + role + "\n");
+		sb.append("Fields:\n");
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			sb.append(f.toString());
+		}
+
+		return sb.toString();
 	}
 }

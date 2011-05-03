@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|MANAGER">
+    <fields>
+        <field name="email" type="DT_STRING">
+            <default></default>
+            <names>
+                <en>email</en>
+                <ru>email</ru>
+            </names>
+        </field>
+        <field name="paymethod" type="DT_CATALOGRECORD">
+            <default>0</default>
+            <names>
+                <en>Pay method</en>
+                <ru>Способ оплаты</ru>
+            </names>
+            <helper type="catalog">paymethod</helper>
+        </field>
+        <field name="currency" type="DT_CURRENCY">
+            <default>RUR</default>
+            <names>
+                <en>Currecny</en>
+                <ru>Валюта</ru>
+            </names>
+        </field>
+        <field name="tarif" type="DT_CATALOGRECORD">
+            <default>0</default>
+            <names>
+                <en>Tarif</en>
+                <ru>Тариф</ru>
+            </names>
+            <helper type="catalog">tarifs</helper>
+        </field>
+    </fields>
+</struct>

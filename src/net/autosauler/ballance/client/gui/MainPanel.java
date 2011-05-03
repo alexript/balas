@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
@@ -182,6 +183,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 * @return the widget
 	 */
 	private VerticalPanel constructTabPane(String name) {
+		// TODO: check roles for documents
 		VerticalPanel w = null;
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
@@ -198,13 +200,19 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		} else if (name.equals("license")) {
 			w = constructTabPaneContent(LicensePanel.get(),
 					M.menu.itemLicense(), Images.menu.icoCopyright(), name);
-		} else if (name.equals("partners")) {
+		} else if (name.equals("partners")
+				&& (new UserRole(StructureFactory.getDescription(
+						"catalog.partners").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new PartnersPanel().getListForm(),
 					M.menu.itemPartners(), Images.menu.icoPartners(), name);
-		} else if (name.equals("tarifs")) {
+		} else if (name.equals("tarifs")
+				&& (new UserRole(StructureFactory.getDescription(
+						"catalog.tarifs").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new TarifPanel().getListForm(),
 					M.menu.itemTarif(), Images.menu.icoTarif(), name);
-		} else if (name.equals("paymethod")) {
+		} else if (name.equals("paymethod")
+				&& (new UserRole(StructureFactory.getDescription(
+						"catalog.paymethod").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
 					M.menu.itemPaymethod(), Images.menu.icoPaymethod(), name);
 		} else if (name.equals("incpay")) {

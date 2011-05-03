@@ -35,6 +35,7 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -454,9 +455,11 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 						&& !helper.isEmpty()) {
 					h = new CatalogPanel(helper, null);
 				}
-				// TODO: l16n
-				addField(f.getName().getName("en"), f.getFieldname(),
-						f.getType(), f.getDefval(), h);
+
+				addField(
+						f.getName().getName(
+								LocaleInfo.getCurrentLocale().getLocaleName()),
+						f.getFieldname(), f.getType(), f.getDefval(), h);
 			}
 		}
 	}

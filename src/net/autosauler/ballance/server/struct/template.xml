@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|DOCUMENTS|FINANCES|MANAGER|GUEST">
+    <fields>
+        <field name="<database field name>" type="DT_*">
+            <default>default vaue as string</default>
+            <names>
+                <en>english description</en>
+                <ru>russian description</ru>
+            </names>
+            <helper type="<catalog or document>">catalog or document name</helper>
+        </field>
+        <field>...</field>
+        <field>...</field>
+        ...
+    </fields>
+</struct>

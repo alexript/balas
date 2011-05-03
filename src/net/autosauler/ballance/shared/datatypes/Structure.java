@@ -26,7 +26,6 @@ import java.util.Set;
  * @author alexript
  */
 public class Structure {
-	// TODO: exchange structure with client for dynamic form generation
 
 	/** The struct. */
 	private final HashMap<String, StructElement> struct;
