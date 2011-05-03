@@ -15,13 +15,9 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
-import java.util.HashMap;
-
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The Class PayMethodPanel.
@@ -36,57 +32,6 @@ public class PayMethodPanel extends CatalogPanel implements IPaneWithMenu,
 	 */
 	public PayMethodPanel() {
 		super("paymethod", new Image(Images.menu.icoPaymethod()));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#buildListRow(java.util
-	 * .HashMap)
-	 */
-	@Override
-	Widget buildListRow(HashMap<String, Object> map) {
-
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#canCreate(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canCreate(UserRole role) {
-
-		return (role.isAdmin() || role.isManager());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#canEdit(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canEdit(UserRole role) {
-
-		return (role.isAdmin() || role.isManager());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#canTrash(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canTrash(UserRole role) {
-		return role.isAdmin();
 	}
 
 }

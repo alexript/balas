@@ -14,8 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.shared.structures;
+package net.autosauler.ballance.server.struct;
 
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 /**
@@ -38,6 +41,10 @@ public class StructureFactory {
 		Description d = new Description();
 		Field f = null;
 		if (catalogname.equals("paymethod")) {
+			UserRole role = new UserRole();
+			role.setAdmin();
+			role.setManager();
+			d.setRole(role.getRole());
 
 		} else if (catalogname.equals("tarifs")) {
 			f = new Field(DataTypes.DT_SCRIPT);
@@ -46,6 +53,13 @@ public class StructureFactory {
 			f.setHelper("");
 			f.setName("en", "Script");
 			d.add(f);
+
+			UserRole role = new UserRole();
+			role.setAdmin();
+			role.setFinances();
+			role.setManager();
+			d.setRole(role.getRole());
+
 		} else if (catalogname.equals("partners")) {
 			f = new Field(DataTypes.DT_STRING);
 			f.setFieldname("email");
@@ -58,6 +72,7 @@ public class StructureFactory {
 			f.setFieldname("paymethod");
 			f.setDefval(new Long(0L));
 			f.setHelper("paymethod");
+			f.setHelpertype("catalog");
 			f.setName("en", "Pay method");
 			d.add(f);
 
@@ -72,10 +87,40 @@ public class StructureFactory {
 			f.setFieldname("tarif");
 			f.setDefval(new Long(0L));
 			f.setHelper("tarifs");
+			f.setHelpertype("catalog");
 			f.setName("en", "tarif");
 			d.add(f);
 
+			UserRole role = new UserRole();
+			role.setAdmin();
+			role.setManager();
+			d.setRole(role.getRole());
+
 		}
+		return d;
+	}
+
+	/**
+	 * Load description.
+	 * 
+	 * @param fullname
+	 *            the fullname
+	 * @return the description
+	 */
+	public static Description loadDescription(String fullname) {
+		Description d = null;
+
+		String[] parts = fullname.split("\\.", 2);
+		if (parts.length == 2) {
+			String type = parts[0];
+			String name = parts[1];
+			if (type.equals("catalog")) {
+				d = buildCatalog(name);
+			} else if (type.equals("document")) {
+				// TODO: load document and document parts
+			}
+		}
+
 		return d;
 	}
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.shared.structures;
+package net.autosauler.ballance.shared;
 
 import java.io.Serializable;
 
@@ -34,10 +34,10 @@ public class Field implements Serializable {
 	private String fieldname;
 
 	/** The type. */
-	private int type;
+	private int type = DataTypes.DT_OBJECT;
 
 	/** The defval. */
-	private Object defval;
+	private String defval;
 
 	/** The name. */
 	private Name name;
@@ -45,8 +45,21 @@ public class Field implements Serializable {
 	/** The helper. */
 	private String helper;
 
+	/** The helpertype. */
+	private String helpertype;
+
 	/**
 	 * Instantiates a new field.
+	 */
+	public Field() {
+
+	}
+
+	/**
+	 * Instantiates a new field.
+	 * 
+	 * @param type
+	 *            the type
 	 */
 	public Field(int type) {
 		fieldname = "";
@@ -54,6 +67,7 @@ public class Field implements Serializable {
 		defval = null;
 		name = new Name();
 		helper = "";
+		helpertype = "";
 	}
 
 	/**
@@ -62,7 +76,7 @@ public class Field implements Serializable {
 	 * @return the defval
 	 */
 	public Object getDefval() {
-		return DataTypes.fromMapping(type, defval);
+		return DataTypes.fromString(type, defval);
 	}
 
 	/**
@@ -81,6 +95,15 @@ public class Field implements Serializable {
 	 */
 	public String getHelper() {
 		return helper;
+	}
+
+	/**
+	 * Gets the helpertype.
+	 * 
+	 * @return the helpertype
+	 */
+	public String getHelpertype() {
+		return helpertype;
 	}
 
 	/**
@@ -108,7 +131,7 @@ public class Field implements Serializable {
 	 *            the defval to set
 	 */
 	public void setDefval(Object defval) {
-		this.defval = DataTypes.toMapping(type, defval);
+		this.defval = DataTypes.toString(type, defval);
 	}
 
 	/**
@@ -129,6 +152,16 @@ public class Field implements Serializable {
 	 */
 	public void setHelper(String helper) {
 		this.helper = helper;
+	}
+
+	/**
+	 * Sets the helpertype.
+	 * 
+	 * @param helpertype
+	 *            the helpertype to set
+	 */
+	public void setHelpertype(String helpertype) {
+		this.helpertype = helpertype;
 	}
 
 	/**

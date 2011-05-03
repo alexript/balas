@@ -18,6 +18,7 @@ package net.autosauler.ballance.client;
 
 import java.util.Date;
 
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.LeftPanel;
 import net.autosauler.ballance.client.gui.MainPanel;
@@ -127,6 +128,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 				});
 				RootPanel.get().add(mainpanel);
 				RootPanel.get("spinner").setVisible(false);
+				StructureFactory.loadData();
 
 			}// end onSucess
 		};// end AsyncCallback<String> asyncCallback = new

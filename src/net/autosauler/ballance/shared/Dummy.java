@@ -14,50 +14,29 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.shared.structures;
+package net.autosauler.ballance.shared;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * The Class Description.
+ * The Class Dummy. GWT rules!!! http://nofate.name/oshibki-serializacii-v-gwt/
  * 
  * @author alexript
  */
-public class Description implements Serializable {
-	// TODO: add access levels
-	// TODO: add structure name
+public class Dummy implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4249956404428572162L;
+	private static final long serialVersionUID = -547562347176212918L;
 
-	/** The fields. */
-	private final List<Field> fields;
+	/** The name. */
+	public Name name;
 
-	/**
-	 * Instantiates a new description.
-	 */
-	public Description() {
-		fields = new ArrayList<Field>();
-	}
+	/** The field. */
+	public Field field;
 
 	/**
-	 * Adds the.
-	 * 
-	 * @param field
-	 *            the field
+	 * Instantiates a new dummy.
 	 */
-	public void add(Field field) {
-		fields.add(field);
-	}
-
-	/**
-	 * Gets the.
-	 * 
-	 * @return the list
-	 */
-	public List<Field> get() {
-		return fields;
-	}
+	public Dummy() {
+	};
 }

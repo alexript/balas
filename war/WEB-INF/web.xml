@@ -83,6 +83,16 @@
 		<url-pattern>/ballance_autosauler_net/scripts</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>structureServlet</servlet-name>
+		<servlet-class>net.autosauler.ballance.server.StructureServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>structureServlet</servlet-name>
+		<url-pattern>/ballance_autosauler_net/structure</url-pattern>
+	</servlet-mapping>
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

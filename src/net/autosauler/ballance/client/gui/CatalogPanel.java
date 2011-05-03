@@ -24,13 +24,13 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
-import net.autosauler.ballance.shared.structures.Description;
-import net.autosauler.ballance.shared.structures.Field;
-import net.autosauler.ballance.shared.structures.StructureFactory;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,7 +52,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author alexript
  */
-public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
+public class CatalogPanel extends Composite implements IPaneWithMenu,
 		IDialogYesReceiver, IReloadMsgReceiver {
 
 	/** The catalogname. */
@@ -88,6 +88,8 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	/** The fields. */
 	private HashMap<String, HeaderField> fields;
 
+	private final Description structuredescription;
+
 	/**
 	 * Instantiates a new catalog panel.
 	 * 
@@ -102,6 +104,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 		tabimage = image;
 
 		linecounter = 0L;
+
+		structuredescription = StructureFactory.getDescription("catalog."
+				+ this.catalogname);
 
 		MainPanel.setCommInfo(true);
 		Services.catalogs.getRecordsForView(catalogname,
@@ -151,7 +156,9 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the map
 	 * @return the widget
 	 */
-	abstract Widget buildListRow(HashMap<String, Object> map);
+	protected Widget buildListRow(HashMap<String, Object> map) {
+		return null;
+	}
 
 	/**
 	 * Can create.
@@ -160,7 +167,10 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canCreate(UserRole role);
+	protected boolean canCreate(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Can edit.
@@ -169,7 +179,10 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canEdit(UserRole role);
+	protected boolean canEdit(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Can trash.
@@ -178,7 +191,10 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canTrash(UserRole role);
+	protected boolean canTrash(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Clean edit form.
@@ -425,24 +441,23 @@ public abstract class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * Creates the structure.
 	 */
 	private void createStructure() {
-		Description d = StructureFactory.buildCatalog(catalogname);
-		List<Field> fields = d.get();
-		Iterator<Field> i = fields.iterator();
-		while (i.hasNext()) {
-			Field f = i.next();
-			String helper = f.getHelper();
-			CatalogPanel h = null;
-			// TODO: rewrite helpers
-			if (helper.equals("paymethod")) {
-				h = new PayMethodPanel();
-			} else if (helper.equals("tarifs")) {
-				h = new TarifPanel();
-			} else if (helper.equals("partners")) {
-				h = new PartnersPanel();
+		if (structuredescription != null) {
+			List<Field> fields = structuredescription.get();
+			Iterator<Field> i = fields.iterator();
+			while (i.hasNext()) {
+				Field f = i.next();
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
+
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
+				}
+				// TODO: l16n
+				addField(f.getName().getName("en"), f.getFieldname(),
+						f.getType(), f.getDefval(), h);
 			}
-			// TODO: l16n
-			addField(f.getName().getName("en"), f.getFieldname(), f.getType(),
-					f.getDefval(), h);
 		}
 	}
 

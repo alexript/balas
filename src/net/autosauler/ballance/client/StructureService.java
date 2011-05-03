@@ -13,42 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package net.autosauler.ballance.client;
 
-package net.autosauler.ballance.client.gui;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Dummy;
 
-import java.util.HashMap;
-
-import net.autosauler.ballance.client.gui.images.Images;
-
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * The Class PartnersPanel.
+ * The Interface StructureService.
  * 
  * @author alexript
  */
-public class PartnersPanel extends CatalogPanel implements IPaneWithMenu,
-		IDialogYesReceiver {
+@RemoteServiceRelativePath("structure")
+public interface StructureService extends RemoteService {
 
 	/**
-	 * Instantiates a new partners panel.
-	 */
-	public PartnersPanel() {
-		super("partners", new Image(Images.menu.icoPartners()));
-	}
-
-	/*
-	 * (non-Javadoc)
+	 * Gets the dummy.
 	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.CatalogPanel#buildListRow(java.util
-	 * .HashMap)
+	 * @return the dummy
 	 */
-	@Override
-	protected Widget buildListRow(HashMap<String, Object> map) {
-		return new Label((String) map.get("email"));
-	}
+	public Dummy getDummy();
 
+	/**
+	 * Gets the structure description.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the structure description
+	 */
+	public Description getStructureDescription(String name);
 }

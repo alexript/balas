@@ -102,6 +102,37 @@ public class DataTypes {
 	}
 
 	/**
+	 * From string.
+	 * 
+	 * @param type
+	 *            the type
+	 * @param val
+	 *            the val
+	 * @return the object
+	 */
+	public static Object fromString(int type, String val) {
+		Object obj = null;
+		if (type == DataTypes.DT_DATE) {
+			obj = new Date(Long.parseLong(val));
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = Double.parseDouble(val);
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = Double.parseDouble(val);
+		} else if (type == DataTypes.DT_INT) {
+			obj = Integer.parseInt(val);
+		} else if ((type == DataTypes.DT_LONG)
+				|| (type == DataTypes.DT_CATALOGRECORD)
+				|| (type == DataTypes.DT_DOCUMENTRECORD)) {
+			obj = Long.parseLong(val);
+		} else if (type == DataTypes.DT_BOOLEAN) {
+			obj = Boolean.parseBoolean(val);
+		} else {
+			obj = val;
+		}
+		return obj;
+	}
+
+	/**
 	 * To mapping.
 	 * 
 	 * @param type
@@ -122,6 +153,39 @@ public class DataTypes {
 			obj = ((Integer) object).toString();
 		} else {
 			obj = object;
+		}
+		return obj;
+
+	}
+
+	/**
+	 * To string.
+	 * 
+	 * @param type
+	 *            the type
+	 * @param object
+	 *            the object
+	 * @return the string
+	 */
+	public static String toString(int type, Object object) {
+		String obj = null;
+		if (type == DataTypes.DT_DATE) {
+			obj = Long.toString(((Date) object).getTime());
+		} else if (type == DataTypes.DT_DOUBLE) {
+			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_MONEY) {
+			obj = ((Double) object).toString();
+		} else if (type == DataTypes.DT_INT) {
+			obj = ((Integer) object).toString();
+		} else if ((type == DataTypes.DT_LONG)
+				|| (type == DataTypes.DT_CATALOGRECORD)
+				|| (type == DataTypes.DT_DOCUMENTRECORD)) {
+			obj = ((Long) object).toString();
+		} else if (type == DataTypes.DT_BOOLEAN) {
+			obj = ((Boolean) object).toString();
+
+		} else {
+			obj = "";
 		}
 		return obj;
 

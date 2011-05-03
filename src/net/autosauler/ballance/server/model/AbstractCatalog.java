@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.server.struct.StructureFactory;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
-import net.autosauler.ballance.shared.structures.Description;
-import net.autosauler.ballance.shared.structures.Field;
-import net.autosauler.ballance.shared.structures.StructureFactory;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;

@@ -84,6 +84,17 @@ public class UserRole implements Serializable {
 	}
 
 	/**
+	 * Checks for access.
+	 * 
+	 * @param chkrole
+	 *            the chkrole
+	 * @return true, if successful
+	 */
+	public boolean hasAccess(UserRole chkrole) {
+		return (role & chkrole.getRole()) > 0;
+	}
+
+	/**
 	 * Checks if is admin.
 	 * 
 	 * @return true, if is admin

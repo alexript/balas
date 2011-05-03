@@ -13,50 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+package net.autosauler.ballance.client;
 
-package net.autosauler.ballance.shared.structures;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Dummy;
 
-import java.io.Serializable;
-import java.util.HashMap;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * The Class Name.
+ * The Interface StructureServiceAsync.
  * 
  * @author alexript
  */
-public class Name implements Serializable {
-
-	private static final long serialVersionUID = -4497185194138699286L;
-	/** The i18n. */
-	private final HashMap<String, String> i18n;
+public interface StructureServiceAsync {
 
 	/**
-	 * Instantiates a new name.
-	 */
-	public Name() {
-		i18n = new HashMap<String, String>();
-	}
-
-	/**
-	 * Gets the name.
+	 * Gets the dummy.
 	 * 
-	 * @param locale
-	 *            the locale
-	 * @return the name
+	 * @param callback
+	 *            the callback
+	 * @return the dummy
 	 */
-	public String getName(String locale) {
-		return i18n.get(locale);
-	}
+	void getDummy(AsyncCallback<Dummy> callback);
 
 	/**
-	 * Sets the name.
+	 * Gets the structure description.
 	 * 
-	 * @param locale
-	 *            the locale
 	 * @param name
 	 *            the name
+	 * @param callback
+	 *            the callback
+	 * @return the structure description
 	 */
-	public void setName(String locale, String name) {
-		i18n.put(locale, name);
-	}
+	void getStructureDescription(String name,
+			AsyncCallback<Description> callback);
+
 }

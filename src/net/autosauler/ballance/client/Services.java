@@ -52,4 +52,7 @@ public class Services {
 	public static final ScriptsServiceAsync scripts = GWT
 			.create(ScriptsService.class);
 
+	/** The Constant structure. */
+	public static final StructureServiceAsync structure = GWT
+			.create(StructureService.class);
 }
