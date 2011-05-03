@@ -69,5 +69,7 @@ public class StructureFactory {
 		load("catalog.paymethod");
 		load("catalog.tarifs");
 		load("catalog.partners");
+		load("table.goods");
+		load("table.goodsaddpay");
 	}
 }

@@ -113,7 +113,11 @@ public class DataTypes {
 	public static Object fromString(int type, String val) {
 		Object obj = null;
 		if (type == DataTypes.DT_DATE) {
-			obj = new Date(Long.parseLong(val));
+			if ((val == null) || val.isEmpty()) {
+				obj = new Date();
+			} else {
+				obj = new Date(Long.parseLong(val));
+			}
 		} else if (type == DataTypes.DT_DOUBLE) {
 			obj = Double.parseDouble(val);
 		} else if (type == DataTypes.DT_MONEY) {

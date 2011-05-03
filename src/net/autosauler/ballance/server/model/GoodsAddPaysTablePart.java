@@ -16,9 +16,6 @@
 
 package net.autosauler.ballance.server.model;
 
-import java.util.Date;
-
-import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 /**
  * The Class GoodsAddPaysTablePart.
@@ -26,11 +23,6 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
  * @author alexript
  */
 public class GoodsAddPaysTablePart extends AbstractDocumentTablePart {
-	private static final String fieldname_partner = "partner";
-	private static final String fieldname_date = "paydate";
-	private static final String fieldname_summ = "summ";
-	private static final String fieldname_currency = "currency";
-	private static final String fieldname_description = "descr";
 
 	/**
 	 * Instantiates a new goods add pays table part.
@@ -40,22 +32,6 @@ public class GoodsAddPaysTablePart extends AbstractDocumentTablePart {
 	 */
 	public GoodsAddPaysTablePart(String domain) {
 		super("goodsaddpay", domain);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractDocumentTablePart#initStructure
-	 * ()
-	 */
-	@Override
-	protected void initStructure() {
-		struct.add(fieldname_partner, DataTypes.DT_CATALOGRECORD, new Long(0L));
-		struct.add(fieldname_date, DataTypes.DT_DATE, new Date());
-		struct.add(fieldname_summ, DataTypes.DT_MONEY, new Double(0.0D));
-		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
-		struct.add(fieldname_description, DataTypes.DT_STRING, "");
 	}
 
 	/*

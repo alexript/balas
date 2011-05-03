@@ -152,10 +152,11 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	 */
 	@Override
 	protected void initTableParts(final DocumentTableParts parts) {
-		GoodsTablePart part = new GoodsTablePart(M.incominggoods.tableGoods());
+		DocumentTablePart part = new DocumentTablePart(
+				M.incominggoods.tableGoods());
 		parts.addPart("goods", part);
 
-		AdditionalPaysTablePart part2 = new AdditionalPaysTablePart(
+		DocumentTablePart part2 = new DocumentTablePart(
 				M.incominggoods.tableAddPays());
 		parts.addPart("goodsaddpay", part2);
 

@@ -7,6 +7,7 @@
                 <en>english description</en>
                 <ru>russian description</ru>
             </names>
+            <width>column width for table part (in pixels)</width>
             <helper type="<catalog or document>">catalog or document name</helper>
         </field>
         <field>...</field>

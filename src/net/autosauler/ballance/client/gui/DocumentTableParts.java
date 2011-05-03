@@ -61,8 +61,8 @@ public class DocumentTableParts extends Composite {
 	 */
 	public void addPart(String name, DocumentTablePart part) {
 		parts.put(name, part);
-		mainpane.add(part.constructPane(), getTabHeaderString(part.getTitle()),
-				true);
+		mainpane.add(part.constructPane(name),
+				getTabHeaderString(part.getTitle()), true);
 	}
 
 	/**

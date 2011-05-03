@@ -24,8 +24,11 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -33,6 +36,7 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -53,7 +57,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public abstract class DocumentTablePart extends Composite {
+public class DocumentTablePart extends Composite {
 
 	/** The title. */
 	private final String title;
@@ -111,6 +115,7 @@ public abstract class DocumentTablePart extends Composite {
 		this.title = title;
 		defaultvalues = new HashMap<String, Object>();
 		datatypes = new HashMap<String, Integer>();
+
 		cleanTable();
 	}
 
@@ -198,7 +203,7 @@ public abstract class DocumentTablePart extends Composite {
 	 * 
 	 * @return the vertical panel
 	 */
-	public VerticalPanel constructPane() {
+	public VerticalPanel constructPane(String tablepartname) {
 		VerticalPanel panel = new VerticalPanel();
 		panel.setWidth("750px");
 		panel.setHeight("220px");
@@ -280,7 +285,7 @@ public abstract class DocumentTablePart extends Composite {
 			cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
 		}
 
-		initTableColumns();
+		initTableColumns(tablepartname);
 
 		dataProvider = new ListDataProvider<HashMap<String, Object>>();
 		dataProvider.addDataDisplay(cellTable);
@@ -321,8 +326,35 @@ public abstract class DocumentTablePart extends Composite {
 	/**
 	 * Inits the table columns.
 	 * 
+	 * @param tablepartname
+	 * 
 	 */
-	protected abstract void initTableColumns();
+	protected void initTableColumns(String tablepartname) {
+		Description structuredescription = StructureFactory
+				.getDescription("table." + tablepartname);
+		if (structuredescription != null) {
+			List<Field> fields = structuredescription.get();
+			Iterator<Field> i = fields.iterator();
+			while (i.hasNext()) {
+				Field f = i.next();
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
+
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
+				}
+
+				addColumn(
+						f.getName().getName(
+								LocaleInfo.getCurrentLocale().getLocaleName()),
+						f.getFieldname(), f.getType(), f.getColumnwidth(),
+						true, f.getDefval(), h);
+			}
+		}
+
+	}
 
 	/**
 	 * Load data.

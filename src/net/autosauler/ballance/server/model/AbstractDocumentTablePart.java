@@ -18,9 +18,13 @@ package net.autosauler.ballance.server.model;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.server.struct.StructureFactory;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.mongodb.BasicDBObject;
@@ -161,7 +165,16 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * ()
 	 */
 	@Override
-	protected abstract void initStructure();
+	protected void initStructure() {
+		Description d = StructureFactory
+				.loadDescription("table." + getSuffix());
+		List<Field> fields = d.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			struct.add(f.getFieldname(), f.getType(), f.getDefval());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

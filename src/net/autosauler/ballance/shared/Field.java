@@ -48,6 +48,8 @@ public class Field implements Serializable {
 	/** The helpertype. */
 	private String helpertype;
 
+	private int columnwidth;
+
 	/**
 	 * Instantiates a new field.
 	 */
@@ -68,6 +70,7 @@ public class Field implements Serializable {
 		name = new Name();
 		helper = "";
 		helpertype = "";
+		setColumnwidth(10);
 	}
 
 	/**
@@ -218,6 +221,20 @@ public class Field implements Serializable {
 		sb.append(name.toString());
 		sb.append("\n");
 		return sb.toString();
+	}
+
+	/**
+	 * @param columnwidth the columnwidth to set
+	 */
+	public void setColumnwidth(int columnwidth) {
+		this.columnwidth = columnwidth;
+	}
+
+	/**
+	 * @return the columnwidth
+	 */
+	public int getColumnwidth() {
+		return columnwidth;
 	}
 
 }

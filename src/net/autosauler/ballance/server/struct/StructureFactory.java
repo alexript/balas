@@ -129,6 +129,9 @@ public class StructureFactory {
 								} else if (val.getNodeName().equals("helper")) {
 									f.setHelpertype(val.getAttribute("type"));
 									f.setHelper(val.getTextContent());
+								} else if (val.getNodeName().equals("width")) {
+									f.setColumnwidth(Integer.parseInt(val
+											.getTextContent()));
 								} else if (val.getNodeName().equals("names")) {
 									NodeList locales = val.getChildNodes();
 									for (int l = 0; l < locales.getLength(); l++) {
@@ -196,7 +199,7 @@ public class StructureFactory {
 	private InputStream openStream(String filename) {
 		String name = "net/autosauler/ballance/server/struct/" + filename
 				+ ".xml";
-		Log.error(name);
+
 		ClassLoader classLoader = getClass().getClassLoader();
 		InputStream istream = classLoader.getResourceAsStream(name);
 		return istream;
