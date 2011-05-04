@@ -20,9 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.gui.messages.M;
-import net.autosauler.ballance.shared.UserRole;
-import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -50,70 +47,6 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#canActivate(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canActivate(UserRole role) {
-		return role.isAdmin() || role.isDocuments() || role.isFinances();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#canCreate(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canCreate(UserRole role) {
-
-		return role.isAdmin() || role.isDocuments() || role.isFinances();
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.client.gui.DocumentPanel#canEdit(net.autosauler
-	 * .ballance.shared.UserRole)
-	 */
-	@Override
-	boolean canEdit(UserRole role) {
-
-		return role.isAdmin() || role.isDocuments() || role.isFinances();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#createStructure()
-	 */
-	@Override
-	protected void createStructure() {
-		addField(M.incominggoods.lblPartner(), "partner",
-				DataTypes.DT_CATALOGRECORD, null, pp);
-
-		addField(M.incominggoods.lblSendDate(), "senddate", DataTypes.DT_DATE,
-				(new Date()).getTime(), null);
-
-		addField(M.incominggoods.lblGoodsNum(), "gnum", DataTypes.DT_INT, "0",
-				null);
-
-		addField(M.incominggoods.lblInvoice(), "invoice", DataTypes.DT_STRING,
-				"", null);
-
-		addField(M.incominggoods.lblAWB(), "awb", DataTypes.DT_STRING, "", null);
-
-		addField(M.incominggoods.lblGTD(), "gtd", DataTypes.DT_STRING, "", null);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * net.autosauler.ballance.client.gui.DocumentPanel#drawDocumentRowForList
 	 * (java.util.HashMap)
 	 */
@@ -131,35 +64,6 @@ public class IncomingGoodsPanel extends DocumentPanel implements IPaneWithMenu {
 		panel.add(row);
 
 		return panel.toString();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#hasTablePart()
-	 */
-	@Override
-	protected boolean hasTablePart() {
-
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.gui.DocumentPanel#initTableParts(net.
-	 * autosauler.ballance.client.gui.DocumentTableParts)
-	 */
-	@Override
-	protected void initTableParts(final DocumentTableParts parts) {
-		DocumentTablePart part = new DocumentTablePart(
-				M.incominggoods.tableGoods());
-		parts.addPart("goods", part);
-
-		DocumentTablePart part2 = new DocumentTablePart(
-				M.incominggoods.tableAddPays());
-		parts.addPart("goodsaddpay", part2);
-
 	}
 
 }

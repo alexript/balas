@@ -39,6 +39,7 @@ public class StructureFactory {
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	private static void load(final String name) {
 		MainPanel.setCommInfo(true);
 		Services.structure.getStructureDescription(name,
@@ -65,13 +66,41 @@ public class StructureFactory {
 				});
 	}
 
+	private static void loadAll() {
+		MainPanel.setCommInfo(true);
+		Services.structure
+				.getAll(new AsyncCallback<HashMap<String, Description>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(caught).show();
+
+					}
+
+					@Override
+					public void onSuccess(HashMap<String, Description> result) {
+						MainPanel.setCommInfo(false);
+						if (result != null) {
+							d.clear();
+							d.putAll(result);
+						} else {
+							new AlertDialog("Can't load structurs descriptions")
+									.show();
+						}
+
+					}
+				});
+	}
+
 	public static void loadData() {
-		load("catalog.paymethod");
-		load("catalog.tarifs");
-		load("catalog.partners");
-		load("table.goods");
-		load("table.goodsaddpay");
-		load("document.inpay");
-		load("document.ingoods");
+		loadAll();
+		// load("catalog.paymethod");
+		// load("catalog.tarifs");
+		// load("catalog.partners");
+		// load("table.goods");
+		// load("table.goodsaddpay");
+		// load("document.inpay");
+		// load("document.ingoods");
 	}
 }

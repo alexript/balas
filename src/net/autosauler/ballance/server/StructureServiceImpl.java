@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.server;
 
+import java.util.HashMap;
+
 import net.autosauler.ballance.client.StructureService;
 import net.autosauler.ballance.server.struct.StructureFactory;
 import net.autosauler.ballance.shared.Description;
@@ -33,6 +35,27 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8046719189550180499L;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.client.StructureService#getAll()
+	 */
+	@Override
+	public HashMap<String, Description> getAll() {
+		HashMap<String, Description> map = new HashMap<String, Description>();
+		map.put("catalog.paymethod",
+				getStructureDescription("catalog.paymethod"));
+		map.put("catalog.tarifs", getStructureDescription("catalog.tarifs"));
+		map.put("catalog.partners", getStructureDescription("catalog.partners"));
+		map.put("table.goods", getStructureDescription("table.goods"));
+		map.put("table.goodsaddpay",
+				getStructureDescription("table.goodsaddpay"));
+		map.put("document.inpay", getStructureDescription("document.inpay"));
+		map.put("document.ingoods", getStructureDescription("document.ingoods"));
+
+		return map;
+	}
 
 	/*
 	 * (non-Javadoc)

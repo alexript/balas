@@ -183,7 +183,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 	 * @return the widget
 	 */
 	private VerticalPanel constructTabPane(String name) {
-		// TODO: check roles for documents
+
 		VerticalPanel w = null;
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 
@@ -215,10 +215,14 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 						"catalog.paymethod").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
 					M.menu.itemPaymethod(), Images.menu.icoPaymethod(), name);
-		} else if (name.equals("incpay")) {
+		} else if (name.equals("incpay")
+				&& (new UserRole(StructureFactory.getDescription(
+						"document.inpay").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new IncomingPayPanel().getListForm(),
 					M.menu.itemIncPay(), Images.menu.icoIncPay(), name);
-		} else if (name.equals("ingoods")) {
+		} else if (name.equals("ingoods")
+				&& (new UserRole(StructureFactory.getDescription(
+						"document.ingoods").getRole())).hasAccess(role)) {
 			w = constructTabPaneContent(new IncomingGoodsPanel().getListForm(),
 					M.menu.itemInGoods(), Images.menu.icoInGoods(), name);
 		} else if (name.equals("changelog")) {

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package net.autosauler.ballance.client;
 
+import java.util.HashMap;
+
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
 
@@ -28,6 +30,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("structure")
 public interface StructureService extends RemoteService {
+
+	/**
+	 * Gets the all.
+	 * 
+	 * @return the all
+	 */
+	public HashMap<String, Description> getAll();
 
 	/**
 	 * Gets the dummy.

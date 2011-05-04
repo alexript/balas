@@ -59,7 +59,7 @@ public class HeaderField extends HorizontalPanel {
 		t = type;
 		this.defval = defval;
 		setWidth("600px");
-		setSpacing(5);
+		setSpacing(2);
 		Label lblname = new Label(name);
 		this.add(lblname);
 		setCellWidth(lblname, "100px");
@@ -104,7 +104,7 @@ public class HeaderField extends HorizontalPanel {
 	}
 
 	public void reset() {
-		setValue(defval);
+		setValue(defval, false);
 	}
 
 	/**
@@ -113,8 +113,11 @@ public class HeaderField extends HorizontalPanel {
 	 * @param val
 	 *            the new value
 	 */
-	public void setValue(Object val) {
-		Object mval = DataTypes.fromMapping(t, val);
+	public void setValue(Object val, boolean castfrommap) {
+		Object mval = val;
+		if (castfrommap) {
+			mval = DataTypes.fromMapping(t, val);
+		}
 		if (t == DataTypes.DT_SCRIPT) {
 			((TextArea) w).setText((String) mval);
 		} else if (t == DataTypes.DT_STRING) {

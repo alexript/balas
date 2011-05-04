@@ -402,8 +402,9 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 															MainPanel
 																	.setCommInfo(false);
 															editformnumber = number;
-															fullname.setValue(result
-																	.get("fullname"));
+															fullname.setValue(
+																	result.get("fullname"),
+																	true);
 															fillEditorForm(result);
 															openEditor();
 														}
@@ -500,7 +501,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 		while (i.hasNext()) {
 			String name = i.next();
 			HeaderField hf = fields.get(name);
-			hf.setValue(map.get(name));
+			hf.setValue(map.get(name), true);
 		}
 	}
 

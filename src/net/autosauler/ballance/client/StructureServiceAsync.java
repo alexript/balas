@@ -15,6 +15,8 @@
  ******************************************************************************/
 package net.autosauler.ballance.client;
 
+import java.util.HashMap;
+
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
 
@@ -26,6 +28,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author alexript
  */
 public interface StructureServiceAsync {
+
+	/**
+	 * Gets the all.
+	 * 
+	 * @param callback
+	 *            the callback
+	 * @return the all
+	 */
+	void getAll(AsyncCallback<HashMap<String, Description>> callback);
 
 	/**
 	 * Gets the dummy.

@@ -19,13 +19,18 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.DocumentsDatabase;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -37,6 +42,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -125,6 +131,8 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The fields. */
 	private HashMap<String, HeaderField> fields;
 
+	private final Description structuredescription;
+
 	/** The Constant KEY_PROVIDER. */
 	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
 
@@ -152,7 +160,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	public DocumentPanel(String docname, Image image) {
 		documentname = docname;
 		tabimage = image;
-
+		structuredescription = StructureFactory.getDescription("document."
+				+ docname);
+		createStructure();
 	}
 
 	/**
@@ -183,7 +193,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canActivate(UserRole role);
+	public boolean canActivate(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Can create.
@@ -192,7 +205,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canCreate(UserRole role);
+	public boolean canCreate(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Can edit.
@@ -201,7 +217,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 *            the role
 	 * @return true, if successful
 	 */
-	abstract boolean canEdit(UserRole role);
+	public boolean canEdit(UserRole role) {
+		UserRole canrole = new UserRole(structuredescription.getRole());
+		return canrole.hasAccess(role);
+	}
 
 	/**
 	 * Clean edit form.
@@ -236,8 +255,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
-		fields = new HashMap<String, HeaderField>();
-		createStructure();
 		VerticalPanel editform = createDocumentHeaderEditor();
 		if (editform == null) {
 			Log.error("Document editor form is not implemented!!!");
@@ -519,7 +536,29 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/**
 	 * Creates the structure.
 	 */
-	protected abstract void createStructure();
+	protected void createStructure() {
+		fields = new HashMap<String, HeaderField>();
+		List<Field> fields = structuredescription.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			if (f.isVisible()) {
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
+
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
+				}
+
+				addField(
+						f.getName().getName(
+								LocaleInfo.getCurrentLocale().getLocaleName()),
+						f.getFieldname(), f.getType(), f.getDefval(), h);
+			}
+		}
+	}
 
 	/**
 	 * Draw document row for list.
@@ -565,7 +604,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			fields.get(name).setValue(map.get(name));
+			fields.get(name).setValue(map.get(name), true);
 		}
 	}
 
@@ -675,7 +714,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * 
 	 * @return true, if successful
 	 */
-	protected abstract boolean hasTablePart();
+	protected boolean hasTablePart() {
+		return !structuredescription.getTables().isEmpty();
+	}
 
 	/**
 	 * Inits the table columns.
@@ -788,7 +829,17 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * @param parts
 	 *            the parts
 	 */
-	protected abstract void initTableParts(final DocumentTableParts parts);
+	protected void initTableParts(final DocumentTableParts parts) {
+		List<Table> tables = structuredescription.getTables();
+		Iterator<Table> i = tables.iterator();
+		while (i.hasNext()) {
+			Table table = i.next();
+
+			DocumentTablePart part = new DocumentTablePart(table.getNames()
+					.getName(LocaleInfo.getCurrentLocale().getLocaleName()));
+			parts.addPart(table.getName(), part);
+		}
+	}
 
 	/**
 	 * Load tables.

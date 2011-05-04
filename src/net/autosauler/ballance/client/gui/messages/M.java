@@ -51,14 +51,6 @@ public class M {
 	public static final DocumentTableMessages table = GWT
 			.create(DocumentTableMessages.class);
 
-	/** The Constant incominggoods. */
-	public static final IncomingGoodsMessages incominggoods = GWT
-			.create(IncomingGoodsMessages.class);
-
-	/** The Constant incomingpay. */
-	public static final IncomingPayMessages incomingpay = GWT
-			.create(IncomingPayMessages.class);
-
 	/** The Constant menu. */
 	public static final MenuMessages menu = GWT.create(MenuMessages.class);
 
