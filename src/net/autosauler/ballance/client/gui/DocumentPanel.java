@@ -96,6 +96,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The editorscroll. */
 	private ScrollPanel editorscroll;
 
+	/** The listscroll. */
+	private ScrollPanel listscroll;
+
 	/** The btn save. */
 	private Button btnSave;
 
@@ -121,6 +124,10 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The pager. */
 	@UiField(provided = true)
 	private SimplePager pager;
+
+	/** The pager. */
+	@UiField(provided = true)
+	private SimplePager pager2;
 
 	/** The db. */
 	private DocumentsDatabase db;
@@ -476,6 +483,9 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	 * Creates the list form.
 	 */
 	private void createListForm() {
+		SimplePager.Resources pagerResources = GWT
+				.create(SimplePager.Resources.class);
+
 		db = DocumentsDatabase.get(documentname);
 
 		list = new VerticalPanel();
@@ -518,19 +528,24 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		initTableColumns(selectionModel); // , sortHandler);
 		db.addDataDisplay(cellTable);
-		list.add(cellTable);
 
-		db.getDataProvider().reload();
-
-		SimplePager.Resources pagerResources = GWT
-				.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,
 				true);
 		pager.setDisplay(cellTable);
-
 		list.add(pager);
 
-		root.add(list, 0, 0);
+		list.add(cellTable);
+		db.getDataProvider().reload();
+
+		pager2 = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,
+				true);
+		pager2.setDisplay(cellTable);
+		list.add(pager2);
+
+		listscroll = new ScrollPanel(list);
+		listscroll.setSize("100%", "500px");
+
+		root.add(listscroll, 0, 0);
 	}
 
 	/**
@@ -871,7 +886,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 			}
 			btnActivate.setVisible(true);
 		}
-		effectHide(list.getElement());
+		effectHide(listscroll.getElement());
 		effectShow(editorscroll.getElement());
 	}
 
@@ -891,7 +906,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 		}
 		if (!list.isVisible() && (editor != null) && editor.isVisible()) {
 			effectHide(editorscroll.getElement());
-			effectShow(list.getElement());
+			effectShow(listscroll.getElement());
 		}
 	}
 

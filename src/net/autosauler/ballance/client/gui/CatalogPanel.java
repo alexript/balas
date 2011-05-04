@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -58,6 +59,9 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 
 	/** The catalogname. */
 	private final String catalogname;
+
+	/** The listscroll. */
+	private ScrollPanel listscroll;
 
 	/** The tabimage. */
 	private final Image tabimage;
@@ -319,8 +323,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 */
 	private void createListForm() {
 		list = new VerticalPanel();
+		listscroll = new ScrollPanel(list);
+		listscroll.setSize("100%", "500px");
 
-		root.add(list, 0, 0);
+		root.add(listscroll, 0, 0);
 
 	}
 
@@ -670,7 +676,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 */
 	private void openEditor() {
 
-		effectHide(list.getElement());
+		effectHide(listscroll.getElement());
 		effectShow(editor.getElement());
 	}
 
@@ -717,7 +723,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 						if (!list.isVisible() && (editor != null)
 								&& editor.isVisible()) {
 							effectHide(editor.getElement());
-							effectShow(list.getElement());
+							effectShow(listscroll.getElement());
 						}
 					}
 				});
