@@ -904,7 +904,7 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 			cellTable.getSelectionModel().setSelected(selection, false);
 		}
-		if (!list.isVisible() && (editor != null) && editor.isVisible()) {
+		if (!listscroll.isVisible() && (editor != null) && editor.isVisible()) {
 			effectHide(editorscroll.getElement());
 			effectShow(listscroll.getElement());
 		}

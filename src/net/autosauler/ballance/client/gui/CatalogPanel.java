@@ -720,7 +720,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 							Long number = i.next();
 							list.add(createListRecordRow(number));
 						}
-						if (!list.isVisible() && (editor != null)
+						if (!listscroll.isVisible() && (editor != null)
 								&& editor.isVisible()) {
 							effectHide(editor.getElement());
 							effectShow(listscroll.getElement());
