@@ -34,6 +34,9 @@ public class Dummy implements Serializable {
 	/** The field. */
 	public Field field;
 
+	/** The table. */
+	public Table table;
+
 	/**
 	 * Instantiates a new dummy.
 	 */

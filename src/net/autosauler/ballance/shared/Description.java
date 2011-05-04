@@ -34,6 +34,9 @@ public class Description implements Serializable {
 	/** The fields. */
 	private List<Field> fields = new ArrayList<Field>();
 
+	/** The tables. */
+	private List<Table> tables = new ArrayList<Table>();
+
 	/** The role. */
 	private int role;
 
@@ -55,6 +58,16 @@ public class Description implements Serializable {
 	}
 
 	/**
+	 * Adds the table.
+	 * 
+	 * @param table
+	 *            the table
+	 */
+	public void addTable(Table table) {
+		tables.add(table);
+	}
+
+	/**
 	 * Gets the.
 	 * 
 	 * @return the list
@@ -70,6 +83,15 @@ public class Description implements Serializable {
 	 */
 	public int getRole() {
 		return role;
+	}
+
+	/**
+	 * Gets the tables.
+	 * 
+	 * @return the tables
+	 */
+	public List<Table> getTables() {
+		return tables;
 	}
 
 	/**
@@ -92,6 +114,21 @@ public class Description implements Serializable {
 		this.role = role;
 	}
 
+	/**
+	 * Sets the tables.
+	 * 
+	 * @param tables
+	 *            the new tables
+	 */
+	public void setTables(List<Table> tables) {
+		this.tables = tables;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -100,6 +137,13 @@ public class Description implements Serializable {
 		Iterator<Field> i = fields.iterator();
 		while (i.hasNext()) {
 			Field f = i.next();
+			sb.append(f.toString());
+		}
+
+		sb.append("Tables:\n");
+		Iterator<Table> j = tables.iterator();
+		while (j.hasNext()) {
+			Table f = j.next();
 			sb.append(f.toString());
 		}
 

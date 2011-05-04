@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|DOCUMENTS|FINANCES">
+	<fields>
+		<field name="partner" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Partner</en>
+				<ru>Контрагент</ru>
+			</names>
+			<helper type="catalog">partners</helper>
+		</field>
+        <field name="senddate" type="DT_DATE">
+            <default></default>
+            <names>
+                <en>Sending date</en>
+                <ru>Дата отправки</ru>
+            </names>
+        </field>
+        <field name="gnum" type="DT_INT">
+            <default>0</default>
+            <names>
+                <en>Send number</en>
+                <ru>Номер груза</ru>
+            </names>
+        </field>
+        <field name="invoice" type="DT_STRING">
+            <default></default>
+            <names>
+                <en>Invoice number</en>
+                <ru>Инвойс</ru>
+            </names>
+        </field>
+        <field name="awb" type="DT_STRING">
+            <default></default>
+            <names>
+                <en>AWB</en>
+                <ru>AWB</ru>
+            </names>
+        </field>
+        <field name="gtd" type="DT_STRING">
+            <default></default>
+            <names>
+                <en>GTD</en>
+                <ru>ГТД</ru>
+            </names>
+        </field>
+	</fields>
+	<tables>
+		<table name="goods">
+			<names>
+				<en>Goods</en>
+				<ru>Груз</ru>
+			</names>
+		</table>
+        <table name="goodsaddpay">
+            <names>
+                <en>Additional payments</en>
+                <ru>Дополнительные расходы</ru>
+            </names>
+        </table>
+	</tables>
+
+</struct>

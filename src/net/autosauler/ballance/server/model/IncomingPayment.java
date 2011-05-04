@@ -22,8 +22,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import net.autosauler.ballance.shared.datatypes.DataTypes;
-
 import com.mongodb.BasicDBObject;
 
 /**
@@ -36,13 +34,14 @@ public class IncomingPayment extends AbstractDocument {
 	/** The Constant docname. */
 	private final static String docname = "inpay";
 
-	private final static String fieldname_partner = "partner";
+	/** The Constant fieldname_paydate. */
 	private final static String fieldname_paydate = "paydate";
+
+	/** The Constant fieldname_currency. */
 	private final static String fieldname_currency = "currency";
+
+	/** The Constant fieldname_currvalue. */
 	private final static String fieldname_currvalue = "currvalue";
-	private final static String fieldname_payvalue = "payvalue";
-	private final static String fieldname_paymethod = "paymethod";
-	private final static String fieldname_comments = "comments";
 
 	/**
 	 * Instantiates a new incoming payment.
@@ -124,37 +123,6 @@ public class IncomingPayment extends AbstractDocument {
 			}
 			return set;
 		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractDocument#initStructure()
-	 */
-	@Override
-	protected void initStructure() {
-		struct.add(fieldname_partner, DataTypes.DT_LONG, new Long(0L));
-		struct.add(fieldname_paydate, DataTypes.DT_DATE, new Date());
-		struct.add(fieldname_currency, DataTypes.DT_CURRENCY, "RUR");
-		struct.add(fieldname_currvalue, DataTypes.DT_MONEY, new Double(1.0D));
-		struct.add(fieldname_payvalue, DataTypes.DT_MONEY, new Double(0.0D));
-		struct.add(fieldname_paymethod, DataTypes.DT_CATALOGRECORD,
-				new Long(0L));
-		struct.add(fieldname_comments, DataTypes.DT_STRING, "");
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractDocument#initTableParts()
-	 */
-	@Override
-	protected void initTableParts() {
-		return; // this document have not table parts
 
 	}
 

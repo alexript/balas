@@ -154,8 +154,10 @@ public class Structure {
 	 */
 	public Object toMapping(String name, Object object) {
 		Object obj = null;
-		int type = getType(name);
-		obj = DataTypes.toMapping(type, object);
+		if (object != null) {
+			int type = getType(name);
+			obj = DataTypes.toMapping(type, object);
+		}
 		return obj;
 
 	}

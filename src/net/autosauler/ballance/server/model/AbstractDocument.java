@@ -20,9 +20,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.server.struct.StructureFactory;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.mongodb.BasicDBObject;
@@ -52,7 +57,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	private static final String fieldname_parentdocname = "pardocname";
 
 	/** The tables. */
-	private final HashMap<String, AbstractDocumentTablePart> tables;
+	private HashMap<String, DocumentTablePart> tables;
+
+	private Description structuredescription;
 
 	/**
 	 * Instantiates a new document.
@@ -64,7 +71,6 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain) {
 		super("doc", name, domain);
-		tables = new HashMap<String, AbstractDocumentTablePart>();
 		initTableParts();
 	}
 
@@ -80,7 +86,6 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain, Long number) {
 		super("doc", name, domain);
-		tables = new HashMap<String, AbstractDocumentTablePart>();
 		initTableParts();
 		get(number);
 	}
@@ -97,7 +102,6 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public AbstractDocument(String name, String domain, String username) {
 		super("doc", name, domain);
-		tables = new HashMap<String, AbstractDocumentTablePart>();
 		initTableParts();
 		setUsername(username);
 
@@ -144,18 +148,6 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	protected void addFindAllQueryParameters(BasicDBObject q) {
 		return;
 
-	}
-
-	/**
-	 * Adds the table part.
-	 * 
-	 * @param name
-	 *            the name
-	 * @param part
-	 *            the part
-	 */
-	public void addTablePart(String name, AbstractDocumentTablePart part) {
-		tables.put(name, part);
 	}
 
 	/**
@@ -240,7 +232,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 				String name = i.next();
 				String prefix = "doc." + getSuffix() + ".onchange." + name
 						+ ".";
-				AbstractDocumentTablePart part = tables.get(name);
+				DocumentTablePart part = tables.get(name);
 				Set<String> fields = part.struct.getNames();
 				Iterator<String> j = fields.iterator();
 				while (j.hasNext()) {
@@ -282,7 +274,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 *            the name
 	 * @return the part
 	 */
-	public AbstractDocumentTablePart getPart(String name) {
+	public DocumentTablePart getPart(String name) {
 		if (tables.containsKey(name)) {
 			return tables.get(name);
 		}
@@ -298,7 +290,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public Set<HashMap<String, Object>> getTableRecords(String name) {
 		Set<HashMap<String, Object>> set = null;
-		AbstractDocumentTablePart table = getPart(name);
+		DocumentTablePart table = getPart(name);
 		if (table != null) {
 			set = table.getRecords();
 		}
@@ -331,10 +323,41 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		struct.add(fieldname_parentdocname, DataTypes.DT_DOCUMENT, "");
 	}
 
-	/**
-	 * Inits the table parts.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#initStructure
+	 * ()
 	 */
-	protected abstract void initTableParts();
+	@Override
+	protected void initStructure() {
+
+		structuredescription = StructureFactory.loadDescription("document."
+				+ getSuffix());
+		tables = new HashMap<String, DocumentTablePart>();
+
+		List<Field> fields = structuredescription.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			struct.add(f.getFieldname(), f.getType(), f.getDefval());
+		}
+
+	}
+
+	private void initTableParts() {
+
+		List<Table> doctables = structuredescription.getTables();
+		Iterator<Table> j = doctables.iterator();
+		while (j.hasNext()) {
+			Table t = j.next();
+
+			DocumentTablePart part = new DocumentTablePart(t.getName(),
+					getDomain());
+			tables.put(t.getName(), part);
+		}
+	}
 
 	/**
 	 * Checks if is active.
@@ -384,7 +407,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			AbstractDocumentTablePart part = tables.get(name);
+			DocumentTablePart part = tables.get(name);
 
 			sb.append(part.dump());
 		}
@@ -515,7 +538,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			String name, Set<HashMap<String, Object>> set) {
 
 		boolean result = true;
-		AbstractDocumentTablePart table = getPart(name);
+		DocumentTablePart table = getPart(name);
 		if (table != null) {
 			result = table.updateRecords(username, docnumber, set);
 		}

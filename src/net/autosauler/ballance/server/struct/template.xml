@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|DOCUMENTS|FINANCES|MANAGER|GUEST">
-    <fields>
-        <field name="<database field name>" type="DT_*">
-            <default>default vaue as string</default>
-            <names>
-                <en>english description</en>
-                <ru>russian description</ru>
-            </names>
-            <width>column width for table part (in pixels)</width>
-            <helper type="<catalog or document>">catalog or document name</helper>
-        </field>
-        <field>...</field>
-        <field>...</field>
-        ...
-    </fields>
+	<fields>
+		<field name="<database field name>" type="DT_*">
+			<default>default vaue as string</default>
+			<visible><!-- default is true --></visible>
+			<names>
+				<en>english description</en>
+				<ru>russian description</ru>
+			</names>
+			<width>column width for table part (in pixels)</width>
+			<helper type="<catalog or document>">catalog or document name</helper>
+		</field>
+		<field>...</field>
+		<field>...</field>
+		...
+	</fields>
+	<tables> <!-- document tableparts -->
+		<table name="<database name>">
+			<names>
+				<en>english description</en>
+				<ru>russian description</ru>
+			</names>
+		</table>
+		<table>...</table>
+		...
+	</tables>
 </struct>

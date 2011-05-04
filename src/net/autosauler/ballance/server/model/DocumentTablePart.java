@@ -34,12 +34,13 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 /**
- * The Class AbstractDocumentTablePart.
+ * The Class DocumentTablePart.
  * 
  * @author alexript
  */
-public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
+public class DocumentTablePart extends AbstractStructuredData {
 
+	/** The Constant fieldname_document. */
 	private static final String fieldname_document = "docnum";
 
 	/**
@@ -50,7 +51,7 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * @param domain
 	 *            the domain
 	 */
-	public AbstractDocumentTablePart(String partname, String domain) {
+	public DocumentTablePart(String partname, String domain) {
 		super("doctab", partname, domain);
 		setDocnum(new Long(0L));
 
@@ -104,6 +105,8 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	}
 
 	/**
+	 * Gets the docnum.
+	 * 
 	 * @return the docnum
 	 */
 	public Long getDocnum() {
@@ -201,6 +204,19 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onGetRecord
+	 * (java.lang.Long)
+	 */
+	@Override
+	protected void onGetRecord(Long number) {
+		return;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * net.autosauler.ballance.server.model.AbstractStructuredData#onInitDbStruct
 	 * (com.mongodb.BasicDBObject, com.mongodb.DBCollection)
 	 */
@@ -224,6 +240,8 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	}
 
 	/**
+	 * Sets the docnum.
+	 * 
 	 * @param docnum
 	 *            the docnum to set
 	 */
@@ -235,8 +253,13 @@ public abstract class AbstractDocumentTablePart extends AbstractStructuredData {
 	/**
 	 * Update records.
 	 * 
+	 * @param username
+	 *            the username
+	 * @param docnumber
+	 *            the docnumber
 	 * @param set
 	 *            the set
+	 * @return true, if successful
 	 */
 	public boolean updateRecords(String username, Long docnumber,
 			Set<HashMap<String, Object>> set) {

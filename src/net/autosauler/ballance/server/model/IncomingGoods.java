@@ -16,13 +16,10 @@
 
 package net.autosauler.ballance.server.model;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.mongodb.BasicDBObject;
 
@@ -35,24 +32,6 @@ public class IncomingGoods extends AbstractDocument {
 
 	/** The Constant docname. */
 	private final static String docname = "ingoods";
-
-	/** The Constant fieldname_partner. */
-	private final static String fieldname_partner = "partner";
-
-	/** The Constant fieldname_senddate. */
-	private final static String fieldname_senddate = "senddate";
-
-	/** The Constant fieldname_goodsnumber. */
-	private final static String fieldname_goodsnumber = "gnum";
-
-	/** The Constant fieldname_invoicenum. */
-	private final static String fieldname_invoicenum = "invoice";
-
-	/** The Constant fieldname_awb. */
-	private final static String fieldname_awb = "awb";
-
-	/** The Constant fieldname_gtd. */
-	private final static String fieldname_gtd = "gtd";
 
 	/**
 	 * Instantiates a new incoming goods.
@@ -130,40 +109,6 @@ public class IncomingGoods extends AbstractDocument {
 			}
 		}
 		return set;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractStructuredData#initStructure
-	 * ()
-	 */
-	@Override
-	protected void initStructure() {
-		struct.add(fieldname_partner, DataTypes.DT_CATALOGRECORD, new Long(0L));
-		struct.add(fieldname_senddate, DataTypes.DT_DATE, new Date());
-		struct.add(fieldname_invoicenum, DataTypes.DT_STRING, "");
-		struct.add(fieldname_goodsnumber, DataTypes.DT_INT, new Integer(0));
-
-		struct.add(fieldname_awb, DataTypes.DT_STRING, "");
-		struct.add(fieldname_gtd, DataTypes.DT_STRING, "");
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * net.autosauler.ballance.server.model.AbstractDocument#initTableParts()
-	 */
-	@Override
-	protected void initTableParts() {
-		GoodsTablePart goods = new GoodsTablePart(getDomain());
-		addTablePart("goods", goods);
-		GoodsAddPaysTablePart addpay = new GoodsAddPaysTablePart(getDomain());
-		addTablePart("goodsaddpay", addpay);
-
 	}
 
 	/*

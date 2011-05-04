@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -43,7 +44,6 @@ import com.allen_sauer.gwt.log.client.Log;
  * @author alexript
  */
 public class StructureFactory {
-	// TODO: and for documents!
 
 	/**
 	 * Load description.
@@ -116,7 +116,9 @@ public class StructureFactory {
 						String fieldname = field.getAttribute("name");
 
 						Field f = new Field(DataTypes.fromString(type));
-						f.setFieldname(fieldname);
+						f.setVisible(true);
+						f.setFieldname(fieldname); // field is visible by
+													// default
 
 						// Read field values
 						NodeList values = field.getChildNodes();
@@ -131,6 +133,9 @@ public class StructureFactory {
 									f.setHelper(val.getTextContent());
 								} else if (val.getNodeName().equals("width")) {
 									f.setColumnwidth(Integer.parseInt(val
+											.getTextContent()));
+								} else if (val.getNodeName().equals("visible")) {
+									f.setVisible(Boolean.parseBoolean(val
 											.getTextContent()));
 								} else if (val.getNodeName().equals("names")) {
 									NodeList locales = val.getChildNodes();
@@ -148,6 +153,46 @@ public class StructureFactory {
 						}
 
 						d.add(f);
+
+					}
+				}
+
+				// read tables
+				fieldsets = rootelement.getElementsByTagName("tables");
+				for (int j = 0; j < fieldsets.getLength(); j++) {
+					Element fieldset = (Element) fieldsets.item(j);
+					// read fields from set
+					NodeList tables = fieldset.getElementsByTagName("table");
+					for (int k = 0; k < tables.getLength(); k++) {
+						Element table = (Element) tables.item(k);
+
+						String tablename = table.getAttribute("name");
+
+						Table t = new Table();
+						t.setName(tablename);
+
+						// Read table values
+						NodeList values = table.getChildNodes();
+						for (int c = 0; c < values.getLength(); c++) {
+							Node v = values.item(c);
+							if (v.getNodeType() == Node.ELEMENT_NODE) {
+								Element val = (Element) v;
+								if (val.getNodeName().equals("names")) {
+									NodeList locales = val.getChildNodes();
+									for (int l = 0; l < locales.getLength(); l++) {
+										Node loc = locales.item(l);
+										if (loc.getNodeType() == Node.ELEMENT_NODE) {
+											t.setName(((Element) loc)
+													.getNodeName(),
+													((Element) loc)
+															.getTextContent());
+										}
+									}
+								}
+							}
+						}
+
+						d.addTable(t);
 
 					}
 				}

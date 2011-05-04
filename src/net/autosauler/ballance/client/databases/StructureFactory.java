@@ -71,5 +71,7 @@ public class StructureFactory {
 		load("catalog.partners");
 		load("table.goods");
 		load("table.goodsaddpay");
+		load("document.inpay");
+		load("document.ingoods");
 	}
 }

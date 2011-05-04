@@ -168,7 +168,9 @@ public class StructValues {
 				sb.append(" <field name=\"");
 				sb.append(name.trim().toLowerCase());
 				sb.append("\" value=\"");
-				sb.append(struct.toMapping(name, val).toString());
+				if (val != null) {
+					sb.append(struct.toMapping(name, val).toString());
+				}
 				sb.append("\"/>\n");
 			}
 

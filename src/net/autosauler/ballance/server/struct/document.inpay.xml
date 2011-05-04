@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|FINANCES">
+    <fields>
+        <field name="partner" type="DT_CATALOGRECORD">
+            <default>0</default>
+            <names>
+                <en>Partner</en>
+                <ru>Контрагент</ru>
+            </names>
+            <helper type="catalog">partners</helper>
+        </field>
+        <field name="paydate" type="DT_DATE">
+            <default></default>
+            <names>
+                <en>Pay date</en>
+                <ru>Дата платежа</ru>
+            </names>
+        </field>
+        <field name="currency" type="DT_CURRENCY">
+            <default>RUR</default>
+            <names>
+                <en>Currency</en>
+                <ru>Валюта</ru>
+            </names>
+        </field>
+        <field name="payvalue" type="DT_MONEY">
+            <default>0.0</default>
+            <names>
+                <en>Payment summ</en>
+                <ru>Сумма платежа</ru>
+            </names>
+        </field>
+        <field name="paymethod" type="DT_CATALOGRECORD">
+            <default>0</default>
+            <names>
+                <en>Payment method</en>
+                <ru>Вид платежа</ru>
+            </names>
+            <helper type="catalog">paymethod</helper>
+        </field>
+        <field name="comments" type="DT_STRING">
+            <default></default>
+            <names>
+                <en>Comments</en>
+                <ru>Комментарий</ru>
+            </names>
+        </field>
+        <field name="currvalue" type="DT_MONEY">
+            <default>0.0</default>
+            <visible>false</visible>
+            <names>
+                <en>Currency value</en>
+                <ru>Курс</ru>
+            </names>
+        </field>
+    </fields>
+</struct>

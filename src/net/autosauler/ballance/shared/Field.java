@@ -48,7 +48,11 @@ public class Field implements Serializable {
 	/** The helpertype. */
 	private String helpertype;
 
+	/** The columnwidth. */
 	private int columnwidth;
+
+	/** The visible. */
+	private boolean visible = true;
 
 	/**
 	 * Instantiates a new field.
@@ -71,6 +75,16 @@ public class Field implements Serializable {
 		helper = "";
 		helpertype = "";
 		setColumnwidth(10);
+		visible = true;
+	}
+
+	/**
+	 * Gets the columnwidth.
+	 * 
+	 * @return the columnwidth
+	 */
+	public int getColumnwidth() {
+		return columnwidth;
 	}
 
 	/**
@@ -125,6 +139,25 @@ public class Field implements Serializable {
 	 */
 	public int getType() {
 		return type;
+	}
+
+	/**
+	 * Checks if is visible.
+	 * 
+	 * @return the visible
+	 */
+	public boolean isVisible() {
+		return visible;
+	}
+
+	/**
+	 * Sets the columnwidth.
+	 * 
+	 * @param columnwidth
+	 *            the columnwidth to set
+	 */
+	public void setColumnwidth(int columnwidth) {
+		this.columnwidth = columnwidth;
 	}
 
 	/**
@@ -209,6 +242,21 @@ public class Field implements Serializable {
 		this.type = type;
 	}
 
+	/**
+	 * Sets the visible.
+	 * 
+	 * @param visible
+	 *            the visible to set
+	 */
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -221,20 +269,6 @@ public class Field implements Serializable {
 		sb.append(name.toString());
 		sb.append("\n");
 		return sb.toString();
-	}
-
-	/**
-	 * @param columnwidth the columnwidth to set
-	 */
-	public void setColumnwidth(int columnwidth) {
-		this.columnwidth = columnwidth;
-	}
-
-	/**
-	 * @return the columnwidth
-	 */
-	public int getColumnwidth() {
-		return columnwidth;
 	}
 
 }
