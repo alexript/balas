@@ -71,8 +71,10 @@ public class DocumentTablePart extends Composite {
 	/** The btn minus. */
 	private Image btnMinus;
 
+	/** The newnumber. */
 	private Long newnumber = 0L;
 
+	/** The datatypes. */
 	private final HashMap<String, Integer> datatypes;
 
 	/** The cell table. */
@@ -201,6 +203,8 @@ public class DocumentTablePart extends Composite {
 	/**
 	 * Construct pane.
 	 * 
+	 * @param tablepartname
+	 *            the tablepartname
 	 * @return the vertical panel
 	 */
 	public VerticalPanel constructPane(String tablepartname) {
@@ -327,7 +331,7 @@ public class DocumentTablePart extends Composite {
 	 * Inits the table columns.
 	 * 
 	 * @param tablepartname
-	 * 
+	 *            the tablepartname
 	 */
 	protected void initTableColumns(String tablepartname) {
 		Description structuredescription = StructureFactory

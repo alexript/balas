@@ -74,13 +74,6 @@ public interface DocumentMessages extends Messages {
 	public String colCreateDate();
 
 	/**
-	 * Col document.
-	 * 
-	 * @return the string
-	 */
-	public String colDocument();
-
-	/**
 	 * Col number.
 	 * 
 	 * @return the string

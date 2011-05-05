@@ -4,6 +4,7 @@
 		<field name="<database field name>" type="DT_*">
 			<default>default vaue as string</default>
 			<visible><!-- default is true --></visible>
+			<inlist><!-- show field in list of documents. default is false --></inlist>
 			<names>
 				<en>english description</en>
 				<ru>russian description</ru>

@@ -203,27 +203,32 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		} else if (name.equals("partners")
 				&& (new UserRole(StructureFactory.getDescription(
 						"catalog.partners").getRole())).hasAccess(role)) {
-			w = constructTabPaneContent(new PartnersPanel().getListForm(),
+			w = constructTabPaneContent(new CatalogPanel("partners", new Image(
+					Images.menu.icoPartners())).getListForm(),
 					M.menu.itemPartners(), Images.menu.icoPartners(), name);
 		} else if (name.equals("tarifs")
 				&& (new UserRole(StructureFactory.getDescription(
 						"catalog.tarifs").getRole())).hasAccess(role)) {
-			w = constructTabPaneContent(new TarifPanel().getListForm(),
-					M.menu.itemTarif(), Images.menu.icoTarif(), name);
+			w = constructTabPaneContent(new CatalogPanel("tarifs", new Image(
+					Images.menu.icoTarif())).getListForm(), M.menu.itemTarif(),
+					Images.menu.icoTarif(), name);
 		} else if (name.equals("paymethod")
 				&& (new UserRole(StructureFactory.getDescription(
 						"catalog.paymethod").getRole())).hasAccess(role)) {
-			w = constructTabPaneContent(new PayMethodPanel().getListForm(),
+			w = constructTabPaneContent(new CatalogPanel("paymethod",
+					new Image(Images.menu.icoPaymethod())).getListForm(),
 					M.menu.itemPaymethod(), Images.menu.icoPaymethod(), name);
 		} else if (name.equals("incpay")
 				&& (new UserRole(StructureFactory.getDescription(
 						"document.inpay").getRole())).hasAccess(role)) {
-			w = constructTabPaneContent(new IncomingPayPanel().getListForm(),
+			w = constructTabPaneContent(new DocumentPanel("inpay", new Image(
+					Images.menu.icoIncPay())).getListForm(),
 					M.menu.itemIncPay(), Images.menu.icoIncPay(), name);
 		} else if (name.equals("ingoods")
 				&& (new UserRole(StructureFactory.getDescription(
 						"document.ingoods").getRole())).hasAccess(role)) {
-			w = constructTabPaneContent(new IncomingGoodsPanel().getListForm(),
+			w = constructTabPaneContent(new DocumentPanel("ingoods", new Image(
+					Images.menu.icoInGoods())).getListForm(),
 					M.menu.itemInGoods(), Images.menu.icoInGoods(), name);
 		} else if (name.equals("changelog")) {
 			w = constructTabPaneContent(ChangeLogPanel.get(),

@@ -35,7 +35,6 @@ import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.cell.client.ImageResourceCell;
-import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -44,8 +43,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -72,7 +69,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
+public class DocumentPanel extends Composite implements IPaneWithMenu,
 		IReloadMsgReceiver {
 
 	/** The documentname. */
@@ -138,7 +135,14 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	/** The fields. */
 	private HashMap<String, HeaderField> fields;
 
+	/** The structuredescription. */
 	private final Description structuredescription;
+
+	// /** The defaultvalues. */
+	// private final HashMap<String, Object> defaultvalues;
+	//
+	// /** The datatypes. */
+	// private final HashMap<String, Integer> datatypes;
 
 	/** The Constant KEY_PROVIDER. */
 	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
@@ -167,9 +171,39 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	public DocumentPanel(String docname, Image image) {
 		documentname = docname;
 		tabimage = image;
+		// defaultvalues = new HashMap<String, Object>();
+		// datatypes = new HashMap<String, Integer>();
 		structuredescription = StructureFactory.getDescription("document."
 				+ docname);
 		createStructure();
+	}
+
+	/**
+	 * Adds the column.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param field
+	 *            the field
+	 * @param type
+	 *            the type
+	 * @param width
+	 *            the width
+	 * @param defval
+	 *            the defval
+	 * @param helper
+	 *            the helper
+	 */
+	private void addColumn(final String name, final String field,
+			final int type, final int width, final Object defval,
+			final Object helper) {
+
+		DataTypeFactory.addCell(cellTable, name, field, type, width, defval,
+				helper);
+
+		// defaultvalues.put(field, defval);
+		// datatypes.put(field, type);
+
 	}
 
 	/**
@@ -576,15 +610,6 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
-	 * Draw document row for list.
-	 * 
-	 * @param map
-	 *            the map
-	 * @return the string
-	 */
-	protected abstract String drawDocumentRowForList(HashMap<String, Object> map);
-
-	/**
 	 * Effect hide.
 	 * 
 	 * @param element
@@ -816,25 +841,27 @@ public abstract class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		cellTable.setColumnWidth(docAuthorColumn, 100, Unit.PX);
 
-		// Document title.
-		// ----------------------------------------------------------
+		List<Field> fields = structuredescription.get();
+		Iterator<Field> i = fields.iterator();
+		while (i.hasNext()) {
+			Field f = i.next();
+			if (f.isInlist()) {
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
 
-		Column<HashMap<String, Object>, SafeHtml> rolesColumn = new Column<HashMap<String, Object>, SafeHtml>(
-				new SafeHtmlCell()) {
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
+				}
 
-			@Override
-			public SafeHtml getValue(HashMap<String, Object> map) {
-				SafeHtmlBuilder sb = new SafeHtmlBuilder();
-				sb.appendHtmlConstant(drawDocumentRowForList(map));
-				return sb.toSafeHtml();
+				addColumn(
+						f.getName().getName(
+								LocaleInfo.getCurrentLocale().getLocaleName()),
+						f.getFieldname(), f.getType(), f.getColumnwidth(),
+						f.getDefval(), h);
 			}
-
-		};
-		rolesColumn.setSortable(false);
-
-		cellTable.addColumn(rolesColumn, M.document.colDocument());
-
-		cellTable.setColumnWidth(rolesColumn, 300, Unit.PX);
+		}
 
 	}
 

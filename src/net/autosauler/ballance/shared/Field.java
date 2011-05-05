@@ -54,6 +54,9 @@ public class Field implements Serializable {
 	/** The visible. */
 	private boolean visible = true;
 
+	/** The inlist. */
+	private boolean inlist = false;
+
 	/**
 	 * Instantiates a new field.
 	 */
@@ -76,6 +79,8 @@ public class Field implements Serializable {
 		helpertype = "";
 		setColumnwidth(10);
 		visible = true;
+		inlist = false;
+
 	}
 
 	/**
@@ -139,6 +144,13 @@ public class Field implements Serializable {
 	 */
 	public int getType() {
 		return type;
+	}
+
+	/**
+	 * @return the inlist
+	 */
+	public boolean isInlist() {
+		return inlist;
 	}
 
 	/**
@@ -211,6 +223,14 @@ public class Field implements Serializable {
 	}
 
 	/**
+	 * @param inlist
+	 *            the inlist to set
+	 */
+	public void setInlist(boolean inlist) {
+		this.inlist = inlist;
+	}
+
+	/**
 	 * Sets the name.
 	 * 
 	 * @param name
@@ -265,6 +285,9 @@ public class Field implements Serializable {
 		sb.append("defval: " + defval + "\n");
 		sb.append("helper: " + helper + "\n");
 		sb.append("helpertype: " + helpertype + "\n");
+		sb.append("is visible: " + visible + "\n");
+		sb.append("is in list: " + inlist + "\n");
+		sb.append("column width: " + columnwidth + "\n");
 		sb.append("Names: \n");
 		sb.append(name.toString());
 		sb.append("\n");

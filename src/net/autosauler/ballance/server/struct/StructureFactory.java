@@ -117,6 +117,7 @@ public class StructureFactory {
 
 						Field f = new Field(DataTypes.fromString(type));
 						f.setVisible(true);
+						f.setInlist(false);
 						f.setFieldname(fieldname); // field is visible by
 													// default
 
@@ -136,6 +137,9 @@ public class StructureFactory {
 											.getTextContent()));
 								} else if (val.getNodeName().equals("visible")) {
 									f.setVisible(Boolean.parseBoolean(val
+											.getTextContent()));
+								} else if (val.getNodeName().equals("inlist")) {
+									f.setInlist(Boolean.parseBoolean(val
 											.getTextContent()));
 								} else if (val.getNodeName().equals("names")) {
 									NodeList locales = val.getChildNodes();

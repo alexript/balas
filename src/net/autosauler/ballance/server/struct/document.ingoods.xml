@@ -7,6 +7,8 @@
 				<en>Partner</en>
 				<ru>Контрагент</ru>
 			</names>
+			<inlist>true</inlist>
+			<width>100</width>
 			<helper type="catalog">partners</helper>
 		</field>
         <field name="senddate" type="DT_DATE">
@@ -15,6 +17,8 @@
                 <en>Sending date</en>
                 <ru>Дата отправки</ru>
             </names>
+            <inlist>true</inlist>
+            <width>100</width>
         </field>
         <field name="gnum" type="DT_INT">
             <default>0</default>
@@ -22,6 +26,8 @@
                 <en>Send number</en>
                 <ru>Номер груза</ru>
             </names>
+            <inlist>true</inlist>
+            <width>70</width>
         </field>
         <field name="invoice" type="DT_STRING">
             <default></default>
