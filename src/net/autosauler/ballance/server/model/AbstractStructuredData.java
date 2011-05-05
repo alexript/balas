@@ -28,6 +28,9 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
 import net.autosauler.ballance.shared.datatypes.StructValues;
 import net.autosauler.ballance.shared.datatypes.Structure;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -496,6 +499,11 @@ public abstract class AbstractStructuredData {
 			final DBCollection coll);
 
 	/**
+	 * @param dump
+	 */
+	protected abstract void onRestore(Element dump);
+
+	/**
 	 * On update.
 	 */
 	protected abstract void onUpdate();
@@ -511,11 +519,52 @@ public abstract class AbstractStructuredData {
 	/**
 	 * Restore.
 	 * 
-	 * @param xmldump
+	 * @param cat
 	 *            the xmldump
 	 */
-	public void restore(String xmldump) {
-		// TODO: restore data
+	public void restore(Element dump) {
+
+		DB db = Database.get(getDomain());
+		if (db != null) {
+			DBCollection coll = db.getCollection(getTableName());
+			NodeList recordsets = dump.getElementsByTagName("records");
+
+			for (int i = 0; i < recordsets.getLength(); i++) {
+				Element recordset = (Element) recordsets.item(i);
+				NodeList records = recordset.getElementsByTagName("record");
+				if (records.getLength() > 0) {
+
+					BasicDBObject q = new BasicDBObject();
+					q.put("domain", getDomain());
+					Database.retain();
+					coll.remove(q);
+
+					for (int j = 0; j < records.getLength(); j++) {
+						BasicDBObject doc = new BasicDBObject();
+						Element record = (Element) records.item(j);
+						NodeList fields = record.getElementsByTagName("field");
+						for (int k = 0; k < fields.getLength(); k++) {
+							Element field = (Element) fields.item(k);
+							String name = field.getAttribute("name");
+							if (name.equals("domain")) {
+								doc.put("domain", getDomain());
+							} else {
+
+								int type = struct.getType(name);
+								String sval = field.getAttribute("value");
+								doc.put(name, DataTypes.fromString(type, sval));
+							}
+						}
+
+						coll.insert(doc);
+					}
+				}
+			}
+			Database.release();
+
+			onRestore(dump);
+		}
+
 	}
 
 	/**

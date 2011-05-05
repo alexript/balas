@@ -30,6 +30,9 @@ import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -452,6 +455,34 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 
 		i.put(fieldname_active, 1);
 		coll.createIndex(i);
+	}
+
+	/**
+	 * On restore.
+	 * 
+	 * @param dump
+	 *            the dump
+	 */
+	@Override
+	protected void onRestore(Element dump) {
+		NodeList tablessets = dump.getElementsByTagName("tables");
+		if (tablessets.getLength() > 0) {
+			for (int i = 0; i < tablessets.getLength(); i++) {
+				Element tablesset = (Element) tablessets.item(i);
+				NodeList tablenodes = tablesset.getElementsByTagName("doctab");
+
+				if (tablenodes.getLength() > 0) {
+					for (int j = 0; j < tablenodes.getLength(); j++) {
+						Element tablenode = (Element) tablenodes.item(i);
+						String name = tablenode.getAttribute("name");
+						DocumentTablePart p = new DocumentTablePart(name,
+								getDomain());
+						p.restore(tablenode);
+					}
+
+				}
+			}
+		}
 	}
 
 	/**

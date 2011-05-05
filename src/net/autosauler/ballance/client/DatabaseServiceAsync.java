@@ -52,6 +52,16 @@ public interface DatabaseServiceAsync {
 	void getSettings(AsyncCallback<HashMap<String, String>> callback);
 
 	/**
+	 * Restore database.
+	 * 
+	 * @param filename
+	 *            the filename
+	 * @param callback
+	 *            the callback
+	 */
+	void restoreDatabase(String filename, AsyncCallback<Void> callback);
+
+	/**
 	 * Sets the settings.
 	 * 
 	 * @param newvalues

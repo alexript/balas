@@ -22,6 +22,10 @@ import net.autosauler.ballance.server.crypt.BCrypt;
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.UserRole;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -86,6 +90,64 @@ public class User {
 	 */
 	private static String genHash(String password) {
 		return BCrypt.hashpw(password, BCrypt.gensalt());
+	}
+
+	/**
+	 * Restore.
+	 * 
+	 * @param domain2
+	 *            the domain2
+	 * @param nodes
+	 *            the nodes
+	 */
+	public static void restore(String domain, NodeList nodes) {
+		Database.retain();
+		DB db = Database.get(domain);
+		if (db != null) {
+			DBCollection coll = db.getCollection(USERSTABLE);
+			BasicDBObject query = new BasicDBObject();
+			query.put("domain", domain);
+			coll.remove(query);
+		}
+		Database.release();
+
+		for (int i = 0; i < nodes.getLength(); i++) {
+			User user = new User();
+			user.setDomain(domain);
+			Element usernode = (Element) nodes.item(i);
+			NodeList values = usernode.getChildNodes();
+			for (int c = 0; c < values.getLength(); c++) {
+				Node v = values.item(c);
+				if (v.getNodeType() == Node.ELEMENT_NODE) {
+					Element val = (Element) v;
+					if (val.getNodeName().equals("hash")) {
+						user.setHash(val.getTextContent());
+					} else if (val.getNodeName().equals("login")) {
+						user.setLogin(val.getTextContent());
+					} else if (val.getNodeName().equals("fullname")) {
+						user.setUsername(val.getTextContent());
+					} else if (val.getNodeName().equals("roles")) {
+						String roles = val.getTextContent();
+						user.setUserrole(new UserRole(Integer.parseInt(roles)));
+					} else if (val.getNodeName().equals("createdate")) {
+						String cd = val.getTextContent();
+						Long l = Long.parseLong(cd);
+						Date d = new Date(l);
+						user.setCreatedate(d);
+					} else if (val.getNodeName().equals("active")) {
+						String s = val.getTextContent();
+						Boolean b = Boolean.parseBoolean(s);
+						user.setActive(b);
+					} else if (val.getNodeName().equals("trash")) {
+						String s = val.getTextContent();
+						Boolean b = Boolean.parseBoolean(s);
+						user.setTrash(b);
+					}
+				}
+			}
+			user.create(true);
+		}
+
 	}
 
 	/**
@@ -243,15 +305,27 @@ public class User {
 	}
 
 	/**
-	 * Creates the new user record.
+	 * Creates the.
 	 */
 	private void create() {
+		create(false);
+	}
+
+	/**
+	 * Creates the new user record.
+	 * 
+	 * @param restoremode
+	 *            the restoremode
+	 */
+	private void create(boolean restoremode) {
 		Database.retain();
 		DB db = Database.get(null);
 		if (db != null) {
-			createdate = new Date();
-			active = true;
-			trash = false;
+			if (!restoremode) {
+				createdate = new Date();
+				active = true;
+				trash = false;
+			}
 
 			DBCollection coll = db.getCollection(USERSTABLE);
 
@@ -413,6 +487,16 @@ public class User {
 	 */
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	/**
+	 * Sets the createdate.
+	 * 
+	 * @param createdate
+	 *            the new createdate
+	 */
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
 	}
 
 	/**

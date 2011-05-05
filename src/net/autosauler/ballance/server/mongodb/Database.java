@@ -16,12 +16,17 @@
 package net.autosauler.ballance.server.mongodb;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
@@ -32,6 +37,12 @@ import net.autosauler.ballance.server.model.PayMethod;
 import net.autosauler.ballance.server.model.Scripts;
 import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.server.model.UserList;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.DB;
@@ -142,10 +153,12 @@ public class Database {
 		try {
 			out = new BufferedWriter(new FileWriter(filename));
 			out.write(s);
+			out.flush();
 			out.close();
 		} catch (IOException e) {
 			if (out != null) {
 				try {
+					out.flush();
 					out.close();
 				} catch (IOException e1) {
 					Log.error(e1.getMessage());
@@ -302,6 +315,87 @@ public class Database {
 		}
 		if (lockcounter < 0) {
 			lockcounter = 0;
+		}
+	}
+
+	/**
+	 * Restoredatabase.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @param username
+	 *            the username
+	 * @param filename
+	 *            the filename
+	 */
+	public static void restoredatabase(String domain, String username,
+			String filename) {
+		// TODO: complete
+		File dump = new File(filename);
+		DocumentBuilder builder;
+		try {
+			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = builder.parse(dump);
+
+			NodeList rootnodes = doc.getElementsByTagName("dump");
+			for (int i = 0; i < rootnodes.getLength(); i++) {
+				Element rootelement = (Element) rootnodes.item(i);
+				NodeList sections = rootelement.getChildNodes();
+				for (int c = 0; c < sections.getLength(); c++) {
+					Node v = sections.item(c);
+					if (v.getNodeType() == Node.ELEMENT_NODE) {
+						Element val = (Element) v;
+						if (val.getNodeName().equals("settings")) {
+							GlobalSettings s = new GlobalSettings(domain);
+							s.restore(val);
+						} else if (val.getNodeName().equals("scripts")) {
+							Scripts s = new Scripts(domain);
+							s.restore(val);
+						} else if (val.getNodeName().equals("users")) {
+							UserList.restore(domain, val);
+						} else if (val.getNodeName().equals("catalogs")) {
+							NodeList catnodes = val.getElementsByTagName("cat");
+							for (int j = 0; j < catnodes.getLength(); j++) {
+								Element cat = (Element) catnodes.item(j);
+								String catname = cat.getAttribute("name");
+								if (catname.equals("tarifs")) {
+									Tarifs t = new Tarifs(domain, username);
+									t.restore(cat);
+								} else if (catname.equals("partners")) {
+									Partner p = new Partner(domain, username);
+									p.restore(cat);
+								} else if (catname.equals("paymethod")) {
+									PayMethod m = new PayMethod(domain,
+											username);
+									m.restore(cat);
+								}
+							}
+						} else if (val.getNodeName().equals("documents")) {
+							NodeList docnodes = val.getElementsByTagName("doc");
+							for (int j = 0; j < docnodes.getLength(); j++) {
+								Element document = (Element) docnodes.item(j);
+								String docname = document.getAttribute("name");
+								if (docname.equals("inpay")) {
+									IncomingPayment p = new IncomingPayment(
+											domain, username);
+									p.restore(document);
+								} else if (docname.equals("ingoods")) {
+									IncomingGoods g = new IncomingGoods(domain,
+											username);
+									g.restore(document);
+								}
+							}
+						}
+					}
+				}
+			}
+
+		} catch (ParserConfigurationException e) {
+			Log.error(e.getMessage());
+		} catch (SAXException e) {
+			Log.error(e.getMessage());
+		} catch (IOException e) {
+			Log.error(e.getMessage());
 		}
 	}
 

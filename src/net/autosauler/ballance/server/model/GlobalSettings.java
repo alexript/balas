@@ -22,6 +22,9 @@ import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -109,7 +112,7 @@ public class GlobalSettings {
 		while (i.hasNext()) {
 			String name = i.next();
 			String val = values.get(name);
-			sb.append("<value name=\"" + name + "\" val=\"" + val + "\">\n");
+			sb.append("<value name=\"" + name + "\" val=\"" + val + "\"/>\n");
 		}
 
 		sb.append("</settings>\n");
@@ -182,6 +185,23 @@ public class GlobalSettings {
 		}
 		Database.release();
 		changed = false;
+	}
+
+	/**
+	 * Restore.
+	 * 
+	 * @param val
+	 *            the val
+	 */
+	public void restore(Element vals) {
+		NodeList nodes = vals.getElementsByTagName("value");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Element val = (Element) nodes.item(i);
+			String name = val.getAttribute("name");
+			String v = val.getAttribute("val");
+			set(name, v);
+		}
+		save();
 	}
 
 	/**

@@ -27,6 +27,8 @@ import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import org.w3c.dom.Element;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -225,6 +227,19 @@ public class DocumentTablePart extends AbstractStructuredData {
 		i.put(fieldname_document, 1);
 
 		coll.createIndex(i);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.AbstractStructuredData#onRestore
+	 * (org.w3c.dom.Element)
+	 */
+	@Override
+	protected void onRestore(Element dump) {
+		return;
 
 	}
 

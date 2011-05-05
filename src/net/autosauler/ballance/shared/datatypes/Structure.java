@@ -38,17 +38,6 @@ public class Structure {
 	}
 
 	/**
-	 * Instantiates a new structure.
-	 * 
-	 * @param xmldescription
-	 *            the xmldescription
-	 */
-	public Structure(String xmldescription) {
-		struct = new HashMap<String, StructElement>();
-		fromString(xmldescription);
-	}
-
-	/**
 	 * Adds the.
 	 * 
 	 * @param name
@@ -88,16 +77,6 @@ public class Structure {
 		int type = getType(name);
 		obj = DataTypes.fromMapping(type, val);
 		return obj;
-	}
-
-	/**
-	 * From string.
-	 * 
-	 * @param xml
-	 *            the xml
-	 */
-	private void fromString(String xml) {
-		// TODO: xml parse
 	}
 
 	/**
@@ -183,7 +162,8 @@ public class Structure {
 				sb.append("\" type=\"");
 				sb.append(element.getType());
 				sb.append("\" default=\"");
-				sb.append(toMapping(name, element.getDefVal()).toString());
+				sb.append(DataTypes.toString(element.getType(),
+						element.getDefVal()));
 				sb.append("\"/>\n");
 			}
 			sb.append("</fields>\n");

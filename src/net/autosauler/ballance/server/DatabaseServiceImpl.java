@@ -88,6 +88,25 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * net.autosauler.ballance.client.DatabaseService#restoreDatabase(java.lang
+	 * .String)
+	 */
+	@Override
+	public void restoreDatabase(String filename) {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+
+		if (role.isAdmin()) {
+			Database.restoredatabase(HttpUtilities.getUserDomain(httpSession),
+					HttpUtilities.getUserLogo(httpSession), filename);
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * net.autosauler.ballance.client.DatabaseService#setSettings(java.util.
 	 * HashMap)
 	 */

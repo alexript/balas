@@ -238,7 +238,7 @@ public class DataTypes {
 			obj = ((Boolean) object).toString();
 
 		} else {
-			obj = "";
+			obj = object.toString();
 		}
 		return obj;
 

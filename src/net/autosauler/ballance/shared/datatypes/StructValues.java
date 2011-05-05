@@ -40,19 +40,8 @@ public class StructValues {
 	 *            the struct
 	 */
 	public StructValues(Structure struct) {
-		fillDefaults(struct, null);
-	}
 
-	/**
-	 * Instantiates a new struct values.
-	 * 
-	 * @param struct
-	 *            the struct
-	 * @param xmldump
-	 *            the xmldump
-	 */
-	public StructValues(Structure struct, String xmldump) {
-		fillDefaults(struct, xmldump);
+		fillDefaults(struct);
 	}
 
 	/**
@@ -63,34 +52,18 @@ public class StructValues {
 	 * @param xmldump
 	 *            the xmldump
 	 */
-	private void fillDefaults(Structure struct, String xmldump) {
+	private void fillDefaults(Structure struct) {
 		this.struct = struct;
 		values = new HashMap<String, Object>();
 
 		Set<String> names = struct.getNames();
 
-		if (xmldump == null) {
-			Iterator<String> i = names.iterator();
-			while (i.hasNext()) {
-				String name = i.next();
-				Object val = struct.getDefValue(name);
-				values.put(name, val);
-			}
-		} else {
-			fromString(names, xmldump);
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			Object val = struct.getDefValue(name);
+			values.put(name, val);
 		}
-	}
-
-	/**
-	 * From string.
-	 * 
-	 * @param names
-	 *            the names
-	 * @param xml
-	 *            the xml
-	 */
-	private void fromString(Set<String> names, String xml) {
-		// TODO: parse xml
 	}
 
 	/**
@@ -160,7 +133,7 @@ public class StructValues {
 		Set<String> names = values.keySet();
 		if (names.size() > 0) {
 
-			sb.append("<record>");
+			sb.append("<record>\n");
 			Iterator<String> i = names.iterator();
 			while (i.hasNext()) {
 				String name = i.next();
@@ -169,7 +142,7 @@ public class StructValues {
 				sb.append(name.trim().toLowerCase());
 				sb.append("\" value=\"");
 				if (val != null) {
-					sb.append(struct.toMapping(name, val).toString());
+					sb.append(DataTypes.toString(struct.getType(name), val));
 				}
 				sb.append("\"/>\n");
 			}

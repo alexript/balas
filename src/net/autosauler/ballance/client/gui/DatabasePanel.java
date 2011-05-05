@@ -78,6 +78,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	/** The btn dump database. */
 	private Button btnDumpDatabase;
 
+	/** The btn restore database. */
+	private Button btnRestoreDatabase;
+
 	/** The btn global script. */
 	private Button btnGlobalScript;
 
@@ -98,6 +101,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 	/** The dumpfile. */
 	private TextBox dumpfile;
+
+	/** The restorefile. */
+	private TextBox restorefile;
 
 	/**
 	 * Instantiates a new database panel.
@@ -264,21 +270,32 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * @return the decorator panel
 	 */
 	private DecoratorPanel createDumpDatabasePanel() {
+		VerticalPanel v = new VerticalPanel();
+
 		HorizontalPanel p = new HorizontalPanel();
 		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		p.setSpacing(6);
 		p.add(new Label(M.database.msgDumpDatabaseTitle()));
-
 		dumpfile = new TextBox(); // TODO: replace with list of old dump files
 		p.add(dumpfile);
-
 		btnDumpDatabase = new Button(M.database.btnExecute());
 		btnDumpDatabase.addClickHandler(this);
 		p.add(btnDumpDatabase);
-		// TODO: add restore button
+		v.add(p);
+
+		p = new HorizontalPanel();
+		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		p.setSpacing(6);
+		p.add(new Label(M.database.msgRestoreDatabaseTitle()));
+		restorefile = new TextBox();
+		p.add(restorefile);
+		btnRestoreDatabase = new Button(M.database.btnExecute());
+		btnRestoreDatabase.addClickHandler(this);
+		p.add(btnRestoreDatabase);
+		v.add(p);
 
 		DecoratorPanel panel = new DecoratorPanel();
-		panel.setWidget(p);
+		panel.setWidget(v);
 		return panel;
 	}
 
@@ -367,6 +384,28 @@ public class DatabasePanel extends Composite implements ClickHandler,
 
 							}
 						});
+			}
+		} else if (event.getSource().equals(btnRestoreDatabase)) {
+			UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
+			if (role.isAdmin()) {
+				MainPanel.setCommInfo(true);
+				Services.database.restoreDatabase(restorefile.getText().trim(),
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								MainPanel.setCommInfo(false);
+								new AlertDialog(caught).show();
+
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								MainPanel.setCommInfo(false);
+
+							}
+						});
+
 			}
 		} else if (event.getSource().equals(btnGlobalScript)) {
 			new ScriptEditor("global", null);

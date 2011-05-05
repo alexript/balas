@@ -17,13 +17,15 @@
 package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.schemevm.VM;
 import net.autosauler.ballance.server.util.Base64;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.BasicDBObject;
@@ -87,7 +89,7 @@ public class Scripts {
 	private final String domain;
 
 	/** The name. */
-	private final String name;
+	private String name;
 
 	/** The text. */
 	private String text;
@@ -97,9 +99,6 @@ public class Scripts {
 
 	/** The caller. */
 	private final IScriptableObject caller;
-
-	/** The loadedscripts. */
-	private static final HashMap<String, List<String>> loadedscripts = new HashMap<String, List<String>>();
 
 	/**
 	 * Instantiates a new scripts.
@@ -116,23 +115,30 @@ public class Scripts {
 		this.domain = domain;
 		caller = obj;
 		initVM();
-		if (vms.containsKey(domain) && (vms.get(domain) != null)) {
-			initStruct();
-			loadText();
+		initStruct();
+		loadText();
+
+		if (vms.containsKey(domain)) {
 			if (text != null) {
-				if (!loadedscripts.containsKey(domain)
-						|| !loadedscripts.get(domain).contains(name)) {
-					vms.get(domain).eval(text);
-					if (!loadedscripts.containsKey(domain)) {
-						loadedscripts.put(domain, new ArrayList<String>());
-					}
-					loadedscripts.get(domain).add(name);
-				}
+				vms.get(domain).eval(text);
 			} else {
 				Log.error("There is no text for script " + name);
 			}
 
 		}
+	}
+
+	/**
+	 * Instantiates a new scripts. WARNING: only for database restore case
+	 * 
+	 * @param domain
+	 *            the domain
+	 */
+	public Scripts(String domain) {
+		name = "";
+		this.domain = domain;
+		caller = null;
+		initStruct();
 	}
 
 	/**
@@ -148,21 +154,18 @@ public class Scripts {
 		this.domain = domain;
 		caller = null;
 		initVM();
-		if (vms.containsKey(domain) && (vms.get(domain) != null)) {
-			initStruct();
-			loadText();
+		initStruct();
+		loadText();
 
-			if (text != null) {
-				if (!loadedscripts.containsKey(domain)
-						|| !loadedscripts.get(domain).contains(name)) {
-					vms.get(domain).eval(text);
-					if (!loadedscripts.containsKey(domain)) {
-						loadedscripts.put(domain, new ArrayList<String>());
-					}
-					loadedscripts.get(domain).add(name);
+		if (vms.containsKey(domain)) {
+			VM vm = vms.get(domain);
+			if (vm != null) {
+
+				if (text != null) {
+					vm.eval(text);
+				} else {
+					Log.error("There is no text for script " + name);
 				}
-			} else {
-				Log.error("There is no text for script " + name);
 			}
 
 		}
@@ -176,8 +179,12 @@ public class Scripts {
 	 * @return the object
 	 */
 	public Object eval(String cmd) {
-		initVM();
-		return vms.get(domain).eval(cmd);
+
+		VM vm = vms.get(domain);
+		if (vm != null) {
+			return vm.eval(cmd);
+		}
+		return null;
 	}
 
 	/**
@@ -214,10 +221,9 @@ public class Scripts {
 	 * Inits the vm.
 	 */
 	private void initVM() {
-		if (!vms.containsKey(domain) || (vms.get(domain) == null)) {
+		if (!vms.containsKey(domain)) {
 			vms.put(domain, new VM());
 
-			loadedscripts.put(domain, new ArrayList<String>());
 			Scripts global = new Scripts(domain, "global");
 			global.nop();
 		}
@@ -272,6 +278,30 @@ public class Scripts {
 	}
 
 	/**
+	 * Restore.
+	 * 
+	 * @param val
+	 *            the val
+	 */
+	public void restore(Element vals) {
+		NodeList nodes = vals.getElementsByTagName("script");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Element val = (Element) nodes.item(i);
+			String name = val.getAttribute("name");
+			String b64 = val.getTextContent();
+			try {
+				String text = new String(Base64.decode(b64), "UTF-8");
+				this.name = name;
+				setText(text, true);
+			} catch (IOException e) {
+				Log.error(e.getMessage());
+			}
+
+		}
+
+	}
+
+	/**
 	 * Sets the text.
 	 * 
 	 * @param txt
@@ -315,8 +345,9 @@ public class Scripts {
 				}
 
 				Database.release();
-				vms.put(domain, null);
-
+				if (vms != null) {
+					vms.remove(domain);
+				}
 			}
 		}
 	}

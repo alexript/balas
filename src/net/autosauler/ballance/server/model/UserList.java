@@ -19,6 +19,9 @@ package net.autosauler.ballance.server.model;
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.shared.UserRole;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -146,6 +149,21 @@ public class UserList {
 	public static net.autosauler.ballance.shared.UserList getUsersFromTrash(
 			String domain) {
 		return getUsers(domain, true);
+	}
+
+	/**
+	 * Restore.
+	 * 
+	 * @param domain
+	 * 
+	 * @param val
+	 *            the val
+	 */
+	public static void restore(String domain, Element vals) {
+		NodeList nodes = vals.getElementsByTagName("user");
+		if (nodes.getLength() > 0) {
+			User.restore(domain, nodes);
+		}
 	}
 
 	/**

@@ -66,6 +66,13 @@ public interface DatabaseMessages extends Messages {
 	String msgGlobalScript();
 
 	/**
+	 * Msg restore database title.
+	 * 
+	 * @return the string
+	 */
+	String msgRestoreDatabaseTitle();
+
+	/**
 	 * Qst drop database.
 	 * 
 	 * @return the string

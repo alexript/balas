@@ -50,6 +50,14 @@ public interface DatabaseService extends RemoteService {
 	public HashMap<String, String> getSettings();
 
 	/**
+	 * Restore database.
+	 * 
+	 * @param filename
+	 *            the filename
+	 */
+	public void restoreDatabase(String filename);
+
+	/**
 	 * Sets the settings.
 	 * 
 	 * @param newvalues
