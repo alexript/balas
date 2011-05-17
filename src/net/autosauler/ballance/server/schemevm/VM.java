@@ -16,10 +16,6 @@
 
 package net.autosauler.ballance.server.schemevm;
 
-import sixx.Library;
-import sixx.Reader;
-import sixx.Sixx;
-
 import com.allen_sauer.gwt.log.client.Log;
 
 /**
