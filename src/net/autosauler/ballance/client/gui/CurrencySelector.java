@@ -22,6 +22,7 @@ import java.util.Set;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
 
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -70,6 +71,16 @@ public class CurrencySelector extends Composite {
 
 		initWidget(panel);
 		reloadBox(currentcurrency);
+	}
+
+	/**
+	 * Adds the change handler.
+	 * 
+	 * @param handler
+	 *            the handler
+	 */
+	public void addChangeHandler(ChangeHandler handler) {
+		box.addChangeHandler(handler);
 	}
 
 	/**

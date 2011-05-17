@@ -44,23 +44,14 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	 * java.lang.String, java.util.HashMap)
 	 */
 	@Override
-	public HashMap<String, Object> eval(String domain, String scriptname,
-			HashMap<String, Object> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public HashMap<String, String> eval(String scriptname, String evalstring,
+			HashMap<String, String> params, HashMap<String, Integer> types) {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see net.autosauler.ballance.client.ScriptsService#eval(java.lang.String,
-	 * java.lang.String, java.lang.String, java.util.HashMap)
-	 */
-	@Override
-	public HashMap<String, Object> eval(String domain, String scriptname,
-			String mainparam, HashMap<String, Object> params) {
-		// TODO Auto-generated method stub
-		return null;
+		Scripts script = new Scripts(getDomain(), scriptname);
+
+		HashMap<String, String> map = script.eval(evalstring, params, types);
+
+		return map;
 	}
 
 	/**

@@ -188,6 +188,20 @@ public class Scripts {
 	}
 
 	/**
+	 * @param evalstring
+	 * @param params
+	 * @param types
+	 * @return
+	 */
+	public HashMap<String, String> eval(String evalstring,
+			HashMap<String, String> params, HashMap<String, Integer> types) {
+		HashMap<String, String> result = new HashMap<String, String>();
+		// TODO: make evaluation
+
+		return result;
+	}
+
+	/**
 	 * Gets the text.
 	 * 
 	 * @return the text

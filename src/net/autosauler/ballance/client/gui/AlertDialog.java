@@ -66,7 +66,12 @@ public class AlertDialog extends DialogBox {
 	 *            the caught
 	 */
 	public AlertDialog(Throwable caught) {
-		initDialog(caught.getMessage(), caught.getStackTrace().toString());
+		StringBuilder sb = new StringBuilder();
+		for (StackTraceElement element : caught.getStackTrace()) {
+			sb.append(element.toString());
+			sb.append("\n");
+		}
+		initDialog(caught.getMessage(), sb.toString());
 	}
 
 	/**

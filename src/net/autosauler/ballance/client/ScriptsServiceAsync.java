@@ -41,26 +41,9 @@ public interface ScriptsServiceAsync {
 	 * @see net.autosauler.ballance.client.ScriptsService#eval(java.lang.String,
 	 *      java.lang.String, java.util.HashMap)
 	 */
-	void eval(String domain, String scriptname, HashMap<String, Object> params,
-			AsyncCallback<HashMap<String, Object>> callback);
-
-	/**
-	 * Eval.
-	 * 
-	 * @param domain
-	 *            the domain
-	 * @param scriptname
-	 *            the scriptname
-	 * @param mainparam
-	 *            the mainparam
-	 * @param params
-	 *            the params
-	 * @param callback
-	 *            the callback
-	 */
-	void eval(String domain, String scriptname, String mainparam,
-			HashMap<String, Object> params,
-			AsyncCallback<HashMap<String, Object>> callback);
+	void eval(String scriptname, String evalstring,
+			HashMap<String, String> params, HashMap<String, Integer> types,
+			AsyncCallback<HashMap<String, String>> callback);
 
 	/**
 	 * Gets the script.

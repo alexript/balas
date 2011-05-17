@@ -39,24 +39,8 @@ public interface ScriptsService extends RemoteService {
 	 *            the params
 	 * @return the hash map
 	 */
-	public HashMap<String, Object> eval(String domain, String scriptname,
-			HashMap<String, Object> params);
-
-	/**
-	 * Eval script on server.
-	 * 
-	 * @param domain
-	 *            the domain
-	 * @param scriptname
-	 *            the scriptname
-	 * @param mainparam
-	 *            the mainparam
-	 * @param params
-	 *            the params
-	 * @return the hash map
-	 */
-	public HashMap<String, Object> eval(String domain, String scriptname,
-			String mainparam, HashMap<String, Object> params);
+	public HashMap<String, String> eval(String scriptname, String evalstring,
+			HashMap<String, String> params, HashMap<String, Integer> types);
 
 	/**
 	 * Gets the script.
