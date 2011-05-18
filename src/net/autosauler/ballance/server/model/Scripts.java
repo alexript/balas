@@ -18,11 +18,18 @@ package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.server.schemevm.CharArray;
+import net.autosauler.ballance.server.schemevm.Pair;
+import net.autosauler.ballance.server.schemevm.Reader;
 import net.autosauler.ballance.server.schemevm.VM;
 import net.autosauler.ballance.server.util.Base64;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -120,7 +127,14 @@ public class Scripts {
 
 		if (vms.containsKey(domain)) {
 			if (text != null) {
-				vms.get(domain).eval(text);
+				try {
+					Object form = (new Reader(new java.io.StringReader(text)))
+							.read();
+					vms.get(domain).directeval(form);
+				} catch (Exception e) {
+					Log.error(e.getMessage());
+				}
+
 			} else {
 				Log.error("There is no text for script " + name);
 			}
@@ -162,7 +176,14 @@ public class Scripts {
 			if (vm != null) {
 
 				if (text != null) {
-					vm.eval(text);
+					try {
+						Object form = (new Reader(
+								new java.io.StringReader(text))).read();
+						vms.get(domain).directeval(form);
+					} catch (Exception e) {
+						Log.error(e.getMessage());
+					}
+
 				} else {
 					Log.error("There is no text for script " + name);
 				}
@@ -188,15 +209,70 @@ public class Scripts {
 	}
 
 	/**
+	 * Eval.
+	 * 
 	 * @param evalstring
+	 *            the evalstring
 	 * @param params
+	 *            the params
 	 * @param types
-	 * @return
+	 *            the types
+	 * @return the hash map
 	 */
 	public HashMap<String, String> eval(String evalstring,
 			HashMap<String, String> params, HashMap<String, Integer> types) {
+
+		Hashtable<CharArray, Object> input = new Hashtable<CharArray, Object>();
+		Set<String> names = params.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			if (types.containsKey(name)) {
+				input.put(new CharArray(name.toCharArray()),
+						DataTypes.fromString(types.get(name), params.get(name)));
+			}
+		}
 		HashMap<String, String> result = new HashMap<String, String>();
-		// TODO: make evaluation
+
+		VM vm = vms.get(domain);
+		Object eval = null;
+		if (vm != null) {
+
+			try {
+				eval = vm
+						.directeval(new Pair(evalstring, new Pair(input, null)));
+
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+				eval = null;
+			}
+		}
+		// ---------------------
+		if (eval != null) {
+			if (Hashtable.class.isInstance(eval)) {
+				@SuppressWarnings("unchecked")
+				Hashtable<CharArray, Object> output = (Hashtable<CharArray, Object>) eval;
+
+				if ((output != null) && !output.isEmpty()) {
+					Set<CharArray> cnames = output.keySet();
+					Iterator<CharArray> j = cnames.iterator();
+					while (j.hasNext()) {
+						String name = new String(j.next().charArray);
+						if (types.containsKey(name)) {
+							result.put(
+									name,
+									DataTypes.toString(types.get(name),
+											output.get(name)));
+						}
+					}
+				} else {
+					Log.error("Empty eval's result");
+				}
+			} else {
+				Log.error("Eval result is not HashMap: "
+						+ eval.getClass().getCanonicalName());
+			}
+		}
 
 		return result;
 	}
@@ -294,8 +370,8 @@ public class Scripts {
 	/**
 	 * Restore.
 	 * 
-	 * @param val
-	 *            the val
+	 * @param vals
+	 *            the vals
 	 */
 	public void restore(Element vals) {
 		NodeList nodes = vals.getElementsByTagName("script");

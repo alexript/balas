@@ -129,8 +129,9 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = "cat." + getSuffix() + ".onchange." + i.next();
-			sb.append("(define (" + name + ") (log.error \"" + name
-					+ " not defined\"))\n");
+			sb.append("(define (" + name + " hashmap) (log.error \"" + name
+					+ " not defined\"))\n;; " + name
+					+ " must return hashmap\n\n");
 		}
 
 		sb.append(onGenerateDefaultScript());

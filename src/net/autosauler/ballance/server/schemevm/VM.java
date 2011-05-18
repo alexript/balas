@@ -26,7 +26,7 @@ import com.allen_sauer.gwt.log.client.Log;
 public class VM {
 
 	/** The vm. */
-	private static Sixx vm = null;
+	private Sixx vm = null;
 
 	/** The sixxlib. */
 	private static Library sixxlib;
@@ -85,6 +85,40 @@ public class VM {
 		} else {
 			Log.error("VM is null");
 		}
+	}
+
+	/**
+	 * Apply.
+	 * 
+	 * @param to
+	 *            the to
+	 * @param what
+	 *            the what
+	 * @return the object
+	 * @throws Exception
+	 *             the exception
+	 */
+	public Object apply(Object to, Object what) throws Exception {
+		if (vm != null) {
+			vm.apply(to, new Pair(what, null));
+		}
+		return null;
+	}
+
+	/**
+	 * Directeval.
+	 * 
+	 * @param str
+	 *            the str
+	 * @return the object
+	 * @throws Exception
+	 *             the exception
+	 */
+	public Object directeval(Object str) throws Exception {
+		if (vm != null) {
+			return vm.eval(str, sixxlib);
+		}
+		return null;
 	}
 
 	/**

@@ -70,7 +70,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * @author alexript
  */
 public class DocumentPanel extends Composite implements IPaneWithMenu,
-		IReloadMsgReceiver {
+		IReloadMsgReceiver, IFieldChangeHandler {
 
 	/** The documentname. */
 	private final String documentname;
@@ -224,6 +224,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
+		hf.setChangeHandler("doc." + documentname + ".onchange." + field, this);
 		fields.put(field, hf);
 	}
 
@@ -747,6 +748,65 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 			tableparts = parts.getValues();
 		}
 		return tableparts;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.IFieldChangeHandler#handleFieldChange
+	 * (java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void handleFieldChange(String tag, String newvalueasstring) {
+		HashMap<String, String> map = new HashMap<String, String>();
+
+		Set<String> names = fields.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			HeaderField hf = fields.get(name);
+			map.put(name, hf.getValueAsString());
+		}
+
+		HashMap<String, Integer> types = new HashMap<String, Integer>();
+
+		Iterator<Field> j = structuredescription.get().iterator();
+		while (j.hasNext()) {
+			Field f = j.next();
+			types.put(f.getFieldname(), f.getType());
+		}
+
+		// Window.alert(map.toString());
+
+		MainPanel.setCommInfo(true);
+		Services.scripts.eval("document." + documentname, tag, map, types,
+				new AsyncCallback<HashMap<String, String>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+
+						new AlertDialog(caught).show();
+					}
+
+					@Override
+					public void onSuccess(HashMap<String, String> result) {
+						MainPanel.setCommInfo(false);
+
+						Set<String> names = fields.keySet();
+						Iterator<String> i = names.iterator();
+						while (i.hasNext()) {
+							String name = i.next();
+							if (result.containsKey(name)) {
+								HeaderField hf = fields.get(name);
+								hf.setValue(result.get(name), true);
+							}
+						}
+
+					}
+				});
+
 	}
 
 	/**

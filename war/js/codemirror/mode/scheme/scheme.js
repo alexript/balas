@@ -36,6 +36,7 @@ CodeMirror.defineMode("scheme", function() {
 
 	var readLineComment = function(source) {
 		scanUntilEndline(source);
+		
 		var text = source.get();
 		return "scheme-comment";
 	};
@@ -96,7 +97,7 @@ CodeMirror.defineMode("scheme", function() {
 
 	var readWordOrNumber = function(source) {
 		source.eatWhile(isNotDelimiterChar);
-		var word = source.peek();
+		var word = source.current();
 		if (looksLikeNumber(word)) {
 			return "scheme-number";
 		} else {
@@ -115,7 +116,11 @@ CodeMirror.defineMode("scheme", function() {
 			} else if (ch === "#") {
 				return readPound(stream);
 			} else if (ch === ';') {
-				return readLineComment(stream);
+				if (stream.eat(";")) {
+			        stream.skipToEnd();
+					return "scheme-comment";
+				}
+				return readWordOrNumber(stream);
 			} else if (ch === "\"") {
 				return readString(ch, stream);
 			} else if (isDelimiterChar.test(ch)) {

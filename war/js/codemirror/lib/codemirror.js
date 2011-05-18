@@ -13,12 +13,13 @@ var CodeMirror = (function() {
       if (defaults.hasOwnProperty(opt))
         options[opt] = (givenOptions && givenOptions.hasOwnProperty(opt) ? givenOptions : defaults)[opt];
 
+    var targetDocument = options["document"];
     // The element in which the editor lives. Takes care of scrolling
     // (if enabled).
-    var wrapper = document.createElement("div");
+    var wrapper = targetDocument.createElement("div");
     wrapper.className = "CodeMirror";
     // Work around http://www.quirksmode.org/bugreports/archives/2006/09/Overflow_Hidden_not_hiding.html
-    if (window.ActiveXObject && /MSIE [1-7][\b\.]/.test(navigator.userAgent))
+    if (window.ActiveXObject && /MSIE [1-7]\b/.test(navigator.userAgent))
       wrapper.style.position = "relative";
     // This mess creates the base DOM structure for the editor.
     wrapper.innerHTML =
@@ -100,7 +101,7 @@ var CodeMirror = (function() {
     connect(input, "paste", function(){fastPoll();});
     connect(input, "cut", function(){fastPoll();});
 
-    if (document.activeElement == input) onFocus();
+    if (targetDocument.activeElement == input) onFocus();
     else onBlur();
 
     function isLine(l) {return l >= 0 && l < lines.length;}
@@ -239,12 +240,12 @@ var CodeMirror = (function() {
         }
       }
 
-      var move = connect(document, "mousemove", operation(function(e) {
+      var move = connect(targetDocument, "mousemove", operation(function(e) {
         clearTimeout(going);
         e.stop();
         extend(e);
       }), true);
-      var up = connect(document, "mouseup", operation(function(e) {
+      var up = connect(targetDocument, "mouseup", operation(function(e) {
         clearTimeout(going);
         var cur = posFromMouse(e);
         if (cur) setSelectionUser(start, cur);
@@ -339,7 +340,7 @@ var CodeMirror = (function() {
       var code = e.e.keyCode;
       // Re-stop tab and enter. Necessary on some browsers.
       if (code == 13) {if (!options.readOnly) handleEnter(); e.stop();}
-      else if (code == 9 && options.tabMode != "default") e.stop();
+      else if (!e.e.ctrlKey && !e.e.altKey && !e.e.metaKey && code == 9 && options.tabMode != "default") e.stop();
       else fastPoll(curKeyId);
     }
 
@@ -619,11 +620,11 @@ var CodeMirror = (function() {
       return scrollIntoView(cursor.x, cursor.y, cursor.x, cursor.yBot);
     }
     function scrollIntoView(x1, y1, x2, y2) {
-      var pl = paddingLeft(), pt = paddingTop();
+      var pl = paddingLeft(), pt = paddingTop(), lh = lineHeight();
       y1 += pt; y2 += pt; x1 += pl; x2 += pl;
       var screen = wrapper.clientHeight, screentop = wrapper.scrollTop, scrolled = false, result = true;
-      if (y1 < screentop) {wrapper.scrollTop = Math.max(0, y1 - 10); scrolled = true;}
-      else if (y2 > screentop + screen) {wrapper.scrollTop = y2 + 10 - screen; scrolled = true;}
+      if (y1 < screentop) {wrapper.scrollTop = Math.max(0, y1 - 2*lh); scrolled = true;}
+      else if (y2 > screentop + screen) {wrapper.scrollTop = y2 + lh - screen; scrolled = true;}
 
       var screenw = wrapper.clientWidth, screenleft = wrapper.scrollLeft;
       if (x1 < screenleft) {wrapper.scrollLeft = Math.max(0, x1 - 10); scrolled = true;}
@@ -748,7 +749,7 @@ var CodeMirror = (function() {
       // there .innerHTML on PRE nodes is dumb, and discards
       // whitespace.
       var sfrom = sel.from.line, sto = sel.to.line, off = 0,
-          scratch = badInnerHTML && document.createElement("div");
+          scratch = badInnerHTML && targetDocument.createElement("div");
       for (var i = 0, e = updates.length; i < e; ++i) {
         var rec = updates[i];
         var extra = (rec.to - rec.from) - rec.domSize;
@@ -758,7 +759,7 @@ var CodeMirror = (function() {
             lineDiv.removeChild(nodeAfter ? nodeAfter.previousSibling : lineDiv.lastChild);
         else if (extra) {
           for (var j = Math.max(0, extra); j > 0; --j)
-            lineDiv.insertBefore(document.createElement("pre"), nodeAfter);
+            lineDiv.insertBefore(targetDocument.createElement("pre"), nodeAfter);
           for (var j = Math.max(0, -extra); j > 0; --j)
             lineDiv.removeChild(nodeAfter ? nodeAfter.previousSibling : lineDiv.lastChild);
         }
@@ -805,14 +806,14 @@ var CodeMirror = (function() {
       gutterText.innerHTML = html.join("");
       var minwidth = String(lines.length).length, firstNode = gutterText.firstChild, val = eltText(firstNode), pad = "";
       while (val.length + pad.length < minwidth) pad += "\u00a0";
-      if (pad) firstNode.insertBefore(document.createTextNode(pad), firstNode.firstChild);
+      if (pad) firstNode.insertBefore(targetDocument.createTextNode(pad), firstNode.firstChild);
       gutter.style.display = "";
       lineSpace.style.marginLeft = gutter.offsetWidth + "px";
     }
     function updateCursor() {
       var head = sel.inverted ? sel.from : sel.to;
       var x = charX(head.line, head.ch) + "px", y = (head.line - showingFrom) * lineHeight() + "px";
-      inputDiv.style.top = y; inputDiv.style.left = x;
+      inputDiv.style.top = y;
       if (posEq(sel.from, sel.to)) {
         cursor.style.top = y; cursor.style.left = x;
         cursor.style.display = "";
@@ -1103,18 +1104,15 @@ var CodeMirror = (function() {
     function paddingLeft() {return lineSpace.offsetLeft;}
 
     function posFromMouse(e, liberal) {
-      var off = eltOffset(lineSpace),
-          x = e.pageX() - off.left,
-          y = e.pageY() - off.top;
+      var offW = eltOffset(wrapper), x = e.pageX(), y = e.pageY();
       // This is a mess of a heuristic to try and determine whether a
       // scroll-bar was clicked or not, and to return null if one was
       // (and !liberal).
-      if (!liberal && e.target() != lineSpace.parentNode &&
-          !(e.target() == wrapper && y > (lines.length * lineHeight()) && wrapper.clientHeight > code.offsetHeight))
-        for (var n = e.target(); n != lineDiv && n != cursor; n = n.parentNode)
-          if (!n || n == wrapper) return null;
-      var line = showingFrom + Math.floor(y / lineHeight());
-      return clipPos({line: line, ch: charFromX(clipLine(line), x)});
+      if (!liberal && (x - offW.left > wrapper.clientWidth || y - offW.top > wrapper.clientHeight))
+        return null;
+      var offL = eltOffset(lineSpace);
+      var line = showingFrom + Math.floor((y - offL.top) / lineHeight());
+      return clipPos({line: line, ch: charFromX(clipLine(line), x - offL.left)});
     }
     function onContextMenu(e) {
       var pos = posFromMouse(e);
@@ -1128,7 +1126,7 @@ var CodeMirror = (function() {
         "border-width: 0; outline: none; overflow: hidden;";
       var val = input.value = getSelection();
       input.focus();
-      setSelRange(input, 0, val.length);
+      setSelRange(input, 0, input.value.length);
       if (gecko) e.stop();
       leaveInputAlone = true;
       setTimeout(function() {
@@ -1176,7 +1174,7 @@ var CodeMirror = (function() {
           }
         }
       }
-      for (var i = head.line, e = forward ? Math.min(i + 50, lines.length) : Math.max(0, i - 50); i != e; i+=d) {
+      for (var i = head.line, e = forward ? Math.min(i + 50, lines.length) : Math.max(-1, i - 50); i != e; i+=d) {
         var line = lines[i], first = i == head.line;
         var found = scan(line, first && forward ? pos + 1 : 0, first && !forward ? pos : line.text.length);
         if (found) {
@@ -1423,7 +1421,8 @@ var CodeMirror = (function() {
     workTime: 100,
     workDelay: 200,
     undoDepth: 40,
-    tabindex: null
+    tabindex: null,
+    document: window.document
   };
 
   // Known modes, by name and by MIME
@@ -1699,7 +1698,7 @@ var CodeMirror = (function() {
             mark = (markpos < marked.length) ? marked[markpos] : null;
           }
         }
-        nextMark();        
+        nextMark();
         while (pos < len) {
           var upto = len;
           var extraStyle = "";
@@ -1807,11 +1806,13 @@ var CodeMirror = (function() {
     },
     pageX: function() {
       if (this.e.pageX != null) return this.e.pageX;
-      else return this.e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      var doc = this.target().ownerDocument;
+      return this.e.clientX + doc.body.scrollLeft + doc.documentElement.scrollLeft;
     },
     pageY: function() {
       if (this.e.pageY != null) return this.e.pageY;
-      else return this.e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      var doc = this.target().ownerDocument;
+      return this.e.clientY + doc.body.scrollTop + doc.documentElement.scrollTop;
     }
   };
 
@@ -1871,9 +1872,9 @@ var CodeMirror = (function() {
 
   // Find the position of an element by following the offsetParent chain.
   function eltOffset(node) {
-    var x = 0, y = 0, n2 = node;
+    var x = 0, y = 0;
     for (var n = node; n; n = n.offsetParent) {x += n.offsetLeft; y += n.offsetTop;}
-    for (var n = node; n != document.body; n = n.parentNode) {x -= n.scrollLeft; y -= n.scrollTop;}
+    for (var n = node.parentNode; n != node.ownerDocument.body; n = n.parentNode) {x -= n.scrollLeft; y -= n.scrollTop;}
     return {left: x, top: y};
   }
   // Get a node's text content.
@@ -1938,7 +1939,7 @@ var CodeMirror = (function() {
   // IE model. Don't ask.
   else {
     var selRange = function(te) {
-      try {var range = document.selection.createRange();}
+      try {var range = te.ownerDocument.selection.createRange();}
       catch(e) {return null;}
       if (!range || range.parentElement() != te) return null;
       var val = te.value, len = val.length, localRange = te.createTextRange();

@@ -1027,6 +1027,7 @@ public class Sixx {
 
 		if (form instanceof Pair) {
 			form = expandMacros(form, lib.macros);
+
 		}
 
 		if ((form instanceof Pair) && (car(form) == "begin")) {
