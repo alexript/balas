@@ -24,11 +24,8 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
-import net.autosauler.ballance.server.schemevm.CharArray;
-import net.autosauler.ballance.server.schemevm.Pair;
-import net.autosauler.ballance.server.schemevm.Reader;
-import net.autosauler.ballance.server.schemevm.VM;
 import net.autosauler.ballance.server.util.Base64;
+import net.autosauler.ballance.server.vm.VM;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import org.w3c.dom.Element;
@@ -128,9 +125,8 @@ public class Scripts {
 		if (vms.containsKey(domain)) {
 			if (text != null) {
 				try {
-					Object form = (new Reader(new java.io.StringReader(text)))
-							.read();
-					vms.get(domain).directeval(form);
+
+					vms.get(domain).eval(text);
 				} catch (Exception e) {
 					Log.error(e.getMessage());
 				}
@@ -177,9 +173,7 @@ public class Scripts {
 
 				if (text != null) {
 					try {
-						Object form = (new Reader(
-								new java.io.StringReader(text))).read();
-						vms.get(domain).directeval(form);
+						vms.get(domain).eval(text);
 					} catch (Exception e) {
 						Log.error(e.getMessage());
 					}
@@ -222,13 +216,13 @@ public class Scripts {
 	public HashMap<String, String> eval(String evalstring,
 			HashMap<String, String> params, HashMap<String, Integer> types) {
 
-		Hashtable<CharArray, Object> input = new Hashtable<CharArray, Object>();
+		Hashtable<String, Object> input = new Hashtable<String, Object>();
 		Set<String> names = params.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
 			if (types.containsKey(name)) {
-				input.put(new CharArray(name.toCharArray()),
+				input.put(name,
 						DataTypes.fromString(types.get(name), params.get(name)));
 			}
 		}
@@ -239,8 +233,7 @@ public class Scripts {
 		if (vm != null) {
 
 			try {
-				eval = vm
-						.directeval(new Pair(evalstring, new Pair(input, null)));
+				eval = vm.eval(evalstring); // TODO: add input hashtable
 
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -251,13 +244,13 @@ public class Scripts {
 		if (eval != null) {
 			if (Hashtable.class.isInstance(eval)) {
 				@SuppressWarnings("unchecked")
-				Hashtable<CharArray, Object> output = (Hashtable<CharArray, Object>) eval;
+				Hashtable<String, Object> output = (Hashtable<String, Object>) eval;
 
 				if ((output != null) && !output.isEmpty()) {
-					Set<CharArray> cnames = output.keySet();
-					Iterator<CharArray> j = cnames.iterator();
+					Set<String> cnames = output.keySet();
+					Iterator<String> j = cnames.iterator();
 					while (j.hasNext()) {
-						String name = new String(j.next().charArray);
+						String name = new String(j.next());
 						if (types.containsKey(name)) {
 							result.put(
 									name,
@@ -350,6 +343,9 @@ public class Scripts {
 
 		}
 		if ((txt == null) || txt.isEmpty()) {
+			if (domain.equals("127.0.0.1") && name.equals("global")) {
+				txt = "$java.lang\nLog.error('Global script evaluated');\n";
+			}
 			if (caller != null) {
 				txt = caller.generateDefaultScript();
 

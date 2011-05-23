@@ -150,7 +150,8 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
-		hf.setChangeHandler("cat." + catalogname + ".onchange." + field, this);
+		String nn = Character.toUpperCase(field.charAt(0)) + field.substring(1);
+		hf.setChangeHandler("On" + nn + "Change();", this);
 		fields.put(field, hf);
 		editor.add(hf);
 	}

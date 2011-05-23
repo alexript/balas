@@ -113,28 +113,22 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	@Override
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
-		String methodname = "cat." + getSuffix() + ".oncreate";
-		sb.append("(define (" + methodname + ") (log.error \"" + methodname
-				+ " not defined\"))\n");
-		methodname = "cat." + getSuffix() + ".ontrash";
-		sb.append("(define (" + methodname + ") (log.error \"" + methodname
-				+ " not defined\"))\n");
-		methodname = "cat." + getSuffix() + ".onrestore";
-		sb.append("(define (" + methodname + ") (log.error \"" + methodname
-				+ " not defined\"))\n");
-		methodname = "cat." + getSuffix() + ".onupdate";
-		sb.append("(define (" + methodname + ") (log.error \"" + methodname
-				+ " not defined\"))\n");
+		sb.append("$java.lang\n$com.allen_sauer.gwt.log.client.Log\n\n");
+		sb.append("OnCreate() #\n Log.error('method OnCreate not defined'); \n#\n\n");
+		sb.append("OnTrash() #\n Log.error('method OnTrash not defined'); \n#\n\n");
+		sb.append("OnRestore() #\n Log.error('method OnRestore not defined'); \n#\n\n");
+		sb.append("OnUpdate() #\n Log.error('method OnUpdate not defined'); \n#\n\n");
+
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
-			String name = "cat." + getSuffix() + ".onchange." + i.next();
-			sb.append("(define (" + name + " hashmap) (log.error \"" + name
-					+ " not defined\"))\n;; " + name
-					+ " must return hashmap\n\n");
-		}
+			String n = i.next();
+			String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
+			String name = "On" + nn + "Change";
+			sb.append(name + "() #\n Log.error('method " + name
+					+ " not defined'); \n#\n\n");
 
-		sb.append(onGenerateDefaultScript());
+		}
 
 		return sb.toString();
 
@@ -248,7 +242,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	protected void onCreate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".oncreate)");
+		script.eval("OnCreate();");
 		// TODO: do it right
 	}
 
@@ -319,7 +313,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	protected void onUpdate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".onupdate)");
+		script.eval("OnUpdate();");
 		// TODO: do it right
 	}
 
@@ -334,7 +328,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 		super.restore();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".onrestore)");
+		script.eval("OnRestore();");
 		// TODO: do it right
 
 	}
@@ -359,7 +353,7 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 		super.trash();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("(cat." + getSuffix() + ".ontrash)");
+		script.eval("OnTrash();");
 		// TODO: do it right
 
 	}

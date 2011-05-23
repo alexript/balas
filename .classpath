@@ -12,6 +12,6 @@
 			<attribute name="javadoc_location" value="file:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/doc/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/sixx.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
