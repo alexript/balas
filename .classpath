@@ -13,5 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/jasperreports-4.0.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
