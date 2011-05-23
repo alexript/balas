@@ -314,7 +314,7 @@ public class Scripts {
 	 */
 	private void initVM() {
 		if (!vms.containsKey(domain)) {
-			vms.put(domain, new VM());
+			vms.put(domain, new VM(domain));
 
 			Scripts global = new Scripts(domain, "global");
 			global.nop();

@@ -28,14 +28,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.autosauler.ballance.server.model.AbstractCatalog;
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
 import net.autosauler.ballance.server.model.IncomingGoods;
 import net.autosauler.ballance.server.model.IncomingPayment;
-import net.autosauler.ballance.server.model.Partner;
-import net.autosauler.ballance.server.model.PayMethod;
 import net.autosauler.ballance.server.model.Scripts;
-import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.server.model.UserList;
 
 import org.w3c.dom.Document;
@@ -129,12 +127,12 @@ public class Database {
 		sb.append(UserList.dump(domain));
 
 		sb.append("<catalogs>\n");
-		PayMethod paymethod = new PayMethod(domain, username);
-		sb.append(paymethod.dump());
-		Partner partner = new Partner(domain, username);
-		sb.append(partner.dump());
-		Tarifs tarifs = new Tarifs(domain, username);
-		sb.append(tarifs.dump());
+		AbstractCatalog cat = new AbstractCatalog("paymethod", domain, username);
+		sb.append(cat.dump());
+		cat = new AbstractCatalog("partners", domain, username);
+		sb.append(cat.dump());
+		cat = new AbstractCatalog("tarifs", domain, username);
+		sb.append(cat.dump());
 
 		sb.append("</catalogs>\n<documents>\n");
 		IncomingPayment payments = new IncomingPayment(domain, username);
@@ -358,17 +356,9 @@ public class Database {
 							for (int j = 0; j < catnodes.getLength(); j++) {
 								Element cat = (Element) catnodes.item(j);
 								String catname = cat.getAttribute("name");
-								if (catname.equals("tarifs")) {
-									Tarifs t = new Tarifs(domain, username);
-									t.restore(cat);
-								} else if (catname.equals("partners")) {
-									Partner p = new Partner(domain, username);
-									p.restore(cat);
-								} else if (catname.equals("paymethod")) {
-									PayMethod m = new PayMethod(domain,
-											username);
-									m.restore(cat);
-								}
+								AbstractCatalog ac = new AbstractCatalog(
+										catname, domain, username);
+								ac.restore(cat);
 							}
 						} else if (val.getNodeName().equals("documents")) {
 							NodeList docnodes = val.getElementsByTagName("doc");

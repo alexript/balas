@@ -317,6 +317,17 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
+	 * Gets the field value.
+	 * 
+	 * @param fieldname
+	 *            the fieldname
+	 * @return the field value
+	 */
+	public Object getFieldValue(String fieldname) {
+		return values.get(fieldname);
+	}
+
+	/**
 	 * Gets the number.
 	 * 
 	 * @return the number
@@ -475,7 +486,9 @@ public abstract class AbstractStructuredData {
 	protected abstract void onCreate();
 
 	/**
-	 * @return
+	 * On dump.
+	 * 
+	 * @return the string builder
 	 */
 	protected abstract StringBuilder onDump();
 
@@ -499,7 +512,10 @@ public abstract class AbstractStructuredData {
 			final DBCollection coll);
 
 	/**
+	 * On restore.
+	 * 
 	 * @param dump
+	 *            the dump
 	 */
 	protected abstract void onRestore(Element dump);
 
@@ -519,8 +535,8 @@ public abstract class AbstractStructuredData {
 	/**
 	 * Restore.
 	 * 
-	 * @param cat
-	 *            the xmldump
+	 * @param dump
+	 *            the dump
 	 */
 	public void restore(Element dump) {
 

@@ -40,7 +40,7 @@ import com.mongodb.DBObject;
  * 
  * @author alexript
  */
-public abstract class AbstractCatalog extends AbstractStructuredData implements
+public class AbstractCatalog extends AbstractStructuredData implements
 		IScriptableObject {
 	// TODO: add periodic catalogs
 	// TODO: add groups
@@ -101,6 +101,30 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	@Override
 	protected void addFindAllQueryParameters(final BasicDBObject q) {
 		return;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addFindLastNumberParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addFindLastNumberParams(BasicDBObject w) {
+		return;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see net.autosauler.ballance.server.model.AbstractStructuredData#
+	 * addGetRecordParams(com.mongodb.BasicDBObject)
+	 */
+	@Override
+	protected void addGetRecordParams(BasicDBObject query) {
+		return;
+
 	}
 
 	/*
@@ -256,13 +280,6 @@ public abstract class AbstractCatalog extends AbstractStructuredData implements
 	protected StringBuilder onDump() {
 		return null;
 	}
-
-	/**
-	 * On generate default script.
-	 * 
-	 * @return the string
-	 */
-	protected abstract String onGenerateDefaultScript();
 
 	/*
 	 * (non-Javadoc)

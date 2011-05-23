@@ -31,13 +31,17 @@ public class VM {
 
 	/** The vm. */
 	private CajuScriptEngine vm = null;
+	private String mydomain;
+	private Catalogs catalogs;
 
 	/**
 	 * Instantiates a new vM.
 	 */
-	public VM() {
+	public VM(String domain) {
 		if (vm == null) {
 			try {
+				mydomain = domain;
+				catalogs = new Catalogs(mydomain);
 				vm = new CajuScriptEngine();
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -89,8 +93,10 @@ public class VM {
 	 */
 	private void initContext() {
 		if (vm != null) {
+			vm.put("Catalogs", catalogs);
 			String script = "import java.lang\n";
-			script += "import com.allen_sauer.gwt.log.client.Log";
+			script += "import com.allen_sauer.gwt.log.client.Log\n";
+			script += "import net.autosauler.ballance.server.vm.Catalog\n";
 			eval(script);
 
 		} else {

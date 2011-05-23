@@ -23,9 +23,6 @@ import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.CatalogService;
 import net.autosauler.ballance.server.model.AbstractCatalog;
-import net.autosauler.ballance.server.model.Partner;
-import net.autosauler.ballance.server.model.PayMethod;
-import net.autosauler.ballance.server.model.Tarifs;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -58,15 +55,15 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		String login = HttpUtilities.getUserLogo(httpSession);
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new Partner(domain, login);
+				c = new AbstractCatalog("partners", domain, login);
 			}
 		} else if (catalogname.equals("paymethod")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new PayMethod(domain, login);
+				c = new AbstractCatalog("paymethod", domain, login);
 			}
 		} else if (catalogname.equals("tarifs")) {
 			if (role.isAdmin() || role.isFinances() || role.isManager()) {
-				c = new Tarifs(domain, login);
+				c = new AbstractCatalog("tarifs", domain, login);
 			}
 		}
 		if (c != null) {
@@ -90,13 +87,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		String login = HttpUtilities.getUserLogo(httpSession);
 
 		if (catalogname.equals("partners")) {
-			c = new Partner(domain, login);
+			c = new AbstractCatalog("partners", domain, login);
 
 		} else if (catalogname.equals("paymethod")) {
-			c = new PayMethod(domain, login);
+			c = new AbstractCatalog("paymethod", domain, login);
 
 		} else if (catalogname.equals("tarifs")) {
-			c = new Tarifs(domain, login);
+			c = new AbstractCatalog("tarifs", domain, login);
 		}
 		if (c != null) {
 			set = c.findAll();
@@ -118,13 +115,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
-			c = new Partner(domain, number);
+			c = new AbstractCatalog("partners", domain, number);
 
 		} else if (catalogname.equals("paymethod")) {
-			c = new PayMethod(domain, number);
+			c = new AbstractCatalog("paymethod", domain, number);
 
 		} else if (catalogname.equals("tarifs")) {
-			c = new Tarifs(domain, number);
+			c = new AbstractCatalog("tarifs", domain, number);
 
 		}
 		if (c != null) {
@@ -148,13 +145,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		String login = HttpUtilities.getUserLogo(httpSession);
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
-			c = new Partner(domain, login);
+			c = new AbstractCatalog("partners", domain, login);
 
 		} else if (catalogname.equals("paymethod")) {
-			c = new PayMethod(domain, login);
+			c = new AbstractCatalog("paymethod", domain, login);
 
 		} else if (catalogname.equals("tarifs")) {
-			c = new Tarifs(domain, login);
+			c = new AbstractCatalog("tarifs", domain, login);
 
 		}
 		if (c != null) {
@@ -178,13 +175,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		String login = HttpUtilities.getUserLogo(httpSession);
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
-			c = new Partner(domain, login);
+			c = new AbstractCatalog("partners", domain, login);
 
 		} else if (catalogname.equals("paymethod")) {
-			c = new PayMethod(domain, login);
+			c = new AbstractCatalog("paymethod", domain, login);
 
 		} else if (catalogname.equals("tarifs")) {
-			c = new Tarifs(domain, login);
+			c = new AbstractCatalog("tarifs", domain, login);
 
 		}
 		if (c != null) {
@@ -209,15 +206,15 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new Partner(domain, number);
+				c = new AbstractCatalog("partners", domain, number);
 			}
 		} else if (catalogname.equals("paymethod")) {
 			if (role.isAdmin()) {
-				c = new PayMethod(domain, number);
+				c = new AbstractCatalog("paymethod", domain, number);
 			}
 		} else if (catalogname.equals("tarifs")) {
 			if (role.isAdmin()) {
-				c = new Tarifs(domain, number);
+				c = new AbstractCatalog("tarifs", domain, number);
 
 			}
 		}
@@ -246,17 +243,17 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new Partner(domain, number);
+				c = new AbstractCatalog("partners", domain, number);
 
 			}
 		} else if (catalogname.equals("paymethod")) {
 			if (role.isAdmin()) {
-				c = new PayMethod(domain, number);
+				c = new AbstractCatalog("paymethod", domain, number);
 
 			}
 		} else if (catalogname.equals("tarifs")) {
 			if (role.isAdmin()) {
-				c = new Tarifs(domain, number);
+				c = new AbstractCatalog("tarifs", domain, number);
 
 			}
 		}
@@ -284,17 +281,17 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		AbstractCatalog c = null;
 		if (catalogname.equals("partners")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new Partner(domain, number);
+				c = new AbstractCatalog("partners", domain, number);
 
 			}
 		} else if (catalogname.equals("paymethod")) {
 			if (role.isAdmin() || role.isManager()) {
-				c = new PayMethod(domain, number);
+				c = new AbstractCatalog("paymethod", domain, number);
 
 			}
 		} else if (catalogname.equals("tarifs")) {
 			if (role.isAdmin() || role.isFinances() || role.isManager()) {
-				c = new Tarifs(domain, number);
+				c = new AbstractCatalog("tarifs", domain, number);
 
 			}
 		}
