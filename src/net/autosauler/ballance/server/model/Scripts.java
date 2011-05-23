@@ -186,6 +186,15 @@ public class Scripts {
 		}
 	}
 
+	public Object call(String funcname, Object... args) {
+		Object result = null;
+		VM vm = vms.get(domain);
+		if (vm != null) {
+			result = vm.call(funcname, args);
+		}
+		return result;
+	}
+
 	/**
 	 * Eval.
 	 * 
@@ -233,7 +242,7 @@ public class Scripts {
 		if (vm != null) {
 
 			try {
-				eval = vm.eval(evalstring); // TODO: add input hashtable
+				eval = vm.call(evalstring, input);
 
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -344,7 +353,7 @@ public class Scripts {
 		}
 		if ((txt == null) || txt.isEmpty()) {
 			if (domain.equals("127.0.0.1") && name.equals("global")) {
-				txt = "$java.lang\nLog.error('Global script evaluated');\n";
+				txt = "import java.lang\nLog.error('Global script evaluated')\n";
 			}
 			if (caller != null) {
 				txt = caller.generateDefaultScript();

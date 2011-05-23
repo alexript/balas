@@ -119,7 +119,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("OnActivate();");
+				script.eval("OnActivate()");
 				// TODO: do it right
 
 				setActive(true);
@@ -202,13 +202,13 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("$java.lang\n$com.allen_sauer.gwt.log.client.Log\n\n");
-		sb.append("OnCreate() #\n Log.error('method OnCreate not defined'); \n#\n\n");
-		sb.append("OnTrash() #\n Log.error('method OnTrash not defined'); \n#\n\n");
-		sb.append("OnRestore() #\n Log.error('method OnRestore not defined'); \n#\n\n");
-		sb.append("OnUpdate() #\n Log.error('method OnUpdate not defined'); \n#\n\n");
-		sb.append("OnActivate() #\n Log.error('method OnActivate not defined'); \n#\n\n");
-		sb.append("OnUnactivate() #\n Log.error('method OnUnactivate not defined'); \n#\n\n");
+		sb.append("import java.lang\nimport com.allen_sauer.gwt.log.client.Log\n\n");
+		sb.append("function OnCreate()\n Log.error('method OnCreate not defined')\nend\n\n");
+		sb.append("function OnTrash()\n Log.error('method OnTrash not defined')\nend\n\n");
+		sb.append("function OnRestore()\n Log.error('method OnRestore not defined')\nend\n\n");
+		sb.append("function OnUpdate()\n Log.error('method OnUpdate not defined')\nend\n\n");
+		sb.append("function OnActivate()\n Log.error('method OnActivate not defined')\nend\n\n");
+		sb.append("function OnUnactivate()\n Log.error('method OnUnactivate not defined')\nend\n\n");
 
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
@@ -216,8 +216,9 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			String n = i.next();
 			String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
 			String name = "On" + nn + "Change";
-			sb.append(name + "() #\n Log.error('method " + name
-					+ " not defined'); \n#\n\n");
+			sb.append("// must return HashTable\n");
+			sb.append("function " + name + "(hashTable)\n Log.error('method "
+					+ name + " not defined');\n return hashTable;\nend\n\n");
 		}
 
 		if (hasTables()) {
@@ -237,8 +238,8 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 					String nn = Character.toUpperCase(field.charAt(0))
 							+ field.substring(1);
 					String method = prefix + nn + "Change";
-					sb.append(method + "() #\n Log.error('method " + method
-							+ " not defined'); \n#\n\n");
+					sb.append("function " + method + "()\n Log.error('method "
+							+ method + " not defined')\nend\n\n");
 				}
 
 			}
@@ -385,7 +386,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	protected void onCreate() {
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("OnCreate();");
+		script.eval("OnCreate()");
 		// TODO: do it right
 	}
 
@@ -499,7 +500,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 	protected void onUpdate() {
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("OnUpdate();");
+		script.eval("OnUpdate()");
 		// TODO: do it right
 	}
 
@@ -514,7 +515,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		super.restore();
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("OnRestore();");
+		script.eval("OnRestore()");
 		// TODO: do it right
 
 	}
@@ -627,7 +628,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 		super.trash();
 		Scripts script = new Scripts(this, getDomain(), "document."
 				+ getSuffix());
-		script.eval("OnTrash();");
+		script.eval("OnTrash()");
 		// TODO: do it right
 
 	}
@@ -640,7 +641,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			if (onUnActivation()) {
 				Scripts script = new Scripts(this, getDomain(), "document."
 						+ getSuffix());
-				script.eval("OnUnactivate();");
+				script.eval("OnUnactivate()");
 				// TODO: do it right
 
 				setActive(false);

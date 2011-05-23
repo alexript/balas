@@ -16,7 +16,6 @@
 
 package net.autosauler.ballance.server.vm;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import org.cajuscript.CajuScriptEngine;
@@ -31,7 +30,7 @@ import com.allen_sauer.gwt.log.client.Log;
 public class VM {
 
 	/** The vm. */
-	private ScriptEngine vm = null;
+	private CajuScriptEngine vm = null;
 
 	/**
 	 * Instantiates a new vM.
@@ -48,6 +47,22 @@ public class VM {
 		}
 	}
 
+	public Object call(String funcname, Object... args) {
+		Object obj = null;
+		if (vm != null) {
+			try {
+				obj = vm.invokeFunction(funcname, args);
+			} catch (ScriptException e) {
+				Log.error(e.getMessage());
+				obj = null;
+			} catch (NoSuchMethodException e) {
+				Log.error(e.getMessage());
+				obj = null;
+			}
+		}
+		return obj;
+	}
+
 	/**
 	 * Eval.
 	 * 
@@ -60,7 +75,7 @@ public class VM {
 		Object obj = null;
 		if (vm != null) {
 			try {
-				obj = vm.eval(str);
+				obj = vm.eval("caju.syntax: CajuBasic\n" + str);
 			} catch (ScriptException e) {
 				Log.error(e.getMessage());
 				obj = null;
@@ -74,8 +89,8 @@ public class VM {
 	 */
 	private void initContext() {
 		if (vm != null) {
-			String script = "$java.lang\n";
-			script += "$com.allen_sauer.gwt.log.client.Log";
+			String script = "import java.lang\n";
+			script += "import com.allen_sauer.gwt.log.client.Log";
 			eval(script);
 
 		} else {

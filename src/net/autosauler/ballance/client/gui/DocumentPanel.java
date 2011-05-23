@@ -225,7 +225,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
 		String nn = Character.toUpperCase(field.charAt(0)) + field.substring(1);
-		hf.setChangeHandler("On" + nn + "Change();", this);
+		hf.setChangeHandler("On" + nn + "Change", this);
 
 		fields.put(field, hf);
 	}
