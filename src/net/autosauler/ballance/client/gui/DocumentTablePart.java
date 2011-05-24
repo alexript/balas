@@ -40,6 +40,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -57,7 +58,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public class DocumentTablePart extends Composite {
+public class DocumentTablePart extends Composite implements IFieldChangeHandler {
 
 	/** The title. */
 	private final String title;
@@ -107,14 +108,18 @@ public class DocumentTablePart extends Composite {
 	/** The defaultvalues. */
 	private final HashMap<String, Object> defaultvalues;
 
+	private final String tablename;
+
 	/**
 	 * Instantiates a new document table part.
 	 * 
 	 * @param title
 	 *            the title
+	 * @param tablename
 	 */
-	public DocumentTablePart(String title) {
+	public DocumentTablePart(String title, String tablename) {
 		this.title = title;
+		this.tablename = tablename;
 		defaultvalues = new HashMap<String, Object>();
 		datatypes = new HashMap<String, Integer>();
 
@@ -144,8 +149,14 @@ public class DocumentTablePart extends Composite {
 			final Object defval, final Object helper) {
 
 		if (iseditable) {
+			String prefix = "On" + Character.toUpperCase(tablename.charAt(0))
+					+ tablename.substring(1);
+			String nn = Character.toUpperCase(field.charAt(0))
+					+ field.substring(1);
+			String method = prefix + nn + "Change";
+
 			DataTypeFactory.addEditableCell(cellTable, name, field, type,
-					width, defval, helper);
+					width, defval, helper, this, method);
 		} else {
 			DataTypeFactory.addCell(cellTable, name, field, type, width,
 					defval, helper);
@@ -325,6 +336,20 @@ public class DocumentTablePart extends Composite {
 		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>(
 				dataset);
 		return ds;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.gui.IFieldChangeHandler#handleFieldChange
+	 * (java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void handleFieldChange(String tag, String newvalueasstring) {
+		Window.alert("Call " + tag + " for new value " + newvalueasstring);
+		// TODO Auto-generated method stub
+
 	}
 
 	/**

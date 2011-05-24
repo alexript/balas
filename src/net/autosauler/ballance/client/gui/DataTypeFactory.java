@@ -161,11 +161,14 @@ public class DataTypeFactory {
 	 *            the width
 	 * @param defval
 	 *            the defval
+	 * @param tag
+	 * @param changehandler
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void addEditableCell(final CellTable table,
 			final String name, final String field, final int type,
-			final int width, final Object defval, final Object helper) {
+			final int width, final Object defval, final Object helper,
+			final IFieldChangeHandler changehandler, final String tag) {
 		Column column = null;
 
 		if (type == DataTypes.DT_BOOLEAN) {
@@ -178,6 +181,21 @@ public class DataTypeFactory {
 							.fromMapping(type, map.get(field));
 				}
 			};
+
+			((Column<HashMap<String, Object>, Boolean>) column)
+					.setFieldUpdater(new FieldUpdater<HashMap<String, Object>, Boolean>() {
+
+						@Override
+						public void update(int index,
+								HashMap<String, Object> object, Boolean value) {
+							object.put(field, value);
+							if (changehandler != null) {
+								changehandler.handleFieldChange(tag,
+										DataTypes.toString(type, value));
+							}
+
+						}
+					});
 
 		} else if (type == DataTypes.DT_DATE) {
 			column = new Column<HashMap<String, Object>, Date>(
@@ -196,6 +214,10 @@ public class DataTypeFactory {
 				public void update(int index, HashMap<String, Object> object,
 						Date value) {
 					object.put(field, DataTypes.toMapping(type, value));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(tag,
+								DataTypes.toString(type, value));
+					}
 
 				}
 			});
@@ -240,6 +262,11 @@ public class DataTypeFactory {
 											String value) {
 										object.put(field, DataTypes.toMapping(
 												type, value));
+										if (changehandler != null) {
+											changehandler.handleFieldChange(
+													tag, DataTypes.toString(
+															type, value));
+										}
 
 									}
 								});
@@ -315,6 +342,17 @@ public class DataTypeFactory {
 													.toMapping(type,
 															result.get(value)));
 										}
+										if (changehandler != null) {
+											changehandler.handleFieldChange(
+													tag,
+													DataTypes
+															.toString(
+																	type,
+																	DataTypes
+																			.fromMapping(
+																					type,
+																					object.get(field))));
+										}
 									}
 								});
 
@@ -356,6 +394,12 @@ public class DataTypeFactory {
 						String value) {
 					object.put(field,
 							DataTypes.toMapping(type, Integer.parseInt(value)));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(
+								tag,
+								DataTypes.toString(type,
+										Integer.parseInt(value)));
+					}
 
 				}
 			});
@@ -378,6 +422,10 @@ public class DataTypeFactory {
 						String value) {
 					object.put(field,
 							DataTypes.toMapping(type, Long.parseLong(value)));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(tag,
+								DataTypes.toString(type, Long.parseLong(value)));
+					}
 
 				}
 			});
@@ -398,8 +446,12 @@ public class DataTypeFactory {
 				@Override
 				public void update(int index, HashMap<String, Object> object,
 						String value) {
-					object.put(field, DataTypes.toMapping(type,
-							Double.parseDouble(value.replace(',', '.'))));
+					Double d = Double.parseDouble(value.replace(',', '.'));
+					object.put(field, DataTypes.toMapping(type, d));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(tag,
+								DataTypes.toString(type, d));
+					}
 
 				}
 			});
@@ -420,8 +472,12 @@ public class DataTypeFactory {
 				@Override
 				public void update(int index, HashMap<String, Object> object,
 						String value) {
-					object.put(field, DataTypes.toMapping(type,
-							Double.parseDouble(value.replace(',', '.'))));
+					Double d = Double.parseDouble(value.replace(',', '.'));
+					object.put(field, DataTypes.toMapping(type, d));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(tag,
+								DataTypes.toString(type, d));
+					}
 
 				}
 			});
@@ -443,6 +499,14 @@ public class DataTypeFactory {
 				public void update(int index, HashMap<String, Object> object,
 						String value) {
 					object.put(field, DataTypes.toMapping(type, value));
+					if (changehandler != null) {
+						changehandler.handleFieldChange(
+								tag,
+								DataTypes.toString(
+										type,
+										DataTypes.fromMapping(type,
+												object.get(field))));
+					}
 
 				}
 			});

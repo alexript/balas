@@ -31,6 +31,7 @@ import net.autosauler.ballance.shared.datatypes.Structure;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -543,36 +544,44 @@ public abstract class AbstractStructuredData {
 		DB db = Database.get(getDomain());
 		if (db != null) {
 			DBCollection coll = db.getCollection(getTableName());
+			Log.trace(getTableName());
 			NodeList recordsets = dump.getElementsByTagName("records");
 
 			for (int i = 0; i < recordsets.getLength(); i++) {
 				Element recordset = (Element) recordsets.item(i);
-				NodeList records = recordset.getElementsByTagName("record");
-				if (records.getLength() > 0) {
+				if (recordset.getParentNode() == dump) {
+					NodeList records = recordset.getElementsByTagName("record");
+					if (records.getLength() > 0) {
 
-					BasicDBObject q = new BasicDBObject();
-					q.put("domain", getDomain());
-					Database.retain();
-					coll.remove(q);
+						BasicDBObject q = new BasicDBObject();
+						q.put("domain", getDomain());
+						Database.retain();
+						coll.remove(q);
 
-					for (int j = 0; j < records.getLength(); j++) {
-						BasicDBObject doc = new BasicDBObject();
-						Element record = (Element) records.item(j);
-						NodeList fields = record.getElementsByTagName("field");
-						for (int k = 0; k < fields.getLength(); k++) {
-							Element field = (Element) fields.item(k);
-							String name = field.getAttribute("name");
-							if (name.equals("domain")) {
-								doc.put("domain", getDomain());
-							} else {
+						for (int j = 0; j < records.getLength(); j++) {
+							Log.trace("record");
+							BasicDBObject doc = new BasicDBObject();
+							Element record = (Element) records.item(j);
+							NodeList fields = record
+									.getElementsByTagName("field");
+							for (int k = 0; k < fields.getLength(); k++) {
+								Element field = (Element) fields.item(k);
+								String name = field.getAttribute("name");
+								if (name.equals("domain")) {
+									doc.put("domain", getDomain());
+								} else {
 
-								int type = struct.getType(name);
-								String sval = field.getAttribute("value");
-								doc.put(name, DataTypes.fromString(type, sval));
+									int type = struct.getType(name);
+									String sval = field.getAttribute("value");
+									Log.error("field name=" + name + " value="
+											+ sval);
+									doc.put(name,
+											DataTypes.fromString(type, sval));
+								}
 							}
+							Log.trace("insert");
+							coll.insert(doc);
 						}
-
-						coll.insert(doc);
 					}
 				}
 			}
