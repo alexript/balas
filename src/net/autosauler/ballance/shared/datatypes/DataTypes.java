@@ -119,17 +119,37 @@ public class DataTypes {
 				obj = new Date(Long.parseLong(val));
 			}
 		} else if (type == DataTypes.DT_DOUBLE) {
-			obj = Double.parseDouble(val);
+			if ((val == null) || val.isEmpty()) {
+				obj = new Double(0.0D);
+			} else {
+				obj = Double.parseDouble(val);
+			}
 		} else if (type == DataTypes.DT_MONEY) {
-			obj = Double.parseDouble(val);
+			if ((val == null) || val.isEmpty()) {
+				obj = new Double(0.0D);
+			} else {
+				obj = Double.parseDouble(val);
+			}
 		} else if (type == DataTypes.DT_INT) {
-			obj = Integer.parseInt(val);
+			if ((val == null) || val.isEmpty()) {
+				obj = new Integer(0);
+			} else {
+				obj = Integer.parseInt(val);
+			}
 		} else if ((type == DataTypes.DT_LONG)
 				|| (type == DataTypes.DT_CATALOGRECORD)
 				|| (type == DataTypes.DT_DOCUMENTRECORD)) {
-			obj = Long.parseLong(val);
+			if ((val == null) || val.isEmpty()) {
+				obj = new Long(0L);
+			} else {
+				obj = Long.parseLong(val);
+			}
 		} else if (type == DataTypes.DT_BOOLEAN) {
-			obj = Boolean.parseBoolean(val);
+			if ((val == null) || val.isEmpty()) {
+				obj = new Boolean(true);
+			} else {
+				obj = Boolean.parseBoolean(val);
+			}
 		} else {
 			obj = val;
 		}

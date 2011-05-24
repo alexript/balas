@@ -72,7 +72,8 @@ public class Scripts {
 
 				String txt;
 				try {
-					txt = Base64.encodeObject((String) myDoc.get("text"));
+					txt = Base64.encodeBytes(((String) myDoc.get("text"))
+							.getBytes("UTF-8"));
 					sb.append("<script name=\"");
 					sb.append((String) myDoc.get("name"));
 					sb.append("\">");
