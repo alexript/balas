@@ -630,6 +630,18 @@ public abstract class AbstractStructuredData {
 	}
 
 	/**
+	 * Sets the field value.
+	 * 
+	 * @param fieldname
+	 *            the fieldname
+	 * @param val
+	 *            the val
+	 */
+	public void setFieldValue(String fieldname, Object val) {
+		values.set(fieldname, val);
+	}
+
+	/**
 	 * Sets the number.
 	 * 
 	 * @param number

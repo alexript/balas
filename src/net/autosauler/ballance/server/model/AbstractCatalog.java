@@ -21,14 +21,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.script.ScriptException;
+
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.struct.StructureFactory;
+import net.autosauler.ballance.server.vm.Catalog;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import org.w3c.dom.Element;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -138,10 +142,10 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("import java.lang\nimport com.allen_sauer.gwt.log.client.Log\n\n");
-		sb.append("function OnCreate()\n Log.error('method OnCreate not defined')\nend\n\n");
-		sb.append("function OnTrash()\n Log.error('method OnTrash not defined')\nend\n\n");
-		sb.append("function OnRestore()\n Log.error('method OnRestore not defined')\nend\n\n");
-		sb.append("function OnUpdate()\n Log.error('method OnUpdate not defined')\nend\n\n");
+		sb.append("function OnCreate(record)\n Log.error('method OnCreate not defined')\nend\n\n");
+		sb.append("function OnTrash(record)\n Log.error('method OnTrash not defined')\nend\n\n");
+		sb.append("function OnRestore(record)\n Log.error('method OnRestore not defined')\nend\n\n");
+		sb.append("function OnUpdate(record)\n Log.error('method OnUpdate not defined')\nend\n\n");
 
 		Set<String> names = struct.getNames();
 		Iterator<String> i = names.iterator();
@@ -267,8 +271,14 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	protected void onCreate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("OnCreate()");
-		// TODO: do it right
+		try {
+			script.call("OnCreate", new Catalog(this));
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+		}
+
 	}
 
 	/*
@@ -331,8 +341,14 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	protected void onUpdate() {
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("OnUpdate()");
-		// TODO: do it right
+
+		try {
+			script.call("OnUpdate", new Catalog(this));
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+		}
 	}
 
 	/*
@@ -346,8 +362,14 @@ public class AbstractCatalog extends AbstractStructuredData implements
 		super.restore();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("OnRestore()");
-		// TODO: do it right
+
+		try {
+			script.call("OnRestore", new Catalog(this));
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+		}
 
 	}
 
@@ -371,8 +393,14 @@ public class AbstractCatalog extends AbstractStructuredData implements
 		super.trash();
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
-		script.eval("OnTrash()");
-		// TODO: do it right
+
+		try {
+			script.call("OnTrash", new Catalog(this));
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+		}
 
 	}
 

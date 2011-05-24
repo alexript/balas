@@ -31,6 +31,16 @@ public class Catalog {
 	/**
 	 * Instantiates a new catalog.
 	 * 
+	 * @param catimpl
+	 *            the catimpl
+	 */
+	public Catalog(final AbstractCatalog catimpl) {
+		impl = catimpl;
+	}
+
+	/**
+	 * Instantiates a new catalog.
+	 * 
 	 * @param domain
 	 *            the domain
 	 * @param catalogname
@@ -51,6 +61,18 @@ public class Catalog {
 	 */
 	public Object get(String fieldname) {
 		return impl.getFieldValue(fieldname);
+	}
+
+	/**
+	 * Sets the.
+	 * 
+	 * @param fieldname
+	 *            the fieldname
+	 * @param val
+	 *            the val
+	 */
+	public void set(String fieldname, Object val) {
+		impl.setFieldValue(fieldname, val);
 	}
 
 }
