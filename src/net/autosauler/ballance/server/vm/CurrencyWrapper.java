@@ -16,36 +16,38 @@
 
 package net.autosauler.ballance.server.vm;
 
+import java.util.Date;
+
+import net.autosauler.ballance.server.model.Currency;
+
 /**
- * The Class Catalogs.
+ * The Class CurrencyWrapper.
  * 
  * @author alexript
  */
-public class Catalogs {
-
-	/** The domain. */
-	private final String domain;
+public class CurrencyWrapper {
 
 	/**
-	 * Instantiates a new catalogs.
+	 * Gets the.
 	 * 
-	 * @param domain
-	 *            the domain
+	 * @param mnemo
+	 *            the mnemo
+	 * @return the double
 	 */
-	public Catalogs(String domain) {
-		this.domain = domain;
+	public Double get(String mnemo) {
+		return Currency.get(mnemo);
 	}
 
 	/**
 	 * Gets the.
 	 * 
-	 * @param catalogname
-	 *            the catalogname
-	 * @param number
-	 *            the number
-	 * @return the catalog
+	 * @param mnemo
+	 *            the mnemo
+	 * @param date
+	 *            the date
+	 * @return the double
 	 */
-	public CatalogWrapper get(String catalogname, Long number) {
-		return new CatalogWrapper(domain, catalogname, number);
+	public Double get(String mnemo, Date date) {
+		return Currency.get(mnemo, date);
 	}
 }

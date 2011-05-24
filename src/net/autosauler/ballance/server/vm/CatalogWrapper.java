@@ -16,36 +16,63 @@
 
 package net.autosauler.ballance.server.vm;
 
+import net.autosauler.ballance.server.model.AbstractCatalog;
+
 /**
- * The Class Catalogs.
+ * The Class CatalogWrapper.
  * 
  * @author alexript
  */
-public class Catalogs {
+public class CatalogWrapper {
 
-	/** The domain. */
-	private final String domain;
+	/** The impl. */
+	private final AbstractCatalog impl;
 
 	/**
-	 * Instantiates a new catalogs.
+	 * Instantiates a new catalog.
+	 * 
+	 * @param catimpl
+	 *            the catimpl
+	 */
+	public CatalogWrapper(final AbstractCatalog catimpl) {
+		impl = catimpl;
+	}
+
+	/**
+	 * Instantiates a new catalog.
 	 * 
 	 * @param domain
 	 *            the domain
+	 * @param catalogname
+	 *            the catalogname
+	 * @param number
+	 *            the number
 	 */
-	public Catalogs(String domain) {
-		this.domain = domain;
+	public CatalogWrapper(String domain, String catalogname, Long number) {
+		impl = new AbstractCatalog(catalogname, domain, number);
 	}
 
 	/**
 	 * Gets the.
 	 * 
-	 * @param catalogname
-	 *            the catalogname
-	 * @param number
-	 *            the number
-	 * @return the catalog
+	 * @param fieldname
+	 *            the fieldname
+	 * @return the object
 	 */
-	public CatalogWrapper get(String catalogname, Long number) {
-		return new CatalogWrapper(domain, catalogname, number);
+	public Object get(String fieldname) {
+		return impl.getFieldValue(fieldname);
 	}
+
+	/**
+	 * Sets the.
+	 * 
+	 * @param fieldname
+	 *            the fieldname
+	 * @param val
+	 *            the val
+	 */
+	public void set(String fieldname, Object val) {
+		impl.setFieldValue(fieldname, val);
+	}
+
 }

@@ -16,63 +16,55 @@
 
 package net.autosauler.ballance.server.vm;
 
-import net.autosauler.ballance.server.model.AbstractCatalog;
+import net.autosauler.ballance.server.model.GlobalSettings;
 
 /**
- * The Class Catalog.
+ * The Class Constants.
  * 
  * @author alexript
  */
-public class Catalog {
+public class Constants {
 
-	/** The impl. */
-	private final AbstractCatalog impl;
-
-	/**
-	 * Instantiates a new catalog.
-	 * 
-	 * @param catimpl
-	 *            the catimpl
-	 */
-	public Catalog(final AbstractCatalog catimpl) {
-		impl = catimpl;
-	}
+	/** The settings. */
+	private final GlobalSettings settings;
 
 	/**
-	 * Instantiates a new catalog.
+	 * Instantiates a new constants.
 	 * 
 	 * @param domain
 	 *            the domain
-	 * @param catalogname
-	 *            the catalogname
-	 * @param number
-	 *            the number
 	 */
-	public Catalog(String domain, String catalogname, Long number) {
-		impl = new AbstractCatalog(catalogname, domain, number);
+	public Constants(String domain) {
+		settings = new GlobalSettings(domain);
 	}
 
 	/**
 	 * Gets the.
 	 * 
-	 * @param fieldname
-	 *            the fieldname
-	 * @return the object
+	 * @param name
+	 *            the name
+	 * @param defval
+	 *            the defval
+	 * @return the int
 	 */
-	public Object get(String fieldname) {
-		return impl.getFieldValue(fieldname);
+	public int get(String name, Integer defval) {
+		int i = settings.get(name, defval);
+		settings.save();
+		return i;
 	}
 
 	/**
-	 * Sets the.
+	 * Gets the.
 	 * 
-	 * @param fieldname
-	 *            the fieldname
-	 * @param val
-	 *            the val
+	 * @param name
+	 *            the name
+	 * @param defval
+	 *            the defval
+	 * @return the string
 	 */
-	public void set(String fieldname, Object val) {
-		impl.setFieldValue(fieldname, val);
+	public String get(String name, String defval) {
+		String s = settings.get(name, defval);
+		settings.save();
+		return s;
 	}
-
 }

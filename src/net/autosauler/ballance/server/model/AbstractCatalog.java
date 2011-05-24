@@ -25,7 +25,7 @@ import javax.script.ScriptException;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.struct.StructureFactory;
-import net.autosauler.ballance.server.vm.Catalog;
+import net.autosauler.ballance.server.vm.CatalogWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -272,7 +272,7 @@ public class AbstractCatalog extends AbstractStructuredData implements
 		Scripts script = new Scripts(this, getDomain(), "catalog."
 				+ getSuffix());
 		try {
-			script.call("OnCreate", new Catalog(this));
+			script.call("OnCreate", new CatalogWrapper(this));
 		} catch (ScriptException e) {
 			Log.error(e.getMessage());
 		} catch (NoSuchMethodException e) {
@@ -343,7 +343,7 @@ public class AbstractCatalog extends AbstractStructuredData implements
 				+ getSuffix());
 
 		try {
-			script.call("OnUpdate", new Catalog(this));
+			script.call("OnUpdate", new CatalogWrapper(this));
 		} catch (ScriptException e) {
 			Log.error(e.getMessage());
 		} catch (NoSuchMethodException e) {
@@ -364,7 +364,7 @@ public class AbstractCatalog extends AbstractStructuredData implements
 				+ getSuffix());
 
 		try {
-			script.call("OnRestore", new Catalog(this));
+			script.call("OnRestore", new CatalogWrapper(this));
 		} catch (ScriptException e) {
 			Log.error(e.getMessage());
 		} catch (NoSuchMethodException e) {
@@ -395,7 +395,7 @@ public class AbstractCatalog extends AbstractStructuredData implements
 				+ getSuffix());
 
 		try {
-			script.call("OnTrash", new Catalog(this));
+			script.call("OnTrash", new CatalogWrapper(this));
 		} catch (ScriptException e) {
 			Log.error(e.getMessage());
 		} catch (NoSuchMethodException e) {
