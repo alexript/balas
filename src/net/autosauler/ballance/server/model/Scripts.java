@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.script.ScriptException;
+
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.util.Base64;
 import net.autosauler.ballance.server.vm.VM;
@@ -187,7 +189,8 @@ public class Scripts {
 		}
 	}
 
-	public Object call(String funcname, Object... args) {
+	public Object call(String funcname, Object... args) throws ScriptException,
+			NoSuchMethodException {
 		Object result = null;
 		VM vm = vms.get(domain);
 		if (vm != null) {
@@ -207,7 +210,11 @@ public class Scripts {
 
 		VM vm = vms.get(domain);
 		if (vm != null) {
-			return vm.eval(cmd);
+			try {
+				return vm.eval(cmd);
+			} catch (ScriptException e) {
+				Log.error(e.getMessage());
+			}
 		}
 		return null;
 	}
@@ -222,9 +229,12 @@ public class Scripts {
 	 * @param types
 	 *            the types
 	 * @return the hash map
+	 * @throws NoSuchMethodException
+	 * @throws ScriptException
 	 */
 	public HashMap<String, String> eval(String evalstring,
-			HashMap<String, String> params, HashMap<String, Integer> types) {
+			HashMap<String, String> params, HashMap<String, Integer> types)
+			throws ScriptException, NoSuchMethodException {
 
 		Hashtable<String, Object> input = new Hashtable<String, Object>();
 		Set<String> names = params.keySet();
@@ -242,13 +252,8 @@ public class Scripts {
 		Object eval = null;
 		if (vm != null) {
 
-			try {
-				eval = vm.call(evalstring, input);
+			eval = vm.call(evalstring, input);
 
-			} catch (Exception e) {
-				Log.error(e.getMessage());
-				eval = null;
-			}
 		}
 		// ---------------------
 		if (eval != null) {

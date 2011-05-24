@@ -51,18 +51,13 @@ public class VM {
 		}
 	}
 
-	public Object call(String funcname, Object... args) {
+	public Object call(String funcname, Object... args) throws ScriptException,
+			NoSuchMethodException {
 		Object obj = null;
 		if (vm != null) {
-			try {
-				obj = vm.invokeFunction(funcname, args);
-			} catch (ScriptException e) {
-				Log.error(e.getMessage());
-				obj = null;
-			} catch (NoSuchMethodException e) {
-				Log.error(e.getMessage());
-				obj = null;
-			}
+
+			obj = vm.invokeFunction(funcname, args);
+
 		}
 		return obj;
 	}
@@ -73,17 +68,15 @@ public class VM {
 	 * @param str
 	 *            the str
 	 * @return the object
+	 * @throws ScriptException
 	 */
-	public Object eval(String str) {
+	public Object eval(String str) throws ScriptException {
 
 		Object obj = null;
 		if (vm != null) {
-			try {
-				obj = vm.eval("caju.syntax: CajuBasic\n" + str);
-			} catch (ScriptException e) {
-				Log.error(e.getMessage());
-				obj = null;
-			}
+
+			obj = vm.eval("caju.syntax: CajuBasic\n" + str);
+
 		}
 		return obj;
 	}
@@ -97,7 +90,12 @@ public class VM {
 			String script = "import java.lang\n";
 			script += "import com.allen_sauer.gwt.log.client.Log\n";
 			script += "import net.autosauler.ballance.server.vm.Catalog\n";
-			eval(script);
+
+			try {
+				eval(script);
+			} catch (ScriptException e) {
+				Log.error(e.getMessage());
+			}
 
 		} else {
 			Log.error("VM IS NULL. NOT INIT");

@@ -218,7 +218,7 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 			String name = "On" + nn + "Change";
 			sb.append("// must return HashTable\n");
 			sb.append("function " + name + "(hashTable)\n Log.error('method "
-					+ name + " not defined');\n return hashTable;\nend\n\n");
+					+ name + " not defined')\n return hashTable\nend\n\n");
 		}
 
 		if (hasTables()) {
@@ -238,8 +238,10 @@ public abstract class AbstractDocument extends AbstractStructuredData implements
 					String nn = Character.toUpperCase(field.charAt(0))
 							+ field.substring(1);
 					String method = prefix + nn + "Change";
-					sb.append("function " + method + "()\n Log.error('method "
-							+ method + " not defined')\nend\n\n");
+					sb.append("// must return HashTable\n");
+					sb.append("function " + method
+							+ "(hashTable)\n Log.error('method " + method
+							+ " not defined')\n return hashTable\nend\n\n");
 				}
 
 			}

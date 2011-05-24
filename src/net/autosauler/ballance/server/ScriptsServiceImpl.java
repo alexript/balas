@@ -18,12 +18,14 @@ package net.autosauler.ballance.server;
 
 import java.util.HashMap;
 
+import javax.script.ScriptException;
 import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.ScriptsService;
 import net.autosauler.ballance.server.model.Scripts;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -49,7 +51,16 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 
 		Scripts script = new Scripts(getDomain(), scriptname);
 
-		HashMap<String, String> map = script.eval(evalstring, params, types);
+		HashMap<String, String> map = null;
+		try {
+			map = script.eval(evalstring, params, types);
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+			map = null;
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+			map = null;
+		}
 
 		return map;
 	}

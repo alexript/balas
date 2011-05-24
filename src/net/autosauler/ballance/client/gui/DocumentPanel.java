@@ -941,7 +941,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 			DocumentTablePart part = new DocumentTablePart(table.getNames()
 					.getName(LocaleInfo.getCurrentLocale().getLocaleName()),
-					table.getName());
+					table.getName(), documentname);
 			parts.addPart(table.getName(), part);
 		}
 	}

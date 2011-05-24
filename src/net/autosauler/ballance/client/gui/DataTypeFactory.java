@@ -168,7 +168,7 @@ public class DataTypeFactory {
 	public static void addEditableCell(final CellTable table,
 			final String name, final String field, final int type,
 			final int width, final Object defval, final Object helper,
-			final IFieldChangeHandler changehandler, final String tag) {
+			final ITableFieldChangeHandler changehandler, final String tag) {
 		Column column = null;
 
 		if (type == DataTypes.DT_BOOLEAN) {
@@ -190,8 +190,7 @@ public class DataTypeFactory {
 								HashMap<String, Object> object, Boolean value) {
 							object.put(field, value);
 							if (changehandler != null) {
-								changehandler.handleFieldChange(tag,
-										DataTypes.toString(type, value));
+								changehandler.handleFieldChange(tag, object);
 							}
 
 						}
@@ -215,8 +214,7 @@ public class DataTypeFactory {
 						Date value) {
 					object.put(field, DataTypes.toMapping(type, value));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(tag,
-								DataTypes.toString(type, value));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}
@@ -264,8 +262,7 @@ public class DataTypeFactory {
 												type, value));
 										if (changehandler != null) {
 											changehandler.handleFieldChange(
-													tag, DataTypes.toString(
-															type, value));
+													tag, object);
 										}
 
 									}
@@ -344,14 +341,7 @@ public class DataTypeFactory {
 										}
 										if (changehandler != null) {
 											changehandler.handleFieldChange(
-													tag,
-													DataTypes
-															.toString(
-																	type,
-																	DataTypes
-																			.fromMapping(
-																					type,
-																					object.get(field))));
+													tag, object);
 										}
 									}
 								});
@@ -395,10 +385,7 @@ public class DataTypeFactory {
 					object.put(field,
 							DataTypes.toMapping(type, Integer.parseInt(value)));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(
-								tag,
-								DataTypes.toString(type,
-										Integer.parseInt(value)));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}
@@ -423,8 +410,7 @@ public class DataTypeFactory {
 					object.put(field,
 							DataTypes.toMapping(type, Long.parseLong(value)));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(tag,
-								DataTypes.toString(type, Long.parseLong(value)));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}
@@ -449,8 +435,7 @@ public class DataTypeFactory {
 					Double d = Double.parseDouble(value.replace(',', '.'));
 					object.put(field, DataTypes.toMapping(type, d));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(tag,
-								DataTypes.toString(type, d));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}
@@ -475,8 +460,7 @@ public class DataTypeFactory {
 					Double d = Double.parseDouble(value.replace(',', '.'));
 					object.put(field, DataTypes.toMapping(type, d));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(tag,
-								DataTypes.toString(type, d));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}
@@ -500,12 +484,7 @@ public class DataTypeFactory {
 						String value) {
 					object.put(field, DataTypes.toMapping(type, value));
 					if (changehandler != null) {
-						changehandler.handleFieldChange(
-								tag,
-								DataTypes.toString(
-										type,
-										DataTypes.fromMapping(type,
-												object.get(field))));
+						changehandler.handleFieldChange(tag, object);
 					}
 
 				}

@@ -40,7 +40,6 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -58,7 +57,8 @@ import com.google.gwt.view.client.SingleSelectionModel;
  * 
  * @author alexript
  */
-public class DocumentTablePart extends Composite implements IFieldChangeHandler {
+public class DocumentTablePart extends Composite implements
+		ITableFieldChangeHandler {
 
 	/** The title. */
 	private final String title;
@@ -110,6 +110,8 @@ public class DocumentTablePart extends Composite implements IFieldChangeHandler 
 
 	private final String tablename;
 
+	private final String docname;
+
 	/**
 	 * Instantiates a new document table part.
 	 * 
@@ -117,9 +119,10 @@ public class DocumentTablePart extends Composite implements IFieldChangeHandler 
 	 *            the title
 	 * @param tablename
 	 */
-	public DocumentTablePart(String title, String tablename) {
+	public DocumentTablePart(String title, String tablename, String docname) {
 		this.title = title;
 		this.tablename = tablename;
+		this.docname = docname;
 		defaultvalues = new HashMap<String, Object>();
 		datatypes = new HashMap<String, Integer>();
 
@@ -346,9 +349,59 @@ public class DocumentTablePart extends Composite implements IFieldChangeHandler 
 	 * (java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void handleFieldChange(String tag, String newvalueasstring) {
-		Window.alert("Call " + tag + " for new value " + newvalueasstring);
-		// TODO Auto-generated method stub
+	public void handleFieldChange(String tag,
+			final HashMap<String, Object> values) {
+		// Window.alert("Call " + tag + " for new value " + newvalueasstring);
+
+		HashMap<String, String> sendmap = new HashMap<String, String>();
+
+		Set<String> names = datatypes.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			if (values.containsKey(name)) {
+				sendmap.put(name, DataTypes.toString(
+						datatypes.get(name),
+						DataTypes.fromMapping(datatypes.get(name),
+								values.get(name))));
+			}
+		}
+
+		// Window.alert(datatypes.toString());
+		// Window.alert(sendmap.toString());
+
+		MainPanel.setCommInfo(true);
+		Services.scripts.eval("document." + docname, tag, sendmap, datatypes,
+				new AsyncCallback<HashMap<String, String>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+
+						new AlertDialog(caught).show();
+					}
+
+					@Override
+					public void onSuccess(HashMap<String, String> result) {
+						MainPanel.setCommInfo(false);
+
+						Set<String> names = datatypes.keySet();
+						Iterator<String> i = names.iterator();
+						while (i.hasNext()) {
+							String name = i.next();
+							if (result.containsKey(name)) {
+								values.put(name, DataTypes.toMapping(
+										datatypes.get(name),
+										DataTypes.fromString(
+												datatypes.get(name),
+												result.get(name))));
+
+							}
+						}
+						dataProvider.refresh();
+
+					}
+				});
 
 	}
 
