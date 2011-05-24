@@ -35,6 +35,7 @@ public class VM {
 	private Catalogs catalogs;
 	private CurrencyWrapper currency;
 	private Constants constants;
+	private Evaluator evaluator;
 
 	/**
 	 * Instantiates a new vM.
@@ -46,6 +47,7 @@ public class VM {
 				catalogs = new Catalogs(mydomain);
 				currency = new CurrencyWrapper();
 				constants = new Constants(mydomain);
+				evaluator = new Evaluator(this);
 				vm = new CajuScriptEngine();
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -90,12 +92,14 @@ public class VM {
 	 */
 	private void initContext() {
 		if (vm != null) {
+			vm.put("Script", evaluator);
 			vm.put("Constants", constants);
 			vm.put("Currency", currency);
 			vm.put("Catalogs", catalogs);
 			String script = "import java.lang\n";
 			script += "import java.util.Date\n";
 			script += "import com.allen_sauer.gwt.log.client.Log\n";
+			script += "import net.autosauler.ballance.server.vm.Evaluator\n";
 			script += "import net.autosauler.ballance.server.vm.Constants\n";
 			script += "import net.autosauler.ballance.server.vm.CatalogWrapper\n";
 			script += "import net.autosauler.ballance.server.vm.CurrencyWrapper\n";
