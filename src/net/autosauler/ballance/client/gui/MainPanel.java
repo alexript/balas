@@ -230,7 +230,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			w = constructTabPaneContent(new DocumentPanel("ingoods", new Image(
 					Images.menu.icoInGoods())).getListForm(),
 					M.menu.itemInGoods(), Images.menu.icoInGoods(), name);
-		} else if (name.equals("changelog")) {
+		} else if (name.equals("changelog") && !role.isGuest()) {
 			w = constructTabPaneContent(ChangeLogPanel.get(),
 					M.menu.itemChangelog(), Images.menu.icoChangelog(), name);
 		} else {

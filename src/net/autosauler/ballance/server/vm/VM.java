@@ -36,6 +36,7 @@ public class VM {
 	private CurrencyWrapper currency;
 	private Constants constants;
 	private Evaluator evaluator;
+	private Documents documents;
 
 	/**
 	 * Instantiates a new vM.
@@ -48,6 +49,7 @@ public class VM {
 				currency = new CurrencyWrapper();
 				constants = new Constants(mydomain);
 				evaluator = new Evaluator(this);
+				documents = new Documents(mydomain);
 				vm = new CajuScriptEngine();
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -96,16 +98,22 @@ public class VM {
 			vm.put("Constants", constants);
 			vm.put("Currency", currency);
 			vm.put("Catalogs", catalogs);
-			String script = "import java.lang\n";
-			script += "import java.util.Date\n";
-			script += "import com.allen_sauer.gwt.log.client.Log\n";
-			script += "import net.autosauler.ballance.server.vm.Evaluator\n";
-			script += "import net.autosauler.ballance.server.vm.Constants\n";
-			script += "import net.autosauler.ballance.server.vm.CatalogWrapper\n";
-			script += "import net.autosauler.ballance.server.vm.CurrencyWrapper\n";
+			vm.put("Documents", documents);
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("import java.lang\n");
+			sb.append("import java.util.Date\n");
+			sb.append("import com.allen_sauer.gwt.log.client.Log\n");
+			sb.append("import net.autosauler.ballance.server.vm.Evaluator\n");
+			sb.append("import net.autosauler.ballance.server.vm.Constants\n");
+			sb.append("import net.autosauler.ballance.server.vm.CatalogWrapper\n");
+			sb.append("import net.autosauler.ballance.server.vm.CurrencyWrapper\n");
+			sb.append("import net.autosauler.ballance.server.vm.Documents\n");
+			sb.append("import net.autosauler.ballance.server.vm.DocumentWrapper\n");
+			sb.append("import net.autosauler.ballance.server.vm.DoctableWrapper\n");
 
 			try {
-				eval(script);
+				eval(sb.toString());
 			} catch (ScriptException e) {
 				Log.error(e.getMessage());
 			}

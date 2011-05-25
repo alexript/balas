@@ -29,10 +29,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.autosauler.ballance.server.model.AbstractCatalog;
+import net.autosauler.ballance.server.model.AbstractDocument;
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
-import net.autosauler.ballance.server.model.IncomingGoods;
-import net.autosauler.ballance.server.model.IncomingPayment;
 import net.autosauler.ballance.server.model.Scripts;
 import net.autosauler.ballance.server.model.UserList;
 
@@ -135,10 +134,10 @@ public class Database {
 		sb.append(cat.dump());
 
 		sb.append("</catalogs>\n<documents>\n");
-		IncomingPayment payments = new IncomingPayment(domain, username);
-		sb.append(payments.dump());
-		IncomingGoods goods = new IncomingGoods(domain, username);
-		sb.append(goods.dump());
+		AbstractDocument doc = new AbstractDocument("inpay", domain, username);
+		sb.append(doc.dump());
+		doc = new AbstractDocument("ingoods", domain, username);
+		sb.append(doc.dump());
 
 		sb.append("</documents>\n");
 
@@ -366,12 +365,12 @@ public class Database {
 								Element document = (Element) docnodes.item(j);
 								String docname = document.getAttribute("name");
 								if (docname.equals("inpay")) {
-									IncomingPayment p = new IncomingPayment(
-											domain, username);
+									AbstractDocument p = new AbstractDocument(
+											"inpay", domain, username);
 									p.restore(document);
 								} else if (docname.equals("ingoods")) {
-									IncomingGoods g = new IncomingGoods(domain,
-											username);
+									AbstractDocument g = new AbstractDocument(
+											"ingoods", domain, username);
 									g.restore(document);
 								}
 							}

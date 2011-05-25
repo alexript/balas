@@ -23,8 +23,6 @@ import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.DocumentService;
 import net.autosauler.ballance.server.model.AbstractDocument;
-import net.autosauler.ballance.server.model.IncomingGoods;
-import net.autosauler.ballance.server.model.IncomingPayment;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -57,12 +55,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, number);
+				d = new AbstractDocument("inpay", domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
@@ -92,12 +90,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, login);
+				d = new AbstractDocument("inpay", domain, login);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, login);
+				d = new AbstractDocument("ingoods", domain, login);
 
 			}
 		}
@@ -127,12 +125,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, login);
+				d = new AbstractDocument("inpay", domain, login);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, login);
+				d = new AbstractDocument("ingoods", domain, login);
 
 			}
 		}
@@ -161,12 +159,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, number);
+				d = new AbstractDocument("inpay", domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
@@ -190,12 +188,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain);
+				d = new AbstractDocument("inpay", domain);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain);
+				d = new AbstractDocument("ingoods", domain);
 
 			}
 		}
@@ -220,12 +218,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, login);
+				d = new AbstractDocument("inpay", domain, login);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, login);
+				d = new AbstractDocument("ingoods", domain, login);
 
 			}
 		}
@@ -294,7 +292,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
@@ -319,12 +317,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, number);
+				d = new AbstractDocument("inpay", domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
@@ -354,12 +352,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, number);
+				d = new AbstractDocument("inpay", domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
@@ -392,12 +390,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		AbstractDocument d = null;
 		if (docname.equals("inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
-				d = new IncomingPayment(domain, number);
+				d = new AbstractDocument("inpay", domain, number);
 
 			}
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new IncomingGoods(domain, number);
+				d = new AbstractDocument("ingoods", domain, number);
 
 			}
 		}
