@@ -12,7 +12,7 @@
 			<attribute name="javadoc_location" value="file:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/doc/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/jasperreports-4.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar" sourcepath="/Users/alexript/src/cajuscript-read-only/src"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

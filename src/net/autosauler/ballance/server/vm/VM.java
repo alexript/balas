@@ -123,4 +123,10 @@ public class VM {
 		}
 	}
 
+	public void putObject(String name, Object obj) {
+		if (vm != null) {
+			vm.put(name, obj);
+		}
+	}
+
 }
