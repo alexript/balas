@@ -92,6 +92,16 @@
 		<servlet-name>structureServlet</servlet-name>
 		<url-pattern>/ballance_autosauler_net/structure</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+        <servlet-name>reportsServlet</servlet-name>
+        <servlet-class>net.autosauler.ballance.server.ReportsServiceImpl</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>reportsServlet</servlet-name>
+        <url-pattern>/ballance_autosauler_net/reports</url-pattern>
+    </servlet-mapping>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

@@ -55,4 +55,8 @@ public class Services {
 	/** The Constant structure. */
 	public static final StructureServiceAsync structure = GWT
 			.create(StructureService.class);
+
+	/** The Constant reports. */
+	public static final ReportsServiceAsync reports = GWT
+			.create(ReportsService.class);
 }
