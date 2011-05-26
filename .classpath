@@ -13,6 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar" sourcepath="/Users/alexript/src/cajuscript-read-only/src"/>
-	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar" sourcepath="/Users/alexript/src/g2-report-engine-read-only/g2-report-engine/src/main/java"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

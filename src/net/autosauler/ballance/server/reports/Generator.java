@@ -15,37 +15,35 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.reports;
 
+import java.util.Date;
+import java.util.HashMap;
+
+import net.autosauler.ballance.shared.datatypes.DataTypes;
+
 /**
- * @author alexript
+ * The Class Generator.
  * 
+ * @author alexript
  */
 public class Generator {
+
+	/**
+	 * Generate.
+	 * 
+	 * @param reportname
+	 *            the reportname
+	 * @return the string
+	 */
 	public static String generate(String reportname) {
 		if (reportname.equals("test")) {
-			TestReport report = new TestReport("Test");
-			report.setDescription("Test report");
-			report.addLabel("test label");
 
-			Query q = new Query("testquery");
-			StringBuilder sb = new StringBuilder();
+			HashMap<String, String> p = new HashMap<String, String>();
+			p.put("currency", "USD");
+			p.put("startd", DataTypes.toString(DataTypes.DT_DATE, new Date()));
 
-			sb.append("Report.addColumn('column 1')\n");
-			sb.append("Report.addColumn('column 2')\n");
-
-			sb.append("Report.putValue('Test 1 string 1')\n");
-			sb.append("Report.putValue('Test 1 string 2')\n");
-			sb.append("Report.drawRow()\n");
-
-			sb.append("Report.putValue('Test 2 string 1')\n");
-			sb.append("Report.putValue('Test 2 string 2')\n");
-			sb.append("Report.drawRow()\n");
-
-			String script = sb.toString();
-			System.out.println(script);
-			q.setScriptText(script);
-			report.addQuery(q);
-
-			return report.build();
+			Query q = new Query("127.0.0.1", "crrvalues", p);
+			System.out.println(q.getFormDescription().toString());
+			return q.getResult();
 		}
 
 		return "Uncknown report " + reportname;

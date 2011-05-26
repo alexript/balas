@@ -16,54 +16,108 @@
 package net.autosauler.ballance.server.reports;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.script.ScriptException;
 
-import net.autosauler.ballance.server.vm.VM;
+import net.autosauler.ballance.server.model.IScriptableObject;
+import net.autosauler.ballance.server.model.Scripts;
+import net.autosauler.ballance.server.vm.ReportForm;
+import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.googlecode.g2re.HTMLReportBuilder;
 import com.googlecode.g2re.domain.DataColumn;
 import com.googlecode.g2re.domain.DataQuery;
 import com.googlecode.g2re.domain.DataType;
+import com.googlecode.g2re.domain.ReportDefinition;
 import com.googlecode.g2re.html.DataElement;
 import com.googlecode.g2re.html.DataTable;
 import com.googlecode.g2re.html.GridCell;
 import com.googlecode.g2re.html.GridRow;
+import com.googlecode.g2re.html.Label;
 import com.googlecode.g2re.html.RawHTML;
 import com.googlecode.g2re.jdbc.DataSet;
 
 /**
- * @author alexript
+ * The Class Query.
  * 
+ * @author alexript
  */
-public class Query extends DataQuery {
-	private final String scriptname;
-	private String scripttext;
+public class Query extends DataQuery implements IScriptableObject {
 
-	private final DataTable table;
+	/** The report. */
+	private ReportDefinition report;
+
+	/** The scriptname. */
+	private String scriptname;
+
+	/** The table. */
+	private DataTable table;
+
+	/** The counter. */
 	private int counter;
-	private final GridRow tableHeader;
-	private final GridRow tableBody;
-	private final DataSet set;
-	private final VM vm;
-	private final List<Object> currentrow;
 
-	public Query(String reportscriptname) {
+	/** The table header. */
+	private GridRow tableHeader;
 
-		setName(reportscriptname);
-		scriptname = "report." + reportscriptname;
-		table = new DataTable();
-		tableHeader = new GridRow();
-		tableBody = new GridRow();
-		set = new DataSet();
-		currentrow = new ArrayList<Object>();
-		vm = new VM("127.0.0.1");
+	/** The table body. */
+	private GridRow tableBody;
 
-		counter = 0;
+	/** The set. */
+	private DataSet set;
 
+	/** The currentrow. */
+	private List<Object> currentrow;
+
+	/** The domain. */
+	private String domain;
+
+	/** The script. */
+	private Scripts script;
+
+	/** The params. */
+	private final HashMap<String, String> params;
+
+	/** The form. */
+	private ReportForm form;
+
+	/**
+	 * Instantiates a new query.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @param reportscriptname
+	 *            the reportscriptname
+	 */
+	public Query(String domain, String reportscriptname) {
+		initMembers(domain, reportscriptname);
+		params = new HashMap<String, String>();
 	}
 
+	/**
+	 * Instantiates a new query.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @param reportscriptname
+	 *            the reportscriptname
+	 * @param params
+	 *            the params
+	 */
+	public Query(String domain, String reportscriptname,
+			HashMap<String, String> params) {
+		initMembers(domain, reportscriptname);
+		this.params = params;
+	}
+
+	/**
+	 * Adds the column.
+	 * 
+	 * @param name
+	 *            the name
+	 */
 	@SuppressWarnings("unchecked")
 	public void addColumn(String name) {
 		DataColumn col = new DataColumn();
@@ -77,6 +131,30 @@ public class Query extends DataQuery {
 		counter++;
 	}
 
+	/**
+	 * Adds the description.
+	 * 
+	 * @param descr
+	 *            the descr
+	 */
+	public void addDescription(String descr) {
+		report.setDescription(descr);
+	}
+
+	/**
+	 * Adds the label.
+	 * 
+	 * @param text
+	 *            the text
+	 */
+	public void addLabel(String text) {
+		Label lab = new Label(text);
+		report.getWebPage().addChildElement(lab);
+	}
+
+	/**
+	 * Draw row.
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public void drawRow() {
 		set.getRows().add(currentrow.toArray(new Object[currentrow.size()]));
@@ -92,27 +170,142 @@ public class Query extends DataQuery {
 	public DataSet execute() {
 		// eval execute(this)
 		try {
-			vm.putObject("Report", this);
-			vm.eval(scripttext);
+
+			script.call("ExecuteReport", this);
+			table.getHeaderRows().add(tableHeader);
+			table.getBodyRows().add(tableBody);
+			report.getWebPage().addChildElement(table);
+
 		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
 			Log.error(e.getMessage());
 		}
 		return set;
 	}
 
-	public DataTable getTable() {
-		table.setDataQuery(this);
-		table.getHeaderRows().add(tableHeader);
-		table.getBodyRows().add(tableBody);
-		return table;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.server.model.IScriptableObject#generateDefaultScript
+	 * ()
+	 */
+	@Override
+	public String generateDefaultScript() {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("function CreateForm(form)\n");
+		sb.append("form.add('currency', 'Currency', DT_CURRENCY, 'USD')\n");
+		sb.append("form.add('startd', 'Start date', 'DT_DATE')\n");
+		sb.append("form.add('endd', 'End date', 'DT_DATE')\n");
+		sb.append("end\n\n");
+		sb.append("function ExecuteReport(report)\n");
+		sb.append("report.addLabel('Test report title')\n");
+		sb.append("report.addDescription('Test report description')\n");
+		sb.append("report.addColumn('column 1')\n");
+		sb.append("report.addColumn('column 2')\n");
+
+		sb.append("report.putValue(report.get('startd'))\n");
+		sb.append("report.putValue(Currency.get(report.get('currency'), report.get('startd')))\n");
+		sb.append("report.drawRow()\n");
+
+		sb.append("report.putValue('Test 1 string 1')\n");
+		sb.append("report.putValue('Test 1 string 2')\n");
+		sb.append("report.drawRow()\n");
+
+		sb.append("report.putValue('Test 2 string 1')\n");
+		sb.append("report.putValue('Test 2 string 2')\n");
+		sb.append("report.drawRow()\n");
+		sb.append("end\n");
+
+		String script = sb.toString();
+		return script;
 	}
 
+	/**
+	 * Gets the.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the object
+	 */
+	public Object get(String name) {
+		if (!params.containsKey(name)) {
+			return null;
+		}
+
+		return DataTypes.fromString(form.getType(name), params.get(name));
+	}
+
+	/**
+	 * Gets the form description.
+	 * 
+	 * @return the form description
+	 */
+	public ReportForm getFormDescription() {
+
+		return form;
+	}
+
+	/**
+	 * Gets the result.
+	 * 
+	 * @return the result
+	 */
+	@SuppressWarnings("rawtypes")
+	public String getResult() {
+
+		report.getDataQueries().add(this);
+		table.setDataQuery(this);
+
+		return HTMLReportBuilder.build(report, new HashMap(), true);
+	}
+
+	/**
+	 * Inits the members.
+	 * 
+	 * @param domain
+	 *            the domain
+	 * @param reportscriptname
+	 *            the reportscriptname
+	 */
+	private void initMembers(String domain, String reportscriptname) {
+		this.domain = domain;
+		report = new ReportDefinition();
+		report.setName(reportscriptname);
+		setName(reportscriptname);
+		scriptname = "report." + reportscriptname;
+		table = new DataTable();
+		tableHeader = new GridRow();
+		tableBody = new GridRow();
+		set = new DataSet();
+		currentrow = new ArrayList<Object>();
+
+		script = new Scripts(this, this.domain, scriptname);
+
+		counter = 0;
+
+		form = new ReportForm();
+
+		try {
+			script.call("CreateForm", form);
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+		}
+
+	}
+
+	/**
+	 * Put value.
+	 * 
+	 * @param val
+	 *            the val
+	 */
 	public void putValue(Object val) {
 		currentrow.add(val);
-	}
-
-	public void setScriptText(String text) {
-		scripttext = text;
 	}
 
 }

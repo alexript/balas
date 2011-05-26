@@ -102,7 +102,7 @@ public class Scripts {
 	private String text;
 
 	/** The vm. */
-	private static final HashMap<String, VM> vms = new HashMap<String, VM>();
+	private static HashMap<String, VM> vms = null;
 
 	/** The caller. */
 	private final IScriptableObject caller;
@@ -122,22 +122,32 @@ public class Scripts {
 		this.domain = domain;
 		caller = obj;
 		initVM();
+
 		initStruct();
+
 		loadText();
 
-		if (vms.containsKey(domain)) {
-			if (text != null) {
-				try {
+		if (vms.containsKey(this.domain)) {
+			VM vm = vms.get(this.domain);
+			if (vm != null) {
+				if (text != null) {
+					try {
+						vm.eval(text);
+					} catch (Exception e) {
+						Log.error(e.getMessage());
+					}
 
-					vms.get(domain).eval(text);
-				} catch (Exception e) {
-					Log.error(e.getMessage());
+				} else {
+					Log.error("There is no text for script " + name);
 				}
-
 			} else {
-				Log.error("There is no text for script " + name);
+				Log.error("My vm is null!!!!");
+				Log.error(vms.toString());
 			}
 
+		} else {
+			Log.error("where is my vm????");
+			Log.error(vms.toString());
 		}
 	}
 
@@ -170,13 +180,14 @@ public class Scripts {
 		initStruct();
 		loadText();
 
-		if (vms.containsKey(domain)) {
-			VM vm = vms.get(domain);
+		if (vms.containsKey(this.domain)) {
+			VM vm = vms.get(this.domain);
 			if (vm != null) {
 
 				if (text != null) {
 					try {
-						vms.get(domain).eval(text);
+
+						vm.eval(text);
 					} catch (Exception e) {
 						Log.error(e.getMessage());
 					}
@@ -189,8 +200,21 @@ public class Scripts {
 		}
 	}
 
-	public Object call(String funcname, Object... args) throws ScriptException,
-			NoSuchMethodException {
+	/**
+	 * Call.
+	 * 
+	 * @param funcname
+	 *            the funcname
+	 * @param args
+	 *            the args
+	 * @return the object
+	 * @throws ScriptException
+	 *             the script exception
+	 * @throws NoSuchMethodException
+	 *             the no such method exception
+	 */
+	public Object call(String funcname, final Object... args)
+			throws ScriptException, NoSuchMethodException {
 		Object result = null;
 		VM vm = vms.get(domain);
 		if (vm != null) {
@@ -229,8 +253,10 @@ public class Scripts {
 	 * @param types
 	 *            the types
 	 * @return the hash map
-	 * @throws NoSuchMethodException
 	 * @throws ScriptException
+	 *             the script exception
+	 * @throws NoSuchMethodException
+	 *             the no such method exception
 	 */
 	public HashMap<String, String> eval(String evalstring,
 			HashMap<String, String> params, HashMap<String, Integer> types)
@@ -319,8 +345,16 @@ public class Scripts {
 	 * Inits the vm.
 	 */
 	private void initVM() {
+		Log.trace("init vm");
+		if (vms == null) {
+			Log.trace("Create hashmap");
+			vms = new HashMap<String, VM>();
+			Log.trace(vms.toString());
+		}
 		if (!vms.containsKey(domain)) {
+			Log.trace("Add vm per domain " + domain);
 			vms.put(domain, new VM(domain));
+			Log.trace(vms.toString());
 
 			Scripts global = new Scripts(domain, "global");
 			global.nop();
@@ -357,6 +391,7 @@ public class Scripts {
 			}
 
 		}
+
 		if ((txt == null) || txt.isEmpty()) {
 			if (domain.equals("127.0.0.1") && name.equals("global")) {
 				txt = "import java.lang\nLog.error('Global script evaluated')\n";
@@ -365,10 +400,14 @@ public class Scripts {
 				txt = caller.generateDefaultScript();
 
 			}
+
 			setText(txt, true);
+
 			return;
 		}
+
 		setText(txt, false);
+
 	}
 
 	/**
@@ -448,6 +487,7 @@ public class Scripts {
 				Database.release();
 				if (vms != null) {
 					vms.remove(domain);
+					initVM();
 				}
 			}
 		}

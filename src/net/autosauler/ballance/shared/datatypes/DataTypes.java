@@ -242,6 +242,9 @@ public class DataTypes {
 	 */
 	public static String toString(int type, Object object) {
 		String obj = null;
+		if (object == null) {
+			return "";
+		}
 		if (type == DataTypes.DT_DATE) {
 			obj = Long.toString(((Date) object).getTime());
 		} else if (type == DataTypes.DT_DOUBLE) {
