@@ -16,11 +16,13 @@
 package net.autosauler.ballance.server.reports;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.script.ScriptException;
 
+import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.server.model.IScriptableObject;
 import net.autosauler.ballance.server.model.Scripts;
 import net.autosauler.ballance.server.vm.ReportForm;
@@ -82,6 +84,10 @@ public class Query extends DataQuery implements IScriptableObject {
 
 	/** The form. */
 	private ReportForm form;
+
+	/** The Constant formatter. */
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+			"yyyy/MM/dd");
 
 	/**
 	 * Instantiates a new query.
@@ -201,22 +207,20 @@ public class Query extends DataQuery implements IScriptableObject {
 		sb.append("form.add('endd', 'End date', 'DT_DATE')\n");
 		sb.append("end\n\n");
 		sb.append("function ExecuteReport(report)\n");
-		sb.append("report.addLabel('Test report title')\n");
-		sb.append("report.addDescription('Test report description')\n");
-		sb.append("report.addColumn('column 1')\n");
-		sb.append("report.addColumn('column 2')\n");
+		sb.append("report.addLabel('Currency values (' + report.get('currency') + ')')\n");
+		sb.append("report.addDescription('Currency values per date')\n");
+		sb.append("report.addColumn('Date')\n");
+		sb.append("report.addColumn('Value')\n");
 
-		sb.append("report.putValue(report.get('startd'))\n");
-		sb.append("report.putValue(Currency.get(report.get('currency'), report.get('startd')))\n");
-		sb.append("report.drawRow()\n");
+		sb.append("values = Currency.get(report.get('currency'), report.get('startd'), report.get('endd'))\n");
+		sb.append("i = values.iterator()\n");
+		sb.append("while i.hasNext()\n");
+		sb.append(" v = i.next()\n");
+		sb.append(" report.putValue(v.getDate())\n");
+		sb.append(" report.putValue(v.getValue())\n");
+		sb.append(" report.drawRow()\n");
+		sb.append("end\n");
 
-		sb.append("report.putValue('Test 1 string 1')\n");
-		sb.append("report.putValue('Test 1 string 2')\n");
-		sb.append("report.drawRow()\n");
-
-		sb.append("report.putValue('Test 2 string 1')\n");
-		sb.append("report.putValue('Test 2 string 2')\n");
-		sb.append("report.drawRow()\n");
 		sb.append("end\n");
 
 		String script = sb.toString();
@@ -305,7 +309,11 @@ public class Query extends DataQuery implements IScriptableObject {
 	 *            the val
 	 */
 	public void putValue(Object val) {
-		currentrow.add(val);
+		if (val instanceof Date) {
+			currentrow.add(formatter.format((Date) val));
+		} else {
+			currentrow.add(val);
+		}
 	}
 
 }

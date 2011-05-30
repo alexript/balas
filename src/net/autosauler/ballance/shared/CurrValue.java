@@ -14,57 +14,51 @@
  * limitations under the License.
  ******************************************************************************/
 
-package net.autosauler.ballance.server.vm;
+package net.autosauler.ballance.shared;
 
 import java.util.Date;
-import java.util.List;
-
-import net.autosauler.ballance.server.model.Currency;
-import net.autosauler.ballance.shared.CurrValue;
 
 /**
- * The Class CurrencyWrapper.
+ * The Class CurrValue.
  * 
  * @author alexript
  */
-public class CurrencyWrapper {
+public class CurrValue {
+
+	/** The d. */
+	private final Date d;
+
+	/** The val. */
+	private final Double val;
 
 	/**
-	 * Gets the.
+	 * Instantiates a new curr value.
 	 * 
-	 * @param mnemo
-	 *            the mnemo
-	 * @return the double
-	 */
-	public Double get(String mnemo) {
-		return Currency.get(mnemo);
-	}
-
-	/**
-	 * Gets the.
-	 * 
-	 * @param mnemo
-	 *            the mnemo
 	 * @param date
 	 *            the date
-	 * @return the double
+	 * @param value
+	 *            the value
 	 */
-	public Double get(String mnemo, Date date) {
-		return Currency.get(mnemo, date);
+	public CurrValue(Date date, Double value) {
+		d = date;
+		val = value;
 	}
 
 	/**
-	 * Gets the.
+	 * Gets the date.
 	 * 
-	 * @param mnemo
-	 *            the mnemo
-	 * @param start
-	 *            the start
-	 * @param end
-	 *            the end
-	 * @return the list
+	 * @return the date
 	 */
-	public List<CurrValue> get(String mnemo, Date start, Date end) {
-		return Currency.get(mnemo, start, end);
+	public Date getDate() {
+		return d;
+	}
+
+	/**
+	 * Gets the value.
+	 * 
+	 * @return the value
+	 */
+	public Double getValue() {
+		return val;
 	}
 }

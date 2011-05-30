@@ -18,6 +18,7 @@ package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.autosauler.ballance.server.mongodb.Database;
+import net.autosauler.ballance.shared.CurrValue;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -218,6 +220,30 @@ public class Currency {
 		}
 		Database.release();
 		return val;
+	}
+
+	/**
+	 * Gets the.
+	 * 
+	 * @param mnemo
+	 *            the mnemo
+	 * @param startdate
+	 *            the startdate
+	 * @param enddate
+	 *            the enddate
+	 * @return the list
+	 */
+	public static List<CurrValue> get(String mnemo, Date startdate, Date enddate) {
+		List<CurrValue> values = new ArrayList<CurrValue>();
+		Date i = startdate;
+		while (i.before(enddate)) {
+			Double val = Currency.get(mnemo, i);
+			CurrValue cv = new CurrValue(i, val);
+			values.add(cv);
+			i = new Date(i.getTime() + 1000 * 60 * 60 * 24);
+		}
+
+		return values;
 	}
 
 	/**

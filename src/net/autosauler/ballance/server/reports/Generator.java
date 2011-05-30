@@ -39,7 +39,11 @@ public class Generator {
 
 			HashMap<String, String> p = new HashMap<String, String>();
 			p.put("currency", "USD");
-			p.put("startd", DataTypes.toString(DataTypes.DT_DATE, new Date()));
+			p.put("startd",
+					DataTypes.toString(DataTypes.DT_DATE,
+							new Date(new Date().getTime() - 3 * 1000 * 60 * 60
+									* 24)));
+			p.put("endd", DataTypes.toString(DataTypes.DT_DATE, new Date()));
 
 			Query q = new Query("127.0.0.1", "crrvalues", p);
 			System.out.println(q.getFormDescription().toString());
