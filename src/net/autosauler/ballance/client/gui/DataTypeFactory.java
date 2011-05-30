@@ -526,7 +526,7 @@ public class DataTypeFactory {
 			w = new TextBox();
 			w.setWidth("300px");
 		} else if (type == DataTypes.DT_CURRENCY) {
-			w = new CurrencySelector(null);
+			w = new CurrencySelector((String) defval);
 		} else if (type == DataTypes.DT_CATALOGRECORD) {
 			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
 		} else if (type == DataTypes.DT_DATE) {

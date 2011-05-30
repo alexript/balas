@@ -129,6 +129,13 @@ public interface MenuMessages extends Messages {
 	String itemPaymethod();
 
 	/**
+	 * Item report currval.
+	 * 
+	 * @return the string
+	 */
+	String itemReportCurrval();
+
+	/**
 	 * Item tarif.
 	 * 
 	 * @return the string

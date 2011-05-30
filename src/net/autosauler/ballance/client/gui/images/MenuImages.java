@@ -88,6 +88,13 @@ public interface MenuImages extends Tree.Resources {
 	ImageResource icoCopyright();
 
 	/**
+	 * Ico currval.
+	 * 
+	 * @return the image resource
+	 */
+	ImageResource icoCurrval();
+
+	/**
 	 * Ico database.
 	 * 
 	 * @return the image resource

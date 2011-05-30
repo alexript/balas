@@ -38,4 +38,11 @@ public interface ToolsMessages extends Messages {
 	 * @return the string
 	 */
 	String btnEdit();
+
+	/**
+	 * Btn execute.
+	 * 
+	 * @return the string
+	 */
+	String btnExecute();
 }

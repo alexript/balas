@@ -233,6 +233,9 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 		} else if (name.equals("changelog") && !role.isGuest()) {
 			w = constructTabPaneContent(ChangeLogPanel.get(),
 					M.menu.itemChangelog(), Images.menu.icoChangelog(), name);
+		} else if (name.equals("currval") && !role.isGuest()) {
+			w = constructTabPaneContent(new ReportPanel("currvalues"),
+					M.menu.itemReportCurrval(), Images.menu.icoCurrval(), name);
 		} else {
 			new AlertDialog("Uncknown command", name).show();
 		}
