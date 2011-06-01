@@ -1,3 +1,46 @@
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-30 20:47:28 +0400): report panel (and currency values report)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-30 18:55:50 +0400): basic report logic (currency values test script)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-26 19:35:06 +0400): reports rpc<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-26 19:22:12 +0400): server-part report engine fix default script generator<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-25 20:34:45 +0400): very simple report workaround. for testing cases<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-25 17:51:41 +0400): remove unused document classes AbstractDocument is not abstract now add document into vm fix !isguest for mainpane<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 20:17:07 +0400): Add script evaluator into VM<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 20:11:56 +0400): rename Catalog to CatalogWrapper add setter for catalog fields into CatalogWrapper add Currency and Constants to VM<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 19:56:28 +0400): catalog's actions scriptable right now<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 19:45:37 +0400): send tablepart's row changes to script and receive result<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 18:46:34 +0400): fix error on documents restore catch tablepart field changes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-24 16:19:40 +0400): fix database restore<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-23 20:20:33 +0400): add jasper into project<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-23 19:57:49 +0400): remove unused classes for tarif, paymethod and partner abstractcatalog is not abstract now catalogs and catalog for vm get catalog record and field values for this record from script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-23 18:37:20 +0400): cajuscript used in CajuBasic mode (forced in eval method of vm)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-23 17:30:55 +0400): replace sixx with cajuscript<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-18 17:55:02 +0400): new codemirror fix scheme mode pass hashtable to script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-17 20:04:19 +0400): integrate sixx sources into server sources<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-17 18:31:14 +0400): send catalog record to server on field value change call script return result to client and fill form with new values<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-05 21:50:18 +0400): restore database from file<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-05 17:52:49 +0400): configurable columns for documents lists remove unneeded Panel classes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-04 20:38:17 +0400): fix lists scroll showing<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-04 20:32:36 +0400): scrolling for documents and catalogs lists<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-04 19:59:05 +0400): load documents structure on client side<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-04 18:52:37 +0400): document structures in xml files read this structures on server side<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-04 14:38:36 +0400): gwt 2.3.0<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-03 21:01:37 +0400): tableparts struct are in xml files on server side<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-03 19:58:43 +0400): read catalog structure from xml on server<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-03 17:18:07 +0400): load catalogs structures from server<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 21:32:37 +0400): refactor catalogs structure description<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 20:43:43 +0400): refactor document and catalog editors<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 19:54:33 +0400): date format unification<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 19:44:56 +0400): main datatypes are in HeaderField<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 19:36:27 +0400): HeaderField in document forms<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 17:56:40 +0400): little fix for null text in scripts<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 17:52:47 +0400): Replace fields in catalogs editors with HeaderField<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 16:30:50 +0400): simple scheme mode for codemirror<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 15:50:10 +0400): codemirror as separate widget<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-29 14:44:24 +0400): unique sixx vm per domain<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-28 21:28:03 +0400): scripts editor<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-28 14:52:52 +0400): fix bindings<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 20:08:10 +0400): fix script generation finaly<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 19:35:34 +0400): fix script generation for documents without tableparts<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 19:03:54 +0400): oncreate, onsave, ontrash, onrestore handlers defaultscript generator for catalogs fields for parent-child links in documents<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 18:16:38 +0400): scripts dump<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-04-26 17:04:48 +0400): basic scripting logic is done<br/>
