@@ -30,11 +30,11 @@ import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DatePickerCell;
-import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ImageResource;
@@ -56,7 +56,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
  */
 public class DataTypeFactory {
 	// TODO: create simple widgets for view
-	// TODO: add "onchange" handlers
 	// TODO: rewrite SelectionCell for catalogrecord
 
 	public static final SimpleDateFormat formatter = new SimpleDateFormat(
@@ -367,7 +366,7 @@ public class DataTypeFactory {
 			// } else if (type == DataTypes.DT_SETTINGVALUE) {
 		} else if (type == DataTypes.DT_INT) {
 			column = new Column<HashMap<String, Object>, String>(
-					new EditTextCell()) {
+					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
@@ -392,7 +391,7 @@ public class DataTypeFactory {
 			});
 		} else if (type == DataTypes.DT_LONG) {
 			column = new Column<HashMap<String, Object>, String>(
-					new EditTextCell()) {
+					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
@@ -417,7 +416,7 @@ public class DataTypeFactory {
 			});
 		} else if (type == DataTypes.DT_MONEY) {
 			column = new Column<HashMap<String, Object>, String>(
-					new EditTextCell()) {
+					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
@@ -442,7 +441,7 @@ public class DataTypeFactory {
 			});
 		} else if (type == DataTypes.DT_DOUBLE) {
 			column = new Column<HashMap<String, Object>, String>(
-					new EditTextCell()) {
+					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
@@ -467,7 +466,7 @@ public class DataTypeFactory {
 			});
 		} else {
 			column = new Column<HashMap<String, Object>, String>(
-					new EditTextCell()) {
+					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
