@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -51,7 +52,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 	private final VerticalPanel form;
 
 	/** The report. */
-	private final DecoratorPanel report;
+	private final Panel report;
 
 	/** The myfields. */
 	private List<ReportFormField> myfields;
@@ -126,7 +127,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 					public void onSuccess(String result) {
 						MainPanel.setCommInfo(false);
 						HTML w = new HTML("<p>" + result + "</p>");
-						report.setWidget(w);
+						report.add(w);
 						report.setVisible(true);
 					}
 				});

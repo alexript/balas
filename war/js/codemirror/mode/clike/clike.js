@@ -1,7 +1,8 @@
 CodeMirror.defineMode("clike", function(config, parserConfig) {
   var indentUnit = config.indentUnit, keywords = parserConfig.keywords,
       cpp = parserConfig.useCPP, multiLineStrings = parserConfig.multiLineStrings,
-      $vars = parserConfig.$vars, atAnnotations = parserConfig.atAnnotations;
+      $vars = parserConfig.$vars, atAnnotations = parserConfig.atAnnotations,
+      atStrings = parserConfig.atStrings;
   var isOperatorChar = /[+\-*&%=<>!?|]/;
 
   function chain(stream, state, f) {
@@ -23,11 +24,11 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       return ret(ch);
     else if (ch == "#" && cpp && state.startOfLine) {
       stream.skipToEnd();
-      return ret("directive", "c-like-preprocessor");
+      return ret("directive", "meta");
     }
     else if (/\d/.test(ch)) {
       stream.eatWhile(/[\w\.]/)
-      return ret("number", "c-like-number");
+      return ret("number", "number");
     }
     else if (ch == "/") {
       if (stream.eat("*")) {
@@ -35,7 +36,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       }
       else if (stream.eat("/")) {
         stream.skipToEnd();
-        return ret("comment", "c-like-comment");
+        return ret("comment", "comment");
       }
       else {
         stream.eatWhile(isOperatorChar);
@@ -46,18 +47,21 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       stream.eatWhile(isOperatorChar);
       return ret("operator");
     }
+    else if (atStrings && ch == "@" && stream.eat('"')) {
+      return chain(stream, state, tokenAtString);
+    }
     else if (atAnnotations && ch == "@") {
         stream.eatWhile(/[\w\$_]/);
-        return ret("annotation", "c-like-annotation");
+        return ret("annotation", "meta");
     }
     else if ($vars && ch == "$") {
       stream.eatWhile(/[\w\$_]/);
-      return ret("word", "c-like-var");
+      return ret("word", "variable");
     }
     else {
       stream.eatWhile(/[\w\$_]/);
-      if (keywords && keywords.propertyIsEnumerable(stream.current())) return ret("keyword", "c-like-keyword");
-      return ret("word", "c-like-word");
+      if (keywords && keywords.propertyIsEnumerable(stream.current())) return ret("keyword", "keyword");
+      return ret("word");
     }
   }
 
@@ -70,8 +74,20 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       }
       if (end || !(escaped || multiLineStrings))
         state.tokenize = tokenBase;
-      return ret("string", "c-like-string");
+      return ret("string", "string");
     };
+  }
+
+  // C#-style strings where "" escapes a quote.
+  function tokenAtString(stream, state) {
+    var next;
+    while ((next = stream.next()) != null) {
+      if (next == '"' && !stream.eat('"')) {
+        state.tokenize = tokenBase;
+        break;
+      }
+    }
+    return ret("string", "string");
   }
 
   function tokenComment(stream, state) {
@@ -83,7 +99,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
       }
       maybeEnd = (ch == "*");
     }
-    return ret("comment", "c-like-comment");
+    return ret("comment", "comment");
   }
 
   function Context(indented, column, type, align, prev) {
@@ -183,5 +199,17 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
                        "instanceof int interface long native new null package private protected public " +
                        "return short static strictfp super switch synchronized this throw throws transient " +
                        "true try void volatile while")
+  });
+  CodeMirror.defineMIME("text/x-csharp", {
+    name: "clike",
+    atAnnotations: true,
+    atStrings: true,
+    keywords: keywords("abstract as base bool break byte case catch char checked class const continue decimal" + 
+                       " default delegate do double else enum event explicit extern false finally fixed float for" + 
+                       " foreach goto if implicit in int interface internal is lock long namespace new null object" + 
+                       " operator out override params private protected public readonly ref return sbyte sealed short" + 
+                       " sizeof stackalloc static string struct switch this throw true try typeof uint ulong unchecked" + 
+                       " unsafe ushort using virtual void volatile while add alias ascending descending dynamic from get" + 
+                       " global group into join let orderby partial remove select set value var yield")
   });
 }());
