@@ -55,7 +55,7 @@ public class TopPanel extends Composite {
 
 		// add language flags
 		InlineHTML locales = new InlineHTML(
-				"&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\"/></a>&nbsp;");
+				"&nbsp;&nbsp;<a href=\"index.html?locale=ru\"><img src=\"flags/ru.gif\" style=\"border-style:none;\"/></a>&nbsp;<a href=\"index.html?locale=en\"><img src=\"flags/gb.gif\" style=\"border-style:none;\"/></a>&nbsp;");
 		locales.setWidth("40px");
 		panel.add(locales);
 		panel.setCellWidth(locales, "50px");

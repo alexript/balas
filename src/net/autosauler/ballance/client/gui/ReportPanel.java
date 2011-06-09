@@ -31,10 +31,10 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -88,7 +88,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 		panel.add(btnExec);
 		panel.setCellHeight(btnExec, "30px");
 
-		report = new DecoratorPanel();
+		report = new SimplePanel();
 		report.setWidth("500px");
 		report.setHeight("400px");
 		report.setVisible(false);
