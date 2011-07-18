@@ -7,12 +7,8 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/mongo-2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-log-3.1.0.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/gwt-dev.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle.2.2.0_2.2.0.v201102111811/gwt-2.2.0/doc/javadoc/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/cajuscript-0.4.jar" sourcepath="/Users/alexript/src/cajuscript-read-only/src"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar" sourcepath="/Users/alexript/src/g2-report-engine-read-only/g2-report-engine/src/main/java"/>
+	<classpathentry kind="lib" path="C:/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r37v201106211634/gwt-2.3.0/gwt-dev.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

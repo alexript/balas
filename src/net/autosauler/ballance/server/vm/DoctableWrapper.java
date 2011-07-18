@@ -23,6 +23,7 @@ import net.autosauler.ballance.server.model.DocumentTablePart;
  * 
  */
 public class DoctableWrapper {
+	@SuppressWarnings("unused")
 	private final DocumentTablePart impl;
 
 	public DoctableWrapper(final DocumentTablePart doctab) {
