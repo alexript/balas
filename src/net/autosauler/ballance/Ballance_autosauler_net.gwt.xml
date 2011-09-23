@@ -7,11 +7,11 @@
 	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
 	express or implied. See the License for the specific language governing permissions 
 	and limitations under the License. -->
-<module rename-to='ballance_autosauler_net'>
+<module rename-to='Ballance_autosauler_net'>
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name="com.google.gwt.i18n.I18N" />
-	<inherits name='com.google.gwt.requestfactory.RequestFactory'/>
+	
 
 	<extend-property name="locale" values="ru,en" />
 
