@@ -97,6 +97,9 @@ public class LeftMenu extends Composite {
 			documentspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
 					Images.menu.icoInGoods()));
 
+			documentspanel.add(getMenuItem(M.menu.itemPartners(), "partners",
+					Images.menu.icoPartners()));
+
 			String documentsHeader = getHeaderString(M.menu.documentsPanel(),
 					Images.menu.documentsPanel());
 			panel.add(documentspanel, documentsHeader, true);

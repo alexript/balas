@@ -1,35 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct access="ADMIN|MANAGER">
-    <fields>
-        <field name="email" type="DT_STRING">
-            <default></default>
-            <names>
-                <en>email</en>
-                <ru>email</ru>
-            </names>
-        </field>
-        <field name="paymethod" type="DT_CATALOGRECORD">
-            <default>0</default>
-            <names>
-                <en>Pay method</en>
-                <ru>Способ оплаты</ru>
-            </names>
-            <helper type="catalog">paymethod</helper>
-        </field>
-        <field name="currency" type="DT_CURRENCY">
-            <default>RUR</default>
-            <names>
-                <en>Currecny</en>
-                <ru>Валюта</ru>
-            </names>
-        </field>
-        <field name="tarif" type="DT_CATALOGRECORD">
-            <default>0</default>
-            <names>
-                <en>Tarif</en>
-                <ru>Тариф</ru>
-            </names>
-            <helper type="catalog">tarifs</helper>
-        </field>
-    </fields>
+<struct access="ADMIN|MANAGER|DOCUMENTS">
+	<fields>
+		<field name="legalname" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Legal name</en>
+				<ru>Юридическое наименование</ru>
+			</names>
+		</field>
+		<field name="phone" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Phones</en>
+				<ru>Телефоны</ru>
+			</names>
+		</field>
+		<field name="contacts" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Persones</en>
+				<ru>Контактные лица</ru>
+			</names>
+		</field>
+		<field name="address" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Address</en>
+				<ru>Адрес</ru>
+			</names>
+		</field>
+		<field name="email" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>email</en>
+				<ru>email</ru>
+			</names>
+		</field>
+		<field name="paymethod" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Pay method</en>
+				<ru>Способ оплаты</ru>
+			</names>
+			<helper type="catalog">paymethod</helper>
+		</field>
+		<field name="currency" type="DT_CURRENCY">
+			<default>RUR</default>
+			<names>
+				<en>Currecny</en>
+				<ru>Валюта</ru>
+			</names>
+		</field>
+		<field name="tarif" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Tarif</en>
+				<ru>Тариф</ru>
+			</names>
+			<helper type="catalog">tarifs</helper>
+		</field>
+		<field name="comments" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Comments</en>
+				<ru>Коментарии</ru>
+			</names>
+		</field>
+	</fields>
 </struct>

@@ -345,7 +345,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 
 		final HorizontalPanel panel = new HorizontalPanel();
 
-		if (linecounter % 2 == 1) {
+		if ((linecounter % 2) == 1) {
 			panel.addStyleName("EvenTableRow");
 		} else {
 			panel.addStyleName("OddTableRow");
@@ -481,10 +481,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectHide(Element element) /*-{
-		new $wnd.Effect.DropOut(element, {
-			queue : 'end'
-		});
-	}-*/;
+													new $wnd.Effect.DropOut(element, {
+													queue : 'end'
+													});
+													}-*/;
 
 	/**
 	 * Effect show.
@@ -493,10 +493,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectShow(Element element) /*-{
-		new $wnd.Effect.SlideDown(element, {
-			queue : 'end'
-		});
-	}-*/;
+													new $wnd.Effect.SlideDown(element, {
+													queue : 'end'
+													});
+													}-*/;
 
 	/**
 	 * Fill editor form.
@@ -689,7 +689,9 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 					@Override
 					public void onSuccess(HashMap<String, String> result) {
 						MainPanel.setCommInfo(false);
-
+						if (result == null) {
+							return;
+						}
 						Set<String> names = fields.keySet();
 						Iterator<String> i = names.iterator();
 						while (i.hasNext()) {
