@@ -244,6 +244,9 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 		} else if (t == DataTypes.DT_STRING) {
 			((TextBox) w).setText((String) mval);
 		} else if (t == DataTypes.DT_MONEY) {
+			if (mval == null) {
+				mval = 0.0d;
+			}
 			((TextBox) w).setText(((Double) mval).toString());
 		} else if (t == DataTypes.DT_DOUBLE) {
 			((TextBox) w).setText(((Double) mval).toString());
