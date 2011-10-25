@@ -511,6 +511,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		editorscroll = new ScrollPanel(editor);
 		editorscroll.setSize("100%", "450px");
+		editorscroll.setAlwaysShowScrollBars(true);
 		editorscroll.setVisible(false);
 
 		root.add(editorscroll, 0, 0);
@@ -581,6 +582,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		listscroll = new ScrollPanel(list);
 		listscroll.setSize("100%", "500px");
+		listscroll.setAlwaysShowScrollBars(true);
 
 		root.add(listscroll, 0, 0);
 	}

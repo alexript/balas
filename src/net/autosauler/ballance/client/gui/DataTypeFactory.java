@@ -427,9 +427,12 @@ public class DataTypeFactory {
 					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
-
-					return (DataTypes.fromMapping(type, map.get(field)))
-							.toString();
+					Object val = map.get(field);
+					String ret = "---";
+					if (val != null) {
+						ret = (DataTypes.fromMapping(type, val)).toString();
+					}
+					return ret;
 				}
 
 			};
@@ -477,9 +480,12 @@ public class DataTypeFactory {
 					new TextInputCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
-
-					return (DataTypes.fromMapping(type, map.get(field)))
-							.toString();
+					String ret = "";
+					Object val = map.get(field);
+					if (val != null) {
+						ret = (DataTypes.fromMapping(type, val)).toString();
+					}
+					return ret;
 				}
 
 			};
