@@ -48,6 +48,8 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 				getStructureDescription("catalog.paymethod"));
 		map.put("catalog.tarifs", getStructureDescription("catalog.tarifs"));
 		map.put("catalog.partners", getStructureDescription("catalog.partners"));
+		map.put("catalog.cars", getStructureDescription("catalog.cars"));
+		map.put("catalog.drivers", getStructureDescription("catalog.drivers"));
 		map.put("table.goods", getStructureDescription("table.goods"));
 		map.put("table.goodsaddpay",
 				getStructureDescription("table.goodsaddpay"));

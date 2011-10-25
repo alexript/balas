@@ -888,7 +888,7 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 		};
 		cellTable.addColumn(docDateColumn, M.document.colCreateDate());
 
-		cellTable.setColumnWidth(docDateColumn, 150, Unit.PX);
+		cellTable.setColumnWidth(docDateColumn, 100, Unit.PX);
 
 		// Doc author.
 		// ----------------------------------------------------------

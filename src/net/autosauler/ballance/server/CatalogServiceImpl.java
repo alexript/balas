@@ -65,6 +65,14 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin() || role.isFinances() || role.isManager()) {
 				c = new AbstractCatalog("tarifs", domain, login);
 			}
+		} else if (catalogname.equals("cars")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("cars", domain, login);
+			}
+		} else if (catalogname.equals("drivers")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("drivers", domain, login);
+			}
 		}
 		if (c != null) {
 			c.fromMap(map);
@@ -94,6 +102,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 
 		} else if (catalogname.equals("tarifs")) {
 			c = new AbstractCatalog("tarifs", domain, login);
+		} else if (catalogname.equals("cars")) {
+			c = new AbstractCatalog("cars", domain, login);
+		} else if (catalogname.equals("drivers")) {
+			c = new AbstractCatalog("drivers", domain, login);
 		}
 		if (c != null) {
 			set = c.findAll();
@@ -122,6 +134,12 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 
 		} else if (catalogname.equals("tarifs")) {
 			c = new AbstractCatalog("tarifs", domain, number);
+
+		} else if (catalogname.equals("cars")) {
+			c = new AbstractCatalog("cars", domain, number);
+
+		} else if (catalogname.equals("drivers")) {
+			c = new AbstractCatalog("drivers", domain, number);
 
 		}
 		if (c != null) {
@@ -153,6 +171,12 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		} else if (catalogname.equals("tarifs")) {
 			c = new AbstractCatalog("tarifs", domain, login);
 
+		} else if (catalogname.equals("cars")) {
+			c = new AbstractCatalog("cars", domain, login);
+
+		} else if (catalogname.equals("drivers")) {
+			c = new AbstractCatalog("drivers", domain, login);
+
 		}
 		if (c != null) {
 			set = c.getSelectData();
@@ -182,6 +206,12 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 
 		} else if (catalogname.equals("tarifs")) {
 			c = new AbstractCatalog("tarifs", domain, login);
+
+		} else if (catalogname.equals("cars")) {
+			c = new AbstractCatalog("cars", domain, login);
+
+		} else if (catalogname.equals("drivers")) {
+			c = new AbstractCatalog("drivers", domain, login);
 
 		}
 		if (c != null) {
@@ -216,6 +246,14 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 			if (role.isAdmin()) {
 				c = new AbstractCatalog("tarifs", domain, number);
 
+			}
+		} else if (catalogname.equals("cars")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("cars", domain, number);
+			}
+		} else if (catalogname.equals("drivers")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("drivers", domain, number);
 			}
 		}
 		if (c != null) {
@@ -256,6 +294,16 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 				c = new AbstractCatalog("tarifs", domain, number);
 
 			}
+		} else if (catalogname.equals("cars")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("cars", domain, number);
+
+			}
+		} else if (catalogname.equals("drivers")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("drivers", domain, number);
+
+			}
 		}
 		if (c != null) {
 			c.trash();
@@ -292,6 +340,16 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		} else if (catalogname.equals("tarifs")) {
 			if (role.isAdmin() || role.isFinances() || role.isManager()) {
 				c = new AbstractCatalog("tarifs", domain, number);
+
+			}
+		} else if (catalogname.equals("cars")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("cars", domain, number);
+
+			}
+		} else if (catalogname.equals("drivers")) {
+			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
+				c = new AbstractCatalog("drivers", domain, number);
 
 			}
 		}

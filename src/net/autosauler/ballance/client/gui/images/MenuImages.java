@@ -66,6 +66,8 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	ImageResource guestPanel();
 
+	ImageResource icoCar();
+
 	/**
 	 * Ico changelog.
 	 * 
@@ -128,6 +130,8 @@ public interface MenuImages extends Tree.Resources {
 	 * @return the image resource
 	 */
 	ImageResource icoInGoods();
+
+	ImageResource icoMan();
 
 	/**
 	 * Ico partners.

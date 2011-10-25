@@ -100,6 +100,12 @@ public class LeftMenu extends Composite {
 			documentspanel.add(getMenuItem(M.menu.itemPartners(), "partners",
 					Images.menu.icoPartners()));
 
+			documentspanel.add(getMenuItem(M.menu.itemCars(), "cars",
+					Images.menu.icoCar()));
+
+			documentspanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
+					Images.menu.icoMan()));
+
 			String documentsHeader = getHeaderString(M.menu.documentsPanel(),
 					Images.menu.documentsPanel());
 			panel.add(documentspanel, documentsHeader, true);
@@ -179,6 +185,12 @@ public class LeftMenu extends Composite {
 
 			managerpanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
 					Images.menu.icoTarif()));
+
+			managerpanel.add(getMenuItem(M.menu.itemCars(), "cars",
+					Images.menu.icoCar()));
+
+			managerpanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
+					Images.menu.icoMan()));
 
 			String managerHeader = getHeaderString(M.menu.managerPanel(),
 					Images.menu.managerPanel());

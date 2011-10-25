@@ -87,6 +87,9 @@ public class DataTypes {
 	 */
 	public static Object fromMapping(int type, Object val) {
 		Object obj = null;
+		if (val == null) {
+			return null;
+		}
 		if (type == DataTypes.DT_DATE) {
 			obj = new Date((Long) val);
 		} else if (type == DataTypes.DT_DOUBLE) {

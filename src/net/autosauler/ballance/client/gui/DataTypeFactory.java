@@ -107,8 +107,13 @@ public class DataTypeFactory {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
 
-					return formatter.format((Date) DataTypes.fromMapping(type,
-							map.get(field)));
+					Object d = map.get(field);
+					String ret = "---";
+					if (d != null) {
+						ret = formatter.format((Date) DataTypes.fromMapping(
+								type, d));
+					}
+					return ret;
 				}
 			};
 
@@ -130,9 +135,12 @@ public class DataTypeFactory {
 			column = new Column<HashMap<String, Object>, String>(new TextCell()) {
 				@Override
 				public String getValue(HashMap<String, Object> map) {
-
-					return DataTypes.fromMapping(type, map.get(field))
-							.toString();
+					Object val = map.get(field);
+					String ret = "---";
+					if (val != null) {
+						ret = DataTypes.fromMapping(type, val).toString();
+					}
+					return ret;
 				}
 			};
 

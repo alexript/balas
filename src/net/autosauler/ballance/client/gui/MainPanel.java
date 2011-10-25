@@ -78,7 +78,7 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 				if (i > index) {
 					tabsIndexes.put(key, i - 1);
 				}
-				if ((i - 1 == index) || (i == index - 1)) {
+				if (((i - 1) == index) || (i == (index - 1))) {
 					newselection = key;
 				}
 			}
@@ -212,6 +212,19 @@ public class MainPanel extends Composite implements ValueChangeHandler<String> {
 			w = constructTabPaneContent(new CatalogPanel("tarifs", new Image(
 					Images.menu.icoTarif())).getListForm(), M.menu.itemTarif(),
 					Images.menu.icoTarif(), name);
+		} else if (name.equals("cars")
+				&& (new UserRole(StructureFactory
+						.getDescription("catalog.cars").getRole()))
+						.hasAccess(role)) {
+			w = constructTabPaneContent(new CatalogPanel("cars", new Image(
+					Images.menu.icoCar())).getListForm(), M.menu.itemCars(),
+					Images.menu.icoCar(), name);
+		} else if (name.equals("drivers")
+				&& (new UserRole(StructureFactory.getDescription(
+						"catalog.drivers").getRole())).hasAccess(role)) {
+			w = constructTabPaneContent(new CatalogPanel("drivers", new Image(
+					Images.menu.icoMan())).getListForm(), M.menu.itemDrivers(),
+					Images.menu.icoMan(), name);
 		} else if (name.equals("paymethod")
 				&& (new UserRole(StructureFactory.getDescription(
 						"catalog.paymethod").getRole())).hasAccess(role)) {

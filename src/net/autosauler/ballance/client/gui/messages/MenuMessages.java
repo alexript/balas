@@ -72,6 +72,8 @@ public interface MenuMessages extends Messages {
 	 */
 	String icoReloadPane();
 
+	String itemCars();
+
 	/**
 	 * Item changelog.
 	 * 
@@ -85,6 +87,8 @@ public interface MenuMessages extends Messages {
 	 * @return the string
 	 */
 	String itemDatabase();
+
+	String itemDrivers();
 
 	/**
 	 * Item hello to all.
