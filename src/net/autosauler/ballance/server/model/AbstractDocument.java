@@ -244,41 +244,49 @@ public class AbstractDocument extends AbstractStructuredData implements
 		sb.append("function OnActivate(document)\n Log.error('method OnActivate not defined')\nend\n\n");
 		sb.append("function OnUnactivate(document)\n Log.error('method OnUnactivate not defined')\nend\n\n");
 
-		Set<String> names = struct.getNames();
-		Iterator<String> i = names.iterator();
-		while (i.hasNext()) {
-			String n = i.next();
-			String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
-			String name = "On" + nn + "Change";
-			sb.append("// must return HashTable\n");
-			sb.append("function " + name + "(hashTable)\n Log.error('method "
-					+ name + " not defined')\n return hashTable\nend\n\n");
-		}
+		// Set<String> names = struct.getNames();
+		// Iterator<String> i = names.iterator();
+		// while (i.hasNext()) {
+		// String n = i.next();
+		// String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
+		// String name = "On" + nn + "Change";
+		// sb.append("// must return HashTable\n");
+		// sb.append("function " + name + "(hashTable)\n Log.error('method "
+		// + name + " not defined')\n return hashTable\nend\n\n");
+		// }
+
+		sb.append("// must return HashTable\n");
+		sb.append("function OnChange(fieldname, hashTable)\n return hashTable\nend\n\n");
 
 		if (hasTables()) {
-			names = tables.keySet();
-			i = names.iterator();
-			while (i.hasNext()) {
-				String name = i.next();
 
-				String prefix = "On" + Character.toUpperCase(name.charAt(0))
-						+ name.substring(1);
+			sb.append("// must return HashTable\n");
+			sb.append("function OnChangeTable"
+					+ "(tablename, fieldname, hashTable)\n return hashTable\nend\n\n");
 
-				DocumentTablePart part = tables.get(name);
-				Set<String> fields = part.struct.getNames();
-				Iterator<String> j = fields.iterator();
-				while (j.hasNext()) {
-					String field = j.next();
-					String nn = Character.toUpperCase(field.charAt(0))
-							+ field.substring(1);
-					String method = prefix + nn + "Change";
-					sb.append("// must return HashTable\n");
-					sb.append("function " + method
-							+ "(hashTable)\n Log.error('method " + method
-							+ " not defined')\n return hashTable\nend\n\n");
-				}
-
-			}
+			// names = tables.keySet();
+			// i = names.iterator();
+			// while (i.hasNext()) {
+			// String name = i.next();
+			//
+			// String prefix = "On" + Character.toUpperCase(name.charAt(0))
+			// + name.substring(1);
+			//
+			// DocumentTablePart part = tables.get(name);
+			// Set<String> fields = part.struct.getNames();
+			// Iterator<String> j = fields.iterator();
+			// while (j.hasNext()) {
+			// String field = j.next();
+			// String nn = Character.toUpperCase(field.charAt(0))
+			// + field.substring(1);
+			// String method = prefix + nn + "Change";
+			// sb.append("// must return HashTable\n");
+			// sb.append("function " + method
+			// + "(hashTable)\n Log.error('method " + method
+			// + " not defined')\n return hashTable\nend\n\n");
+			// }
+			//
+			// }
 		}
 
 		return sb.toString();

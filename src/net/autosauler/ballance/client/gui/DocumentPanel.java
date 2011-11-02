@@ -224,8 +224,9 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
-		String nn = Character.toUpperCase(field.charAt(0)) + field.substring(1);
-		hf.setChangeHandler("On" + nn + "Change", this);
+		// String nn = Character.toUpperCase(field.charAt(0)) +
+		// field.substring(1);
+		hf.setChangeHandler(field, this);
 
 		fields.put(field, hf);
 	}
@@ -784,8 +785,8 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 		// Window.alert(map.toString());
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.eval("document." + documentname, tag, map, types,
-				new AsyncCallback<HashMap<String, String>>() {
+		Services.scripts.evalOnChange("document." + documentname, "OnChange",
+				tag, map, types, new AsyncCallback<HashMap<String, String>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

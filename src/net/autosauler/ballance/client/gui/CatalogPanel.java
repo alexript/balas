@@ -150,8 +150,9 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
-		String nn = Character.toUpperCase(field.charAt(0)) + field.substring(1);
-		hf.setChangeHandler("On" + nn + "Change", this);
+		// String nn = Character.toUpperCase(field.charAt(0)) +
+		// field.substring(1);
+		hf.setChangeHandler(field, this);
 		fields.put(field, hf);
 		editor.add(hf);
 	}
@@ -481,10 +482,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectHide(Element element) /*-{
-													new $wnd.Effect.DropOut(element, {
-													queue : 'end'
-													});
-													}-*/;
+		new $wnd.Effect.DropOut(element, {
+			queue : 'end'
+		});
+	}-*/;
 
 	/**
 	 * Effect show.
@@ -493,10 +494,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the element
 	 */
 	private native void effectShow(Element element) /*-{
-													new $wnd.Effect.SlideDown(element, {
-													queue : 'end'
-													});
-													}-*/;
+		new $wnd.Effect.SlideDown(element, {
+			queue : 'end'
+		});
+	}-*/;
 
 	/**
 	 * Fill editor form.
@@ -676,8 +677,8 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 		// Window.alert(map.toString());
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.eval("catalog." + catalogname, tag, map, types,
-				new AsyncCallback<HashMap<String, String>>() {
+		Services.scripts.evalOnChange("catalog." + catalogname, "OnChange",
+				tag, map, types, new AsyncCallback<HashMap<String, String>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

@@ -152,14 +152,14 @@ public class DocumentTablePart extends Composite implements
 			final Object defval, final Object helper) {
 
 		if (iseditable) {
-			String prefix = "On" + Character.toUpperCase(tablename.charAt(0))
-					+ tablename.substring(1);
-			String nn = Character.toUpperCase(field.charAt(0))
-					+ field.substring(1);
-			String method = prefix + nn + "Change";
+			// String prefix = "On" + Character.toUpperCase(tablename.charAt(0))
+			// + tablename.substring(1);
+			// String nn = Character.toUpperCase(field.charAt(0))
+			// + field.substring(1);
+			// String method = prefix + nn + "Change";
 
 			DataTypeFactory.addEditableCell(cellTable, name, field, type,
-					width, defval, helper, this, method);
+					width, defval, helper, this, field);
 		} else {
 			DataTypeFactory.addCell(cellTable, name, field, type, width,
 					defval, helper);
@@ -371,7 +371,8 @@ public class DocumentTablePart extends Composite implements
 		// Window.alert(sendmap.toString());
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.eval("document." + docname, tag, sendmap, datatypes,
+		Services.scripts.evalOnChangeTable("document." + docname,
+				"OnChangeTable", tablename, tag, sendmap, datatypes,
 				new AsyncCallback<HashMap<String, String>>() {
 
 					@Override

@@ -65,6 +65,64 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 		return map;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.ScriptsService#evalOnChange(java.lang.
+	 * String, java.lang.String, java.lang.String, java.util.HashMap,
+	 * java.util.HashMap)
+	 */
+	@Override
+	public HashMap<String, String> evalOnChange(String scriptname,
+			String evalstring, String changedfield,
+			HashMap<String, String> params, HashMap<String, Integer> types) {
+		Scripts script = new Scripts(getDomain(), scriptname);
+
+		HashMap<String, String> map = null;
+		try {
+			map = script.eval(evalstring, changedfield, params, types);
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+			map = null;
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+			map = null;
+		}
+
+		return map;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * net.autosauler.ballance.client.ScriptsService#evalOnChangeTable(java.
+	 * lang.String, java.lang.String, java.lang.String, java.lang.String,
+	 * java.util.HashMap, java.util.HashMap)
+	 */
+	@Override
+	public HashMap<String, String> evalOnChangeTable(String scriptname,
+			String evalstring, String tablename, String changedfield,
+			HashMap<String, String> params, HashMap<String, Integer> types) {
+		Scripts script = new Scripts(getDomain(), scriptname);
+
+		HashMap<String, String> map = null;
+		try {
+			map = script.eval(evalstring, tablename, changedfield, params,
+					types);
+		} catch (ScriptException e) {
+			Log.error(e.getMessage());
+			map = null;
+		} catch (NoSuchMethodException e) {
+			Log.error(e.getMessage());
+			map = null;
+		}
+
+		return map;
+	}
+
 	/**
 	 * Gets the domain.
 	 * 

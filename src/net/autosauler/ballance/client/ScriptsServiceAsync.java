@@ -46,6 +46,33 @@ public interface ScriptsServiceAsync {
 			AsyncCallback<HashMap<String, String>> callback);
 
 	/**
+	 * @param scriptname
+	 * @param evalstring
+	 * @param changedfield
+	 * @param params
+	 * @param types
+	 * @param callback
+	 */
+	void evalOnChange(String scriptname, String evalstring,
+			String changedfield, HashMap<String, String> params,
+			HashMap<String, Integer> types,
+			AsyncCallback<HashMap<String, String>> callback);
+
+	/**
+	 * @param scriptname
+	 * @param evalstring
+	 * @param tablename
+	 * @param changedfield
+	 * @param params
+	 * @param types
+	 * @param callback
+	 */
+	void evalOnChangeTable(String scriptname, String evalstring,
+			String tablename, String changedfield,
+			HashMap<String, String> params, HashMap<String, Integer> types,
+			AsyncCallback<HashMap<String, String>> callback);
+
+	/**
 	 * Gets the script.
 	 * 
 	 * @param scriptname

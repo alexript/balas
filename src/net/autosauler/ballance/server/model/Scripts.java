@@ -311,6 +311,123 @@ public class Scripts {
 		return result;
 	}
 
+	public HashMap<String, String> eval(String evalstring, String changedfield,
+			HashMap<String, String> params, HashMap<String, Integer> types)
+			throws ScriptException, NoSuchMethodException {
+		Hashtable<String, Object> input = new Hashtable<String, Object>();
+		Set<String> names = params.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			if (types.containsKey(name)) {
+				input.put(name,
+						DataTypes.fromString(types.get(name), params.get(name)));
+			}
+		}
+		HashMap<String, String> result = new HashMap<String, String>();
+
+		VM vm = vms.get(domain);
+		Object eval = null;
+		if (vm != null) {
+
+			eval = vm.call(evalstring, changedfield, input);
+
+		}
+		// ---------------------
+		if (eval != null) {
+			if (Hashtable.class.isInstance(eval)) {
+				@SuppressWarnings("unchecked")
+				Hashtable<String, Object> output = (Hashtable<String, Object>) eval;
+
+				if ((output != null) && !output.isEmpty()) {
+					Set<String> cnames = output.keySet();
+					Iterator<String> j = cnames.iterator();
+					while (j.hasNext()) {
+						String name = new String(j.next());
+						if (types.containsKey(name)) {
+							result.put(
+									name,
+									DataTypes.toString(types.get(name),
+											output.get(name)));
+						}
+					}
+				} else {
+					Log.error("Empty eval's result");
+				}
+			} else {
+				Log.error("Eval result is not HashMap: "
+						+ eval.getClass().getCanonicalName());
+			}
+		}
+
+		return result;
+
+	}
+
+	/**
+	 * @param evalstring
+	 * @param tablename
+	 * @param changedfield
+	 * @param params
+	 * @param types
+	 * @return
+	 * @throws ScriptException
+	 * @throws NoSuchMethodException
+	 */
+	public HashMap<String, String> eval(String evalstring, String tablename,
+			String changedfield, HashMap<String, String> params,
+			HashMap<String, Integer> types) throws ScriptException,
+			NoSuchMethodException {
+		Hashtable<String, Object> input = new Hashtable<String, Object>();
+		Set<String> names = params.keySet();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			if (types.containsKey(name)) {
+				input.put(name,
+						DataTypes.fromString(types.get(name), params.get(name)));
+			}
+		}
+		HashMap<String, String> result = new HashMap<String, String>();
+
+		VM vm = vms.get(domain);
+		Object eval = null;
+		if (vm != null) {
+
+			eval = vm.call(evalstring, tablename, changedfield, input);
+
+		}
+		// ---------------------
+		if (eval != null) {
+			if (Hashtable.class.isInstance(eval)) {
+				@SuppressWarnings("unchecked")
+				Hashtable<String, Object> output = (Hashtable<String, Object>) eval;
+
+				if ((output != null) && !output.isEmpty()) {
+					Set<String> cnames = output.keySet();
+					Iterator<String> j = cnames.iterator();
+					while (j.hasNext()) {
+						String name = new String(j.next());
+						if (types.containsKey(name)) {
+							result.put(
+									name,
+									DataTypes.toString(types.get(name),
+											output.get(name)));
+						}
+					}
+				} else {
+					Log.error("Empty eval's result");
+				}
+			} else {
+				Log.error("Eval result is not HashMap: "
+						+ eval.getClass().getCanonicalName());
+			}
+		}
+
+		return result;
+
+	}
+
 	/**
 	 * Gets the text.
 	 * 

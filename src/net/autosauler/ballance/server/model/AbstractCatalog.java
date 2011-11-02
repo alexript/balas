@@ -19,7 +19,6 @@ package net.autosauler.ballance.server.model;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.script.ScriptException;
 
@@ -147,17 +146,20 @@ public class AbstractCatalog extends AbstractStructuredData implements
 		sb.append("function OnRestore(record)\n Log.error('method OnRestore not defined')\nend\n\n");
 		sb.append("function OnUpdate(record)\n Log.error('method OnUpdate not defined')\nend\n\n");
 
-		Set<String> names = struct.getNames();
-		Iterator<String> i = names.iterator();
-		while (i.hasNext()) {
-			String n = i.next();
-			String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
-			String name = "On" + nn + "Change";
-			sb.append("// must return HashTable\n");
-			sb.append("function " + name + "(hashTable)\n Log.error('method "
-					+ name + " not defined')\nreturn hashTable\nend\n\n");
-
-		}
+		// Set<String> names = struct.getNames();
+		// Iterator<String> i = names.iterator();
+		// while (i.hasNext()) {
+		// String n = i.next();
+		// String nn = Character.toUpperCase(n.charAt(0)) + n.substring(1);
+		// String name = "On" + nn + "Change";
+		// sb.append("// must return HashTable\n");
+		// sb.append("function " + name + "(hashTable)\n Log.error('method "
+		// + name + " not defined')\nreturn hashTable\nend\n\n");
+		//
+		// }
+		//
+		sb.append("// must return HashTable\n");
+		sb.append("function OnChange(changedfield, hashTable)\n return hashTable\nend\n\n");
 
 		return sb.toString();
 
