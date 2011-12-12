@@ -1,4 +1,4 @@
-CodeMirror.defineMode("python", function(conf) {
+CodeMirror.defineMode("python", function(conf, parserConf) {
     var ERRORCLASS = 'error';
     
     function wordRegexp(words) {
@@ -29,7 +29,7 @@ CodeMirror.defineMode("python", function(conf) {
                          'open', 'range', 'zip'],
                'keywords': ['nonlocal']};
 
-    if (!!conf.mode.version && parseInt(conf.mode.version, 10) === 3) {
+    if (!!parserConf.version && parseInt(parserConf.version, 10) === 3) {
         commonkeywords = commonkeywords.concat(py3.keywords);
         commontypes = commontypes.concat(py3.types);
         var stringPrefixes = new RegExp("^(([rb]|(br))?('{3}|\"{3}|['\"]))", "i");
@@ -147,10 +147,9 @@ CodeMirror.defineMode("python", function(conf) {
     }
     
     function tokenStringFactory(delimiter) {
-        while ('rub'.indexOf(delimiter[0].toLowerCase()) >= 0) {
+        while ('rub'.indexOf(delimiter.charAt(0).toLowerCase()) >= 0) {
             delimiter = delimiter.substr(1);
         }
-        var delim_re = new RegExp(delimiter);
         var singleline = delimiter.length == 1;
         var OUTCLASS = 'string';
         
@@ -162,7 +161,7 @@ CodeMirror.defineMode("python", function(conf) {
                     if (singleline && stream.eol()) {
                         return OUTCLASS;
                     }
-                } else if (stream.match(delim_re)) {
+                } else if (stream.match(delimiter)) {
                     state.tokenize = tokenBase;
                     return OUTCLASS;
                 } else {
@@ -170,8 +169,8 @@ CodeMirror.defineMode("python", function(conf) {
                 }
             }
             if (singleline) {
-                if (conf.mode.singleLineStringErrors) {
-                    OUTCLASS = ERRORCLASS
+                if (parserConf.singleLineStringErrors) {
+                    return ERRORCLASS;
                 } else {
                     state.tokenize = tokenBase;
                 }
@@ -184,6 +183,10 @@ CodeMirror.defineMode("python", function(conf) {
         type = type || 'py';
         var indentUnit = 0;
         if (type === 'py') {
+            if (state.scopes[0].type !== 'py') {
+                state.scopes[0].offset = stream.indentation();
+                return;
+            }
             for (var i = 0; i < state.scopes.length; ++i) {
                 if (state.scopes[i].type === 'py') {
                     indentUnit = state.scopes[i].offset + conf.indentUnit;
@@ -199,7 +202,8 @@ CodeMirror.defineMode("python", function(conf) {
         });
     }
     
-    function dedent(stream, state) {
+    function dedent(stream, state, type) {
+        type = type || 'py';
         if (state.scopes.length == 1) return;
         if (state.scopes[0].type === 'py') {
             var _indent = stream.indentation();
@@ -218,8 +222,16 @@ CodeMirror.defineMode("python", function(conf) {
             }
             return false
         } else {
-            state.scopes.shift();
-            return false;
+            if (type === 'py') {
+                state.scopes[0].offset = stream.indentation();
+                return false;
+            } else {
+                if (state.scopes[0].type != type) {
+                    return true;
+                }
+                state.scopes.shift();
+                return false;
+            }
         }
     }
 
@@ -271,7 +283,7 @@ CodeMirror.defineMode("python", function(conf) {
         }
         delimiter_index = '])}'.indexOf(current);
         if (delimiter_index !== -1) {
-            if (dedent(stream, state)) {
+            if (dedent(stream, state, current)) {
                 return ERRORCLASS;
             }
         }

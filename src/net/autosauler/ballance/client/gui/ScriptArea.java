@@ -41,7 +41,7 @@ public class ScriptArea extends TextArea {
 		super.setText("");
 		codemirrormode = false;
 		if (mode == null) {
-			editormode = "javascript";
+			editormode = "lua";
 		} else {
 			editormode = mode;
 		}
@@ -107,6 +107,9 @@ public class ScriptArea extends TextArea {
 	 */
 	private native void setCMText(String text) /*-{
 		codemirror.setValue(text);
+		// TODO: fix empty editor window on setText (it is wisible only on state change)
+		codemirror.refresh();
+		codemirror.setCursor(0, 0);
 	}-*/;
 
 	/*
@@ -118,6 +121,7 @@ public class ScriptArea extends TextArea {
 	public void setText(String text) {
 		if (!codemirrormode) {
 			super.setText(text);
+
 			initCodeMirror(getElement(), editormode);
 			codemirrormode = true;
 		} else {

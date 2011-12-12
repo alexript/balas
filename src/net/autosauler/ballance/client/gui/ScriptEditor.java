@@ -92,7 +92,7 @@ public class ScriptEditor extends DialogBox {
 		setAnimationEnabled(true);
 		setGlassEnabled(true);
 
-		editor = new ScriptArea("javascript");
+		editor = new ScriptArea("lua");
 		editor.setWidth("500px");
 		editor.setHeight("400px");
 
