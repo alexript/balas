@@ -24,6 +24,7 @@ import net.autosauler.ballance.client.SessionId;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -32,7 +33,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -44,8 +44,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * The Class AuthPanel.
  */
-public class AuthPanel extends Composite implements ClickHandler,
-		KeyPressHandler, IDialogYesReceiver {
+public class AuthPanel implements ClickHandler, KeyPressHandler,
+		IDialogYesReceiver {
 
 	/** The auth panel. */
 	private final VerticalPanel authPanel = new VerticalPanel();
@@ -74,16 +74,13 @@ public class AuthPanel extends Composite implements ClickHandler,
 	/** The Constant errorfieldstyle. */
 	final private static String errorfieldstyle = "errorFieldValue";
 
-	/** The menu. */
-	private LeftMenu menu;
-
 	/**
 	 * Instantiates a new auth panel.
 	 * 
 	 * @param title
 	 *            the title
 	 */
-	public AuthPanel(String title) {
+	public AuthPanel(String title, ContentPanel cp) {
 
 		formname = title;
 		authPanel.setWidth("244px");
@@ -102,17 +99,15 @@ public class AuthPanel extends Composite implements ClickHandler,
 			constructAuthForm();
 		}
 
-		initWidget(authPanel);
-		this.setStyleName("authPanel");
-
+		cp.add(authPanel);
 	}
 
 	/**
 	 * Construct auth form.
 	 */
 	private void constructAuthForm() {
-		if (menu != null) {
-			menu.buildContent();
+		if (Ballance_autosauler_net.menu != null) {
+			Ballance_autosauler_net.menu.buildContent();
 		}
 		authPanel.clear();
 		logoutButton = null;
@@ -222,8 +217,8 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		constructMessageLabel();
 
-		if (menu != null) {
-			menu.buildContent();
+		if (Ballance_autosauler_net.menu != null) {
+			Ballance_autosauler_net.menu.buildContent();
 		}
 
 	}
@@ -239,15 +234,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 
 		authPanel.add(bottomPanel);
 
-	}
-
-	/**
-	 * Gets the menu.
-	 * 
-	 * @return the menu
-	 */
-	public LeftMenu getMenu() {
-		return menu;
 	}
 
 	/**
@@ -406,16 +392,6 @@ public class AuthPanel extends Composite implements ClickHandler,
 			}
 		});
 
-	}
-
-	/**
-	 * Sets the menu.
-	 * 
-	 * @param menu
-	 *            the menu to set
-	 */
-	public void setMenu(LeftMenu menu) {
-		this.menu = menu;
 	}
 
 }

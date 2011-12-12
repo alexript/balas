@@ -21,10 +21,11 @@ import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratedStackPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -34,10 +35,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * The Class LeftMenu.
  */
-public class LeftMenu extends Composite {
+public class LeftMenu {
 
 	/** The panel. */
-	private final DecoratedStackPanel panel;
+	private final ContentPanel panel;
 
 	/** The role. */
 	private UserRole role = null;
@@ -45,12 +46,14 @@ public class LeftMenu extends Composite {
 	/**
 	 * Instantiates a new left menu.
 	 */
-	public LeftMenu() {
-		panel = new DecoratedStackPanel();
+	public LeftMenu(ContentPanel parent) {
+		panel = new ContentPanel();
+		panel.setLayout(new AccordionLayout());
 		panel.setWidth("244px");
 
 		buildContent();
-		initWidget(panel);
+
+		parent.add(panel);
 	}
 
 	/**
@@ -58,17 +61,21 @@ public class LeftMenu extends Composite {
 	 */
 	private void buildAdminPane() {
 		if (role.isAdmin()) {
+			ContentPanel cp = new ContentPanel();
+			cp.setAnimCollapse(true);
+			cp.setHeading(M.menu.adminPanel());
+			cp.setIcon(AbstractImagePrototype.create(Images.menu.adminPanel()));
+			cp.setLayout(new FitLayout());
+
 			VerticalPanel adminpanel = new VerticalPanel();
 
 			adminpanel.add(getMenuItem(M.menu.itemDatabase(), "dbpane",
 					Images.menu.icoDatabase()));
 			adminpanel.add(getMenuItem(M.menu.itemUsers(), "editusers",
 					Images.menu.icoUser()));
+			cp.add(adminpanel);
 
-			String adminHeader = getHeaderString(M.menu.adminPanel(),
-					Images.menu.adminPanel());
-
-			panel.add(adminpanel, adminHeader, true);
+			panel.add(cp);
 
 		}
 	}
@@ -85,6 +92,8 @@ public class LeftMenu extends Composite {
 		buildManagerPane();
 		buildForAllPane();
 		buildGuestPane();
+		panel.recalculate();
+		panel.layout(true); // hack for forced redraw after rebuild
 	}
 
 	/**
@@ -92,6 +101,13 @@ public class LeftMenu extends Composite {
 	 */
 	private void buildDocumentsPane() {
 		if (role.isAdmin() || role.isDocuments()) {
+			ContentPanel cp = new ContentPanel();
+			cp.setAnimCollapse(true);
+			cp.setHeading(M.menu.documentsPanel());
+			cp.setIcon(AbstractImagePrototype.create(Images.menu
+					.documentsPanel()));
+			cp.setLayout(new FitLayout());
+
 			VerticalPanel documentspanel = new VerticalPanel();
 
 			documentspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
@@ -106,9 +122,8 @@ public class LeftMenu extends Composite {
 			documentspanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
 					Images.menu.icoMan()));
 
-			String documentsHeader = getHeaderString(M.menu.documentsPanel(),
-					Images.menu.documentsPanel());
-			panel.add(documentspanel, documentsHeader, true);
+			cp.add(documentspanel);
+			panel.add(cp);
 		}
 	}
 
@@ -117,6 +132,13 @@ public class LeftMenu extends Composite {
 	 */
 	private void buildFinancesPane() {
 		if (role.isAdmin() || role.isFinances()) {
+			ContentPanel cp = new ContentPanel();
+			cp.setAnimCollapse(true);
+			cp.setHeading(M.menu.financesPanel());
+			cp.setIcon(AbstractImagePrototype.create(Images.menu
+					.financesPanel()));
+			cp.setLayout(new FitLayout());
+
 			VerticalPanel financesspanel = new VerticalPanel();
 
 			financesspanel.add(getMenuItem(M.menu.itemIncPay(), "incpay",
@@ -126,9 +148,8 @@ public class LeftMenu extends Composite {
 			financesspanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
 					Images.menu.icoTarif()));
 
-			String financesHeader = getHeaderString(M.menu.financesPanel(),
-					Images.menu.financesPanel());
-			panel.add(financesspanel, financesHeader, true);
+			cp.add(financesspanel);
+			panel.add(cp);
 		}
 	}
 
@@ -137,6 +158,12 @@ public class LeftMenu extends Composite {
 	 */
 	private void buildForAllPane() {
 		if (!role.isGuest()) {
+			ContentPanel cp = new ContentPanel();
+			cp.setAnimCollapse(true);
+			cp.setHeading(M.menu.forAllPanel());
+			cp.setIcon(AbstractImagePrototype.create(Images.menu.forAllPanel()));
+			cp.setLayout(new FitLayout());
+
 			VerticalPanel allpanel = new VerticalPanel();
 
 			allpanel.add(getMenuItem(M.menu.itemReportCurrval(), "currval",
@@ -145,9 +172,7 @@ public class LeftMenu extends Composite {
 			allpanel.add(getMenuItem(M.menu.itemChangelog(), "changelog",
 					Images.menu.icoChangelog()));
 
-			String forAllHeader = getHeaderString(M.menu.forAllPanel(),
-					Images.menu.forAllPanel());
-			panel.add(allpanel, forAllHeader, true);
+			cp.add(allpanel);
 		}
 	}
 
@@ -155,6 +180,11 @@ public class LeftMenu extends Composite {
 	 * Builds the guest pane.
 	 */
 	private void buildGuestPane() {
+		ContentPanel cp = new ContentPanel();
+		cp.setAnimCollapse(true);
+		cp.setHeading(M.menu.guestPanel());
+		cp.setIcon(AbstractImagePrototype.create(Images.menu.guestPanel()));
+		cp.setLayout(new FitLayout());
 
 		VerticalPanel guestpanel = new VerticalPanel();
 
@@ -164,9 +194,8 @@ public class LeftMenu extends Composite {
 		guestpanel.add(getMenuItem(M.menu.itemLicense(), "license",
 				Images.menu.icoCopyright()));
 
-		String guestHeader = getHeaderString(M.menu.guestPanel(),
-				Images.menu.guestPanel());
-		panel.add(guestpanel, guestHeader, true);
+		cp.add(guestpanel);
+		panel.add(cp);
 
 	}
 
@@ -175,6 +204,12 @@ public class LeftMenu extends Composite {
 	 */
 	private void buildManagerPane() {
 		if (role.isAdmin() || role.isManager()) {
+			ContentPanel cp = new ContentPanel();
+			cp.setAnimCollapse(true);
+			cp.setHeading(M.menu.managerPanel());
+			cp.setIcon(AbstractImagePrototype.create(Images.menu.managerPanel()));
+			cp.setLayout(new FitLayout());
+
 			VerticalPanel managerpanel = new VerticalPanel();
 
 			managerpanel.add(getMenuItem(M.menu.itemPaymethod(), "paymethod",
@@ -192,9 +227,8 @@ public class LeftMenu extends Composite {
 			managerpanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
 					Images.menu.icoMan()));
 
-			String managerHeader = getHeaderString(M.menu.managerPanel(),
-					Images.menu.managerPanel());
-			panel.add(managerpanel, managerHeader, true);
+			cp.add(managerpanel);
+			panel.add(cp);
 		}
 	}
 
@@ -202,31 +236,11 @@ public class LeftMenu extends Composite {
 	 * Clear.
 	 */
 	public void clear() {
-		panel.clear();
+		panel.removeAll();
+		ContentPanel cp = new ContentPanel();
+		panel.add(cp); // hack for hidden first panel
+
 		role = null;
-	}
-
-	/**
-	 * Gets the header string.
-	 * 
-	 * @param text
-	 *            the text
-	 * @param image
-	 *            the image
-	 * @return the header string
-	 */
-	private String getHeaderString(String text, ImageResource image) {
-		// Add the image and text to a horizontal panel
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setSpacing(0);
-		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		hPanel.add(new Image(image));
-		HTML headerText = new HTML(text);
-		headerText.setStyleName("cw-StackPanelHeader");
-		hPanel.add(headerText);
-
-		// Return the HTML string for the panel
-		return hPanel.getElement().getString();
 	}
 
 	/**

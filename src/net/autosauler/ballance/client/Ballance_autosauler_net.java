@@ -20,15 +20,18 @@ import java.util.Date;
 
 import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.AlertDialog;
-import net.autosauler.ballance.client.gui.LeftPanel;
+import net.autosauler.ballance.client.gui.AuthPanel;
+import net.autosauler.ballance.client.gui.LeftMenu;
 import net.autosauler.ballance.client.gui.MainPanel;
 import net.autosauler.ballance.client.gui.TopPanel;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
+import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
@@ -52,6 +55,9 @@ public class Ballance_autosauler_net implements EntryPoint {
 	/** The Constant COOKIE_TIME. */
 	public final static long COOKIE_TIME = 1000 * 60 * 60;
 
+	private static AuthPanel authPanel;
+	public static LeftMenu menu;
+
 	/**
 	 * Checks if is logged in.
 	 * 
@@ -70,7 +76,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 
 		Cookies.setCookie("session", "", new Date(System.currentTimeMillis()
 				+ COOKIE_TIME));
-		LeftPanel.authPanel.logoffAction();
+		authPanel.logoffAction();
 		MainPanel.dropMainPane();
 		History.newItem("start");
 	}
@@ -128,7 +134,12 @@ public class Ballance_autosauler_net implements EntryPoint {
 						32));
 				toppanel.startAnimation();
 
-				LeftPanel leftPanel = new LeftPanel();
+				ContentPanel leftPanel = new ContentPanel();
+				leftPanel.setLayout(new VBoxLayout());
+
+				authPanel = new AuthPanel("BalAS", leftPanel);
+
+				menu = new LeftMenu(leftPanel);
 
 				viewport.add(leftPanel, new BorderLayoutData(LayoutRegion.WEST,
 						250));
