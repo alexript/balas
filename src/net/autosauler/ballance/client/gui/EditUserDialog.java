@@ -217,10 +217,10 @@ public class EditUserDialog extends DialogBox {
 		vpanel.add(buttons);
 
 		setWidget(vpanel);
-
-		setPopupPosition(
-				(Ballance_autosauler_net.mainpanel.getOffsetWidth() / 2 - 200),
-				100);
+		/*
+		 * setPopupPosition( (Ballance_autosauler_net.mainpanel.getOffsetWidth()
+		 * / 2 - 200), 100);
+		 */
 		show();
 	}
 

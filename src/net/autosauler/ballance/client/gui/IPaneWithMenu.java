@@ -15,7 +15,7 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
-import com.google.gwt.user.client.ui.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 
 /**
  * @author alexript

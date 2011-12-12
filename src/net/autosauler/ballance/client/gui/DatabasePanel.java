@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -348,7 +347,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * @see net.autosauler.ballance.client.gui.IPaneWithMenu#getPaneMenu()
 	 */
 	@Override
-	public MenuBar getPaneMenu() {
+	public com.extjs.gxt.ui.client.widget.menu.MenuBar getPaneMenu() {
 		return null;
 	}
 

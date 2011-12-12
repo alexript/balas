@@ -32,11 +32,16 @@ import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.menu.Menu;
+import com.extjs.gxt.ui.client.widget.menu.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -44,7 +49,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -592,41 +596,51 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 */
 	@Override
 	public MenuBar getPaneMenu() {
-		MenuBar menu = new MenuBar();
+		MenuBar menubar = new MenuBar();
 
-		menu.addItem(M.catalog.menuReload(), new Command() { // reload users
-																// list
+		Menu menu = new Menu();
+
+		menu.add(new MenuItem(M.catalog.menuReload(),
+				new SelectionListener<MenuEvent>() {
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						reloadList();
+
 					}
-				});
+				}));
 
 		if (canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
 
-			menu.addItem(M.catalog.menuCreate(), new Command() { // reload users
-																	// list
+			menu.add(new MenuItem(M.catalog.menuCreate(),
+					new SelectionListener<MenuEvent>() {
+
 						@Override
-						public void execute() {
+						public void componentSelected(MenuEvent ce) {
 							editformnumber = -1L;
 							fullname.reset();
 							cleanEditForm();
 							openEditor();
+
 						}
-					});
+					}));
 		}
 
 		if (Ballance_autosauler_net.sessionId.getUserrole().isAdmin()) {
 
-			menu.addItem(M.catalog.menuScript(), new Command() {
-				@Override
-				public void execute() {
-					new ScriptEditor("catalog." + catalogname,
-							CatalogPanel.this);
-				}
-			});
+			menu.add(new MenuItem(M.catalog.menuScript(),
+					new SelectionListener<MenuEvent>() {
+
+						@Override
+						public void componentSelected(MenuEvent ce) {
+							new ScriptEditor("catalog." + catalogname,
+									CatalogPanel.this);
+
+						}
+					}));
 		}
-		return menu;
+
+		menubar.add(new MenuBarItem(M.menu.menubarCatalog(), menu));
+		return menubar;
 
 	}
 

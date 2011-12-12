@@ -27,6 +27,12 @@ import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.User;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.menu.Menu;
+import com.extjs.gxt.ui.client.widget.menu.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ImageResourceCell;
@@ -46,13 +52,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -111,41 +115,56 @@ public class UsersPanel extends Composite implements IPaneWithMenu,
 	 */
 	@Override
 	public MenuBar getPaneMenu() {
-		MenuBar menu = new MenuBar();
+		MenuBar menubar = new MenuBar();
+		Menu menu = new Menu();
 
-		menu.addItem(M.users.menuAddUser(), new Command() { // create new user
+		menu.add(new MenuItem(M.users.menuAddUser(),
+				new SelectionListener<MenuEvent>() { // create new user
+
 					@Override
-					public void execute() {
-						new EditUserDialog(UsersPanel.this);
+					public void componentSelected(MenuEvent ce) {
+						new EditUserDialog(UsersPanel.this);// TODO
+															// Auto-generated
+															// method stub
+
 					}
-				});
+				}));
 
-		menu.addItem(M.users.menuReload(), new Command() { // reload users list
+		menu.add(new MenuItem(M.users.menuReload(),
+				new SelectionListener<MenuEvent>() { // reload users list
+
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						reloadList();
-					}
-				});
 
-		menu.addItem(M.users.menuNotTrashedUsers(), new Command() { // Live
-																	// users
+					}
+				}));
+
+		menu.add(new MenuItem(M.users.menuNotTrashedUsers(),
+				new SelectionListener<MenuEvent>() { // Live
+
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						trashstate = false;
 						reloadList();
-					}
-				});
 
-		menu.addItem(M.users.menuTrashedUsers(), new Command() { // Trashed
-																	// users
+					}
+				}));
+
+		menu.add(new MenuItem(M.users.menuTrashedUsers(),
+				new SelectionListener<MenuEvent>() { // Trashed
+					// users
+
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						trashstate = true;
 						reloadList();
-					}
-				});
 
-		return menu;
+					}
+				}));
+
+		menubar.add(new MenuBarItem(M.menu.itemUsers(), menu));
+		return menubar;
 	}
 
 	/**

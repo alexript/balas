@@ -25,14 +25,18 @@ import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.ReportFormField;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.menu.Menu;
+import com.extjs.gxt.ui.client.widget.menu.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -141,24 +145,30 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 	 */
 	@Override
 	public MenuBar getPaneMenu() {
-		MenuBar menu = new MenuBar();
-		menu.addItem(M.catalog.menuReload(), new Command() { // reload users
+		MenuBar menubar = new MenuBar();
+		Menu menu = new Menu();
+		menu.add(new MenuItem(M.catalog.menuReload(),
+				new SelectionListener<MenuEvent>() { // reload
+					// users
 					// list
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						reloadList();
 					}
-				});
+				}));
 		if (Ballance_autosauler_net.sessionId.getUserrole().isAdmin()) {
 
-			menu.addItem(M.catalog.menuScript(), new Command() {
-				@Override
-				public void execute() {
-					new ScriptEditor("report." + scriptname, ReportPanel.this);
-				}
-			});
+			menu.add(new MenuItem(M.catalog.menuScript(),
+					new SelectionListener<MenuEvent>() {
+						@Override
+						public void componentSelected(MenuEvent ce) {
+							new ScriptEditor("report." + scriptname,
+									ReportPanel.this);
+						}
+					}));
 		}
-		return menu;
+		menubar.add(new MenuBarItem(M.menu.menubarReport(), menu));
+		return menubar;
 	}
 
 	/**

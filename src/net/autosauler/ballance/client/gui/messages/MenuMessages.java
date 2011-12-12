@@ -160,6 +160,12 @@ public interface MenuMessages extends Messages {
 	 */
 	String managerPanel();
 
+	String menubarCatalog();
+
+	String menubarDocument();
+
+	String menubarReport();
+
 	/**
 	 * Menu panelmenu.
 	 * 

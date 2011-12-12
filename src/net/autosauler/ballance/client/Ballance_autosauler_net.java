@@ -22,13 +22,16 @@ import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.LeftPanel;
 import net.autosauler.ballance.client.gui.MainPanel;
+import net.autosauler.ballance.client.gui.TopPanel;
 
+import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.widget.TabPanel;
+import com.extjs.gxt.ui.client.widget.Viewport;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -82,6 +85,8 @@ public class Ballance_autosauler_net implements EntryPoint {
 		isloggedin = f;
 	}
 
+	private Viewport viewport;
+
 	{
 		sessionId.setSessionId(Cookies.getCookie("session"));
 	}
@@ -115,24 +120,34 @@ public class Ballance_autosauler_net implements EntryPoint {
 					sessionId.setSession(result);
 				}
 
-				mainpanel = new MainPanel();
+				viewport = new Viewport();
+				viewport.setLayout(new BorderLayout());
 
-				mainpanel.setWidth("100%");
-				mainpanel.setHeight(Window.getClientHeight() + "px");
-				Window.addResizeHandler(new ResizeHandler() {
-					@Override
-					public void onResize(ResizeEvent event) {
-						mainpanel.setHeight(event.getHeight() + "px");
-						mainpanel.setWidth(event.getWidth() + "px");
-					}
-				});
-				RootPanel.get().add(mainpanel);
+				TopPanel toppanel = new TopPanel();
+				viewport.add(toppanel, new BorderLayoutData(LayoutRegion.NORTH,
+						32));
+				toppanel.startAnimation();
+
+				LeftPanel leftPanel = new LeftPanel();
+
+				viewport.add(leftPanel, new BorderLayoutData(LayoutRegion.WEST,
+						250));
+
+				TabPanel mainpane = new TabPanel();
+				mainpane.setAnimScroll(true);
+				mainpane.setTabScroll(true);
+				mainpane.setCloseContextMenu(true);
+
+				viewport.add(mainpane,
+						new BorderLayoutData(LayoutRegion.CENTER));
+				mainpanel = new MainPanel(mainpane);
+
+				RootPanel.get().add(viewport);
 				RootPanel.get("spinner").setVisible(false);
 				StructureFactory.loadData();
 
 			}// end onSucess
-		};// end AsyncCallback<String> asyncCallback = new
-			// AsyncCallback<String>()
+		};
 		Services.auth.session(sessionId, asyncCallback);
 
 	}

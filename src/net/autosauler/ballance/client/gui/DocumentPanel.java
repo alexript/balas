@@ -34,6 +34,12 @@ import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.menu.Menu;
+import com.extjs.gxt.ui.client.widget.menu.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;
@@ -48,7 +54,6 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -56,7 +61,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ProvidesKey;
@@ -700,23 +704,27 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 	 */
 	@Override
 	public MenuBar getPaneMenu() {
-		MenuBar menu = new MenuBar();
+		MenuBar menubar = new MenuBar();
+		Menu menu = new Menu();
 
-		menu.addItem(M.document.menuReload(), new Command() { // reload users
-																// list
+		menu.add(new MenuItem(M.document.menuReload(),
+				new SelectionListener<MenuEvent>() { // reload
+					// users
+					// list
 					@Override
-					public void execute() {
+					public void componentSelected(MenuEvent ce) {
 						reloadList();
 					}
-				});
+				}));
 
 		if (canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
 
-			menu.addItem(M.document.menuCreate(), new Command() { // reload
-																	// users
-																	// list
+			menu.add(new MenuItem(M.document.menuCreate(),
+					new SelectionListener<MenuEvent>() { // reload
+						// users
+						// list
 						@Override
-						public void execute() {
+						public void componentSelected(MenuEvent ce) {
 							editformnumber = -1L;
 							editformisactive = false;
 							cleanEditForm();
@@ -725,20 +733,22 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 							}
 							openEditor(null);
 						}
-					});
+					}));
 		}
 
 		if (Ballance_autosauler_net.sessionId.getUserrole().isAdmin()) {
 
-			menu.addItem(M.document.menuScript(), new Command() {
-				@Override
-				public void execute() {
-					new ScriptEditor("document." + documentname,
-							DocumentPanel.this);
-				}
-			});
+			menu.add(new MenuItem(M.document.menuScript(),
+					new SelectionListener<MenuEvent>() {
+						@Override
+						public void componentSelected(MenuEvent ce) {
+							new ScriptEditor("document." + documentname,
+									DocumentPanel.this);
+						}
+					}));
 		}
-		return menu;
+		menubar.add(new MenuBarItem(M.menu.menubarDocument(), menu));
+		return menubar;
 
 	}
 

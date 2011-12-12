@@ -16,7 +16,6 @@
 
 package net.autosauler.ballance.client.gui;
 
-import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 
@@ -127,9 +126,9 @@ public class QuestionDialog extends DialogBox {
 		setWidget(vpanel);
 
 		no.setFocus(true);
-
-		setPopupPosition(
-				(Ballance_autosauler_net.mainpanel.getOffsetWidth() / 2 - 150),
-				200);
+		/*
+		 * setPopupPosition( (Ballance_autosauler_net.mainpanel.getOffsetWidth()
+		 * / 2 - 150), 200);
+		 */
 	}
 }
