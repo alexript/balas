@@ -217,6 +217,8 @@ public class MainPanel implements ValueChangeHandler<String> {
 	private Widget constructTabPaneContent(IPaneWithMenu realpane,
 			String title, ImageResource ico, final String tag) {
 		ContentPanel panel = new ContentPanel(new BorderLayout());
+		panel.setBodyStyle("background-color:#ffffff;");
+		panel.setHeaderVisible(false);
 
 		MenuBar menu = realpane.getPaneMenu();
 		if (menu == null) {
@@ -253,6 +255,7 @@ public class MainPanel implements ValueChangeHandler<String> {
 		panel.add(menu, new BorderLayoutData(LayoutRegion.NORTH, 30));
 
 		BorderLayoutData center = new BorderLayoutData(LayoutRegion.CENTER);
+		panel.setScrollMode(Scroll.AUTO);
 
 		panel.add((Widget) realpane, center);
 
@@ -260,7 +263,6 @@ public class MainPanel implements ValueChangeHandler<String> {
 		tabitem.setIcon(AbstractImagePrototype.create(ico));
 		tabitem.setItemId(tag);
 		tabitem.setClosable(true);
-		tabitem.setScrollMode(Scroll.AUTO);
 		tabitem.setLayout(new FitLayout());
 		tabitem.add(panel);
 

@@ -61,7 +61,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -93,12 +92,6 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 	/** The editor. */
 	private VerticalPanel editor;
-
-	/** The editorscroll. */
-	private ScrollPanel editorscroll;
-
-	/** The listscroll. */
-	private ScrollPanel listscroll;
 
 	/** The btn save. */
 	private Button btnSave;
@@ -514,12 +507,12 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 		editor.add(buttons);
 
-		editorscroll = new ScrollPanel(editor);
-		editorscroll.setSize("100%", "450px");
-		editorscroll.setAlwaysShowScrollBars(true);
-		editorscroll.setVisible(false);
+		// editorscroll = new ScrollPanel(editor);
+		// editorscroll.setSize("100%", "450px");
+		// editorscroll.setAlwaysShowScrollBars(true);
+		editor.setVisible(false);
 
-		root.add(editorscroll, 0, 0);
+		root.add(editor, 0, 0);
 	}
 
 	/**
@@ -585,11 +578,11 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 		pager2.setDisplay(cellTable);
 		list.add(pager2);
 
-		listscroll = new ScrollPanel(list);
-		listscroll.setSize("100%", "500px");
-		listscroll.setAlwaysShowScrollBars(true);
+		// listscroll = new ScrollPanel(list);
+		// listscroll.setSize("100%", "500px");
+		// listscroll.setAlwaysShowScrollBars(true);
 
-		root.add(listscroll, 0, 0);
+		root.add(list, 0, 0);
 	}
 
 	/**
@@ -989,8 +982,8 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 			}
 			btnActivate.setVisible(true);
 		}
-		effectHide(listscroll.getElement());
-		effectShow(editorscroll.getElement());
+		effectHide(list.getElement());
+		effectShow(editor.getElement());
 	}
 
 	/**
@@ -1007,9 +1000,9 @@ public class DocumentPanel extends Composite implements IPaneWithMenu,
 
 			cellTable.getSelectionModel().setSelected(selection, false);
 		}
-		if (!listscroll.isVisible() && (editor != null) && editor.isVisible()) {
-			effectHide(editorscroll.getElement());
-			effectShow(listscroll.getElement());
+		if (!list.isVisible() && (editor != null) && editor.isVisible()) {
+			effectHide(editor.getElement());
+			effectShow(list.getElement());
 		}
 	}
 
