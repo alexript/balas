@@ -31,6 +31,7 @@ import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.KeyListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Info;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.form.TextField;
@@ -39,7 +40,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
@@ -66,9 +66,6 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 	/** The logout button. */
 	private Button logoutButton = null;
 
-	/** The message label. */
-	private Label messageLabel = null;
-
 	private final FormData formData;
 
 	/**
@@ -83,12 +80,8 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		authPanel.setFrame(true);
 		authPanel.setWidth("240px");
 		authPanel.setButtonAlign(HorizontalAlignment.CENTER);
-		authPanel.setHeight("156px");
+		authPanel.setHeight("136px");
 		//
-
-		messageLabel = new Label();
-		messageLabel.setText("");
-		messageLabel.setStyleName("authMessageLabel");
 
 		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
 
@@ -109,7 +102,7 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		} else if (event.getSource().equals(cancelButton)) { // clean form
 
 			authPanel.reset();
-			messageLabel.setText("");
+
 		} else if (event.getSource().equals(logoutButton)) {
 			new QuestionDialog(M.auth.qtnLogout(), this, "logout").show();
 		}
@@ -168,8 +161,6 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		cancelButton.addSelectionListener(this);
 		authPanel.addButton(cancelButton);
 
-		constructMessageLabel();
-
 	}
 
 	/**
@@ -198,24 +189,9 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		logoutButton.addSelectionListener(this);
 		authPanel.addButton(logoutButton);
 
-		constructMessageLabel();
-
 		if (Ballance_autosauler_net.menu != null) {
 			Ballance_autosauler_net.menu.buildContent();
 		}
-
-	}
-
-	/**
-	 * Construct message label.
-	 */
-	private void constructMessageLabel() {
-		HorizontalPanel bottomPanel = new HorizontalPanel();
-
-		messageLabel.setText("");
-		bottomPanel.add(messageLabel);
-
-		authPanel.add(bottomPanel);
 
 	}
 
@@ -280,14 +256,13 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 			return;
 		}
 
-		messageLabel.setText("");
 		MainPanel.setCommInfo(true);
 		Services.auth.chkAuth(login, password, new AsyncCallback<SessionId>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				MainPanel.setCommInfo(false);
-				messageLabel.setText(M.auth.commError());
+				Info.display("Error", M.auth.commError());
 				new AlertDialog(caught).show();
 			}
 
@@ -310,7 +285,7 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 				} else {
 					Ballance_autosauler_net.setLoggedInState(false);
 					logoffAction();
-					messageLabel.setText(M.auth.badAuth());
+					Info.display("Auth error", M.auth.badAuth());
 				}// end else
 
 				MainPanel.setCommInfo(false);

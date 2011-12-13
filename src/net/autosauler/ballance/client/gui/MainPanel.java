@@ -58,7 +58,7 @@ public class MainPanel implements ValueChangeHandler<String> {
 	private static TabPanel mainpane;
 
 	/** The comminfo. */
-	private static CommInfoPanel comminfo = null;
+	// private static CommInfoPanel comminfo = null;
 
 	/**
 	 * Drop main pane.
@@ -77,14 +77,21 @@ public class MainPanel implements ValueChangeHandler<String> {
 		if (f) {
 			busycounter++;
 			if (busycounter == 1) {
-				comminfo = new CommInfoPanel();
-				comminfo.show();
+				// comminfo = new CommInfoPanel();
+				// comminfo.show();
+				if (Ballance_autosauler_net.state != null) {
+					Ballance_autosauler_net.state.setBusy(M.comm
+							.commInProgress());
+				}
 			}
 		} else {
 			busycounter--;
 			if (busycounter < 1) {
-				comminfo.hide();
+				// comminfo.hide();
 				busycounter = 0;
+				if (Ballance_autosauler_net.state != null) {
+					Ballance_autosauler_net.state.clearStatus("");
+				}
 			}
 		}
 	}

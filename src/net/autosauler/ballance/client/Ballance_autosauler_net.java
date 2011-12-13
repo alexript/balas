@@ -28,6 +28,7 @@ import net.autosauler.ballance.client.gui.TopPanel;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.Status;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
@@ -58,6 +59,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 
 	private static AuthPanel authPanel;
 	public static LeftMenu menu;
+	public static Status state;
 
 	/**
 	 * Checks if is logged in.
@@ -158,6 +160,11 @@ public class Ballance_autosauler_net implements EntryPoint {
 				viewport.add(mainpane,
 						new BorderLayoutData(LayoutRegion.CENTER));
 				mainpanel = new MainPanel(mainpane);
+
+				state = new Status();
+				state.setBox(true);
+				viewport.add(state,
+						new BorderLayoutData(LayoutRegion.SOUTH, 30));
 
 				RootPanel.get().add(viewport);
 				RootPanel.get("spinner").setVisible(false);
