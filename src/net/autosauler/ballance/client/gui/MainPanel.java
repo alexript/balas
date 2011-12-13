@@ -22,28 +22,26 @@ import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.event.MenuEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -218,12 +216,7 @@ public class MainPanel implements ValueChangeHandler<String> {
 	 */
 	private Widget constructTabPaneContent(IPaneWithMenu realpane,
 			String title, ImageResource ico, final String tag) {
-		VerticalPanel panel = new VerticalPanel();
-
-		HorizontalPanel panemenu = new HorizontalPanel();
-		panemenu.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		panemenu.setHeight("20px");
-		panemenu.setWidth("100%");
+		ContentPanel panel = new ContentPanel(new BorderLayout());
 
 		MenuBar menu = realpane.getPaneMenu();
 		if (menu == null) {
@@ -257,52 +250,11 @@ public class MainPanel implements ValueChangeHandler<String> {
 
 		menu.add(new MenuBarItem(M.menu.menuPanelmenu(), sysmenu));
 
-		panemenu.add(menu);
-		panemenu.setCellHorizontalAlignment(menu,
-				HasHorizontalAlignment.ALIGN_LEFT);
+		panel.add(menu, new BorderLayoutData(LayoutRegion.NORTH, 30));
 
-		Image reloadImage = new Image(Images.menu.icoReload());
-		reloadImage.setTitle(M.menu.icoReloadPane());
-		reloadImage.setAltText(M.menu.icoReloadPane());
+		BorderLayoutData center = new BorderLayoutData(LayoutRegion.CENTER);
 
-		reloadImage.addClickHandler(new ClickHandler() {
-			private final String mytag = tag;
-
-			@Override
-			public void onClick(ClickEvent event) {
-				closeTab(mytag);
-				openTab(mytag);
-			}
-
-		});
-
-		panemenu.add(reloadImage);
-		panemenu.setCellWidth(reloadImage, "20px");
-
-		Image closeImage = new Image(Images.menu.icoClose());
-		closeImage.setTitle(M.menu.icoClosePane());
-		closeImage.setAltText(M.menu.icoClosePane());
-
-		closeImage.addClickHandler(new ClickHandler() {
-			private final String mytag = tag;
-
-			@Override
-			public void onClick(ClickEvent event) {
-				closeTab(mytag);
-
-			}
-
-		});
-
-		panemenu.add(closeImage);
-		panemenu.setCellWidth(closeImage, "20px");
-
-		panel.add(panemenu);
-		panel.setCellHeight(panemenu, "30px");
-		panel.add((Widget) realpane);
-		panel.setCellVerticalAlignment((Widget) realpane,
-				HasVerticalAlignment.ALIGN_TOP);
-		panel.setWidth("100%");
+		panel.add((Widget) realpane, center);
 
 		TabItem tabitem = new TabItem(title);
 		tabitem.setIcon(AbstractImagePrototype.create(ico));
