@@ -19,11 +19,10 @@ package net.autosauler.ballance.client.gui;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.Dialog;
+import com.extjs.gxt.ui.client.widget.button.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -32,7 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * The Class QuestionDialog.
  */
-public class QuestionDialog extends DialogBox {
+public class QuestionDialog extends Dialog {
 
 	/** The question dialog receiver. */
 	private final IDialogYesReceiver yesreceiver;
@@ -76,27 +75,34 @@ public class QuestionDialog extends DialogBox {
 		mytag = tag;
 		mytag2 = tag2;
 
-		setText(M.dialog.msgTitle());
-		setAnimationEnabled(true);
-		setGlassEnabled(true);
+		setHeading(M.dialog.msgTitle());
+		setAnimCollapse(true);
+		setAutoHeight(true);
+		setAutoWidth(true);
+		setBlinkModal(true);
+		setClosable(false);
+		setDraggable(true);
+		setModal(true);
+		setShadow(true);
 
 		Button yes = new Button(M.dialog.btnYes());
 
-		yes.addClickHandler(new ClickHandler() {
+		yes.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				yesreceiver.onDialogYesButtonClick(mytag, mytag2);
 				QuestionDialog.this.hide();
+
 			}
 
 		});
 
 		Button no = new Button(M.dialog.btnNo());
-		no.addClickHandler(new ClickHandler() {
+		no.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				QuestionDialog.this.hide();
 
 			}
@@ -111,24 +117,12 @@ public class QuestionDialog extends DialogBox {
 		qpanel.add(new Label(question));
 		vpanel.add(qpanel);
 
-		HorizontalPanel buttons = new HorizontalPanel();
-		buttons.setWidth("100%");
-		buttons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		this.add(vpanel);
+		getButtonBar().removeAll();
+		addButton(yes);
+		addButton(no);
 
-		HorizontalPanel bcontainer = new HorizontalPanel();
-		bcontainer.add(yes);
-		bcontainer.add(no);
-		bcontainer.setSpacing(5);
-		buttons.add(bcontainer);
+		no.focus();
 
-		vpanel.add(buttons);
-
-		setWidget(vpanel);
-
-		no.setFocus(true);
-		/*
-		 * setPopupPosition( (Ballance_autosauler_net.mainpanel.getOffsetWidth()
-		 * / 2 - 150), 200);
-		 */
 	}
 }

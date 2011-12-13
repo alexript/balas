@@ -19,13 +19,8 @@ package net.autosauler.ballance.client.gui;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
+import com.extjs.gxt.ui.client.widget.Dialog;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -35,7 +30,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * The Class AlertDialog.
  */
-public class AlertDialog extends DialogBox {
+public class AlertDialog extends Dialog {
 
 	/**
 	 * Instantiates a new alert dialog.
@@ -84,20 +79,17 @@ public class AlertDialog extends DialogBox {
 	 */
 	private void initDialog(String message, String additionalinfo) {
 
-		setText(M.dialog.msgAlertTitle());
-		setAnimationEnabled(true);
-		setGlassEnabled(true);
-
-		Button ok = new Button(M.dialog.btnOk());
-
-		ok.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				AlertDialog.this.hide();
-			}
-
-		});
+		setHeading(M.dialog.msgAlertTitle());
+		setAnimCollapse(true);
+		setAutoHeight(true);
+		setAutoWidth(true);
+		setBlinkModal(true);
+		setClosable(false);
+		setDraggable(true);
+		setModal(true);
+		setShadow(true);
+		setButtons(Dialog.OK);
+		setHideOnButtonClick(true);
 
 		VerticalPanel vpanel = new VerticalPanel();
 		vpanel.setWidth("300px");
@@ -124,19 +116,7 @@ public class AlertDialog extends DialogBox {
 
 		}
 
-		HorizontalPanel buttons = new HorizontalPanel();
-		buttons.setWidth("100%");
-		buttons.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		this.add(vpanel);
 
-		buttons.add(ok);
-		buttons.setSpacing(5);
-
-		vpanel.add(buttons);
-
-		setWidget(vpanel);
-
-		ok.setFocus(true);
-
-		setPopupPosition((Window.getClientWidth() / 2 - 150), 200);
 	}
 }
