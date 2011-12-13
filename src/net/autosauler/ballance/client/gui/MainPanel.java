@@ -113,6 +113,7 @@ public class MainPanel implements ValueChangeHandler<String> {
 		TabItem item = mainpane.getItemByItemId(tag);
 		if (item != null) {
 			mainpane.remove(item);
+
 		}
 	}
 

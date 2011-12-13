@@ -81,6 +81,7 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		authPanel.setWidth("240px");
 		authPanel.setButtonAlign(HorizontalAlignment.CENTER);
 		authPanel.setHeight("136px");
+		authPanel.setCollapsible(true);
 		//
 
 		// Window.alert("check " + Ballance_autosauler_net.isLoggedIn());
@@ -203,6 +204,8 @@ public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		authPanel.recalculate();
 		authPanel.layout(true);
 		authPanel.fireEvent(Events.Refresh);
+		Info.display("Auth", M.auth
+				.helloUserMsg(Ballance_autosauler_net.sessionId.getUsername()));
 	}
 
 	/**
