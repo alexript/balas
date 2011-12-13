@@ -48,8 +48,9 @@ public class LeftMenu {
 	 */
 	public LeftMenu(ContentPanel parent) {
 		panel = new ContentPanel();
+		panel.setHeaderVisible(false);
 		panel.setLayout(new AccordionLayout());
-		panel.setWidth("244px");
+		panel.setWidth("240px");
 
 		buildContent();
 
@@ -92,6 +93,7 @@ public class LeftMenu {
 		buildManagerPane();
 		buildForAllPane();
 		buildGuestPane();
+
 		panel.recalculate();
 		panel.layout(true); // hack for forced redraw after rebuild
 	}
@@ -239,7 +241,7 @@ public class LeftMenu {
 		panel.removeAll();
 		ContentPanel cp = new ContentPanel();
 		panel.add(cp); // hack for hidden first panel
-
+		cp.hide();
 		role = null;
 	}
 

@@ -22,6 +22,7 @@ import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 
@@ -123,5 +124,10 @@ public class RolesWidget extends Composite {
 		if (role.isManager()) {
 			panel.add(imgManager);
 		}
+	}
+
+	public void setHorizontalAlignment(HorizontalAlignmentConstant alignCenter) {
+		panel.setHorizontalAlignment(alignCenter);
+
 	}
 }

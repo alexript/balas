@@ -24,37 +24,38 @@ import net.autosauler.ballance.client.SessionId;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.ComponentEvent;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.KeyListener;
+import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The Class AuthPanel.
  */
-public class AuthPanel implements ClickHandler, KeyPressHandler,
+public class AuthPanel extends SelectionListener<ButtonEvent> implements
 		IDialogYesReceiver {
 
 	/** The auth panel. */
-	private final VerticalPanel authPanel = new VerticalPanel();
+	private final FormPanel authPanel = new FormPanel();
 
 	/** The login text. */
-	private TextBox loginText = null;
+	private TextField<String> loginText = null;
 
 	/** The password text. */
-	private PasswordTextBox passwordText = null;
+	private TextField<String> passwordText = null;
 
 	/** The ok button. */
 	private Button okButton = null;
@@ -62,17 +63,13 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 	/** The cancel button. */
 	private Button cancelButton = null;
 
-	/** The formname. */
-	private String formname = null;
-
 	/** The logout button. */
 	private Button logoutButton = null;
 
 	/** The message label. */
 	private Label messageLabel = null;
 
-	/** The Constant errorfieldstyle. */
-	final private static String errorfieldstyle = "errorFieldValue";
+	private final FormData formData;
 
 	/**
 	 * Instantiates a new auth panel.
@@ -81,11 +78,13 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 	 *            the title
 	 */
 	public AuthPanel(String title, ContentPanel cp) {
-
-		formname = title;
-		authPanel.setWidth("244px");
-		authPanel.setHeight("130px");
-		authPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		formData = new FormData("-20");
+		authPanel.setHeading(title);
+		authPanel.setFrame(true);
+		authPanel.setWidth("240px");
+		authPanel.setButtonAlign(HorizontalAlignment.CENTER);
+		authPanel.setHeight("156px");
+		//
 
 		messageLabel = new Label();
 		messageLabel.setText("");
@@ -102,6 +101,21 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 		cp.add(authPanel);
 	}
 
+	@Override
+	public void componentSelected(ButtonEvent event) {
+		if (event.getSource().equals(okButton)) { // let's auth
+			onOkButton();
+
+		} else if (event.getSource().equals(cancelButton)) { // clean form
+
+			authPanel.reset();
+			messageLabel.setText("");
+		} else if (event.getSource().equals(logoutButton)) {
+			new QuestionDialog(M.auth.qtnLogout(), this, "logout").show();
+		}
+
+	}
+
 	/**
 	 * Construct auth form.
 	 */
@@ -109,80 +123,50 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 		if (Ballance_autosauler_net.menu != null) {
 			Ballance_autosauler_net.menu.buildContent();
 		}
-		authPanel.clear();
+		authPanel.removeAll();
+		authPanel.getButtonBar().removeAll();
 		logoutButton = null;
 
-		if ((formname != null) && !formname.isEmpty()) {
-			Label title = new Label();
-			title.setText(formname);
-			title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-			authPanel.add(title);
-		}
-
-		// login line
-		HorizontalPanel loginPanel = new HorizontalPanel();
-		loginPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		loginPanel.setSpacing(3);
-
-		Label loginLabel = new Label();
-		loginLabel.setText(M.auth.labelLogin());
-		loginLabel.setWidth("70px");
-		loginPanel.add(loginLabel);
-
-		loginText = new TextBox();
-		passwordText = new PasswordTextBox();
-
-		loginText.setText("");
-		loginText.setWidth("150px");
-		loginText.setMaxLength(50);
-		loginText.addKeyPressHandler(new KeyPressHandler() {
-
+		loginText = new TextField<String>();
+		loginText.setFieldLabel(M.auth.labelLogin());
+		loginText.setAllowBlank(false);
+		loginText.getFocusSupport().setPreviousId(
+				authPanel.getButtonBar().getId());
+		loginText.setMinLength(5);
+		loginText.addKeyListener(new KeyListener() {
 			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-					passwordText.setFocus(true);
+			public void componentKeyPress(ComponentEvent event) {
+				if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
+					passwordText.focus();
 				}
-
 			}
 
 		});
-		loginPanel.add(loginText);
-		authPanel.add(loginPanel);
+		authPanel.add(loginText, formData);
 
-		// password line
-		HorizontalPanel passwordPanel = new HorizontalPanel();
-		passwordPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		passwordPanel.setSpacing(3);
+		passwordText = new TextField<String>();
+		passwordText.setFieldLabel(M.auth.labelPssword());
+		passwordText.setPassword(true);
+		passwordText.setMinLength(5);
+		passwordText.setAllowBlank(false);
+		passwordText.addKeyListener(new KeyListener() {
+			@Override
+			public void componentKeyPress(ComponentEvent event) {
+				if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
+					onOkButton();
+				}
+			}
 
-		Label passwordLabel = new Label();
-		passwordLabel.setText(M.auth.labelPssword());
-		passwordLabel.setWidth("70px");
-		passwordPanel.add(passwordLabel);
+		});
+		authPanel.add(passwordText, formData);
 
-		passwordText.setText("");
-		passwordText.setWidth("150px");
-		passwordText.setMaxLength(50);
-		passwordText.addKeyPressHandler(this);
-		passwordPanel.add(passwordText);
+		okButton = new Button(M.auth.btnLogin());
+		okButton.addSelectionListener(this);
+		authPanel.addButton(okButton);
 
-		authPanel.add(passwordPanel);
-
-		// buttons line
-
-		HorizontalPanel buttonsPanel = new HorizontalPanel();
-		buttonsPanel.setSpacing(3);
-
-		okButton = new Button();
-		okButton.setText(M.auth.btnLogin());
-		okButton.addClickHandler(this);
-		buttonsPanel.add(okButton);
-
-		cancelButton = new Button();
-		cancelButton.setText(M.auth.btnCancel());
-		cancelButton.addClickHandler(this);
-		buttonsPanel.add(cancelButton);
-
-		authPanel.add(buttonsPanel);
+		cancelButton = new Button(M.auth.btnCancel());
+		cancelButton.addSelectionListener(this);
+		authPanel.addButton(cancelButton);
 
 		constructMessageLabel();
 
@@ -192,7 +176,8 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 	 * Construct hello pane.
 	 */
 	private void constructHelloPane() {
-		authPanel.clear();
+		authPanel.removeAll();
+		authPanel.getButtonBar().removeAll();
 		loginText = null;
 		passwordText = null;
 		okButton = null;
@@ -206,14 +191,12 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 
 		UserRole userrole = Ballance_autosauler_net.sessionId.getUserrole();
 		RolesWidget roleswidget = new RolesWidget(userrole);
+		roleswidget.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		authPanel.add(roleswidget);
-		authPanel.setCellHorizontalAlignment(roleswidget,
-				HasHorizontalAlignment.ALIGN_CENTER);
 
-		logoutButton = new Button();
-		logoutButton.setText(M.auth.btnLogout());
-		logoutButton.addClickHandler(this);
-		authPanel.add(logoutButton);
+		logoutButton = new Button(M.auth.btnLogout());
+		logoutButton.addSelectionListener(this);
+		authPanel.addButton(logoutButton);
 
 		constructMessageLabel();
 
@@ -241,6 +224,9 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 	 */
 	public void loginAction() {
 		constructHelloPane();
+		authPanel.recalculate();
+		authPanel.layout(true);
+		authPanel.fireEvent(Events.Refresh);
 	}
 
 	/**
@@ -248,36 +234,9 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 	 */
 	public void logoffAction() {
 		constructAuthForm();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event
-	 * .dom.client.ClickEvent)
-	 */
-	@Override
-	public void onClick(ClickEvent event) {
-		if (event.getSource().equals(okButton)) { // let's auth
-			onOkButton();
-
-		} else if (event.getSource().equals(cancelButton)) { // clean form
-
-			if (passwordText != null) {
-				passwordText.setText("");
-				passwordText.removeStyleName(errorfieldstyle);
-			}
-			if (loginText != null) {
-				loginText.setText("");
-				loginText.setFocus(true);
-				loginText.removeStyleName(errorfieldstyle);
-			}
-			messageLabel.setText("");
-		} else if (event.getSource().equals(logoutButton)) {
-			new QuestionDialog(M.auth.qtnLogout(), this, "logout").show();
-		}
-
+		authPanel.recalculate();
+		authPanel.layout(true);
+		authPanel.fireEvent(Events.Refresh);
 	}
 
 	/*
@@ -311,47 +270,13 @@ public class AuthPanel implements ClickHandler, KeyPressHandler,
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.event.dom.client.KeyPressHandler#onKeyPress(com.google
-	 * .gwt.event.dom.client.KeyPressEvent)
-	 */
-	@Override
-	public void onKeyPress(KeyPressEvent event) {
-		if (event.getSource().equals(passwordText)) {
-			if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-				onOkButton();
-			}
-		}
-
-	}
-
 	/**
 	 * On ok button.
 	 */
 	private void onOkButton() {
-		String login = loginText.getText().trim();
-		String password = passwordText.getText().trim();
-		boolean fieldsok = true;
-		if ((login == null) || (login.length() < 5)) {
-			loginText.addStyleName(errorfieldstyle);
-			fieldsok = false;
-		} else {
-			loginText.removeStyleName(errorfieldstyle);
-		}
-
-		if ((password == null) || (password.length() < 5)) {
-			passwordText.addStyleName(errorfieldstyle);
-			fieldsok = false;
-		} else {
-			passwordText.removeStyleName(errorfieldstyle);
-		}
-
-		if (!fieldsok) {
-			messageLabel.setText(M.auth.badFieldValue());
-			loginText.setFocus(true);
+		String login = loginText.getValue().trim();
+		String password = passwordText.getValue().trim();
+		if (!authPanel.isValid()) {
 			return;
 		}
 

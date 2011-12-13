@@ -26,6 +26,7 @@ import net.autosauler.ballance.client.gui.MainPanel;
 import net.autosauler.ballance.client.gui.TopPanel;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.Viewport;
@@ -141,8 +142,13 @@ public class Ballance_autosauler_net implements EntryPoint {
 
 				menu = new LeftMenu(leftPanel);
 
-				viewport.add(leftPanel, new BorderLayoutData(LayoutRegion.WEST,
-						250));
+				BorderLayoutData westData = new BorderLayoutData(
+						LayoutRegion.WEST, 242, 242, 300);
+				westData.setMargins(new Margins(5, 5, 5, 5));
+				westData.setSplit(true);
+				westData.setCollapsible(true);
+
+				viewport.add(leftPanel, westData);
 
 				TabPanel mainpane = new TabPanel();
 				mainpane.setAnimScroll(true);
