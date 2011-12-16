@@ -26,6 +26,9 @@ import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -37,7 +40,6 @@ import com.google.gwt.user.cellview.client.HasKeyboardPagingPolicy.KeyboardPagin
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -53,7 +55,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 /**
  * The Class DatabasePanel.
  */
-public class DatabasePanel extends Composite implements ClickHandler,
+public class DatabasePanel extends ContentPanel implements ClickHandler,
 		IDialogYesReceiver, IPaneWithMenu {
 
 	/**
@@ -67,9 +69,6 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		}
 		return impl;
 	}
-
-	/** The root. */
-	private VerticalPanel root = null;
 
 	/** The btn drop database. */
 	private Button btnDropDatabase;
@@ -108,15 +107,13 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * Instantiates a new database panel.
 	 */
 	private DatabasePanel() {
+		super(new VBoxLayout());
 
-		root = new VerticalPanel();
-		root.setSpacing(5);
-		root.add(createGlobalScriptPanel());
-		root.add(createDropDatabasePanel());
-		root.add(createDumpDatabasePanel());
+		add(createGlobalScriptPanel());
+		add(createDropDatabasePanel());
+		add(createDumpDatabasePanel());
 		settingspanel = createSettingsPanel();
-		root.add(settingspanel);
-		initWidget(root);
+		add(settingspanel);
 
 		MainPanel.setCommInfo(true);
 		Services.database
@@ -249,18 +246,15 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * 
 	 * @return the decorator panel
 	 */
-	private DecoratorPanel createDropDatabasePanel() {
-		HorizontalPanel p = new HorizontalPanel();
-		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		p.setSpacing(6);
-		p.add(new Label(M.database.msgDropDatabaseTitle()));
+	private FieldSet createDropDatabasePanel() {
+		FieldSet fieldSet = new FieldSet();
+		fieldSet.setHeading(M.database.msgDropDatabaseTitle());
 
 		btnDropDatabase = new Button(M.database.btnExecute());
 		btnDropDatabase.addClickHandler(this);
-		p.add(btnDropDatabase);
-		DecoratorPanel panel = new DecoratorPanel();
-		panel.setWidget(p);
-		return panel;
+
+		fieldSet.add(btnDropDatabase);
+		return fieldSet;
 	}
 
 	/**
@@ -268,7 +262,7 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * 
 	 * @return the decorator panel
 	 */
-	private DecoratorPanel createDumpDatabasePanel() {
+	private FieldSet createDumpDatabasePanel() {
 		VerticalPanel v = new VerticalPanel();
 
 		HorizontalPanel p = new HorizontalPanel();
@@ -293,9 +287,9 @@ public class DatabasePanel extends Composite implements ClickHandler,
 		p.add(btnRestoreDatabase);
 		v.add(p);
 
-		DecoratorPanel panel = new DecoratorPanel();
-		panel.setWidget(v);
-		return panel;
+		FieldSet fieldSet = new FieldSet();
+		fieldSet.add(v);
+		return fieldSet;
 	}
 
 	/**
@@ -303,18 +297,13 @@ public class DatabasePanel extends Composite implements ClickHandler,
 	 * 
 	 * @return the decorator panel
 	 */
-	private DecoratorPanel createGlobalScriptPanel() {
-		HorizontalPanel p = new HorizontalPanel();
-		p.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		p.setSpacing(6);
-		p.add(new Label(M.database.msgGlobalScript()));
-
+	private FieldSet createGlobalScriptPanel() {
+		FieldSet fieldSet = new FieldSet();
+		fieldSet.setHeading(M.database.msgGlobalScript());
 		btnGlobalScript = new Button(M.database.btnGlobalScript());
 		btnGlobalScript.addClickHandler(this);
-		p.add(btnGlobalScript);
-		DecoratorPanel panel = new DecoratorPanel();
-		panel.setWidget(p);
-		return panel;
+		fieldSet.add(btnGlobalScript);
+		return fieldSet;
 	}
 
 	/**

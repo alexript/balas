@@ -83,7 +83,7 @@ public class ScriptArea extends TextArea {
 	 * @param edmode
 	 *            the edmode
 	 */
-	// TODO: syntax highlight: http://codemirror.net/manual.html
+
 	private native void initCodeMirror(Element element, String edmode) /*-{
 		codemirror = new $wnd.CodeMirror.fromTextArea(element, {
 			mode : edmode,
@@ -107,7 +107,6 @@ public class ScriptArea extends TextArea {
 	 */
 	private native void setCMText(String text) /*-{
 		codemirror.setValue(text);
-		// TODO: fix empty editor window on setText (it is wisible only on state change)
 		codemirror.refresh();
 		codemirror.setCursor(0, 0);
 	}-*/;

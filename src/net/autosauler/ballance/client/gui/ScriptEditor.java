@@ -17,20 +17,19 @@ package net.autosauler.ballance.client.gui;
 
 import net.autosauler.ballance.client.Services;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.Window;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The Class ScriptEditor.
  * 
  * @author alexript
  */
-public class ScriptEditor extends DialogBox {
+public class ScriptEditor extends Window {
 
 	/** The receiver. */
 	private final IReloadMsgReceiver receiver;
@@ -54,7 +53,7 @@ public class ScriptEditor extends DialogBox {
 	 */
 	public ScriptEditor(final String scriptname,
 			IReloadMsgReceiver reloadreceiver) {
-
+		super();
 		receiver = reloadreceiver;
 		this.scriptname = scriptname;
 
@@ -88,20 +87,24 @@ public class ScriptEditor extends DialogBox {
 	 * Inits the gui.
 	 */
 	private void initGui() {
-		setText("Script: " + scriptname);
-		setAnimationEnabled(true);
-		setGlassEnabled(true);
+		setHeading("Script: " + scriptname);
+		setAnimCollapse(true);
+		setModal(true);
+		setBlinkModal(true);
+		setLayout(new FitLayout());
+		setSize(658, 369);
+		setResizable(false);
+
+		setClosable(false);
 
 		editor = new ScriptArea("lua");
-		editor.setWidth("500px");
-		editor.setHeight("400px");
 
 		Button btnSave = new Button("Save");
 
-		btnSave.addClickHandler(new ClickHandler() {
+		btnSave.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				MainPanel.setCommInfo(true);
 				text = editor.getText();
 				Services.scripts.saveScript(scriptname, text,
@@ -135,10 +138,10 @@ public class ScriptEditor extends DialogBox {
 
 		Button btnCancel = new Button("Cancel");
 
-		btnCancel.addClickHandler(new ClickHandler() {
+		btnCancel.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				ScriptEditor.this.hide();
 				if (receiver != null) {
 					receiver.reloadList();
@@ -147,21 +150,9 @@ public class ScriptEditor extends DialogBox {
 
 		});
 
-		HorizontalPanel bcontainer = new HorizontalPanel();
-		bcontainer.add(btnSave);
-		bcontainer.add(btnCancel);
-		bcontainer.setSpacing(5);
-
-		VerticalPanel vpanel = new VerticalPanel();
-		vpanel.add(editor);
-		vpanel.add(bcontainer);
-		vpanel.setWidth("500px");
-		vpanel.setHeight("450px");
-
-		setWidget(vpanel);
-
-		setPopupPosition(50, 50);
-		setWidth("660px");
-
+		add(editor);
+		addButton(btnSave);
+		addButton(btnCancel);
+		show();
 	}
 }
