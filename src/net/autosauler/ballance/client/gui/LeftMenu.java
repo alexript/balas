@@ -175,6 +175,7 @@ public class LeftMenu {
 					Images.menu.icoChangelog()));
 
 			cp.add(allpanel);
+			panel.add(cp);
 		}
 	}
 
