@@ -67,6 +67,8 @@ public interface CatalogMessages extends Messages {
 	 */
 	public String labelAuthor();
 
+	public String labelCreateDate();
+
 	/**
 	 * Label fullname.
 	 * 

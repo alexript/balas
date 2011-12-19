@@ -149,31 +149,32 @@ public class MainPanel implements ValueChangeHandler<String> {
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.partners").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("partners", new Image(
-						Images.menu.icoPartners())).getListForm(),
+						Images.menu.icoPartners())), // .getListForm(),
 						M.menu.itemPartners(), Images.menu.icoPartners(), name);
 			} else if (name.equals("tarifs")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.tarifs").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("tarifs", new Image(
-						Images.menu.icoTarif())).getListForm(),
+						Images.menu.icoTarif())), // .getListForm(),
 						M.menu.itemTarif(), Images.menu.icoTarif(), name);
 			} else if (name.equals("cars")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.cars").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("cars", new Image(
-						Images.menu.icoCar())).getListForm(),
+						Images.menu.icoCar())), // .getListForm(),
 						M.menu.itemCars(), Images.menu.icoCar(), name);
 			} else if (name.equals("drivers")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.drivers").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("drivers", new Image(
-						Images.menu.icoMan())).getListForm(),
+						Images.menu.icoMan())),// .getListForm(),
 						M.menu.itemDrivers(), Images.menu.icoMan(), name);
 			} else if (name.equals("paymethod")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.paymethod").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("paymethod",
-						new Image(Images.menu.icoPaymethod())).getListForm(),
+				constructTabPaneContent(
+						new CatalogPanel("paymethod", new Image(
+								Images.menu.icoPaymethod())),// .getListForm(),
 						M.menu.itemPaymethod(), Images.menu.icoPaymethod(),
 						name);
 			} else if (name.equals("incpay")

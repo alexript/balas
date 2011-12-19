@@ -16,6 +16,7 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,71 +26,64 @@ import java.util.Set;
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.StructureFactory;
-import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.client.model.CatalogModel;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.Style.SelectionMode;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.MenuEvent;
+import com.extjs.gxt.ui.client.event.SelectionChangedEvent;
+import com.extjs.gxt.ui.client.event.SelectionChangedListener;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.util.Margins;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
+import com.extjs.gxt.ui.client.widget.grid.GridSelectionModel;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The Class CatalogPanel.
  * 
  * @author alexript
  */
-public class CatalogPanel extends Composite implements IPaneWithMenu,
+public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		IDialogYesReceiver, IReloadMsgReceiver, IFieldChangeHandler {
 
 	/** The catalogname. */
 	private final String catalogname;
 
-	/** The listscroll. */
-	private ScrollPanel listscroll;
-
-	/** The tabimage. */
-	private final Image tabimage;
-
-	/** The root. */
-	private AbsolutePanel root;
-
-	/** The list. */
-	private VerticalPanel list;
+	private Button btnEdit;
+	private Button btnDelete;
 
 	/** The editor. */
-	private VerticalPanel editor = null;
+	private FieldSet editor = null;
 
 	/** The editformnumber. */
 	private Long editformnumber;
 
 	/** The fullname. */
 	private HeaderField fullname;
-
-	/** The linecounter. */
-	private Long linecounter = 0L;
-
-	/** The progress. */
-	private final static Image progress = new Image(Images.menu.progress());
 
 	/** The viewdata. */
 	private HashMap<Long, String> viewdata = null;
@@ -98,6 +92,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	private HashMap<String, HeaderField> fields;
 
 	private final Description structuredescription;
+
+	private final GridSelectionModel<CatalogModel> sm = new GridSelectionModel<CatalogModel>();
+	private Grid<CatalogModel> grid;
+	private ListStore<CatalogModel> store;
 
 	/**
 	 * Instantiates a new catalog panel.
@@ -108,14 +106,22 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 *            the image
 	 */
 	public CatalogPanel(final String catalogname, Image image) {
+		super(new BorderLayout());
+		setHeading(M.catalog.titleList());
+
 		this.catalogname = catalogname;
 		editformnumber = -1L;
-		tabimage = image;
-
-		linecounter = 0L;
 
 		structuredescription = StructureFactory.getDescription("catalog."
 				+ this.catalogname);
+
+		createListForm();
+
+		if (canEdit(Ballance_autosauler_net.sessionId.getUserrole())
+				|| canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
+
+			createEditorForm();
+		}
 
 		MainPanel.setCommInfo(true);
 		Services.catalogs.getRecordsForView(catalogname,
@@ -131,6 +137,7 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 					public void onSuccess(HashMap<Long, String> result) {
 						MainPanel.setCommInfo(false);
 						viewdata = result;
+						reloadList();
 					}
 				});
 
@@ -159,17 +166,6 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 		hf.setChangeHandler(field, this);
 		fields.put(field, hf);
 		editor.add(hf);
-	}
-
-	/**
-	 * Builds the list row.
-	 * 
-	 * @param map
-	 *            the map
-	 * @return the widget
-	 */
-	protected Widget buildListRow(HashMap<String, Object> map) {
-		return null;
 	}
 
 	/**
@@ -212,12 +208,15 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * Clean edit form.
 	 */
 	private void cleanEditForm() {
-		Set<String> names = fields.keySet();
-		Iterator<String> i = names.iterator();
-		while (i.hasNext()) {
-			String name = i.next();
-			HeaderField hf = fields.get(name);
-			hf.reset();
+		if (fullname != null) {
+			fullname.setValue("", false);
+			Set<String> names = fields.keySet();
+			Iterator<String> i = names.iterator();
+			while (i.hasNext()) {
+				String name = i.next();
+				HeaderField hf = fields.get(name);
+				hf.reset();
+			}
 		}
 	}
 
@@ -225,10 +224,10 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
-		editor = new VerticalPanel();
-		editor.setVisible(false);
-		editor.setSpacing(5);
-		editor.add(new Label(M.catalog.titleEditor()));
+		editor = new FieldSet();
+		editor.setBorders(true);
+		editor.setScrollMode(Scroll.AUTO);
+		editor.setHeading(M.catalog.titleEditor());
 
 		fullname = DataTypeFactory.addField(M.catalog.labelFullname(),
 				"fullname", DataTypes.DT_STRING, "", null);
@@ -236,14 +235,96 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 		fields = new HashMap<String, HeaderField>();
 		createStructure();
 
-		HorizontalPanel buttons = new HorizontalPanel();
-		buttons.setSpacing(5);
-		Button b = new Button(M.catalog.btnSave());
-		b.addClickHandler(new ClickHandler() {
+		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
+	}
+
+	/**
+	 * Creates the list form.
+	 */
+	private void createListForm() {
+
+		sm.setSelectionMode(SelectionMode.SINGLE);
+
+		sm.addSelectionChangedListener(new SelectionChangedListener<CatalogModel>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void selectionChanged(SelectionChangedEvent<CatalogModel> se) {
+				cleanEditForm();
+				CatalogModel record = se.getSelectedItem();
 
+				fillEditorForm(record);
+
+			}
+		});
+
+		List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
+
+		ColumnConfig column = new ColumnConfig();
+		column.setId("number");
+		column.setHeader("Id");
+		column.setWidth(50);
+		column.setRowHeader(true);
+		columns.add(column);
+
+		column = new ColumnConfig();
+		column.setId("fullname");
+		column.setHeader(M.catalog.labelFullname());
+		column.setWidth(150);
+		column.setRowHeader(true);
+		columns.add(column);
+
+		GridCellRenderer<CatalogModel> gridDate = new GridCellRenderer<CatalogModel>() {
+
+			@Override
+			public Object render(CatalogModel model, String property,
+					ColumnData config, int rowIndex, int colIndex,
+					ListStore<CatalogModel> store, Grid<CatalogModel> grid) {
+				Long longdate = (Long) model.get("createdate");
+				if (longdate == null) {
+					return "";
+				}
+				return DataTypeFactory.formatter.format(new Date(longdate));
+			}
+		};
+		column = new ColumnConfig();
+		column.setId("createdate");
+		column.setHeader(M.catalog.labelCreateDate());
+		column.setWidth(100);
+		column.setRowHeader(true);
+		column.setRenderer(gridDate);
+		columns.add(column);
+
+		column = new ColumnConfig();
+		column.setId("username");
+		column.setHeader(M.catalog.labelAuthor());
+		column.setWidth(150);
+		column.setRowHeader(true);
+		columns.add(column);
+
+		ColumnModel cm = new ColumnModel(columns);
+
+		store = new ListStore<CatalogModel>();
+		reloadList();
+
+		grid = new Grid<CatalogModel>(store, cm);
+		grid.setSelectionModel(sm);
+		grid.setAutoExpandColumn("fullname");
+		grid.setBorders(true);
+
+		BorderLayoutData northData = new BorderLayoutData(LayoutRegion.NORTH,
+				200, 100, 300);
+		northData.setMargins(new Margins(5, 5, 5, 5));
+		northData.setSplit(true);
+		northData.setCollapsible(true);
+
+		this.add(grid, northData);
+
+		btnEdit = new Button(M.catalog.btnSave());
+		btnEdit.setEnabled(false);
+		btnEdit.addSelectionListener(new SelectionListener<ButtonEvent>() {
+
+			@Override
+			public void componentSelected(ButtonEvent ce) {
 				HashMap<String, Object> map = getEditorValues();
 				if (map == null) {
 					map = new HashMap<String, Object>();
@@ -307,150 +388,43 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 				}
 
 			}
+
 		});
 
-		buttons.add(b);
+		addButton(btnEdit);
 
 		Button btnCancel = new Button(M.catalog.btnCancel());
-		btnCancel.addClickHandler(new ClickHandler() {
+		btnCancel.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				reloadList();
+			public void componentSelected(ButtonEvent ce) {
+				CatalogModel map = sm.getSelectedItem();
+				if (map != null) {
+					fillEditorForm(map);
+				} else {
+					cleanEditForm();
+				}
 
 			}
 		});
 
-		buttons.add(btnCancel);
-		editor.add(buttons);
-		root.add(editor, 0, 0);
-	}
+		addButton(btnCancel);
 
-	/**
-	 * Creates the list form.
-	 */
-	private void createListForm() {
-		list = new VerticalPanel();
-		listscroll = new ScrollPanel(list);
-		listscroll.setSize("100%", "500px");
+		btnDelete = new Button(M.catalog.btnDelete());
+		btnDelete.setEnabled(false);
+		btnDelete.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
-		root.add(listscroll, 0, 0);
+			@Override
+			public void componentSelected(ButtonEvent ce) {
+				CatalogModel map = sm.getSelectedItem();
+				new QuestionDialog(M.catalog.qstDeleteRecord() + " "
+						+ (String) map.get("fullname"), CatalogPanel.this,
+						"trashrecord", map.get("number")).show();
 
-	}
+			}
+		});
+		addButton(btnDelete);
 
-	/**
-	 * Creates the list record row.
-	 * 
-	 * @param number
-	 *            the number
-	 * @return the horizontal panel
-	 */
-	private HorizontalPanel createListRecordRow(final Long number) {
-		linecounter++;
-
-		final HorizontalPanel panel = new HorizontalPanel();
-
-		if ((linecounter % 2) == 1) {
-			panel.addStyleName("EvenTableRow");
-		} else {
-			panel.addStyleName("OddTableRow");
-		}
-
-		panel.setSpacing(5);
-		panel.add(progress);
-
-		MainPanel.setCommInfo(true);
-		Services.catalogs.getRecord(catalogname, number,
-				new AsyncCallback<HashMap<String, Object>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						MainPanel.setCommInfo(false);
-						new AlertDialog(caught).show();
-					}
-
-					@Override
-					public void onSuccess(final HashMap<String, Object> result) {
-						MainPanel.setCommInfo(false);
-						VerticalPanel vp = new VerticalPanel();
-						Widget w = buildListRow(result);
-						panel.clear();
-						panel.add(new Label(number.toString()));
-						vp.add(new Label((String) result.get("fullname")));
-						if (w != null) {
-							vp.add(w);
-						}
-						Date date = new Date((Long) result.get("createdate"));
-						String day = DataTypeFactory.formatter.format(date);
-						vp.add(new Label(day + " " + M.catalog.labelAuthor()
-								+ ": " + (String) result.get("username")));
-						panel.add(vp);
-						panel.setCellWidth(vp, "400px;");
-						if (canEdit(Ballance_autosauler_net.sessionId
-								.getUserrole())) {
-							Button btnEdit = new Button(M.catalog.btnEdit());
-							btnEdit.addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-									MainPanel.setCommInfo(true);
-									Services.catalogs
-											.getRecord(
-													catalogname,
-													number,
-													new AsyncCallback<HashMap<String, Object>>() {
-
-														@Override
-														public void onFailure(
-																Throwable caught) {
-															MainPanel
-																	.setCommInfo(false);
-															new AlertDialog(
-																	caught)
-																	.show();
-														}
-
-														@Override
-														public void onSuccess(
-																HashMap<String, Object> result) {
-															MainPanel
-																	.setCommInfo(false);
-															editformnumber = number;
-															fullname.setValue(
-																	result.get("fullname"),
-																	true);
-															fillEditorForm(result);
-															openEditor();
-														}
-													});
-
-								}
-							});
-							panel.add(btnEdit);
-						}
-						if (canTrash(Ballance_autosauler_net.sessionId
-								.getUserrole())) {
-
-							Button btnDelete = new Button(M.catalog.btnDelete());
-							btnDelete.addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-									new QuestionDialog(M.catalog
-											.qstDeleteRecord()
-											+ " "
-											+ (String) result.get("fullname"),
-											CatalogPanel.this, "trashrecord",
-											number).show();
-
-								}
-							});
-							panel.add(btnDelete);
-						}
-					}
-				});
-
-		return panel;
 	}
 
 	/**
@@ -480,45 +454,43 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
-	 * Effect hide.
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	private native void effectHide(Element element) /*-{
-		new $wnd.Effect.DropOut(element, {
-			queue : 'end'
-		});
-	}-*/;
-
-	/**
-	 * Effect show.
-	 * 
-	 * @param element
-	 *            the element
-	 */
-	private native void effectShow(Element element) /*-{
-		new $wnd.Effect.SlideDown(element, {
-			queue : 'end'
-		});
-	}-*/;
-
-	/**
 	 * Fill editor form.
 	 * 
 	 * @param map
 	 *            the map
 	 */
-	private void fillEditorForm(HashMap<String, Object> map) {
+	private void fillEditorForm(CatalogModel map) {
+		if (map == null) {
+			cleanEditForm();
+			return;
+		}
+		editformnumber = map.get("number");
 		Set<String> names = fields.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			if (map.containsKey(name)) {
-				HeaderField hf = fields.get(name);
-				hf.setValue(map.get(name), true);
+
+			HeaderField hf = fields.get(name);
+			hf.setValue(map.get(name), true);
+
+		}
+
+		fullname.setValue(map.get("fullname"), true);
+		if (canEdit(Ballance_autosauler_net.sessionId.getUserrole())) {
+			if (canEdit(Ballance_autosauler_net.sessionId.getUserrole())) {
+				btnEdit.setEnabled(true);
+			} else {
+				btnEdit.setEnabled(false);
 			}
 		}
+
+		if (canTrash(Ballance_autosauler_net.sessionId.getUserrole())
+				&& (editformnumber > 0L)) {
+			btnDelete.setEnabled(true);
+		} else {
+			btnDelete.setEnabled(false);
+		}
+
 	}
 
 	/**
@@ -546,28 +518,6 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 			map.put(name, hf.getValue());
 		}
 		return map;
-	}
-
-	/**
-	 * Gets the list form.
-	 * 
-	 * @return the list form
-	 */
-	public CatalogPanel getListForm() {
-		root = new AbsolutePanel();
-		root.setWidth("100%");
-		root.setHeight("500px");
-
-		createListForm();
-
-		if (canEdit(Ballance_autosauler_net.sessionId.getUserrole())
-				|| canCreate(Ballance_autosauler_net.sessionId.getUserrole())) {
-
-			createEditorForm();
-		}
-		initWidget(root);
-		reloadList();
-		return this;
 	}
 
 	/**
@@ -616,10 +566,14 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 
 						@Override
 						public void componentSelected(MenuEvent ce) {
+							sm.deselectAll();
 							editformnumber = -1L;
 							fullname.reset();
 							cleanEditForm();
-							openEditor();
+							btnEdit.setEnabled(true);
+							btnDelete.setEnabled(false);
+
+							// openEditor();
 
 						}
 					}));
@@ -759,60 +713,16 @@ public class CatalogPanel extends Composite implements IPaneWithMenu,
 	}
 
 	/**
-	 * Creates the new record.
-	 */
-	private void openEditor() {
-
-		effectHide(listscroll.getElement());
-		effectShow(editor.getElement());
-	}
-
-	/**
 	 * Reload list.
 	 */
 	@Override
 	public void reloadList() {
-
-		list.clear();
-		list.add(progress);
-
-		MainPanel.setCommInfo(true);
-		Services.catalogs.getAllRecords(catalogname,
-				new AsyncCallback<Set<Long>>() {
-
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see
-					 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure
-					 * (java.lang .Throwable)
-					 */
-					@Override
-					public void onFailure(Throwable caught) {
-						MainPanel.setCommInfo(false);
-						new AlertDialog(caught).show();
-
-					}
-
-					@Override
-					public void onSuccess(Set<Long> result) {
-						linecounter = 0L;
-						list.clear();
-						Label lab = new Label(M.catalog.titleList());
-						list.add(lab);
-						list.setCellHeight(lab, "30px");
-						MainPanel.setCommInfo(false);
-						Iterator<Long> i = result.iterator();
-						while (i.hasNext()) {
-							Long number = i.next();
-							list.add(createListRecordRow(number));
-						}
-						if (!listscroll.isVisible() && (editor != null)
-								&& editor.isVisible()) {
-							effectHide(editor.getElement());
-							effectShow(listscroll.getElement());
-						}
-					}
-				});
+		cleanEditForm();
+		if (btnEdit != null) {
+			btnEdit.setEnabled(false);
+			btnDelete.setEnabled(false);
+		}
+		store.removeAll();
+		CatalogModel.load(store, catalogname);
 	}
 }
