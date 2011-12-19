@@ -20,21 +20,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.extjs.gxt.ui.client.widget.TabItem;
+import com.extjs.gxt.ui.client.widget.TabPanel;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 
 /**
  * The Class DocumentTableParts.
  * 
  * @author alexript
  */
-public class DocumentTableParts extends Composite {
-
-	/** The mainpane. */
-	private final DecoratedTabPanel mainpane;
+public class DocumentTableParts extends TabPanel {
 
 	/** The parts. */
 	private final HashMap<String, DocumentTablePart> parts;
@@ -43,12 +38,8 @@ public class DocumentTableParts extends Composite {
 	 * Instantiates a new document table parts.
 	 */
 	public DocumentTableParts() {
+		super();
 		parts = new HashMap<String, DocumentTablePart>();
-		mainpane = new DecoratedTabPanel();
-		mainpane.setWidth("750px");
-		mainpane.setHeight("250px");
-
-		initWidget(mainpane);
 	}
 
 	/**
@@ -61,8 +52,10 @@ public class DocumentTableParts extends Composite {
 	 */
 	public void addPart(String name, DocumentTablePart part) {
 		parts.put(name, part);
-		mainpane.add(part.constructPane(name),
-				getTabHeaderString(part.getTitle()), true);
+		TabItem tabitem = new TabItem(part.getTitle());
+		tabitem.setLayout(new FitLayout());
+		tabitem.add(part.constructPane(name));
+		add(tabitem);
 	}
 
 	/**
@@ -76,25 +69,6 @@ public class DocumentTableParts extends Composite {
 			DocumentTablePart part = parts.get(name);
 			part.cleanTable();
 		}
-	}
-
-	/**
-	 * Gets the tab header string.
-	 * 
-	 * @param text
-	 *            the text
-	 * @return the tab header string
-	 */
-	private String getTabHeaderString(String text) {
-		// Add the image and text to a horizontal panel
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setSpacing(2);
-		hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		HTML headerText = new HTML(text);
-		hPanel.add(headerText);
-
-		// Return the HTML string for the panel
-		return hPanel.getElement().getString();
 	}
 
 	/**
@@ -134,13 +108,4 @@ public class DocumentTableParts extends Composite {
 		}
 	}
 
-	/**
-	 * Select tab.
-	 * 
-	 * @param index
-	 *            the index
-	 */
-	public void selectTab(int index) {
-		mainpane.selectTab(index);
-	}
 }

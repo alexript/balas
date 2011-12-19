@@ -67,6 +67,7 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * @author alexript
  */
+// TODO: Pager
 public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		IDialogYesReceiver, IReloadMsgReceiver, IFieldChangeHandler {
 

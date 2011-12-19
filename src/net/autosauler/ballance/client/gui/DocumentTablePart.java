@@ -32,20 +32,23 @@ import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
+import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
+import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
+import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -67,10 +70,10 @@ public class DocumentTablePart extends Composite implements
 	private List<HashMap<String, Object>> dataset = null;
 
 	/** The btn plus. */
-	private Image btnPlus;
+	private Button btnPlus;
 
 	/** The btn minus. */
-	private Image btnMinus;
+	private Button btnMinus;
 
 	/** The newnumber. */
 	private Long newnumber = 0L;
@@ -221,41 +224,42 @@ public class DocumentTablePart extends Composite implements
 	 *            the tablepartname
 	 * @return the vertical panel
 	 */
-	public VerticalPanel constructPane(String tablepartname) {
-		VerticalPanel panel = new VerticalPanel();
-		panel.setWidth("750px");
-		panel.setHeight("220px");
+	public ContentPanel constructPane(String tablepartname) {
+		ContentPanel panel = new ContentPanel(new BorderLayout());
+		panel.setHeaderVisible(false);
 
-		HorizontalPanel tools = new HorizontalPanel();
-		tools.setHeight("20px");
-		tools.setSpacing(3);
+		ToolBar toolBar = new ToolBar();
 
-		btnPlus = new Image(Images.table.Plus());
-		btnPlus.setTitle(M.table.btnAddrow());
-		btnPlus.setAltText(M.table.btnAddrow());
-		btnPlus.addClickHandler(new ClickHandler() {
+		btnPlus = new Button(M.table.btnAddrow());
+		btnPlus.setIcon(AbstractImagePrototype.create(Images.table.Plus()));
+		btnPlus.setToolTip(M.table.btnAddrow());
+		btnPlus.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				addRow();
 			}
 		});
 
-		btnMinus = new Image(Images.table.Minus());
-		btnMinus.setTitle(M.table.btnDelrow());
-		btnMinus.setAltText(M.table.btnDelrow());
-		btnMinus.addClickHandler(new ClickHandler() {
+		btnMinus = new Button(M.table.btnDelrow());
+		btnMinus.setIcon(AbstractImagePrototype.create(Images.table.Minus()));
+
+		btnMinus.setToolTip(M.table.btnDelrow());
+		btnMinus.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				removeRow();
 
 			}
 		});
 
-		tools.add(btnPlus);
-		tools.add(btnMinus);
-		panel.add(tools);
+		toolBar.add(btnPlus);
+		toolBar.add(btnMinus);
+
+		panel.setTopComponent(toolBar); // .add(tools, new
+										// BorderLayoutData(LayoutRegion.NORTH,
+										// 18));
 
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
 		cellTable.setWidth("100%", false);
@@ -312,10 +316,7 @@ public class DocumentTablePart extends Composite implements
 
 		cellTable.setSelectionModel(selectionModel);
 
-		ScrollPanel scroll = new ScrollPanel(cellTable);
-		scroll.setSize("100%", "200px");
-
-		panel.add(scroll);
+		panel.add(cellTable, new BorderLayoutData(LayoutRegion.CENTER));
 
 		return panel;
 	}

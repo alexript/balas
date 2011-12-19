@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  * @author alexript
  */
+// TODO: put into UserPanel on EAST
 public class EditUserDialog extends DialogBox {
 
 	/** The receiver. */

@@ -23,7 +23,6 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
-import net.autosauler.ballance.client.model.DocumentModel;
 import net.autosauler.ballance.client.model.UsersModel;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -85,9 +84,6 @@ public class UsersPanel extends ContentPanel implements IPaneWithMenu,
 		addButtons();
 		buildTable();
 
-		// selectionModel = new SingleSelectionModel<User>(User.KEY_PROVIDER);
-		// refreshPane();
-		// reloadList();
 	}
 
 	private void addButtons() {
@@ -190,12 +186,12 @@ public class UsersPanel extends ContentPanel implements IPaneWithMenu,
 		column.setRowHeader(true);
 		columns.add(column);
 
-		GridCellRenderer<DocumentModel> gridActive = new GridCellRenderer<DocumentModel>() {
+		GridCellRenderer<UsersModel> gridActive = new GridCellRenderer<UsersModel>() {
 
 			@Override
-			public Object render(DocumentModel model, String property,
+			public Object render(UsersModel model, String property,
 					ColumnData config, int rowIndex, int colIndex,
-					ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+					ListStore<UsersModel> store, Grid<UsersModel> grid) {
 
 				Boolean isactive = (Boolean) model.get("active");
 				if (isactive) {

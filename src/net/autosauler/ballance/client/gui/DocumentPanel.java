@@ -71,6 +71,7 @@ import com.google.gwt.user.client.ui.Image;
  * 
  * @author alexript
  */
+// TODO: Pager
 public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		IReloadMsgReceiver, IFieldChangeHandler {
 
@@ -228,15 +229,20 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			editor.add(fields.get(name));
 		}
 
+		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
 		if (hasTablePart()) {
 			parts = new DocumentTableParts();
 			initTableParts(parts);
-			parts.selectTab(0);
-			editor.add(parts);
+			parts.setSelection(parts.getItem(0));
+
+			BorderLayoutData southData = new BorderLayoutData(
+					LayoutRegion.SOUTH, 200, 100, 300);
+			southData.setMargins(new Margins(5, 5, 5, 5));
+			southData.setSplit(true);
+			southData.setCollapsible(true);
+
+			this.add(parts, southData);
 		}
-
-		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
-
 	}
 
 	/**
