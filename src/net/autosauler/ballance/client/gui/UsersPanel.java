@@ -21,7 +21,9 @@ import java.util.List;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.client.model.DocumentModel;
 import net.autosauler.ballance.client.model.UsersModel;
 import net.autosauler.ballance.shared.UserRole;
 
@@ -47,6 +49,7 @@ import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 
 /**
  * The Class UsersPanel.
@@ -187,16 +190,30 @@ public class UsersPanel extends ContentPanel implements IPaneWithMenu,
 		column.setRowHeader(true);
 		columns.add(column);
 
+		GridCellRenderer<DocumentModel> gridActive = new GridCellRenderer<DocumentModel>() {
+
+			@Override
+			public Object render(DocumentModel model, String property,
+					ColumnData config, int rowIndex, int colIndex,
+					ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+
+				Boolean isactive = (Boolean) model.get("active");
+				if (isactive) {
+					return AbstractImagePrototype.create(Images.menu.Ok())
+							.createImage();
+
+				}
+				return AbstractImagePrototype.create(Images.menu.Cancel())
+						.createImage();
+
+			}
+		};
 		column = new ColumnConfig();
 		column.setId("active");
 		column.setHeader(M.users.isActive());
 		column.setWidth(100);
 		column.setRowHeader(true);
-		// TODO: add image renderer
-		/*
-		 * public ImageResource getValue(User user) { if (user.isActive()) {
-		 * return Images.menu.Ok(); } return Images.menu.Cancel(); }
-		 */
+		column.setRenderer(gridActive);
 		columns.add(column);
 
 		ColumnModel cm = new ColumnModel(columns);

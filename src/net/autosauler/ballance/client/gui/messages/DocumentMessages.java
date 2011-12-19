@@ -80,6 +80,8 @@ public interface DocumentMessages extends Messages {
 	 */
 	public String colNumber();
 
+	public String labelDocumentsList();
+
 	/**
 	 * Menu create.
 	 * 
@@ -114,4 +116,6 @@ public interface DocumentMessages extends Messages {
 	 * @return the string
 	 */
 	public String msgUpdateError();
+
+	public String titleEditor();
 }

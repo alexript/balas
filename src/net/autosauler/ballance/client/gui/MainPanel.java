@@ -149,46 +149,45 @@ public class MainPanel implements ValueChangeHandler<String> {
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.partners").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("partners", new Image(
-						Images.menu.icoPartners())), // .getListForm(),
-						M.menu.itemPartners(), Images.menu.icoPartners(), name);
+						Images.menu.icoPartners())), M.menu.itemPartners(),
+						Images.menu.icoPartners(), name);
 			} else if (name.equals("tarifs")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.tarifs").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("tarifs", new Image(
-						Images.menu.icoTarif())), // .getListForm(),
-						M.menu.itemTarif(), Images.menu.icoTarif(), name);
+						Images.menu.icoTarif())), M.menu.itemTarif(),
+						Images.menu.icoTarif(), name);
 			} else if (name.equals("cars")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.cars").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("cars", new Image(
-						Images.menu.icoCar())), // .getListForm(),
-						M.menu.itemCars(), Images.menu.icoCar(), name);
+						Images.menu.icoCar())), M.menu.itemCars(),
+						Images.menu.icoCar(), name);
 			} else if (name.equals("drivers")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.drivers").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new CatalogPanel("drivers", new Image(
-						Images.menu.icoMan())),// .getListForm(),
-						M.menu.itemDrivers(), Images.menu.icoMan(), name);
+						Images.menu.icoMan())), M.menu.itemDrivers(),
+						Images.menu.icoMan(), name);
 			} else if (name.equals("paymethod")
 					&& (new UserRole(StructureFactory.getDescription(
 							"catalog.paymethod").getRole())).hasAccess(role)) {
-				constructTabPaneContent(
-						new CatalogPanel("paymethod", new Image(
-								Images.menu.icoPaymethod())),// .getListForm(),
+				constructTabPaneContent(new CatalogPanel("paymethod",
+						new Image(Images.menu.icoPaymethod())),
 						M.menu.itemPaymethod(), Images.menu.icoPaymethod(),
 						name);
 			} else if (name.equals("incpay")
 					&& (new UserRole(StructureFactory.getDescription(
 							"document.inpay").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new DocumentPanel("inpay", new Image(
-						Images.menu.icoIncPay())).getListForm(),
-						M.menu.itemIncPay(), Images.menu.icoIncPay(), name);
+						Images.menu.icoIncPay())), M.menu.itemIncPay(),
+						Images.menu.icoIncPay(), name);
 			} else if (name.equals("ingoods")
 					&& (new UserRole(StructureFactory.getDescription(
 							"document.ingoods").getRole())).hasAccess(role)) {
 				constructTabPaneContent(new DocumentPanel("ingoods", new Image(
-						Images.menu.icoInGoods())).getListForm(),
-						M.menu.itemInGoods(), Images.menu.icoInGoods(), name);
+						Images.menu.icoInGoods())), M.menu.itemInGoods(),
+						Images.menu.icoInGoods(), name);
 			} else if (name.equals("changelog") && !role.isGuest()) {
 				constructTabPaneContent(ChangeLogPanel.get(),
 						M.menu.itemChangelog(), Images.menu.icoChangelog(),
