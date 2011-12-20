@@ -25,29 +25,29 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
+import net.autosauler.ballance.client.model.DocumentModel;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.store.ListStore;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnData;
+import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.SelectionCell;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 
 /**
  * A factory for creating DataType objects.
@@ -79,78 +79,83 @@ public class DataTypeFactory {
 	 * @param defval
 	 *            the defval
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void addCell(final CellTable table, String name,
-			final String field, final int type, int width, final Object defval,
-			final Object helper) {
-		Column column = null;
+	public static ColumnConfig addCell(Field field, final Object helper) {
+		ColumnConfig column = new ColumnConfig();
+		final String fieldname = field.getFieldname();
+		String colname = field.getName().getName(
+				LocaleInfo.getCurrentLocale().getLocaleName());
+		int width = field.getColumnwidth();
+		final int type = field.getType();
+
+		column.setId(fieldname);
+		column.setHeader(colname);
+		column.setWidth(width);
+		column.setRowHeader(true);
 
 		if (type == DataTypes.DT_BOOLEAN) {
 
-			column = new Column<HashMap<String, Object>, ImageResource>(
-					new ImageResourceCell()) {
+			GridCellRenderer<DocumentModel> gridActive = new GridCellRenderer<DocumentModel>() {
+
 				@Override
-				public ImageResource getValue(HashMap<String, Object> map) {
-					Boolean isactive = (Boolean) DataTypes.fromMapping(type,
-							map.get(field));
+				public Object render(DocumentModel model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+
+					Boolean isactive = (Boolean) model.get(fieldname);
 					if (isactive) {
-						return Images.menu.Ok();
+						return AbstractImagePrototype.create(Images.menu.Ok())
+								.createImage();
+
 					}
-					return Images.menu.Cancel();
+					return AbstractImagePrototype.create(Images.menu.Cancel())
+							.createImage();
+
 				}
 			};
-
-			column.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			column.setAlignment(HorizontalAlignment.CENTER);
+			column.setRenderer(gridActive);
 
 		} else if (type == DataTypes.DT_DATE) {
-			column = new Column<HashMap<String, Object>, String>(new TextCell()) {
-				@Override
-				public String getValue(HashMap<String, Object> map) {
+			GridCellRenderer<DocumentModel> gridDate = new GridCellRenderer<DocumentModel>() {
 
-					Object d = map.get(field);
-					String ret = "---";
-					if (d != null) {
-						ret = formatter.format((Date) DataTypes.fromMapping(
-								type, d));
+				@Override
+				public Object render(DocumentModel model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+					Long longdate = (Long) model.get(fieldname);
+					if (longdate == null) {
+						return "---";
 					}
-					return ret;
+					return DataTypeFactory.formatter.format(new Date(longdate));
 				}
 			};
+
+			column.setRenderer(gridDate);
 
 		} else if (type == DataTypes.DT_CATALOGRECORD) {
+			GridCellRenderer<DocumentModel> gridCatalog = new GridCellRenderer<DocumentModel>() {
 
-			column = new Column<HashMap<String, Object>, String>(new TextCell()) {
 				@Override
-				public String getValue(HashMap<String, Object> map) {
+				public Object render(DocumentModel model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
 
 					return ((CatalogPanel) helper).getName((Long) DataTypes
-							.fromMapping(type, map.get(field)));
+							.fromMapping(type, model.get(fieldname)));
 
 				}
 			};
+
+			column.setRenderer(gridCatalog);
+
 		} else if (type == DataTypes.DT_DOCUMENTRECORD) {
 			// TODO: add cell (docname, number, date)
 
 		} else {
-			column = new Column<HashMap<String, Object>, String>(new TextCell()) {
-				@Override
-				public String getValue(HashMap<String, Object> map) {
-					Object val = map.get(field);
-					String ret = "---";
-					if (val != null) {
-						ret = DataTypes.fromMapping(type, val).toString();
-					}
-					return ret;
-				}
-			};
-
+			// default renderer
 		}
 
-		if (column != null) {
-			table.addColumn(column, name);
-
-			table.setColumnWidth(column, width, Unit.PX);
-		}
+		return column;
 	}
 
 	/**
@@ -530,40 +535,7 @@ public class DataTypeFactory {
 	public static HeaderField addField(final String name, final String field,
 			final int type, final Object defval, final Object helper) {
 
-		Widget w = null;
-		if (type == DataTypes.DT_SCRIPT) {
-			w = new TextArea();
-			w.setWidth("300px");
-			w.setHeight("150px");
-		} else if (type == DataTypes.DT_STRING) {
-			w = new TextBox();
-			w.setWidth("300px");
-		} else if (type == DataTypes.DT_CURRENCY) {
-			w = new CurrencySelector((String) defval);
-		} else if (type == DataTypes.DT_CATALOGRECORD) {
-			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
-		} else if (type == DataTypes.DT_DATE) {
-			w = new DateBox();
-			((DateBox) w).setFormat(new DateBox.DefaultFormat(dateFormat));
-		} else if (type == DataTypes.DT_MONEY) {
-			w = new TextBox();
-			w.setWidth("100px");
-		} else if (type == DataTypes.DT_DOUBLE) {
-			w = new TextBox();
-			w.setWidth("100px");
-		} else if (type == DataTypes.DT_INT) {
-			w = new TextBox();
-			w.setWidth("100px");
-		} else if (type == DataTypes.DT_LONG) {
-			w = new TextBox();
-			w.setWidth("100px");
-		} else if (type == DataTypes.DT_BOOLEAN) {
-			w = new CheckBox();
-		} else {
-			w = new Label("undefined " + field + " type widget");
-			// TODO: create widgets for all datatypes
-		}
-		HeaderField hf = new HeaderField(name, w, type, defval);
+		HeaderField hf = new HeaderField(name, type, defval, helper);
 		hf.reset();
 		return hf;
 	}

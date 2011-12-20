@@ -207,7 +207,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 									field.getDescr(), field.getName(),
 									field.getType(), field.getDefval(), helper);
 							fields.put(field.getName(), hf);
-							form.add(hf);
+							form.add(hf.getField());
 						}
 
 						btnExec.setEnabled(true);

@@ -16,30 +16,27 @@
 
 package net.autosauler.ballance.client.gui;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
-import net.autosauler.ballance.client.gui.images.Images;
 
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * The Class CurrencySelector.
  * 
  * @author alexript
  */
-public class CurrencySelector extends Composite {
+public class CurrencySelector extends SimpleComboBox<String> {
 
-	/** The box. */
-	private final ListBox box;
+	private static List<String> names = null;
 
 	/**
 	 * Instantiates a new currency selector.
@@ -48,29 +45,23 @@ public class CurrencySelector extends Composite {
 	 *            the currentcurrency
 	 */
 	public CurrencySelector(String currentcurrency) {
-		box = new ListBox();
+		super();
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setSpacing(3);
-		panel.add(box);
+		// Image reload = new Image(Images.menu.reload());
+		//
+		// reload.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		//
+		// String oldvalue = getValue();
+		// reloadBox(oldvalue);
+		//
+		// }
+		// });
 
-		Image reload = new Image(Images.menu.reload());
-
-		reload.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				String oldvalue = getValue();
-				reloadBox(oldvalue);
-
-			}
-		});
-
-		panel.add(reload);
-
-		initWidget(panel);
 		reloadBox(currentcurrency);
+
 	}
 
 	/**
@@ -79,17 +70,8 @@ public class CurrencySelector extends Composite {
 	 * @param handler
 	 *            the handler
 	 */
-	public void addChangeHandler(ChangeHandler handler) {
-		box.addChangeHandler(handler);
-	}
-
-	/**
-	 * Gets the list box.
-	 * 
-	 * @return the list box
-	 */
-	public ListBox getListBox() {
-		return box;
+	public void addChangeHandler(Listener<FieldEvent> handler) {
+		addListener(Events.Change, handler);
 	}
 
 	/**
@@ -97,9 +79,9 @@ public class CurrencySelector extends Composite {
 	 * 
 	 * @return the value
 	 */
-	public String getValue() {
-		int index = box.getSelectedIndex();
-		String val = box.getItemText(index);
+
+	public String getStrValue() {
+		String val = getValue().getValue();
 		return val;
 	}
 
@@ -110,42 +92,40 @@ public class CurrencySelector extends Composite {
 	 *            the selectedcurrency
 	 */
 	private void reloadBox(final String selectedcurrency) {
-		box.clear();
+		removeAll();
+		if (names == null) {
 
-		MainPanel.setCommInfo(true);
-		Services.currency.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
+			MainPanel.setCommInfo(true);
+			Services.currency
+					.getUsedCurrencyes(new AsyncCallback<Set<String>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				new AlertDialog(caught).show();
-			}
+						@Override
+						public void onFailure(Throwable caught) {
+							MainPanel.setCommInfo(false);
+							new AlertDialog(caught).show();
+						}
 
-			@Override
-			public void onSuccess(Set<String> result) {
-				if (result != null) {
+						@Override
+						public void onSuccess(Set<String> result) {
+							if (result != null) {
+								names = new ArrayList<String>(result);
+								add(names);
+								select(selectedcurrency);
+							}
+							MainPanel.setCommInfo(false);
 
-					Iterator<String> i = result.iterator();
-					while (i.hasNext()) {
-						String name = i.next();
-
-						box.addItem(name);
-
-					}
-				}
-				select(selectedcurrency);
-				MainPanel.setCommInfo(false);
-
-			}
-		});
+						}
+					});
+		} else {
+			add(names);
+		}
 
 	}
 
-	/**
-	 * Reset.
-	 */
+	@Override
 	public void reset() {
-		box.setSelectedIndex(0);
+		super.reset();
+		select(0);
 	}
 
 	/**
@@ -155,15 +135,18 @@ public class CurrencySelector extends Composite {
 	 *            the currency
 	 */
 	public void select(String currency) {
-		int total = box.getItemCount();
+		getStore().getCount();
+		int total = getStore().getCount();
 		for (int i = 0; i < total; i++) {
-			String val = box.getItemText(i);
 
-			if (val.equals(currency)) {
-				box.setSelectedIndex(i);
+			SimpleComboValue<String> val = getStore().getAt(i);
+
+			if (val.get("value").equals(currency)) {
+
+				setValue(val);
 				return;
 			}
 		}
-		box.setSelectedIndex(0);
+		select(0);
 	}
 }

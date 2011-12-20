@@ -45,7 +45,7 @@ import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
-import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -54,6 +54,7 @@ import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.grid.GridSelectionModel;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
+import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
@@ -78,7 +79,9 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 	private Button btnDelete;
 
 	/** The editor. */
-	private FieldSet editor = null;
+
+	private FormPanel formpanel;
+	FormData formData = new FormData("98%");
 
 	/** The editformnumber. */
 	private Long editformnumber;
@@ -166,7 +169,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		// field.substring(1);
 		hf.setChangeHandler(field, this);
 		fields.put(field, hf);
-		editor.add(hf);
+		formpanel.add(hf.getField(), formData);
 	}
 
 	/**
@@ -225,18 +228,18 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
-		editor = new FieldSet();
-		editor.setBorders(true);
-		editor.setScrollMode(Scroll.AUTO);
-		editor.setHeading(M.catalog.titleEditor());
+
+		formpanel = new FormPanel();
+		formpanel.setHeading(M.catalog.titleEditor());
+		formpanel.setScrollMode(Scroll.AUTO);
 
 		fullname = DataTypeFactory.addField(M.catalog.labelFullname(),
 				"fullname", DataTypes.DT_STRING, "", null);
-		editor.add(fullname);
+		formpanel.add(fullname.getField(), formData);
 		fields = new HashMap<String, HeaderField>();
 		createStructure();
 
-		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
+		this.add(formpanel, new BorderLayoutData(LayoutRegion.CENTER));
 	}
 
 	/**

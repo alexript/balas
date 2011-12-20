@@ -155,17 +155,13 @@ public class DocumentTablePart extends Composite implements
 			final Object defval, final Object helper) {
 
 		if (iseditable) {
-			// String prefix = "On" + Character.toUpperCase(tablename.charAt(0))
-			// + tablename.substring(1);
-			// String nn = Character.toUpperCase(field.charAt(0))
-			// + field.substring(1);
-			// String method = prefix + nn + "Change";
 
 			DataTypeFactory.addEditableCell(cellTable, name, field, type,
 					width, defval, helper, this, field);
 		} else {
-			DataTypeFactory.addCell(cellTable, name, field, type, width,
-					defval, helper);
+			// TODO: DataTypeFactory.addCell(cellTable, name, field, type,
+			// width,
+			// defval, helper);
 		}
 
 		defaultvalues.put(field, defval);
@@ -257,9 +253,7 @@ public class DocumentTablePart extends Composite implements
 		toolBar.add(btnPlus);
 		toolBar.add(btnMinus);
 
-		panel.setTopComponent(toolBar); // .add(tools, new
-										// BorderLayoutData(LayoutRegion.NORTH,
-										// 18));
+		panel.setTopComponent(toolBar);
 
 		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
 		cellTable.setWidth("100%", false);
@@ -367,9 +361,6 @@ public class DocumentTablePart extends Composite implements
 								values.get(name))));
 			}
 		}
-
-		// Window.alert(datatypes.toString());
-		// Window.alert(sendmap.toString());
 
 		MainPanel.setCommInfo(true);
 		Services.scripts.evalOnChangeTable("document." + docname,

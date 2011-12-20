@@ -51,6 +51,7 @@ import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -60,6 +61,7 @@ import com.extjs.gxt.ui.client.widget.grid.GridSelectionModel;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
@@ -114,6 +116,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	private final GridSelectionModel<DocumentModel> sm = new GridSelectionModel<DocumentModel>();
 	private Grid<DocumentModel> grid;
 	private ListStore<DocumentModel> store;
+	FormData formData = new FormData("98%");
 
 	/**
 	 * Instantiates a new document panel.
@@ -221,35 +224,34 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	private void createEditorForm() {
 		TabPanel tabPanel = null;
 		TabItem head = null;
-		FieldSet headSet = null;
+		FormPanel headSet = null;
 
 		editor = new FieldSet();
 		editor.setBorders(true);
 
 		editor.setHeading(M.document.titleEditor());
 
+		headSet = new FormPanel();
+		headSet.setHeaderVisible(false);
+
 		if (hasTablePart()) {
+			headSet.setScrollMode(Scroll.ALWAYS);
 			editor.setLayout(new FitLayout());
 			tabPanel = new TabPanel();
 			head = new TabItem(M.document.tableHead());
-
 			head.setLayout(new FitLayout());
-			headSet = new FieldSet();
-			headSet.setHeading("");
-			headSet.setScrollMode(Scroll.ALWAYS);
+
 		} else {
-			editor.setScrollMode(Scroll.AUTO);
+			editor.setScrollMode(Scroll.ALWAYS);
 		}
 
 		Set<String> names = fields.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			if (hasTablePart()) {
-				headSet.add(fields.get(name));
-			} else {
-				editor.add(fields.get(name));
-			}
+
+			headSet.add(fields.get(name).getField(), formData);
+
 		}
 
 		if (hasTablePart()) {
@@ -259,6 +261,8 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			initTableParts(parts);
 			tabPanel.setSelection(tabPanel.getItem(0));
 			editor.add(tabPanel);
+		} else {
+			editor.add(headSet);
 		}
 		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
 	}
@@ -361,29 +365,16 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		while (i.hasNext()) {
 			Field f = i.next();
 			if (f.isInlist()) {
-				// String helper = f.getHelper();
-				// String helpertype = f.getHelpertype();
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
 
-				// CatalogPanel h = null;
-				// if (helpertype.equals("catalog") && (helper != null)
-				// && !helper.isEmpty()) {
-				// h = new CatalogPanel(helper, null);
-				// }
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
+				}
 
-				column = new ColumnConfig();
-				column.setId(f.getFieldname());
-				column.setHeader(f.getName().getName(
-						LocaleInfo.getCurrentLocale().getLocaleName()));
-				column.setWidth(f.getColumnwidth());
-				column.setRowHeader(true);
-				columns.add(column);
-
-				// DataTypeFactory.addCell(
-				// cellTable,
-				// f.getName().getName(
-				// LocaleInfo.getCurrentLocale().getLocaleName()),
-				// f.getFieldname(), f.getType(), f.getColumnwidth(),
-				// f.getDefval(), h);
+				columns.add(DataTypeFactory.addCell(f, h));
 
 			}
 		}

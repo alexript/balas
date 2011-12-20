@@ -20,28 +20,24 @@ import java.util.Date;
 
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
+import com.extjs.gxt.ui.client.event.Events;
+import com.extjs.gxt.ui.client.event.FieldEvent;
+import com.extjs.gxt.ui.client.event.Listener;
+import com.extjs.gxt.ui.client.widget.form.CheckBox;
+import com.extjs.gxt.ui.client.widget.form.DateField;
+import com.extjs.gxt.ui.client.widget.form.Field;
+import com.extjs.gxt.ui.client.widget.form.TextArea;
+import com.extjs.gxt.ui.client.widget.form.TextField;
 
 /**
  * The Class HeaderField.
  * 
  * @author alexript
  */
-public class HeaderField extends HorizontalPanel implements ChangeHandler,
-		ValueChangeHandler<Object> {
+public class HeaderField implements Listener<FieldEvent> {
 
 	/** The w. */
-	private final Widget w;
+	private Field<?> w;
 
 	/** The t. */
 	private final int t;
@@ -67,18 +63,58 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 	 * @param defval
 	 *            the defval
 	 */
-	public HeaderField(String name, Widget widget, int type, Object defval) {
+	public HeaderField(String name, int type, Object defval, Object helper) {
 		super();
 		h = null;
-		w = widget;
-		t = type;
 		this.defval = defval;
-		setWidth("600px");
-		setSpacing(2);
-		Label lblname = new Label(name);
-		this.add(lblname);
-		setCellWidth(lblname, "100px");
-		this.add(w);
+		t = type;
+		createField(name, helper);
+
+	}
+
+	private void createField(String name, Object helper) {
+
+		if (t == DataTypes.DT_SCRIPT) {
+			w = new TextArea();
+
+		} else if (t == DataTypes.DT_STRING) {
+			w = new TextField<String>();
+
+		} else if (t == DataTypes.DT_CURRENCY) {
+			w = new CurrencySelector((String) defval);
+		} else if (t == DataTypes.DT_CATALOGRECORD) {
+			// w = ((CatalogPanel) helper).getSelectBox((Long) defval);
+		} else if (t == DataTypes.DT_DATE) {
+			w = new DateField();
+			((DateField) w).setFormatValue(true);
+
+		} else if (t == DataTypes.DT_MONEY) {
+			w = new TextField<Double>();
+
+		} else if (t == DataTypes.DT_DOUBLE) {
+			w = new TextField<Double>();
+
+		} else if (t == DataTypes.DT_INT) {
+			w = new TextField<Integer>();
+
+		} else if (t == DataTypes.DT_LONG) {
+			w = new TextField<Long>();
+
+		} else if (t == DataTypes.DT_BOOLEAN) {
+			w = new CheckBox();
+		}
+
+		if (w == null) {
+			w = new TextField<String>();
+			// TODO: create widgets for all datatypes
+		}
+
+		w.setFieldLabel(name);
+
+	}
+
+	public Field<?> getField() {
+		return w;
 	}
 
 	/**
@@ -86,32 +122,37 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 	 * 
 	 * @return the value
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getValue() {
 		Object o = null;
 		if (t == DataTypes.DT_SCRIPT) {
-			o = ((TextArea) w).getText();
+			o = ((TextArea) w).getValue();
 		} else if (t == DataTypes.DT_STRING) {
-			o = ((TextBox) w).getText();
+			o = ((TextField<String>) w).getValue();
 		} else if (t == DataTypes.DT_MONEY) {
-			String v = ((TextBox) w).getText();
-			v = v.trim().replace(',', '.');
-			o = Double.parseDouble(v);
+			o = ((TextField<Double>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// v = v.trim().replace(',', '.');
+			// o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_DOUBLE) {
-			String v = ((TextBox) w).getText();
-			v = v.trim().replace(',', '.');
-			o = Double.parseDouble(v);
+			o = ((TextField<Double>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// v = v.trim().replace(',', '.');
+			// o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_CURRENCY) {
-			o = ((CurrencySelector) w).getValue();
+			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			o = ((CatalogSelector) w).getValue();
+			// o = ((CatalogSelector) w).getValue();
 		} else if (t == DataTypes.DT_DATE) {
-			o = ((DateBox) w).getValue();
+			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
-			String v = ((TextBox) w).getText();
-			o = Integer.parseInt(v);
+			o = ((TextField<Integer>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// o = Integer.parseInt(v);
 		} else if (t == DataTypes.DT_LONG) {
-			String v = ((TextBox) w).getText();
-			o = Long.parseLong(v);
+			o = ((TextField<Long>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// o = Long.parseLong(v);
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			o = ((CheckBox) w).getValue();
 		}
@@ -123,62 +164,45 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 	 * 
 	 * @return the value
 	 */
+	@SuppressWarnings("unchecked")
 	public String getValueAsString() {
 		Object o = null;
 		if (t == DataTypes.DT_SCRIPT) {
-			o = ((TextArea) w).getText();
+			o = ((TextArea) w).getValue();
 		} else if (t == DataTypes.DT_STRING) {
-			o = ((TextBox) w).getText();
+			o = ((TextField<String>) w).getValue();
 		} else if (t == DataTypes.DT_MONEY) {
-			String v = ((TextBox) w).getText();
-			v = v.trim().replace(',', '.');
-			o = Double.parseDouble(v);
+			o = ((TextField<Double>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// v = v.trim().replace(',', '.');
+			// o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_DOUBLE) {
-			String v = ((TextBox) w).getText();
-			v = v.trim().replace(',', '.');
-			o = Double.parseDouble(v);
+			o = ((TextField<Double>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// v = v.trim().replace(',', '.');
+			// o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_CURRENCY) {
-			o = ((CurrencySelector) w).getValue();
+			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			o = ((CatalogSelector) w).getValue();
+			// o = ((CatalogSelector) w).getValue();
 		} else if (t == DataTypes.DT_DATE) {
-			o = ((DateBox) w).getValue();
+			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
-			String v = ((TextBox) w).getText();
-			o = Integer.parseInt(v);
+			o = ((TextField<Integer>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// o = Integer.parseInt(v);
 		} else if (t == DataTypes.DT_LONG) {
-			String v = ((TextBox) w).getText();
-			o = Long.parseLong(v);
+			o = ((TextField<Long>) w).getValue();
+			// String v = ((TextBox) w).getText();
+			// o = Long.parseLong(v);
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			o = ((CheckBox) w).getValue();
 		}
 		return DataTypes.toString(t, o);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt
-	 * .event.dom.client.ChangeEvent)
-	 */
 	@Override
-	public void onChange(ChangeEvent event) {
-		if (h != null) {
-			h.handleFieldChange(mytag, getValueAsString());
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.event.logical.shared.ValueChangeHandler#onValueChange(
-	 * com.google.gwt.event.logical.shared.ValueChangeEvent)
-	 */
-	@Override
-	public void onValueChange(ValueChangeEvent<Object> event) {
+	public void handleEvent(FieldEvent be) {
 		if (h != null) {
 			h.handleFieldChange(mytag, getValueAsString());
 		}
@@ -206,23 +230,28 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 		h = handler;
 
 		if (t == DataTypes.DT_STRING) {
-			((TextBox) w).addChangeHandler(this);
+			((TextField<String>) w).addListener(Events.Change, this);
+
 		} else if (t == DataTypes.DT_MONEY) {
-			((TextBox) w).addChangeHandler(this);
+			((TextField<Double>) w).addListener(Events.Change, this);
+
 		} else if (t == DataTypes.DT_DOUBLE) {
-			((TextBox) w).addChangeHandler(this);
+			((TextField<Double>) w).addListener(Events.Change, this);
+
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			((CatalogSelector) w).addChangeHandler(this);
+			// ((CatalogSelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_DATE) {
-			((DateBox) w).addValueChangeHandler((ValueChangeHandler) this);
+			((DateField) w).addListener(Events.Change, this);
 		} else if (t == DataTypes.DT_INT) {
-			((TextBox) w).addChangeHandler(this);
+			((TextField<Integer>) w).addListener(Events.Change, this);
+
 		} else if (t == DataTypes.DT_LONG) {
-			((TextBox) w).addChangeHandler(this);
+			((TextField<Long>) w).addListener(Events.Change, this);
+
 		} else if (t == DataTypes.DT_BOOLEAN) {
-			((CheckBox) w).addValueChangeHandler((ValueChangeHandler) this);
+			((CheckBox) w).addListener(Events.Change, this);
 		}
 	}
 
@@ -234,32 +263,33 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 	 * @param castfrommap
 	 *            the castfrommap
 	 */
+	@SuppressWarnings("unchecked")
 	public void setValue(Object val, boolean castfrommap) {
 		Object mval = val;
 		if (castfrommap) {
 			mval = DataTypes.fromMapping(t, val);
 		}
 		if (t == DataTypes.DT_SCRIPT) {
-			((TextArea) w).setText((String) mval);
+			((TextArea) w).setValue((String) mval);
 		} else if (t == DataTypes.DT_STRING) {
-			((TextBox) w).setText((String) mval);
+			((TextField<String>) w).setValue((String) mval);
 		} else if (t == DataTypes.DT_MONEY) {
 			if (mval == null) {
 				mval = 0.0d;
 			}
-			((TextBox) w).setText(((Double) mval).toString());
+			((TextField<Double>) w).setValue((Double) mval);
 		} else if (t == DataTypes.DT_DOUBLE) {
-			((TextBox) w).setText(((Double) mval).toString());
+			((TextField<Double>) w).setValue((Double) mval);
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			((CatalogSelector) w).select((Long) mval);
+			// ((CatalogSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
-			((DateBox) w).setValue((Date) mval);
+			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
-			((TextBox) w).setText(((Integer) mval).toString());
+			((TextField<Integer>) w).setValue((Integer) mval);
 		} else if (t == DataTypes.DT_LONG) {
-			((TextBox) w).setText(((Long) mval).toString());
+			((TextField<Long>) w).setValue((Long) mval);
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			((CheckBox) w).setValue((Boolean) mval);
 		}
@@ -273,29 +303,30 @@ public class HeaderField extends HorizontalPanel implements ChangeHandler,
 	 * @param castfrommap
 	 *            the castfrommap
 	 */
+	@SuppressWarnings("unchecked")
 	public void setValue(String val, boolean castfrommap) {
 		Object mval = val;
 		if (castfrommap) {
 			mval = DataTypes.fromString(t, val);
 		}
 		if (t == DataTypes.DT_SCRIPT) {
-			((TextArea) w).setText((String) mval);
+			((TextArea) w).setValue((String) mval);
 		} else if (t == DataTypes.DT_STRING) {
-			((TextBox) w).setText((String) mval);
+			((TextField<String>) w).setValue((String) mval);
 		} else if (t == DataTypes.DT_MONEY) {
-			((TextBox) w).setText(((Double) mval).toString());
+			((TextField<Double>) w).setValue((Double) mval);
 		} else if (t == DataTypes.DT_DOUBLE) {
-			((TextBox) w).setText(((Double) mval).toString());
+			((TextField<Double>) w).setValue((Double) mval);
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			((CatalogSelector) w).select((Long) mval);
+			// ((CatalogSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
-			((DateBox) w).setValue((Date) mval);
+			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
-			((TextBox) w).setText(((Integer) mval).toString());
+			((TextField<Integer>) w).setValue((Integer) mval);
 		} else if (t == DataTypes.DT_LONG) {
-			((TextBox) w).setText(((Long) mval).toString());
+			((TextField<Long>) w).setValue((Long) mval);
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			((CheckBox) w).setValue((Boolean) mval);
 		}
