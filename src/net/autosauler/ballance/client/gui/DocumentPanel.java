@@ -47,6 +47,8 @@ import com.extjs.gxt.ui.client.event.SelectionListener;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.TabItem;
+import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
@@ -57,6 +59,7 @@ import com.extjs.gxt.ui.client.widget.grid.GridCellRenderer;
 import com.extjs.gxt.ui.client.widget.grid.GridSelectionModel;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
+import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
@@ -216,33 +219,48 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	 * Creates the editor form.
 	 */
 	private void createEditorForm() {
+		TabPanel tabPanel = null;
+		TabItem head = null;
+		FieldSet headSet = null;
 
 		editor = new FieldSet();
 		editor.setBorders(true);
-		editor.setScrollMode(Scroll.AUTO);
+
 		editor.setHeading(M.document.titleEditor());
+
+		if (hasTablePart()) {
+			editor.setLayout(new FitLayout());
+			tabPanel = new TabPanel();
+			head = new TabItem(M.document.tableHead());
+
+			head.setLayout(new FitLayout());
+			headSet = new FieldSet();
+			headSet.setHeading("");
+			headSet.setScrollMode(Scroll.ALWAYS);
+		} else {
+			editor.setScrollMode(Scroll.AUTO);
+		}
 
 		Set<String> names = fields.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			editor.add(fields.get(name));
+			if (hasTablePart()) {
+				headSet.add(fields.get(name));
+			} else {
+				editor.add(fields.get(name));
+			}
 		}
 
-		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
 		if (hasTablePart()) {
-			parts = new DocumentTableParts();
+			head.add(headSet);
+			tabPanel.add(head);
+			parts = new DocumentTableParts(tabPanel);
 			initTableParts(parts);
-			parts.setSelection(parts.getItem(0));
-
-			BorderLayoutData southData = new BorderLayoutData(
-					LayoutRegion.SOUTH, 200, 100, 300);
-			southData.setMargins(new Margins(5, 5, 5, 5));
-			southData.setSplit(true);
-			southData.setCollapsible(true);
-
-			this.add(parts, southData);
+			tabPanel.setSelection(tabPanel.getItem(0));
+			editor.add(tabPanel);
 		}
+		this.add(editor, new BorderLayoutData(LayoutRegion.CENTER));
 	}
 
 	/**

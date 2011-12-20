@@ -117,5 +117,7 @@ public interface DocumentMessages extends Messages {
 	 */
 	public String msgUpdateError();
 
+	public String tableHead();
+
 	public String titleEditor();
 }

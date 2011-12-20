@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.extjs.gxt.ui.client.Style.Scroll;
 import com.extjs.gxt.ui.client.widget.TabItem;
 import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
@@ -29,16 +30,17 @@ import com.extjs.gxt.ui.client.widget.layout.FitLayout;
  * 
  * @author alexript
  */
-public class DocumentTableParts extends TabPanel {
+public class DocumentTableParts {
 
 	/** The parts. */
 	private final HashMap<String, DocumentTablePart> parts;
+	private final TabPanel container;
 
 	/**
 	 * Instantiates a new document table parts.
 	 */
-	public DocumentTableParts() {
-		super();
+	public DocumentTableParts(TabPanel container) {
+		this.container = container;
 		parts = new HashMap<String, DocumentTablePart>();
 	}
 
@@ -55,7 +57,8 @@ public class DocumentTableParts extends TabPanel {
 		TabItem tabitem = new TabItem(part.getTitle());
 		tabitem.setLayout(new FitLayout());
 		tabitem.add(part.constructPane(name));
-		add(tabitem);
+		tabitem.setScrollMode(Scroll.ALWAYS);
+		container.add(tabitem);
 	}
 
 	/**
