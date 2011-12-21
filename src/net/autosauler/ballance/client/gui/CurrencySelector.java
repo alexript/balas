@@ -146,10 +146,15 @@ public class CurrencySelector extends SimpleComboBox<String> {
 
 			if (val.get("value").equals(currency)) {
 
-				setValue(val);
+				super.setValue(val);
 				return;
 			}
 		}
 		select(0);
 	}
+
+	public void setValue(String curr) {
+		select(curr);
+	}
+
 }

@@ -117,7 +117,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	private final GridSelectionModel<DocumentModel> sm = new GridSelectionModel<DocumentModel>();
 	private Grid<DocumentModel> grid;
 	private ListStore<DocumentModel> store;
-	FormData formData = new FormData("98%");
+	private final FormData formData = new FormData("98%");
 
 	/**
 	 * Instantiates a new document panel.

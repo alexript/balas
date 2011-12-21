@@ -27,8 +27,10 @@ import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.Field;
 import com.extjs.gxt.ui.client.widget.form.PropertyEditor;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboValue;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 
 /**
  * The Class HeaderField.
@@ -168,6 +170,51 @@ public class HeaderField implements Listener<FieldEvent> {
 
 		w.setFieldLabel(name);
 
+	}
+
+	public CellEditor getCellEditor() {
+		if (t == DataTypes.DT_CURRENCY) {
+			CellEditor e = new CellEditor(w) {
+				@SuppressWarnings("unchecked")
+				@Override
+				public Object postProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					return ((SimpleComboValue<String>) value).get("value");
+				}
+
+				@Override
+				public Object preProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					return ((CurrencySelector) w).findModel(value.toString());
+				}
+			};
+			return e;
+		} else if (t == DataTypes.DT_CATALOGRECORD) {
+			CellEditor e = new CellEditor(w) {
+				@SuppressWarnings("unchecked")
+				@Override
+				public Object postProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					return ((SimpleComboValue<String>) value).get("value");
+				}
+
+				@Override
+				public Object preProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					return ((CatalogSelector) w).findModel(value.toString());
+				}
+			};
+			return e;
+		}
+		return new CellEditor(w);
 	}
 
 	public Field<?> getField() {

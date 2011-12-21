@@ -25,12 +25,12 @@ import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.images.Images;
-import net.autosauler.ballance.client.model.DocumentModel;
 import net.autosauler.ballance.client.utils.SimpleDateFormat;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.extjs.gxt.ui.client.Style.HorizontalAlignment;
+import com.extjs.gxt.ui.client.data.BaseModelData;
 import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
@@ -94,12 +94,12 @@ public class DataTypeFactory {
 
 		if (type == DataTypes.DT_BOOLEAN) {
 
-			GridCellRenderer<DocumentModel> gridActive = new GridCellRenderer<DocumentModel>() {
+			GridCellRenderer<BaseModelData> gridActive = new GridCellRenderer<BaseModelData>() {
 
 				@Override
-				public Object render(DocumentModel model, String property,
+				public Object render(BaseModelData model, String property,
 						ColumnData config, int rowIndex, int colIndex,
-						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
 
 					Boolean isactive = (Boolean) model.get(fieldname);
 					if (isactive) {
@@ -116,12 +116,12 @@ public class DataTypeFactory {
 			column.setRenderer(gridActive);
 
 		} else if (type == DataTypes.DT_DATE) {
-			GridCellRenderer<DocumentModel> gridDate = new GridCellRenderer<DocumentModel>() {
+			GridCellRenderer<BaseModelData> gridDate = new GridCellRenderer<BaseModelData>() {
 
 				@Override
-				public Object render(DocumentModel model, String property,
+				public Object render(BaseModelData model, String property,
 						ColumnData config, int rowIndex, int colIndex,
-						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
 					Long longdate = (Long) model.get(fieldname);
 					if (longdate == null) {
 						return "---";
@@ -133,12 +133,12 @@ public class DataTypeFactory {
 			column.setRenderer(gridDate);
 
 		} else if (type == DataTypes.DT_CATALOGRECORD) {
-			GridCellRenderer<DocumentModel> gridCatalog = new GridCellRenderer<DocumentModel>() {
+			GridCellRenderer<BaseModelData> gridCatalog = new GridCellRenderer<BaseModelData>() {
 
 				@Override
-				public Object render(DocumentModel model, String property,
+				public Object render(BaseModelData model, String property,
 						ColumnData config, int rowIndex, int colIndex,
-						ListStore<DocumentModel> store, Grid<DocumentModel> grid) {
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
 
 					return ((CatalogPanel) helper).getName((Long) DataTypes
 							.fromMapping(type, model.get(fieldname)));
@@ -515,6 +515,92 @@ public class DataTypeFactory {
 			table.setColumnWidth(column, width, Unit.PX);
 		}
 
+	}
+
+	public static ColumnConfig addEditableCell(Field field,
+			final Object helper, ITableFieldChangeHandler changehandler) {
+
+		ColumnConfig column = new ColumnConfig();
+		final String fieldname = field.getFieldname();
+		String colname = field.getName().getName(
+				LocaleInfo.getCurrentLocale().getLocaleName());
+		int width = field.getColumnwidth();
+		Object defval = field.getDefval();
+		final int type = field.getType();
+
+		column.setId(fieldname);
+		column.setHeader(colname);
+		column.setWidth(width);
+		column.setRowHeader(true);
+
+		if (type == DataTypes.DT_BOOLEAN) {
+
+			GridCellRenderer<BaseModelData> gridActive = new GridCellRenderer<BaseModelData>() {
+
+				@Override
+				public Object render(BaseModelData model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
+
+					Boolean isactive = (Boolean) model.get(fieldname);
+					if (isactive) {
+						return AbstractImagePrototype.create(Images.menu.Ok())
+								.createImage();
+
+					}
+					return AbstractImagePrototype.create(Images.menu.Cancel())
+							.createImage();
+
+				}
+			};
+			column.setAlignment(HorizontalAlignment.CENTER);
+			column.setRenderer(gridActive);
+
+		} else if (type == DataTypes.DT_DATE) {
+			GridCellRenderer<BaseModelData> gridDate = new GridCellRenderer<BaseModelData>() {
+
+				@Override
+				public Object render(BaseModelData model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
+					Date longdate = (Date) model.get(fieldname);
+					if (longdate == null) {
+						return new Date();
+					}
+					return DataTypeFactory.formatter.format(longdate);
+				}
+			};
+
+			column.setRenderer(gridDate);
+
+		} else if (type == DataTypes.DT_CATALOGRECORD) {
+			GridCellRenderer<BaseModelData> gridCatalog = new GridCellRenderer<BaseModelData>() {
+
+				@Override
+				public Object render(BaseModelData model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
+
+					return ((CatalogPanel) helper).getName((Long) model
+							.get(fieldname));
+
+				}
+			};
+
+			column.setRenderer(gridCatalog);
+
+		} else if (type == DataTypes.DT_DOCUMENTRECORD) {
+			// TODO: add cell (docname, number, date)
+
+		} else {
+			// default renderer
+		}
+
+		HeaderField hf = new HeaderField(fieldname, type, defval, helper);
+
+		column.setEditor(hf.getCellEditor());
+
+		return column;
 	}
 
 	/**

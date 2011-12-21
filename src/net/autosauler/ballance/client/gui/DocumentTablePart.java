@@ -27,47 +27,37 @@ import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.client.model.DocumentTableModel;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
+import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.store.ListStore;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
+import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
+import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayout;
 import com.extjs.gxt.ui.client.widget.layout.BorderLayoutData;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
-import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 /**
  * The Class DocumentTablePart.
  * 
  * @author alexript
  */
-public class DocumentTablePart extends Composite implements
-		ITableFieldChangeHandler {
+public class DocumentTablePart implements ITableFieldChangeHandler {
 
 	/** The title. */
 	private final String title;
-
-	/** The dataset. */
-	private List<HashMap<String, Object>> dataset = null;
 
 	/** The btn plus. */
 	private Button btnPlus;
@@ -81,39 +71,15 @@ public class DocumentTablePart extends Composite implements
 	/** The datatypes. */
 	private final HashMap<String, Integer> datatypes;
 
-	/** The cell table. */
-	@UiField(provided = true)
-	private CellTable<HashMap<String, Object>> cellTable;
-
-	/** The data provider. */
-	private ListDataProvider<HashMap<String, Object>> dataProvider;
-
-	/** The Constant KEY_PROVIDER. */
-	private static final ProvidesKey<HashMap<String, Object>> KEY_PROVIDER = new ProvidesKey<HashMap<String, Object>>() {
-
-		/**
-		 * Gets the key.
-		 * 
-		 * @param item
-		 *            the item
-		 * @return the key
-		 */
-		@Override
-		public Object getKey(HashMap<String, Object> map) {
-			return map == null ? null : map.get("number");
-		}
-	};
-
-	/** The Constant selectionModel. */
-	private static final SelectionModel<HashMap<String, Object>> selectionModel = new SingleSelectionModel<HashMap<String, Object>>(
-			KEY_PROVIDER);
-
 	/** The defaultvalues. */
 	private final HashMap<String, Object> defaultvalues;
 
 	private final String tablename;
 
 	private final String docname;
+
+	private EditorGrid<DocumentTableModel> grid;
+	private ListStore<DocumentTableModel> store;
 
 	/**
 	 * Instantiates a new document table part.
@@ -133,67 +99,17 @@ public class DocumentTablePart extends Composite implements
 	}
 
 	/**
-	 * Adds the column.
-	 * 
-	 * @param name
-	 *            the name
-	 * @param field
-	 *            the field
-	 * @param type
-	 *            the type
-	 * @param width
-	 *            the width
-	 * @param iseditable
-	 *            the iseditable
-	 * @param defval
-	 *            the defval
-	 * @param helper
-	 *            the helper
-	 */
-	public void addColumn(final String name, final String field,
-			final int type, final int width, final boolean iseditable,
-			final Object defval, final Object helper) {
-
-		if (iseditable) {
-
-			DataTypeFactory.addEditableCell(cellTable, name, field, type,
-					width, defval, helper, this, field);
-		} else {
-			// TODO: DataTypeFactory.addCell(cellTable, name, field, type,
-			// width,
-			// defval, helper);
-		}
-
-		defaultvalues.put(field, defval);
-		datatypes.put(field, type);
-
-	}
-
-	/**
 	 * Adds the row.
 	 */
 	private void addRow() {
-		// Window.alert("Add row into " + title);
-		HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
-				.getSelectedObject();
-		if (map != null) {
-			selectionModel.setSelected(map, false);
-		}
+		grid.getSelectionModel().deselectAll();
 
-		HashMap<String, Object> row = new HashMap<String, Object>();
-		row.put("number", newnumber);
-		Set<String> names = defaultvalues.keySet();
-		Iterator<String> i = names.iterator();
-		while (i.hasNext()) {
-			String name = i.next();
-			row.put(name,
-					DataTypes.toMapping(datatypes.get(name),
-							defaultvalues.get(name)));
-		}
+		DocumentTableModel row = new DocumentTableModel(newnumber,
+				defaultvalues, datatypes);
+		store.add(row);
+		grid.getSelectionModel().select(row, false);
 
 		newnumber = newnumber - 1L;
-		dataset.add(row);
-		dataProvider.refresh();
 
 	}
 
@@ -201,14 +117,8 @@ public class DocumentTablePart extends Composite implements
 	 * Clean table.
 	 */
 	public void cleanTable() {
-		if (dataset != null) {
-			dataset.clear();
-		} else {
-			dataset = new ArrayList<HashMap<String, Object>>();
-		}
-		if (dataProvider != null) {
-			dataProvider.setList(dataset);
-			dataProvider.refresh();
+		if (store != null) {
+			store.removeAll();
 		}
 		newnumber = 0L;
 	}
@@ -255,72 +165,67 @@ public class DocumentTablePart extends Composite implements
 
 		panel.setTopComponent(toolBar);
 
-		cellTable = new CellTable<HashMap<String, Object>>(KEY_PROVIDER);
-		cellTable.setWidth("100%", false);
+		// create table
 
-		selectionModel
-				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
 
-					@Override
-					public void onSelectionChange(SelectionChangeEvent event) {
-						HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
-								.getSelectedObject();
-						if (map != null) {
-							Long recnum = (Long) map.get("number");
-							recnum.toString(); // NOP
-							// onselect
-						} else {
-							// edit.setEnabled(false);
-							// del.setEnabled(false);
-
-						}
-					}
-				});
+		ColumnConfig column = new ColumnConfig();
 
 		UserRole role = Ballance_autosauler_net.sessionId.getUserrole();
 		if (role.isAdmin()) {
-			// Record number.
-			// ----------------------------------------------------------
-			Column<HashMap<String, Object>, String> recNumberColumn = new Column<HashMap<String, Object>, String>(
-					new TextCell()) {
-				@Override
-				public String getValue(HashMap<String, Object> map) {
-					if (!map.containsKey("number")) {
-						return "0";
-					}
-					Object o = map.get("number");
-					if (o == null) {
-						return "0";
-					}
-					return ((Long) o).toString();
+			column.setId("number");
+			column.setHeader(M.table.colNumber());
+			column.setWidth(50);
+			column.setRowHeader(true);
+			columns.add(column);
+		}
+		column = new ColumnConfig();
+
+		Description structuredescription = StructureFactory
+				.getDescription("table." + tablepartname);
+		if (structuredescription != null) {
+			List<Field> fields = structuredescription.get();
+			Iterator<Field> i = fields.iterator();
+			while (i.hasNext()) {
+				Field f = i.next();
+				String helper = f.getHelper();
+				String helpertype = f.getHelpertype();
+
+				CatalogPanel h = null;
+				if (helpertype.equals("catalog") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new CatalogPanel(helper, null);
 				}
-			};
 
-			cellTable.addColumn(recNumberColumn, M.table.colNumber());
+				String field = f.getFieldname();
+				Object defval = f.getDefval();
+				int type = f.getType();
 
-			cellTable.setColumnWidth(recNumberColumn, 50, Unit.PX);
+				columns.add(DataTypeFactory.addEditableCell(f, h, this));
+
+				defaultvalues.put(field, defval);
+				datatypes.put(field, type);
+
+			}
 		}
 
-		initTableColumns(tablepartname);
+		ColumnModel cm = new ColumnModel(columns);
 
-		dataProvider = new ListDataProvider<HashMap<String, Object>>();
-		dataProvider.addDataDisplay(cellTable);
+		store = new ListStore<DocumentTableModel>();
 
-		dataProvider.refresh(); // ?
+		grid = new EditorGrid<DocumentTableModel>(store, cm);
 
-		cellTable.setSelectionModel(selectionModel);
+		grid.setBorders(true);
 
-		panel.add(cellTable, new BorderLayoutData(LayoutRegion.CENTER));
+		grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+		// add table into tabitem
+
+		panel.add(grid, new BorderLayoutData(LayoutRegion.CENTER));
 
 		return panel;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.gwt.user.client.ui.UIObject#getTitle()
-	 */
-	@Override
 	public String getTitle() {
 		return title;
 	}
@@ -331,8 +236,8 @@ public class DocumentTablePart extends Composite implements
 	 * @return the values
 	 */
 	public Set<HashMap<String, Object>> getValues() {
-		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>(
-				dataset);
+		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>(); // TODO:
+																					// dataset);
 		return ds;
 	}
 
@@ -391,43 +296,10 @@ public class DocumentTablePart extends Composite implements
 
 							}
 						}
-						dataProvider.refresh();
+						// TODO: dataProvider.refresh();
 
 					}
 				});
-
-	}
-
-	/**
-	 * Inits the table columns.
-	 * 
-	 * @param tablepartname
-	 *            the tablepartname
-	 */
-	protected void initTableColumns(String tablepartname) {
-		Description structuredescription = StructureFactory
-				.getDescription("table." + tablepartname);
-		if (structuredescription != null) {
-			List<Field> fields = structuredescription.get();
-			Iterator<Field> i = fields.iterator();
-			while (i.hasNext()) {
-				Field f = i.next();
-				String helper = f.getHelper();
-				String helpertype = f.getHelpertype();
-
-				CatalogPanel h = null;
-				if (helpertype.equals("catalog") && (helper != null)
-						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper, null);
-				}
-
-				addColumn(
-						f.getName().getName(
-								LocaleInfo.getCurrentLocale().getLocaleName()),
-						f.getFieldname(), f.getType(), f.getColumnwidth(),
-						true, f.getDefval(), h);
-			}
-		}
 
 	}
 
@@ -442,6 +314,9 @@ public class DocumentTablePart extends Composite implements
 	 *            the tablename
 	 */
 	public void loadData(String documentname, Long number, String tablename) {
+		final List<DocumentTableModel> records = new ArrayList<DocumentTableModel>();
+		cleanTable();
+
 		MainPanel.setCommInfo(true);
 		Services.documents.getTable(documentname, number, tablename,
 				new AsyncCallback<Set<HashMap<String, Object>>>() {
@@ -449,7 +324,7 @@ public class DocumentTablePart extends Composite implements
 					@Override
 					public void onFailure(Throwable caught) {
 						MainPanel.setCommInfo(false);
-						cleanTable();
+
 						new AlertDialog(caught).show();
 
 					}
@@ -457,7 +332,14 @@ public class DocumentTablePart extends Composite implements
 					@Override
 					public void onSuccess(Set<HashMap<String, Object>> result) {
 						MainPanel.setCommInfo(false);
-						setData(result);
+
+						for (HashMap<String, Object> document : result) {
+							records.add(new DocumentTableModel(document,
+									datatypes));
+						}
+						store.add(records);
+
+						newnumber = 0L;
 
 					}
 				});
@@ -469,14 +351,13 @@ public class DocumentTablePart extends Composite implements
 	 */
 	private void removeRow() {
 		// Window.alert("Remove row from " + title);
-		HashMap<String, Object> map = ((SingleSelectionModel<HashMap<String, Object>>) selectionModel)
-				.getSelectedObject();
-		if (map != null) {
-			Long num = (Long) map.get("number");
-			if (num < 1L) {
-				dataset.remove(map);
-				dataProvider.setList(dataset);
-				dataProvider.refresh();
+
+		DocumentTableModel record = grid.getSelectionModel().getSelectedItem();
+
+		if (record != null) {
+			Long num = (Long) record.get("number");
+			if ((num == null) || (num.compareTo(1L) == -1)) {
+				store.remove(record);
 
 			} else {
 				new AlertDialog(M.table.msgCantdelete()).show();
@@ -486,18 +367,4 @@ public class DocumentTablePart extends Composite implements
 		}
 	}
 
-	/**
-	 * Sets the data.
-	 * 
-	 * @param set
-	 *            the set
-	 */
-	private void setData(Set<HashMap<String, Object>> set) {
-		dataset.clear();
-		dataset = null;
-		dataset = new ArrayList<HashMap<String, Object>>(set);
-		dataProvider.setList(dataset);
-		dataProvider.refresh();
-		newnumber = 0L;
-	}
 }

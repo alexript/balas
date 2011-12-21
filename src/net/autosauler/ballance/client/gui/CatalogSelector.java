@@ -122,4 +122,8 @@ public class CatalogSelector extends ComboBox<CatalogModel> {
 
 	}
 
+	public void setValue(Long number) {
+		select(number);
+	}
+
 }
