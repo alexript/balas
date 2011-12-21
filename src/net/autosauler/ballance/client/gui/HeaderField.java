@@ -26,6 +26,7 @@ import com.extjs.gxt.ui.client.event.Listener;
 import com.extjs.gxt.ui.client.widget.form.CheckBox;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.extjs.gxt.ui.client.widget.form.Field;
+import com.extjs.gxt.ui.client.widget.form.PropertyEditor;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 
@@ -72,6 +73,7 @@ public class HeaderField implements Listener<FieldEvent> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createField(String name, Object helper) {
 
 		if (t == DataTypes.DT_SCRIPT) {
@@ -83,22 +85,77 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_CURRENCY) {
 			w = new CurrencySelector((String) defval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// w = ((CatalogPanel) helper).getSelectBox((Long) defval);
+			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
 		} else if (t == DataTypes.DT_DATE) {
 			w = new DateField();
 			((DateField) w).setFormatValue(true);
 
 		} else if (t == DataTypes.DT_MONEY) {
 			w = new TextField<Double>();
+			((TextField<Double>) w)
+					.setPropertyEditor(new PropertyEditor<Double>() {
+
+						@Override
+						public Double convertStringValue(String value) {
+							String v = value.trim().replace(',', '.');
+							return Double.parseDouble(v);
+						}
+
+						@Override
+						public String getStringValue(Double value) {
+							return value.toString();
+						}
+					});
 
 		} else if (t == DataTypes.DT_DOUBLE) {
 			w = new TextField<Double>();
+			((TextField<Double>) w)
+					.setPropertyEditor(new PropertyEditor<Double>() {
+
+						@Override
+						public Double convertStringValue(String value) {
+							String v = value.trim().replace(',', '.');
+							return Double.parseDouble(v);
+						}
+
+						@Override
+						public String getStringValue(Double value) {
+							return value.toString();
+						}
+					});
 
 		} else if (t == DataTypes.DT_INT) {
 			w = new TextField<Integer>();
+			((TextField<Integer>) w)
+					.setPropertyEditor(new PropertyEditor<Integer>() {
+
+						@Override
+						public Integer convertStringValue(String value) {
+							String v = value.trim();
+							return Integer.parseInt(v);
+						}
+
+						@Override
+						public String getStringValue(Integer value) {
+							return value.toString();
+						}
+					});
 
 		} else if (t == DataTypes.DT_LONG) {
 			w = new TextField<Long>();
+			((TextField<Long>) w).setPropertyEditor(new PropertyEditor<Long>() {
+
+				@Override
+				public Long convertStringValue(String value) {
+					String v = value.trim().replace(',', '.');
+					return Long.parseLong(v);
+				}
+
+				@Override
+				public String getStringValue(Long value) {
+					return value.toString();
+				}
+			});
 
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			w = new CheckBox();
@@ -131,28 +188,22 @@ public class HeaderField implements Listener<FieldEvent> {
 			o = ((TextField<String>) w).getValue();
 		} else if (t == DataTypes.DT_MONEY) {
 			o = ((TextField<Double>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// v = v.trim().replace(',', '.');
-			// o = Double.parseDouble(v);
+
 		} else if (t == DataTypes.DT_DOUBLE) {
 			o = ((TextField<Double>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// v = v.trim().replace(',', '.');
-			// o = Double.parseDouble(v);
+
 		} else if (t == DataTypes.DT_CURRENCY) {
 			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// o = ((CatalogSelector) w).getValue();
+			o = ((CatalogSelector) w).getLongValue();
 		} else if (t == DataTypes.DT_DATE) {
 			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
 			o = ((TextField<Integer>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// o = Integer.parseInt(v);
+
 		} else if (t == DataTypes.DT_LONG) {
 			o = ((TextField<Long>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// o = Long.parseLong(v);
+
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			o = ((CheckBox) w).getValue();
 		}
@@ -173,28 +224,21 @@ public class HeaderField implements Listener<FieldEvent> {
 			o = ((TextField<String>) w).getValue();
 		} else if (t == DataTypes.DT_MONEY) {
 			o = ((TextField<Double>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// v = v.trim().replace(',', '.');
-			// o = Double.parseDouble(v);
 		} else if (t == DataTypes.DT_DOUBLE) {
 			o = ((TextField<Double>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// v = v.trim().replace(',', '.');
-			// o = Double.parseDouble(v);
+
 		} else if (t == DataTypes.DT_CURRENCY) {
 			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// o = ((CatalogSelector) w).getValue();
+			o = ((CatalogSelector) w).getLongValue();
 		} else if (t == DataTypes.DT_DATE) {
 			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
 			o = ((TextField<Integer>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// o = Integer.parseInt(v);
+
 		} else if (t == DataTypes.DT_LONG) {
 			o = ((TextField<Long>) w).getValue();
-			// String v = ((TextBox) w).getText();
-			// o = Long.parseLong(v);
+
 		} else if (t == DataTypes.DT_BOOLEAN) {
 			o = ((CheckBox) w).getValue();
 		}
@@ -224,7 +268,7 @@ public class HeaderField implements Listener<FieldEvent> {
 	 * @param handler
 	 *            the handler
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked" })
 	public void setChangeHandler(String tag, IFieldChangeHandler handler) {
 		mytag = tag;
 		h = handler;
@@ -241,7 +285,7 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// ((CatalogSelector) w).addChangeHandler(this);
+			((CatalogSelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).addListener(Events.Change, this);
 		} else if (t == DataTypes.DT_INT) {
@@ -283,7 +327,7 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// ((CatalogSelector) w).select((Long) mval);
+			((CatalogSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
@@ -320,7 +364,7 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			// ((CatalogSelector) w).select((Long) mval);
+			((CatalogSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {

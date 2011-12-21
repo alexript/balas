@@ -46,7 +46,10 @@ public class CurrencySelector extends SimpleComboBox<String> {
 	 */
 	public CurrencySelector(String currentcurrency) {
 		super();
+		setEmptyText("Select a currency...");
 
+		setTypeAhead(true);
+		setTriggerAction(TriggerAction.ALL);
 		// Image reload = new Image(Images.menu.reload());
 		//
 		// reload.addClickHandler(new ClickHandler() {
@@ -135,7 +138,7 @@ public class CurrencySelector extends SimpleComboBox<String> {
 	 *            the currency
 	 */
 	public void select(String currency) {
-		getStore().getCount();
+
 		int total = getStore().getCount();
 		for (int i = 0; i < total; i++) {
 

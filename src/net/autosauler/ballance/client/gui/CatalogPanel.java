@@ -46,6 +46,7 @@ import com.extjs.gxt.ui.client.util.Margins;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.FormPanel.LabelAlign;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -165,8 +166,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
-		// String nn = Character.toUpperCase(field.charAt(0)) +
-		// field.substring(1);
+
 		hf.setChangeHandler(field, this);
 		fields.put(field, hf);
 		formpanel.add(hf.getField(), formData);
@@ -232,6 +232,8 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		formpanel = new FormPanel();
 		formpanel.setHeading(M.catalog.titleEditor());
 		formpanel.setScrollMode(Scroll.AUTO);
+		formpanel.setLabelAlign(LabelAlign.RIGHT);
+		formpanel.setLabelWidth(150);
 
 		fullname = DataTypeFactory.addField(M.catalog.labelFullname(),
 				"fullname", DataTypes.DT_STRING, "", null);

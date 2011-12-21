@@ -163,8 +163,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			Object helper) {
 		HeaderField hf = DataTypeFactory.addField(name, field, type, defval,
 				helper);
-		// String nn = Character.toUpperCase(field.charAt(0)) +
-		// field.substring(1);
+
 		hf.setChangeHandler(field, this);
 
 		fields.put(field, hf);
