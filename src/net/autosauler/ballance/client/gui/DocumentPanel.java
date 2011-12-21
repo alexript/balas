@@ -52,6 +52,7 @@ import com.extjs.gxt.ui.client.widget.TabPanel;
 import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.FormPanel.LabelAlign;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnData;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
@@ -231,6 +232,8 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		editor.setHeading(M.document.titleEditor());
 
 		headSet = new FormPanel();
+		headSet.setLabelAlign(LabelAlign.RIGHT);
+		headSet.setLabelWidth(150);
 		headSet.setHeaderVisible(false);
 
 		if (hasTablePart()) {

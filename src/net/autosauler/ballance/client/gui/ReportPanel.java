@@ -25,38 +25,39 @@ import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.ReportFormField;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.extjs.gxt.ui.client.Style.Scroll;
+import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.MenuEvent;
 import com.extjs.gxt.ui.client.event.SelectionListener;
+import com.extjs.gxt.ui.client.widget.ContentPanel;
+import com.extjs.gxt.ui.client.widget.HtmlContainer;
+import com.extjs.gxt.ui.client.widget.button.Button;
+import com.extjs.gxt.ui.client.widget.form.FormPanel;
+import com.extjs.gxt.ui.client.widget.form.FormPanel.LabelAlign;
+import com.extjs.gxt.ui.client.widget.layout.FillLayout;
+import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * The Class ReportPanel.
  * 
  * @author alexript
  */
-public class ReportPanel extends Composite implements IPaneWithMenu,
+public class ReportPanel extends ContentPanel implements IPaneWithMenu,
 		IReloadMsgReceiver {
 
 	/** The scriptname. */
 	private final String scriptname;
 
 	/** The form. */
-	private final VerticalPanel form;
+	private final FormPanel form;
 
 	/** The report. */
-	private final Panel report;
+	private final HtmlContainer report;
 
 	/** The myfields. */
 	private List<ReportFormField> myfields;
@@ -66,6 +67,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 
 	/** The btn exec. */
 	private final Button btnExec;
+	private final FormData formData = new FormData("98%");
 
 	/**
 	 * Instantiates a new report panel.
@@ -74,31 +76,36 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 	 *            the scriptname
 	 */
 	public ReportPanel(String scriptname) {
+		super(new FillLayout());
+		setScrollMode(Scroll.AUTO);
+		setHeaderVisible(false);
 		this.scriptname = scriptname;
-		form = new VerticalPanel();
 		fields = new HashMap<String, HeaderField>();
-		VerticalPanel panel = new VerticalPanel();
-		panel.add(form);
+
+		form = new FormPanel();
+		form.setLabelAlign(LabelAlign.RIGHT);
+		form.setLabelWidth(150);
+		form.setHeaderVisible(false);
+
 		btnExec = new Button(M.tools.btnExecute());
-		btnExec.addClickHandler(new ClickHandler() {
+		btnExec.addSelectionListener(new SelectionListener<ButtonEvent>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void componentSelected(ButtonEvent ce) {
 				execReport();
 
 			}
 		});
 		btnExec.setEnabled(false);
-		panel.add(btnExec);
-		panel.setCellHeight(btnExec, "30px");
+		form.addButton(btnExec);
+		add(form);
 
-		report = new SimplePanel();
+		report = new HtmlContainer();
 		report.setWidth("500px");
 		report.setHeight("400px");
 		report.setVisible(false);
-		panel.add(report);
 
-		initWidget(panel);
+		add(report);
 
 		reloadList();
 	}
@@ -115,7 +122,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 			params.put(field.getName(), fields.get(field.getName())
 					.getValueAsString());
 		}
-		report.clear();
+		report.setHtml("");
 		MainPanel.setCommInfo(true);
 		Services.reports.generateReport(scriptname, params,
 				new AsyncCallback<String>() {
@@ -130,8 +137,8 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 					@Override
 					public void onSuccess(String result) {
 						MainPanel.setCommInfo(false);
-						HTML w = new HTML("<p>" + result + "</p>");
-						report.add(w);
+
+						report.setHtml("<p>" + result + "</p>");
 						report.setVisible(true);
 					}
 				});
@@ -194,7 +201,7 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 
 						MainPanel.setCommInfo(false);
 						myfields = result;
-						form.clear();
+						form.removeAll();
 						fields.clear();
 						Iterator<ReportFormField> i = result.iterator();
 						while (i.hasNext()) {
@@ -203,13 +210,15 @@ public class ReportPanel extends Composite implements IPaneWithMenu,
 							if (field.getType() == DataTypes.DT_CATALOGRECORD) {
 								helper = new CatalogPanel(field.getName(), null);
 							}
+
 							HeaderField hf = DataTypeFactory.addField(
 									field.getDescr(), field.getName(),
 									field.getType(), field.getDefval(), helper);
 							fields.put(field.getName(), hf);
-							form.add(hf.getField());
+							form.add(hf.getField(), formData);
 						}
-
+						form.recalculate();
+						form.layout(true);
 						btnExec.setEnabled(true);
 
 					}
