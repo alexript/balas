@@ -437,7 +437,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 
 					HashMap<String, Set<HashMap<String, Object>>> tablesvalues = getTablesValues();
 
-					Log.trace(tablesvalues.toString());
+					// DocumentPanel.this.traceTableValues(tablesvalues);
 
 					Services.documents.update(documentname, editformnumber,
 							map, tablesvalues, new AsyncCallback<Boolean>() {
@@ -850,6 +850,22 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	public void reloadList() {
 		store.removeAll();
 		DocumentModel.load(store, documentname);
+	}
+
+	protected void traceTableValues(
+			HashMap<String, Set<HashMap<String, Object>>> tablesvalues) {
+
+		for (String partname : tablesvalues.keySet()) {
+			Log.error("TablePart: " + partname);
+			Set<HashMap<String, Object>> records = tablesvalues.get(partname);
+			for (HashMap<String, Object> record : records) {
+				for (String field : record.keySet()) {
+					Log.error(" --" + field + ": "
+							+ record.get(field).toString());
+				}
+			}
+		}
+
 	}
 
 }

@@ -241,8 +241,14 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 		List<DocumentTableModel> models = store.getModels();
 		for (DocumentTableModel model : models) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			for (String name : datatypes.keySet()) {
-				map.put(name, model.get(name));
+			for (String name : model.getPropertyNames()) {
+				if (datatypes.containsKey(name)) {
+					map.put(name, DataTypes.toMapping(datatypes.get(name),
+
+					model.get(name)));
+				} else {
+					map.put(name, model.get(name));
+				}
 			}
 			ds.add(map);
 		}
