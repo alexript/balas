@@ -236,8 +236,16 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 	 * @return the values
 	 */
 	public Set<HashMap<String, Object>> getValues() {
-		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>(); // TODO:
-																					// dataset);
+		Set<HashMap<String, Object>> ds = new HashSet<HashMap<String, Object>>();
+
+		List<DocumentTableModel> models = store.getModels();
+		for (DocumentTableModel model : models) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			for (String name : datatypes.keySet()) {
+				map.put(name, model.get(name));
+			}
+			ds.add(map);
+		}
 		return ds;
 	}
 
@@ -249,23 +257,26 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 	 * (java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void handleFieldChange(String tag,
-			final HashMap<String, Object> values) {
-		// Window.alert("Call " + tag + " for new value " + newvalueasstring);
+	public void handleFieldChange(String tag, final Object newvalue) {
+		// Window.alert("Call " + tag + " for new value " + newvalue);
 
 		HashMap<String, String> sendmap = new HashMap<String, String>();
+		final DocumentTableModel model = grid.getSelectionModel()
+				.getSelectedItem();
 
 		Set<String> names = datatypes.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			if (values.containsKey(name)) {
-				sendmap.put(name, DataTypes.toString(
-						datatypes.get(name),
-						DataTypes.fromMapping(datatypes.get(name),
-								values.get(name))));
-			}
+
+			sendmap.put(name, DataTypes.toString(datatypes.get(name),
+
+			model.get(name)));
 		}
+
+		sendmap.put(tag, DataTypes.toString(datatypes.get(tag),
+
+		newvalue));
 
 		MainPanel.setCommInfo(true);
 		Services.scripts.evalOnChangeTable("document." + docname,
@@ -288,15 +299,15 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 						while (i.hasNext()) {
 							String name = i.next();
 							if (result.containsKey(name)) {
-								values.put(name, DataTypes.toMapping(
-										datatypes.get(name),
+								model.set(
+										name,
 										DataTypes.fromString(
 												datatypes.get(name),
-												result.get(name))));
+												result.get(name)));
 
 							}
 						}
-						// TODO: dataProvider.refresh();
+						store.update(model);
 
 					}
 				});

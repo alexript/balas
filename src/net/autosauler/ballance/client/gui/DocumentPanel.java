@@ -434,9 +434,13 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 								}
 							});
 				} else {
+
+					HashMap<String, Set<HashMap<String, Object>>> tablesvalues = getTablesValues();
+
+					Log.trace(tablesvalues.toString());
+
 					Services.documents.update(documentname, editformnumber,
-							map, getTablesValues(),
-							new AsyncCallback<Boolean>() {
+							map, tablesvalues, new AsyncCallback<Boolean>() {
 
 								@Override
 								public void onFailure(Throwable caught) {

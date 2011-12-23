@@ -16,8 +16,6 @@
 
 package net.autosauler.ballance.client.gui;
 
-import java.util.HashMap;
-
 /**
  * The Interface ITableFieldChangeHandler.
  * 
@@ -33,5 +31,5 @@ public interface ITableFieldChangeHandler {
 	 * @param values
 	 *            the values
 	 */
-	public void handleFieldChange(String tag, HashMap<String, Object> values);
+	public void handleFieldChange(String tag, Object newvalue);
 }

@@ -85,6 +85,22 @@ public class CatalogSelector extends ComboBox<CatalogModel> {
 
 	}
 
+	public CatalogModel find(Long number) {
+		int total = getStore().getCount();
+		for (int i = 0; i < total; i++) {
+
+			CatalogModel val = getStore().getAt(i);
+
+			if ((val != null) && (val.get("number") != null)
+					&& val.get("number").equals(number)) {
+
+				return val;
+			}
+		}
+		return null;
+
+	}
+
 	public Long getLongValue() {
 		return (Long) super.getValue().get("number");
 	}

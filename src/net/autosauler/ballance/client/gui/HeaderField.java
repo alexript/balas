@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.Date;
 
+import net.autosauler.ballance.client.model.CatalogModel;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.extjs.gxt.ui.client.event.Events;
@@ -53,6 +54,7 @@ public class HeaderField implements Listener<FieldEvent> {
 
 	/** The h. */
 	private IFieldChangeHandler h;
+	private ITableFieldChangeHandler ch;
 
 	/**
 	 * Instantiates a new header field.
@@ -195,13 +197,13 @@ public class HeaderField implements Listener<FieldEvent> {
 			return e;
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			CellEditor e = new CellEditor(w) {
-				@SuppressWarnings("unchecked")
+
 				@Override
 				public Object postProcessValue(Object value) {
 					if (value == null) {
 						return value;
 					}
-					return ((SimpleComboValue<String>) value).get("value");
+					return ((CatalogModel) value).get("number");
 				}
 
 				@Override
@@ -209,7 +211,7 @@ public class HeaderField implements Listener<FieldEvent> {
 					if (value == null) {
 						return value;
 					}
-					return ((CatalogSelector) w).findModel(value.toString());
+					return ((CatalogSelector) w).find((Long) value);
 				}
 			};
 			return e;
@@ -292,10 +294,23 @@ public class HeaderField implements Listener<FieldEvent> {
 		return DataTypes.toString(t, o);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleEvent(FieldEvent be) {
 		if (h != null) {
 			h.handleFieldChange(mytag, getValueAsString());
+		}
+		if (ch != null) {
+			if (t == DataTypes.DT_CATALOGRECORD) {
+				ch.handleFieldChange(mytag,
+						((CatalogModel) be.getValue()).get("number"));
+			} else if (t == DataTypes.DT_CURRENCY) {
+				ch.handleFieldChange(mytag,
+						((SimpleComboValue) be.getValue()).get("value"));
+			} else {
+
+				ch.handleFieldChange(mytag, be.getValue());
+			}
 		}
 
 	}
@@ -305,6 +320,38 @@ public class HeaderField implements Listener<FieldEvent> {
 	 */
 	public void reset() {
 		setValue(defval, false);
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	public void setCellChangeHandler(String tag,
+			ITableFieldChangeHandler handler) {
+		mytag = tag;
+		ch = handler;
+
+		if (t == DataTypes.DT_STRING) {
+			((TextField<String>) w).addListener(Events.Change, this);
+
+		} else if (t == DataTypes.DT_MONEY) {
+			((TextField<Double>) w).addListener(Events.Change, this);
+
+		} else if (t == DataTypes.DT_DOUBLE) {
+			((TextField<Double>) w).addListener(Events.Change, this);
+
+		} else if (t == DataTypes.DT_CURRENCY) {
+			((CurrencySelector) w).addChangeHandler(this);
+		} else if (t == DataTypes.DT_CATALOGRECORD) {
+			((CatalogSelector) w).addChangeHandler(this);
+		} else if (t == DataTypes.DT_DATE) {
+			((DateField) w).addListener(Events.Change, this);
+		} else if (t == DataTypes.DT_INT) {
+			((TextField<Integer>) w).addListener(Events.Change, this);
+
+		} else if (t == DataTypes.DT_LONG) {
+			((TextField<Long>) w).addListener(Events.Change, this);
+
+		} else if (t == DataTypes.DT_BOOLEAN) {
+			((CheckBox) w).addListener(Events.Change, this);
+		}
 	}
 
 	/**
