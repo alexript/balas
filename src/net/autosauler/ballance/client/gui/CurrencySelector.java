@@ -128,7 +128,7 @@ public class CurrencySelector extends SimpleComboBox<String> {
 	@Override
 	public void reset() {
 		super.reset();
-		select(0);
+		super.clear();
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class CurrencySelector extends SimpleComboBox<String> {
 				return;
 			}
 		}
-		select(0);
+		super.clear();
 	}
 
 	public void setValue(String curr) {

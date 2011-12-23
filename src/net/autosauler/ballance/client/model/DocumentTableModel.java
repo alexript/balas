@@ -27,18 +27,15 @@ public class DocumentTableModel extends BaseModelData {
 	}
 
 	public DocumentTableModel(Long newnumber,
-			HashMap<String, Object> defaultvalues,
-			HashMap<String, Integer> datatypes) {
-		HashMap<String, Object> row = new HashMap<String, Object>();
-		row.put("number", newnumber);
+			HashMap<String, Object> defaultvalues) {
+
 		Set<String> names = defaultvalues.keySet();
 		Iterator<String> i = names.iterator();
 		while (i.hasNext()) {
 			String name = i.next();
-			row.put(name,
-					DataTypes.toMapping(datatypes.get(name),
-							defaultvalues.get(name)));
+			set(name, defaultvalues.get(name));
 		}
+		set("number", newnumber);
 	}
 
 }

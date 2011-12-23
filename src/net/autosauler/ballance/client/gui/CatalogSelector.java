@@ -102,7 +102,11 @@ public class CatalogSelector extends ComboBox<CatalogModel> {
 	}
 
 	public Long getLongValue() {
-		return (Long) super.getValue().get("number");
+		CatalogModel model = super.getValue();
+		if (model == null) {
+			return 0L;
+		}
+		return (Long) model.get("number");
 	}
 
 	/**
@@ -111,7 +115,7 @@ public class CatalogSelector extends ComboBox<CatalogModel> {
 	@Override
 	public void reset() {
 		super.reset();
-		this.select(0);
+		super.clear();
 	}
 
 	/**
@@ -134,7 +138,7 @@ public class CatalogSelector extends ComboBox<CatalogModel> {
 				return;
 			}
 		}
-		select(0);
+		super.clear();
 
 	}
 

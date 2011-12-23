@@ -111,4 +111,9 @@ public class DocumentTableParts {
 		}
 	}
 
+	public void selectFirstTab() {
+		container.setSelection(container.getItem(0));
+
+	}
+
 }

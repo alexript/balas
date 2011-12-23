@@ -143,6 +143,8 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 
 			createEditorForm();
 		}
+		reloadList();
+		formstateEmpty();
 
 	}
 
@@ -215,6 +217,10 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		while (i.hasNext()) {
 			String name = i.next();
 			fields.get(name).reset();
+		}
+
+		if (hasTablePart()) {
+			parts.cleanTables();
 		}
 	}
 
@@ -384,7 +390,6 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		ColumnModel cm = new ColumnModel(columns);
 
 		store = new ListStore<DocumentModel>();
-		reloadList();
 
 		grid = new Grid<DocumentModel>(store, cm);
 		grid.setSelectionModel(sm);
@@ -588,7 +593,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 
 			@Override
 			public void componentSelected(ButtonEvent ce) {
-				reloadList();
+				formstateCancel();
 
 			}
 		});
@@ -635,6 +640,62 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		while (i.hasNext()) {
 			String name = i.next();
 			fields.get(name).setValue(map.get(name), true);
+		}
+	}
+
+	private void formstateCancel() {
+		btnSave.setEnabled(true);
+		btnSaveActivate.setEnabled(true);
+		btnActivate.setEnabled(true);
+		btnCancel.setEnabled(true);
+		editor.setEnabled(true);
+		if (hasTablePart()) {
+			parts.selectFirstTab();
+		}
+
+		fillEditor(grid.getSelectionModel().getSelectedItem());
+
+	}
+
+	private void formstateCreate() {
+		cleanEditForm();
+		grid.getSelectionModel().deselectAll();
+		btnSave.setEnabled(true);
+		btnSaveActivate.setEnabled(true);
+		btnActivate.setEnabled(false);
+		btnCancel.setEnabled(true);
+		editor.setEnabled(true);
+		if (hasTablePart()) {
+			parts.cleanTables();
+			parts.selectFirstTab();
+		}
+	}
+
+	private void formstateEdit() {
+		btnSave.setEnabled(true);
+		btnSaveActivate.setEnabled(true);
+		btnActivate.setEnabled(true);
+		btnCancel.setEnabled(true);
+		editor.setEnabled(true);
+		if (hasTablePart()) {
+			parts.selectFirstTab();
+		}
+
+	}
+
+	private void formstateEmpty() {
+		cleanEditForm();
+		if (grid != null) {
+			grid.getSelectionModel().deselectAll();
+		}
+		btnSave.setEnabled(false);
+		btnSaveActivate.setEnabled(false);
+		btnActivate.setEnabled(false);
+		btnCancel.setEnabled(false);
+		editor.setEnabled(false);
+		if (hasTablePart()) {
+			parts.cleanTables();
+			parts.selectFirstTab();
 		}
 	}
 
@@ -685,10 +746,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 						public void componentSelected(MenuEvent ce) {
 							editformnumber = -1L;
 							editformisactive = false;
-							cleanEditForm();
-							if (hasTablePart()) {
-								parts.cleanTables();
-							}
+							formstateCreate();
 							openEditor(null);
 						}
 					}));
@@ -830,7 +888,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			return;
 		}
 		if (editformnumber.equals(-1L) && (map == null)) {
-			btnActivate.setVisible(false);
+			formstateCreate();
 		} else {
 			fillEditor(map);
 			if (editformisactive) {
@@ -838,7 +896,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			} else {
 				btnActivate.setText(M.document.btnActivate());
 			}
-			btnActivate.setVisible(true);
+			formstateEdit();
 		}
 
 	}
@@ -848,7 +906,9 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	 */
 	@Override
 	public void reloadList() {
+		// Log.error("reload list");
 		store.removeAll();
+		formstateEmpty();
 		DocumentModel.load(store, documentname);
 	}
 

@@ -105,7 +105,7 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 		grid.getSelectionModel().deselectAll();
 
 		DocumentTableModel row = new DocumentTableModel(newnumber,
-				defaultvalues, datatypes);
+				defaultvalues);
 		store.add(row);
 		grid.getSelectionModel().select(row, false);
 
@@ -330,7 +330,8 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 	 * @param tablename
 	 *            the tablename
 	 */
-	public void loadData(String documentname, Long number, String tablename) {
+	public void loadData(final String documentname, final Long number,
+			final String tablename) {
 		final List<DocumentTableModel> records = new ArrayList<DocumentTableModel>();
 		cleanTable();
 
@@ -354,7 +355,11 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 							records.add(new DocumentTableModel(document,
 									datatypes));
 						}
-						store.add(records);
+						try {
+							store.add(records);
+						} catch (java.lang.IllegalArgumentException ex) {
+							loadData(documentname, number, tablename);
+						}
 
 						newnumber = 0L;
 

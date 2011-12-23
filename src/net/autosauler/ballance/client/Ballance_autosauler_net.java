@@ -134,7 +134,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 
 				TopPanel toppanel = new TopPanel();
 				viewport.add(toppanel, new BorderLayoutData(LayoutRegion.NORTH,
-						32));
+						25));
 				toppanel.startAnimation();
 
 				ContentPanel leftPanel = new ContentPanel();
@@ -164,7 +164,7 @@ public class Ballance_autosauler_net implements EntryPoint {
 				state = new Status();
 				state.setBox(true);
 				viewport.add(state,
-						new BorderLayoutData(LayoutRegion.SOUTH, 30));
+						new BorderLayoutData(LayoutRegion.SOUTH, 25));
 
 				RootPanel.get().add(viewport);
 				RootPanel.get("spinner").setVisible(false);

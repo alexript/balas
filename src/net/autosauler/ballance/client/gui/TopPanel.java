@@ -41,6 +41,7 @@ public class TopPanel extends Composite {
 		panel = new HorizontalPanel();
 		panel.setSpacing(3);
 		panel.setWidth("100%");
+		// panel.setHeight("32px");
 		panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		title = new InlineHTML(
