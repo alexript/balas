@@ -33,6 +33,7 @@ import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
 import com.extjs.gxt.ui.client.Style.SelectionMode;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
@@ -118,7 +119,13 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 	 */
 	public void cleanTable() {
 		if (store != null) {
-			store.removeAll();
+			try {
+				store.removeAll();
+			} catch (java.lang.IllegalArgumentException e) {
+				Log.error("Something strange:");
+				Log.error(e.getMessage());
+				Log.error(e.getStackTrace().toString());
+			}
 		}
 		newnumber = 0L;
 	}
