@@ -43,22 +43,7 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public HashMap<String, Description> getAll() {
-		HashMap<String, Description> map = new HashMap<String, Description>();
-		map.put("catalog.paymethod",
-				getStructureDescription("catalog.paymethod"));
-		map.put("catalog.tarifs", getStructureDescription("catalog.tarifs"));
-		map.put("catalog.partners", getStructureDescription("catalog.partners"));
-		map.put("catalog.cars", getStructureDescription("catalog.cars"));
-		map.put("catalog.drivers", getStructureDescription("catalog.drivers"));
-		map.put("table.goods", getStructureDescription("table.goods"));
-		map.put("table.goodsaddpay",
-				getStructureDescription("table.goodsaddpay"));
-		map.put("document.inpay", getStructureDescription("document.inpay"));
-		map.put("document.ingoods", getStructureDescription("document.ingoods"));
-		map.put("table.ingoods", getStructureDescription("table.ingoods"));
-		map.put("table.cargoaddpay",
-				getStructureDescription("table.cargoaddpay"));
-		map.put("document.cargo", getStructureDescription("document.cargo"));
+		HashMap<String, Description> map = StructureFactory.getDescriptions();
 
 		return map;
 	}

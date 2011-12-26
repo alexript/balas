@@ -16,9 +16,13 @@
 
 package net.autosauler.ballance.server.struct;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,6 +49,31 @@ import com.allen_sauer.gwt.log.client.Log;
  * @author alexript
  */
 public class StructureFactory {
+
+	public static HashMap<String, Description> getDescriptions() {
+		HashMap<String, Description> map = new HashMap<String, Description>();
+
+		String name = "net/autosauler/ballance/server/struct";
+
+		URL dirURL = StructureFactory.class.getClassLoader().getResource(name);
+		if ((dirURL != null) && dirURL.getProtocol().equals("file")) {
+			try {
+				String[] lst = new File(dirURL.toURI()).list();
+				for (int i = 0; i < lst.length; i++) {
+					if (lst[i].endsWith(".xml")
+							&& !lst[i].endsWith("template.xml")) {
+						String codename = lst[i].replace(".xml", "");
+						map.put(codename, loadDescription(codename));
+					}
+				}
+			} catch (URISyntaxException e) {
+				Log.error(e.getMessage());
+			}
+
+		}
+
+		return map;
+	}
 
 	/**
 	 * Load description.
