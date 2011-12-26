@@ -27,6 +27,7 @@ import net.autosauler.ballance.server.struct.StructureFactory;
 import net.autosauler.ballance.server.vm.CatalogWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import org.w3c.dom.Element;
@@ -50,6 +51,40 @@ public class AbstractCatalog extends AbstractStructuredData implements
 
 	/** The Constant fieldname_fullname. */
 	private static final String fieldname_fullname = "fullname";
+
+	public static AbstractCatalog getInstance(String catalogname,
+			String domain, Long number) {
+		if (catalogname.startsWith("catalog.")) {
+			String name = catalogname.replace("catalog.", "");
+			return new AbstractCatalog(name, domain, number);
+		}
+		return null;
+	}
+
+	public static AbstractCatalog getInstance(String catalogname,
+			String domain, Long number, UserRole role) {
+		if (catalogname.startsWith("catalog.")) {
+			Description d = StructureFactory.loadDescription(catalogname);
+			if (role.hasAccess(new UserRole(d.getRole()))) {
+				String name = catalogname.replace("catalog.", "");
+				return new AbstractCatalog(name, domain, number);
+			}
+		}
+		return null;
+	}
+
+	public static AbstractCatalog getInstance(String catalogname,
+			UserRole role, String domain, String login) {
+		if (catalogname.startsWith("catalog.")) {
+			Description d = StructureFactory.loadDescription(catalogname);
+			if (role.hasAccess(new UserRole(d.getRole()))) {
+				String name = catalogname.replace("catalog.", "");
+				return new AbstractCatalog(name, domain, login);
+			}
+		}
+
+		return null;
+	}
 
 	/**
 	 * Instantiates a new catalog record.

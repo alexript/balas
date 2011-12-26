@@ -51,24 +51,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	public void activate(String docname, Long number) {
 		// TODO: return result
 		UserRole role = getRole();
-		AbstractDocument d = null;
+
 		String domain = getDomain();
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, number);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
 		if (d != null) {
 			d.activation();
@@ -92,23 +79,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		String login = getLogin();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, login);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, login);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, login);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, login);
-
-			}
-		}
 		if (d != null) {
 			d.fromMap(map);
 			result = d.save();
@@ -132,23 +105,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		String login = getLogin();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, login);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, login);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, login);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, login);
-
-			}
-		}
 		if (d != null) {
 			d.fromMap(map);
 			result = d.save();
@@ -170,24 +129,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		HashMap<String, Object> map = null;
 		UserRole role = getRole();
 		String domain = getDomain();
-		AbstractDocument d = null;
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, number);
-
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
 		if (d != null) {
 			map = d.toMap();
 		}
@@ -205,23 +149,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		Set<HashMap<String, Object>> set = null;
 		UserRole role = getRole();
 		String domain = getDomain();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain);
+		AbstractDocument d = AbstractDocument
+				.getInstance(docname, role, domain);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain);
-
-			}
-		}
 		if (d != null) {
 			set = d.get(numbers);
 		}
@@ -240,23 +170,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		String login = getLogin();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, login);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, login);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, login);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, login);
-
-			}
-		}
 		if (d != null) {
 			set = d.findAll();
 		}
@@ -319,18 +235,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		Set<HashMap<String, Object>> set = null;
 		UserRole role = getRole();
 		String domain = getDomain();
-		AbstractDocument d = null;
-		if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
 		if (d != null) {
 			set = d.getTableRecords(tablename);
 		}
@@ -349,23 +256,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		// TODO: return result
 		String domain = getDomain();
 		UserRole role = getRole();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, number);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
 		if (d != null) {
 			d.unactivation();
 			d.save();
@@ -389,23 +282,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		String login = getLogin();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, number);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
 		if (d != null) {
 			if (d.isActive()) {
 				d.unactivation();
@@ -432,23 +311,9 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		String login = getLogin();
-		AbstractDocument d = null;
-		if (docname.equals("document.inpay")) {
-			if (role.isAdmin() || role.isFinances()) {
-				d = new AbstractDocument("inpay", domain, number);
+		AbstractDocument d = AbstractDocument.getInstance(docname, role,
+				domain, number);
 
-			}
-		} else if (docname.equals("document.ingoods")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("ingoods", domain, number);
-
-			}
-		} else if (docname.equals("document.cargo")) {
-			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
-				d = new AbstractDocument("cargo", domain, number);
-
-			}
-		}
 		if (d != null) {
 			if (d.isActive()) {
 				d.unactivation();

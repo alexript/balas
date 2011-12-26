@@ -50,30 +50,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		boolean result = false;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		AbstractCatalog c = null;
+
 		String domain = HttpUtilities.getUserDomain(httpSession);
 		String login = HttpUtilities.getUserLogo(httpSession);
-		if (catalogname.equals("catalog.partners")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("partners", domain, login);
-			}
-		} else if (catalogname.equals("catalog.paymethod")) {
-			if (role.isAdmin() || role.isManager()) {
-				c = new AbstractCatalog("paymethod", domain, login);
-			}
-		} else if (catalogname.equals("catalog.tarifs")) {
-			if (role.isAdmin() || role.isFinances() || role.isManager()) {
-				c = new AbstractCatalog("tarifs", domain, login);
-			}
-		} else if (catalogname.equals("catalog.cars")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("catalog.cars", domain, login);
-			}
-		} else if (catalogname.equals("catalog.drivers")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("drivers", domain, login);
-			}
-		}
+
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, role,
+				domain, login);
+
 		if (c != null) {
 			c.fromMap(map);
 			result = c.save();
@@ -90,23 +73,13 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 	public Set<Long> getAllRecords(String catalogname) {
 		Set<Long> set = null;
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
-		AbstractCatalog c = null;
+
 		String domain = HttpUtilities.getUserDomain(httpSession);
 		String login = HttpUtilities.getUserLogo(httpSession);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, role,
+				domain, login);
 
-		if (catalogname.equals("catalog.partners")) {
-			c = new AbstractCatalog("partners", domain, login);
-
-		} else if (catalogname.equals("catalog.paymethod")) {
-			c = new AbstractCatalog("paymethod", domain, login);
-
-		} else if (catalogname.equals("catalog.tarifs")) {
-			c = new AbstractCatalog("tarifs", domain, login);
-		} else if (catalogname.equals("catalog.cars")) {
-			c = new AbstractCatalog("cars", domain, login);
-		} else if (catalogname.equals("catalog.drivers")) {
-			c = new AbstractCatalog("drivers", domain, login);
-		}
 		if (c != null) {
 			set = c.findAll();
 		}
@@ -125,23 +98,9 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		String domain = HttpUtilities.getUserDomain(httpSession);
 
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			c = new AbstractCatalog("partners", domain, number);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, domain,
+				number);
 
-		} else if (catalogname.equals("catalog.paymethod")) {
-			c = new AbstractCatalog("paymethod", domain, number);
-
-		} else if (catalogname.equals("catalog.tarifs")) {
-			c = new AbstractCatalog("tarifs", domain, number);
-
-		} else if (catalogname.equals("catalog.cars")) {
-			c = new AbstractCatalog("cars", domain, number);
-
-		} else if (catalogname.equals("catalog.drivers")) {
-			c = new AbstractCatalog("drivers", domain, number);
-
-		}
 		if (c != null) {
 			map = c.toMap();
 		}
@@ -161,23 +120,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		String domain = HttpUtilities.getUserDomain(httpSession);
 		String login = HttpUtilities.getUserLogo(httpSession);
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			c = new AbstractCatalog("partners", domain, login);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, role,
+				domain, login);
 
-		} else if (catalogname.equals("catalog.paymethod")) {
-			c = new AbstractCatalog("paymethod", domain, login);
-
-		} else if (catalogname.equals("catalog.tarifs")) {
-			c = new AbstractCatalog("tarifs", domain, login);
-
-		} else if (catalogname.equals("catalog.cars")) {
-			c = new AbstractCatalog("cars", domain, login);
-
-		} else if (catalogname.equals("catalog.drivers")) {
-			c = new AbstractCatalog("drivers", domain, login);
-
-		}
 		if (c != null) {
 			set = c.getSelectData();
 		}
@@ -197,23 +143,10 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		String domain = HttpUtilities.getUserDomain(httpSession);
 		String login = HttpUtilities.getUserLogo(httpSession);
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			c = new AbstractCatalog("partners", domain, login);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, role,
+				domain, login);
 
-		} else if (catalogname.equals("catalog.paymethod")) {
-			c = new AbstractCatalog("paymethod", domain, login);
-
-		} else if (catalogname.equals("catalog.tarifs")) {
-			c = new AbstractCatalog("tarifs", domain, login);
-
-		} else if (catalogname.equals("catalog.cars")) {
-			c = new AbstractCatalog("cars", domain, login);
-
-		} else if (catalogname.equals("catalog.drivers")) {
-			c = new AbstractCatalog("drivers", domain, login);
-
-		}
 		if (c != null) {
 			set = c.getViewData();
 		}
@@ -233,29 +166,9 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		String domain = HttpUtilities.getUserDomain(httpSession);
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("partners", domain, number);
-			}
-		} else if (catalogname.equals("catalog.paymethod")) {
-			if (role.isAdmin()) {
-				c = new AbstractCatalog("paymethod", domain, number);
-			}
-		} else if (catalogname.equals("catalog.tarifs")) {
-			if (role.isAdmin()) {
-				c = new AbstractCatalog("tarifs", domain, number);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, domain,
+				number, role);
 
-			}
-		} else if (catalogname.equals("catalog.cars")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("cars", domain, number);
-			}
-		} else if (catalogname.equals("catalog.drivers")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("drivers", domain, number);
-			}
-		}
 		if (c != null) {
 			c.restore();
 			result = c.save();
@@ -278,33 +191,9 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		UserRole role = HttpUtilities.getUserRole(httpSession);
 		String domain = HttpUtilities.getUserDomain(httpSession);
 
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("partners", domain, number);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, domain,
+				number, role);
 
-			}
-		} else if (catalogname.equals("catalog.paymethod")) {
-			if (role.isAdmin()) {
-				c = new AbstractCatalog("paymethod", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.tarifs")) {
-			if (role.isAdmin()) {
-				c = new AbstractCatalog("tarifs", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.cars")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("cars", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.drivers")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("drivers", domain, number);
-
-			}
-		}
 		if (c != null) {
 			c.trash();
 			result = c.save();
@@ -326,33 +215,9 @@ public class CatalogServiceImpl extends RemoteServiceServlet implements
 		HttpSession httpSession = getThreadLocalRequest().getSession(false);
 		String domain = HttpUtilities.getUserDomain(httpSession);
 		UserRole role = HttpUtilities.getUserRole(httpSession);
-		AbstractCatalog c = null;
-		if (catalogname.equals("catalog.partners")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("partners", domain, number);
+		AbstractCatalog c = AbstractCatalog.getInstance(catalogname, domain,
+				number, role);
 
-			}
-		} else if (catalogname.equals("catalog.paymethod")) {
-			if (role.isAdmin() || role.isManager()) {
-				c = new AbstractCatalog("paymethod", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.tarifs")) {
-			if (role.isAdmin() || role.isFinances() || role.isManager()) {
-				c = new AbstractCatalog("tarifs", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.cars")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("cars", domain, number);
-
-			}
-		} else if (catalogname.equals("catalog.drivers")) {
-			if (role.isAdmin() || role.isManager() || role.isDocuments()) {
-				c = new AbstractCatalog("drivers", domain, number);
-
-			}
-		}
 		if (c != null) {
 			c.fromMap(map);
 			result = c.save();

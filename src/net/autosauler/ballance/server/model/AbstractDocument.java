@@ -31,6 +31,7 @@ import net.autosauler.ballance.server.vm.DocumentWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.Table;
+import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import org.w3c.dom.Element;
@@ -62,6 +63,42 @@ public class AbstractDocument extends AbstractStructuredData implements
 
 	/** The Constant fieldname_parentdocname. */
 	private static final String fieldname_parentdocname = "pardocname";
+
+	public static AbstractDocument getInstance(String docname, UserRole role,
+			String domain) {
+		if (docname.startsWith("document.")) {
+			Description d = StructureFactory.loadDescription(docname);
+			if (role.hasAccess(new UserRole(d.getRole()))) {
+				String name = docname.replace("document.", "");
+				return new AbstractDocument(name, domain);
+			}
+		}
+		return null;
+	}
+
+	public static AbstractDocument getInstance(String docname, UserRole role,
+			String domain, Long number) {
+		if (docname.startsWith("document.")) {
+			Description d = StructureFactory.loadDescription(docname);
+			if (role.hasAccess(new UserRole(d.getRole()))) {
+				String name = docname.replace("document.", "");
+				return new AbstractDocument(name, domain, number);
+			}
+		}
+		return null;
+	}
+
+	public static AbstractDocument getInstance(String docname, UserRole role,
+			String domain, String login) {
+		if (docname.startsWith("document.")) {
+			Description d = StructureFactory.loadDescription(docname);
+			if (role.hasAccess(new UserRole(d.getRole()))) {
+				String name = docname.replace("document.", "");
+				return new AbstractDocument(name, domain, login);
+			}
+		}
+		return null;
+	}
 
 	/** The tables. */
 	private HashMap<String, DocumentTablePart> tables;
