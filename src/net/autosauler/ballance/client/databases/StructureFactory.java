@@ -23,6 +23,7 @@ import net.autosauler.ballance.client.gui.AlertDialog;
 import net.autosauler.ballance.client.gui.MainPanel;
 import net.autosauler.ballance.shared.Description;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -34,6 +35,7 @@ public class StructureFactory {
 
 	public static Description getDescription(String name) {
 		if (d.containsKey(name)) {
+			// trace(d.get(name));
 			return d.get(name);
 		}
 		return null;
@@ -84,6 +86,7 @@ public class StructureFactory {
 						if (result != null) {
 							d.clear();
 							d.putAll(result);
+
 						} else {
 							new AlertDialog("Can't load structurs descriptions")
 									.show();
@@ -102,5 +105,19 @@ public class StructureFactory {
 		// load("table.goodsaddpay");
 		// load("document.inpay");
 		// load("document.ingoods");
+	}
+
+	private static void trace(Description description) {
+
+		Log.error(d.toString());
+	}
+
+	protected static void trace(HashMap<String, Description> d2) {
+		for (String name : d2.keySet()) {
+			Description d = d2.get(name);
+			Log.error("Description of " + name);
+			trace(d);
+		}
+
 	}
 }

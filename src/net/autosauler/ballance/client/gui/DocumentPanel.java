@@ -168,7 +168,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				helper);
 
 		hf.setChangeHandler(field, this);
-
+		// Log.error(field);
 		fields.put(field, hf);
 	}
 
@@ -253,12 +253,15 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 			editor.setScrollMode(Scroll.ALWAYS);
 		}
 
-		Set<String> names = fields.keySet();
-		Iterator<String> i = names.iterator();
+		List<Field> descrfields = structuredescription.get();
+		Iterator<Field> i = descrfields.iterator();
 		while (i.hasNext()) {
-			String name = i.next();
-
-			headSet.add(fields.get(name).getField(), formData);
+			Field field = i.next();
+			String name = field.getFieldname();
+			if (fields.containsKey(name)) {
+				// Log.error("Field " + name);
+				headSet.add(fields.get(name).getField(), formData);
+			}
 
 		}
 
@@ -619,7 +622,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 						&& !helper.isEmpty()) {
 					h = new CatalogPanel(helper, null);
 				}
-
+				// Log.error(f.getFieldname());
 				addField(
 						f.getName().getName(
 								LocaleInfo.getCurrentLocale().getLocaleName()),

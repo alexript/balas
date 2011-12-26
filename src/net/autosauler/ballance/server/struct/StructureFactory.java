@@ -205,6 +205,7 @@ public class StructureFactory {
 		} else {
 			Log.error("can't open input stream for " + fullname);
 		}
+
 		return d;
 	}
 
