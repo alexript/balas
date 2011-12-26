@@ -72,6 +72,8 @@ public interface MenuMessages extends Messages {
 	 */
 	String icoReloadPane();
 
+	String itemCargo();
+
 	String itemCars();
 
 	/**

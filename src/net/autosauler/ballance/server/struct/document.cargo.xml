@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|DOCUMENTS|FINANCES">
+	<fields>
+		
+		<field name="citydate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>City date</en>
+				<ru>Дата прибытия в город</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+		</field>
+		
+		<field name="cars" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Car number</en>
+				<ru>N а/м</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>50</width>
+			<helper type="catalog">cars</helper>
+		</field>
+		<field name="drivers" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Driver</en>
+				<ru>Водитель</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+			<helper type="catalog">drivers</helper>
+		</field>
+	</fields>
+	<tables>
+		<table name="ingoods">
+			<names>
+				<en>Goods</en>
+				<ru>Грузы</ru>
+			</names>
+		</table>
+		<table name="cargoaddpay">
+			<names>
+				<en>Additional payments</en>
+				<ru>Дополнительные расходы</ru>
+			</names>
+		</table>
+	</tables>
+
+</struct>

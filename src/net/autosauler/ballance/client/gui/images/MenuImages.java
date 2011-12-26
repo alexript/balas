@@ -224,6 +224,8 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	ImageResource Trash();
 
+	ImageResource Travel();
+
 	/**
 	 * Use noimage.png, which is a blank 1x1 image.
 	 * 

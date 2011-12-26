@@ -4,8 +4,8 @@
         <field name="partner" type="DT_CATALOGRECORD">
             <default>0</default>
             <names>
-                <en>Partner</en>
-                <ru>Контрагент</ru>
+                <en>Receiver</en>
+                <ru>Получатель</ru>
             </names>
             <width>100</width>
             <helper type="catalog">partners</helper>

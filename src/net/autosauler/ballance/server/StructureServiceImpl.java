@@ -55,6 +55,10 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 				getStructureDescription("table.goodsaddpay"));
 		map.put("document.inpay", getStructureDescription("document.inpay"));
 		map.put("document.ingoods", getStructureDescription("document.ingoods"));
+		map.put("table.ingoods", getStructureDescription("table.ingoods"));
+		map.put("table.cargoaddpay",
+				getStructureDescription("table.cargoaddpay"));
+		map.put("document.cargo", getStructureDescription("document.cargo"));
 
 		return map;
 	}

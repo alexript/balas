@@ -113,6 +113,9 @@ public class LeftMenu {
 			VerticalPanel documentspanel = new VerticalPanel();
 
 			documentspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
+					Images.menu.Travel()));
+
+			documentspanel.add(getMenuItem(M.menu.itemCargo(), "cargo",
 					Images.menu.icoInGoods()));
 
 			documentspanel.add(getMenuItem(M.menu.itemPartners(), "partners",
@@ -146,6 +149,8 @@ public class LeftMenu {
 			financesspanel.add(getMenuItem(M.menu.itemIncPay(), "incpay",
 					Images.menu.icoIncPay()));
 			financesspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
+					Images.menu.Travel()));
+			financesspanel.add(getMenuItem(M.menu.itemCargo(), "cargo",
 					Images.menu.icoInGoods()));
 			financesspanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
 					Images.menu.icoTarif()));

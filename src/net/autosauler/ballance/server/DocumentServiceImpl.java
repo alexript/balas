@@ -63,6 +63,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
+
+			}
 		}
 
 		if (d != null) {
@@ -96,6 +101,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, login);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, login);
 
 			}
 		}
@@ -133,6 +143,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				d = new AbstractDocument("ingoods", domain, login);
 
 			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, login);
+
+			}
 		}
 		if (d != null) {
 			d.fromMap(map);
@@ -167,6 +182,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
+
+			}
 		}
 		if (d != null) {
 			map = d.toMap();
@@ -194,6 +214,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain);
 
 			}
 		}
@@ -224,6 +249,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, login);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, login);
 
 			}
 		}
@@ -295,6 +325,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
+
+			}
 		}
 		if (d != null) {
 			set = d.getTableRecords(tablename);
@@ -323,6 +358,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
 
 			}
 		}
@@ -358,6 +398,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
 
 			}
 		}
@@ -396,6 +441,11 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		} else if (docname.equals("ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
+
+			}
+		} else if (docname.equals("cargo")) {
+			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
+				d = new AbstractDocument("cargo", domain, number);
 
 			}
 		}

@@ -70,7 +70,6 @@ import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * The Class DocumentPanel.
@@ -127,7 +126,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	 * @param image
 	 *            the image
 	 */
-	public DocumentPanel(String docname, Image image) {
+	public DocumentPanel(String docname) {
 		super(new BorderLayout());
 		setHeading(M.document.labelDocumentsList());
 		documentname = docname;
@@ -382,7 +381,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper, null);
+					h = new CatalogPanel(helper);
 				}
 
 				columns.add(DataTypeFactory.addCell(f, h));
@@ -620,7 +619,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper, null);
+					h = new CatalogPanel(helper);
 				}
 				// Log.error(f.getFieldname());
 				addField(

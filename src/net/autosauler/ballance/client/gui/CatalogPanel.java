@@ -62,7 +62,6 @@ import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * The Class CatalogPanel.
@@ -110,7 +109,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 	 * @param image
 	 *            the image
 	 */
-	public CatalogPanel(final String catalogname, Image image) {
+	public CatalogPanel(final String catalogname) {
 		super(new BorderLayout());
 		setHeading(M.catalog.titleList());
 
@@ -448,7 +447,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper, null);
+					h = new CatalogPanel(helper);
 				}
 
 				addField(

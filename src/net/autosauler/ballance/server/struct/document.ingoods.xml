@@ -4,39 +4,12 @@
 		<field name="partner" type="DT_CATALOGRECORD">
 			<default>0</default>
 			<names>
-				<en>Partner</en>
-				<ru>Контрагент</ru>
+				<en>Sender</en>
+				<ru>Поставщик</ru>
 			</names>
 			<inlist>true</inlist>
 			<width>100</width>
 			<helper type="catalog">partners</helper>
-		</field>
-		<field name="senddate" type="DT_DATE">
-			<default></default>
-			<names>
-				<en>Sending date</en>
-				<ru>Дата отправки</ru>
-			</names>
-			<inlist>true</inlist>
-			<width>100</width>
-		</field>
-		<field name="landingdate" type="DT_DATE">
-			<default></default>
-			<names>
-				<en>Landing date</en>
-				<ru>Дата прибытия</ru>
-			</names>
-			<inlist>true</inlist>
-			<width>100</width>
-		</field>
-		<field name="citydate" type="DT_DATE">
-			<default></default>
-			<names>
-				<en>City date</en>
-				<ru>Дата прибытия в город</ru>
-			</names>
-			<inlist>true</inlist>
-			<width>100</width>
 		</field>
 		<field name="gnum" type="DT_INT">
 			<default>0</default>
@@ -56,6 +29,15 @@
 			<inlist>true</inlist>
 			<width>70</width>
 		</field>
+		<field name="senddate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Sending date</en>
+				<ru>Дата отправки</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+		</field>
 		<field name="awb" type="DT_STRING">
 			<default></default>
 			<names>
@@ -63,6 +45,48 @@
 				<ru>AWB</ru>
 			</names>
 		</field>
+		<field name="totalweight" type="DT_DOUBLE">
+            <default>0.0</default>
+            <names>
+                <en>Total Weight</en>
+                <ru>Общий вес</ru>
+            </names>
+            <width>50</width>
+        </field>
+         <field name="boxesnum" type="DT_INT">
+            <default>0</default>
+            <names>
+                <en>Number of boxes</en>
+                <ru>Количество мест</ru>
+            </names>
+            <width>50</width>
+        </field>
+        <field name="totalvol" type="DT_DOUBLE">
+            <default>0.0</default>
+            <names>
+                <en>Total vol.</en>
+                <ru>Общий объем</ru>
+            </names>
+            <width>50</width>
+        </field>
+        
+		<field name="landingdate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Landing date</en>
+				<ru>Дата прибытия</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+		</field>
+		 <field name="termsumm" type="DT_MONEY">
+            <default>0.0</default>
+            <names>
+                <en>Terminal summ</en>
+                <ru>Стоимость за терминал</ru>
+            </names>
+            <width>50</width>
+        </field>		
 		<field name="gtd" type="DT_STRING">
 			<default></default>
 			<names>
@@ -70,6 +94,14 @@
 				<ru>ГТД</ru>
 			</names>
 		</field>
+		<field name="gtdsumm" type="DT_MONEY">
+            <default>0.0</default>
+            <names>
+                <en>GTD summ</en>
+                <ru>Платеж за ГТД</ru>
+            </names>
+            <width>50</width>
+        </field>
 		<field name="status" type="DT_STRING">
 			<default></default>
 			<names>
@@ -79,26 +111,7 @@
 			<inlist>true</inlist>
 			<width>70</width>
 		</field>
-		<field name="cars" type="DT_CATALOGRECORD">
-			<default>0</default>
-			<names>
-				<en>Car number</en>
-				<ru>N а/м</ru>
-			</names>
-			<inlist>true</inlist>
-			<width>50</width>
-			<helper type="catalog">cars</helper>
-		</field>
-		<field name="drivers" type="DT_CATALOGRECORD">
-			<default>0</default>
-			<names>
-				<en>Driver</en>
-				<ru>Водитель</ru>
-			</names>
-			<inlist>true</inlist>
-			<width>100</width>
-			<helper type="catalog">drivers</helper>
-		</field>
+		
 	</fields>
 	<tables>
 		<table name="goods">
