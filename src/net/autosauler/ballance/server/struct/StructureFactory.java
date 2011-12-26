@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.Name;
 import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -103,8 +104,22 @@ public class StructureFactory {
 				String access = rootelement.getAttribute("access");
 				d.setRole(getAccess(access).getRole());
 
+				// read names
+				NodeList fieldsets = rootelement.getElementsByTagName("names");
+				Name name = new Name();
+				Element fieldset1 = (Element) fieldsets.item(0);
+				NodeList locales1 = fieldset1.getChildNodes();
+				for (int l = 0; l < locales1.getLength(); l++) {
+					Node loc = locales1.item(l);
+					if (loc.getNodeType() == Node.ELEMENT_NODE) {
+						name.setName(((Element) loc).getNodeName(),
+								((Element) loc).getTextContent());
+					}
+				}
+				d.setName(name);
+
 				// Read fieldset
-				NodeList fieldsets = rootelement.getElementsByTagName("fields");
+				fieldsets = rootelement.getElementsByTagName("fields");
 				for (int j = 0; j < fieldsets.getLength(); j++) {
 					Element fieldset = (Element) fieldsets.item(j);
 					// read fields from set

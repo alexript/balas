@@ -194,7 +194,7 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper);
+					h = new CatalogPanel("catalog." + helper);
 				}
 
 				String field = f.getFieldname();
@@ -285,8 +285,8 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 		newvalue));
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.evalOnChangeTable("document." + docname,
-				"OnChangeTable", tablename, tag, sendmap, datatypes,
+		Services.scripts.evalOnChangeTable(docname, "OnChangeTable", tablename,
+				tag, sendmap, datatypes,
 				new AsyncCallback<HashMap<String, String>>() {
 
 					@Override

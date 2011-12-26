@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|DOCUMENTS|FINANCES">
+	<names>
+		<en>Cargo</en>
+		<ru>Доставка груза</ru>
+	</names>
 	<fields>
-		
+
 		<field name="citydate" type="DT_DATE">
 			<default></default>
 			<names>
@@ -11,7 +15,7 @@
 			<inlist>true</inlist>
 			<width>100</width>
 		</field>
-		
+
 		<field name="cars" type="DT_CATALOGRECORD">
 			<default>0</default>
 			<names>

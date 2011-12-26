@@ -116,8 +116,8 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		this.catalogname = catalogname;
 		editformnumber = -1L;
 
-		structuredescription = StructureFactory.getDescription("catalog."
-				+ this.catalogname);
+		structuredescription = StructureFactory
+				.getDescription(this.catalogname);
 
 		createListForm();
 
@@ -447,7 +447,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper);
+					h = new CatalogPanel("catalog." + helper);
 				}
 
 				addField(
@@ -591,8 +591,7 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 
 						@Override
 						public void componentSelected(MenuEvent ce) {
-							new ScriptEditor("catalog." + catalogname,
-									CatalogPanel.this);
+							new ScriptEditor(catalogname, CatalogPanel.this);
 
 						}
 					}));
@@ -650,8 +649,8 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		// Window.alert(map.toString());
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.evalOnChange("catalog." + catalogname, "OnChange",
-				tag, map, types, new AsyncCallback<HashMap<String, String>>() {
+		Services.scripts.evalOnChange(catalogname, "OnChange", tag, map, types,
+				new AsyncCallback<HashMap<String, String>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

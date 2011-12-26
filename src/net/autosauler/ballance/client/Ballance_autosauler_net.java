@@ -61,6 +61,47 @@ public class Ballance_autosauler_net implements EntryPoint {
 	public static LeftMenu menu;
 	public static Status state;
 
+	private static Viewport viewport;
+
+	public static void drawInterface() {
+		viewport = new Viewport();
+		viewport.setLayout(new BorderLayout());
+
+		TopPanel toppanel = new TopPanel();
+		viewport.add(toppanel, new BorderLayoutData(LayoutRegion.NORTH, 25));
+		toppanel.startAnimation();
+
+		ContentPanel leftPanel = new ContentPanel();
+		leftPanel.setLayout(new VBoxLayout());
+
+		authPanel = new AuthPanel("BalAS", leftPanel);
+
+		menu = new LeftMenu(leftPanel);
+
+		BorderLayoutData westData = new BorderLayoutData(LayoutRegion.WEST,
+				242, 242, 300);
+		westData.setMargins(new Margins(5, 5, 5, 5));
+		westData.setSplit(true);
+		westData.setCollapsible(true);
+
+		viewport.add(leftPanel, westData);
+
+		TabPanel mainpane = new TabPanel();
+		mainpane.setAnimScroll(true);
+		mainpane.setTabScroll(true);
+		mainpane.setCloseContextMenu(true);
+
+		viewport.add(mainpane, new BorderLayoutData(LayoutRegion.CENTER));
+		mainpanel = new MainPanel(mainpane);
+
+		state = new Status();
+		state.setBox(true);
+		viewport.add(state, new BorderLayoutData(LayoutRegion.SOUTH, 25));
+
+		RootPanel.get().add(viewport);
+		RootPanel.get("spinner").setVisible(false);
+	}
+
 	/**
 	 * Checks if is logged in.
 	 * 
@@ -94,8 +135,6 @@ public class Ballance_autosauler_net implements EntryPoint {
 		isloggedin = f;
 	}
 
-	private Viewport viewport;
-
 	{
 		sessionId.setSessionId(Cookies.getCookie("session"));
 	}
@@ -128,46 +167,6 @@ public class Ballance_autosauler_net implements EntryPoint {
 					isloggedin = true;
 					sessionId.setSession(result);
 				}
-
-				viewport = new Viewport();
-				viewport.setLayout(new BorderLayout());
-
-				TopPanel toppanel = new TopPanel();
-				viewport.add(toppanel, new BorderLayoutData(LayoutRegion.NORTH,
-						25));
-				toppanel.startAnimation();
-
-				ContentPanel leftPanel = new ContentPanel();
-				leftPanel.setLayout(new VBoxLayout());
-
-				authPanel = new AuthPanel("BalAS", leftPanel);
-
-				menu = new LeftMenu(leftPanel);
-
-				BorderLayoutData westData = new BorderLayoutData(
-						LayoutRegion.WEST, 242, 242, 300);
-				westData.setMargins(new Margins(5, 5, 5, 5));
-				westData.setSplit(true);
-				westData.setCollapsible(true);
-
-				viewport.add(leftPanel, westData);
-
-				TabPanel mainpane = new TabPanel();
-				mainpane.setAnimScroll(true);
-				mainpane.setTabScroll(true);
-				mainpane.setCloseContextMenu(true);
-
-				viewport.add(mainpane,
-						new BorderLayoutData(LayoutRegion.CENTER));
-				mainpanel = new MainPanel(mainpane);
-
-				state = new Status();
-				state.setBox(true);
-				viewport.add(state,
-						new BorderLayoutData(LayoutRegion.SOUTH, 25));
-
-				RootPanel.get().add(viewport);
-				RootPanel.get("spinner").setVisible(false);
 				StructureFactory.loadData();
 
 			}// end onSucess

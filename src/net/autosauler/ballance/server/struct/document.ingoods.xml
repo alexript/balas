@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|DOCUMENTS|FINANCES">
+	<names>
+		<en>Goods</en>
+		<ru>Груз</ru>
+	</names>
 	<fields>
 		<field name="partner" type="DT_CATALOGRECORD">
 			<default>0</default>
@@ -46,30 +50,30 @@
 			</names>
 		</field>
 		<field name="totalweight" type="DT_DOUBLE">
-            <default>0.0</default>
-            <names>
-                <en>Total Weight</en>
-                <ru>Общий вес</ru>
-            </names>
-            <width>50</width>
-        </field>
-         <field name="boxesnum" type="DT_INT">
-            <default>0</default>
-            <names>
-                <en>Number of boxes</en>
-                <ru>Количество мест</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="totalvol" type="DT_DOUBLE">
-            <default>0.0</default>
-            <names>
-                <en>Total vol.</en>
-                <ru>Общий объем</ru>
-            </names>
-            <width>50</width>
-        </field>
-        
+			<default>0.0</default>
+			<names>
+				<en>Total Weight</en>
+				<ru>Общий вес</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="boxesnum" type="DT_INT">
+			<default>0</default>
+			<names>
+				<en>Number of boxes</en>
+				<ru>Количество мест</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="totalvol" type="DT_DOUBLE">
+			<default>0.0</default>
+			<names>
+				<en>Total vol.</en>
+				<ru>Общий объем</ru>
+			</names>
+			<width>50</width>
+		</field>
+
 		<field name="landingdate" type="DT_DATE">
 			<default></default>
 			<names>
@@ -79,14 +83,14 @@
 			<inlist>true</inlist>
 			<width>100</width>
 		</field>
-		 <field name="termsumm" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>Terminal summ</en>
-                <ru>Стоимость за терминал</ru>
-            </names>
-            <width>50</width>
-        </field>		
+		<field name="termsumm" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Terminal summ</en>
+				<ru>Стоимость за терминал</ru>
+			</names>
+			<width>50</width>
+		</field>
 		<field name="gtd" type="DT_STRING">
 			<default></default>
 			<names>
@@ -95,13 +99,13 @@
 			</names>
 		</field>
 		<field name="gtdsumm" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>GTD summ</en>
-                <ru>Платеж за ГТД</ru>
-            </names>
-            <width>50</width>
-        </field>
+			<default>0.0</default>
+			<names>
+				<en>GTD summ</en>
+				<ru>Платеж за ГТД</ru>
+			</names>
+			<width>50</width>
+		</field>
 		<field name="status" type="DT_STRING">
 			<default></default>
 			<names>
@@ -111,7 +115,7 @@
 			<inlist>true</inlist>
 			<width>70</width>
 		</field>
-		
+
 	</fields>
 	<tables>
 		<table name="goods">

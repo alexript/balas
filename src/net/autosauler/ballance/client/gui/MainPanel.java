@@ -20,6 +20,7 @@ import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.UserRole;
 
 import com.extjs.gxt.ui.client.Style.LayoutRegion;
@@ -38,6 +39,7 @@ import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
@@ -144,47 +146,6 @@ public class MainPanel implements ValueChangeHandler<String> {
 			} else if (name.equals("license")) {
 				constructTabPaneContent(LicensePanel.get(),
 						M.menu.itemLicense(), Images.menu.icoCopyright(), name);
-			} else if (name.equals("partners")
-					&& (new UserRole(StructureFactory.getDescription(
-							"catalog.partners").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("partners"),
-						M.menu.itemPartners(), Images.menu.icoPartners(), name);
-			} else if (name.equals("tarifs")
-					&& (new UserRole(StructureFactory.getDescription(
-							"catalog.tarifs").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("tarifs"),
-						M.menu.itemTarif(), Images.menu.icoTarif(), name);
-			} else if (name.equals("cars")
-					&& (new UserRole(StructureFactory.getDescription(
-							"catalog.cars").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("cars"),
-						M.menu.itemCars(), Images.menu.icoCar(), name);
-			} else if (name.equals("drivers")
-					&& (new UserRole(StructureFactory.getDescription(
-							"catalog.drivers").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("drivers"),
-						M.menu.itemDrivers(), Images.menu.icoMan(), name);
-			} else if (name.equals("paymethod")
-					&& (new UserRole(StructureFactory.getDescription(
-							"catalog.paymethod").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new CatalogPanel("paymethod"),
-						M.menu.itemPaymethod(), Images.menu.icoPaymethod(),
-						name);
-			} else if (name.equals("incpay")
-					&& (new UserRole(StructureFactory.getDescription(
-							"document.inpay").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new DocumentPanel("inpay"),
-						M.menu.itemIncPay(), Images.menu.icoIncPay(), name);
-			} else if (name.equals("ingoods")
-					&& (new UserRole(StructureFactory.getDescription(
-							"document.ingoods").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new DocumentPanel("ingoods"),
-						M.menu.itemInGoods(), Images.menu.Travel(), name);
-			} else if (name.equals("cargo")
-					&& (new UserRole(StructureFactory.getDescription(
-							"document.cargo").getRole())).hasAccess(role)) {
-				constructTabPaneContent(new DocumentPanel("cargo"),
-						M.menu.itemCargo(), Images.menu.icoInGoods(), name);
 			} else if (name.equals("changelog") && !role.isGuest()) {
 				constructTabPaneContent(ChangeLogPanel.get(),
 						M.menu.itemChangelog(), Images.menu.icoChangelog(),
@@ -193,8 +154,28 @@ public class MainPanel implements ValueChangeHandler<String> {
 				constructTabPaneContent(new ReportPanel("currvalues"),
 						M.menu.itemReportCurrval(), Images.menu.icoCurrval(),
 						name);
+
 			} else {
-				new AlertDialog("Uncknown command", name).show();
+				Description d = StructureFactory.getDescription(name);
+				if (d != null) {
+					if ((new UserRole(d.getRole())).hasAccess(role)) {
+						String itemname = d.getName().getName(
+								LocaleInfo.getCurrentLocale().getLocaleName());
+
+						int type = StructureFactory.getPanelType(name);
+						if (type == 0) {
+							constructTabPaneContent(new CatalogPanel(name),
+									itemname,
+									StructureFactory.getMenuIcon(name), name);
+						} else if (type == 1) {
+							constructTabPaneContent(new DocumentPanel(name),
+									itemname,
+									StructureFactory.getMenuIcon(name), name);
+						}
+					}
+				} else {
+					new AlertDialog("Uncknown command", name).show();
+				}
 			}
 		}
 	}

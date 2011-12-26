@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|MANAGER|DOCUMENTS">
+	<names>
+		<en>Partners</en>
+		<ru>Контрагенты</ru>
+	</names>
 	<fields>
 		<field name="legalname" type="DT_STRING">
 			<default></default>

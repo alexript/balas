@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|MANAGER|DOCUMENTS">
+	<names>
+		<en>Cars</en>
+		<ru>Транспорт</ru>
+	</names>
 </struct>

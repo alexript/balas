@@ -53,17 +53,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		AbstractDocument d = null;
 		String domain = getDomain();
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, number);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 
@@ -93,17 +93,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		String login = getLogin();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, login);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, login);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, login);
 
@@ -133,17 +133,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		String login = getLogin();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, login);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, login);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, login);
 
@@ -172,17 +172,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		AbstractDocument d = null;
 
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, number);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 
@@ -206,17 +206,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain);
 
@@ -241,17 +241,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		String login = getLogin();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, login);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, login);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, login);
 
@@ -320,12 +320,12 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		UserRole role = getRole();
 		String domain = getDomain();
 		AbstractDocument d = null;
-		if (docname.equals("ingoods")) {
+		if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 
@@ -350,17 +350,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		UserRole role = getRole();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, number);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 
@@ -390,17 +390,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		String login = getLogin();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, number);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 
@@ -433,17 +433,17 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 		String domain = getDomain();
 		String login = getLogin();
 		AbstractDocument d = null;
-		if (docname.equals("inpay")) {
+		if (docname.equals("document.inpay")) {
 			if (role.isAdmin() || role.isFinances()) {
 				d = new AbstractDocument("inpay", domain, number);
 
 			}
-		} else if (docname.equals("ingoods")) {
+		} else if (docname.equals("document.ingoods")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("ingoods", domain, number);
 
 			}
-		} else if (docname.equals("cargo")) {
+		} else if (docname.equals("document.cargo")) {
 			if (role.isAdmin() || role.isDocuments() || role.isManager()) {
 				d = new AbstractDocument("cargo", domain, number);
 

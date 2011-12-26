@@ -16,7 +16,10 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.Set;
+
 import net.autosauler.ballance.client.Ballance_autosauler_net;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
 import net.autosauler.ballance.client.gui.messages.M;
 import net.autosauler.ballance.shared.UserRole;
@@ -24,6 +27,7 @@ import net.autosauler.ballance.shared.UserRole;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.layout.AccordionLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -112,20 +116,16 @@ public class LeftMenu {
 
 			VerticalPanel documentspanel = new VerticalPanel();
 
-			documentspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
-					Images.menu.Travel()));
+			Set<String> items = StructureFactory
+					.getMenuItemsFor(UserRole.ROLE_DOCUMENTS);
+			for (String item : items) {
+				String itemname = StructureFactory.getDescription(item)
+						.getName()
+						.getName(LocaleInfo.getCurrentLocale().getLocaleName());
+				documentspanel.add(getMenuItem(itemname, item,
+						StructureFactory.getMenuIcon(item)));
 
-			documentspanel.add(getMenuItem(M.menu.itemCargo(), "cargo",
-					Images.menu.icoInGoods()));
-
-			documentspanel.add(getMenuItem(M.menu.itemPartners(), "partners",
-					Images.menu.icoPartners()));
-
-			documentspanel.add(getMenuItem(M.menu.itemCars(), "cars",
-					Images.menu.icoCar()));
-
-			documentspanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
-					Images.menu.icoMan()));
+			}
 
 			cp.add(documentspanel);
 			panel.add(cp);
@@ -146,14 +146,16 @@ public class LeftMenu {
 
 			VerticalPanel financesspanel = new VerticalPanel();
 
-			financesspanel.add(getMenuItem(M.menu.itemIncPay(), "incpay",
-					Images.menu.icoIncPay()));
-			financesspanel.add(getMenuItem(M.menu.itemInGoods(), "ingoods",
-					Images.menu.Travel()));
-			financesspanel.add(getMenuItem(M.menu.itemCargo(), "cargo",
-					Images.menu.icoInGoods()));
-			financesspanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
-					Images.menu.icoTarif()));
+			Set<String> items = StructureFactory
+					.getMenuItemsFor(UserRole.ROLE_FINANCES);
+			for (String item : items) {
+				String itemname = StructureFactory.getDescription(item)
+						.getName()
+						.getName(LocaleInfo.getCurrentLocale().getLocaleName());
+				financesspanel.add(getMenuItem(itemname, item,
+						StructureFactory.getMenuIcon(item)));
+
+			}
 
 			cp.add(financesspanel);
 			panel.add(cp);
@@ -220,20 +222,16 @@ public class LeftMenu {
 
 			VerticalPanel managerpanel = new VerticalPanel();
 
-			managerpanel.add(getMenuItem(M.menu.itemPaymethod(), "paymethod",
-					Images.menu.icoPaymethod()));
+			Set<String> items = StructureFactory
+					.getMenuItemsFor(UserRole.ROLE_MANAGER);
+			for (String item : items) {
+				String itemname = StructureFactory.getDescription(item)
+						.getName()
+						.getName(LocaleInfo.getCurrentLocale().getLocaleName());
+				managerpanel.add(getMenuItem(itemname, item,
+						StructureFactory.getMenuIcon(item)));
 
-			managerpanel.add(getMenuItem(M.menu.itemPartners(), "partners",
-					Images.menu.icoPartners()));
-
-			managerpanel.add(getMenuItem(M.menu.itemTarif(), "tarifs",
-					Images.menu.icoTarif()));
-
-			managerpanel.add(getMenuItem(M.menu.itemCars(), "cars",
-					Images.menu.icoCar()));
-
-			managerpanel.add(getMenuItem(M.menu.itemDrivers(), "drivers",
-					Images.menu.icoMan()));
+			}
 
 			cp.add(managerpanel);
 			panel.add(cp);

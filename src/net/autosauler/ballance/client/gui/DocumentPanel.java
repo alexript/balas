@@ -131,8 +131,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		setHeading(M.document.labelDocumentsList());
 		documentname = docname;
 
-		structuredescription = StructureFactory.getDescription("document."
-				+ docname);
+		structuredescription = StructureFactory.getDescription(docname);
 		createStructure();
 
 		createListForm();
@@ -381,7 +380,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper);
+					h = new CatalogPanel("catalog." + helper);
 				}
 
 				columns.add(DataTypeFactory.addCell(f, h));
@@ -619,7 +618,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				CatalogPanel h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
-					h = new CatalogPanel(helper);
+					h = new CatalogPanel("catalog." + helper);
 				}
 				// Log.error(f.getFieldname());
 				addField(
@@ -760,8 +759,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 					new SelectionListener<MenuEvent>() {
 						@Override
 						public void componentSelected(MenuEvent ce) {
-							new ScriptEditor("document." + documentname,
-									DocumentPanel.this);
+							new ScriptEditor(documentname, DocumentPanel.this);
 						}
 					}));
 		}
@@ -813,8 +811,8 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		// Window.alert(map.toString());
 
 		MainPanel.setCommInfo(true);
-		Services.scripts.evalOnChange("document." + documentname, "OnChange",
-				tag, map, types, new AsyncCallback<HashMap<String, String>>() {
+		Services.scripts.evalOnChange(documentname, "OnChange", tag, map,
+				types, new AsyncCallback<HashMap<String, String>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

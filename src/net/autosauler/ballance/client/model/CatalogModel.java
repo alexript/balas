@@ -22,6 +22,7 @@ public class CatalogModel extends BaseModelData {
 			final String catalogname) {
 		final List<CatalogModel> records = new ArrayList<CatalogModel>();
 		MainPanel.setCommInfo(true);
+		// Log.error(catalogname);
 		Services.catalogs.getAllRecords(catalogname,
 				new AsyncCallback<Set<Long>>() {
 

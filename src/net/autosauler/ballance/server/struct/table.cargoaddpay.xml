@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|DOCUMENTS|FINANCES|MANAGER|GUEST">
-    <fields>
-        <field name="partner" type="DT_CATALOGRECORD">
-            <default>0</default>
-            <names>
-                <en>Partner</en>
-                <ru>Контрагент</ru>
-            </names>
-            <width>100</width>
-            <helper type="catalog">partners</helper>
-        </field>
-        <field name="paydate" type="DT_DATE">
-            <default></default>
-            <names>
-                <en>Payment date</en>
-                <ru>Дата платежа</ru>
-            </names>
-            <width>100</width>
-        </field>
-        <field name="summ" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>Payment summ</en>
-                <ru>Сумма платежа</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="currency" type="DT_CURRENCY">
-            <default>RUR</default>
-            <names>
-                <en>Currency</en>
-                <ru>Валюта</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="descr" type="DT_STRING">
-            <default></default>
-            <names>
-                <en>Comments</en>
-                <ru>Комментарий</ru>
-            </names>
-            <width>250</width>
-        </field>
-       
-    </fields>
+	<names>
+		<en>Additional pays</en>
+		<ru>Дополнительные расходы</ru>
+	</names>
+	<fields>
+		<field name="partner" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Partner</en>
+				<ru>Контрагент</ru>
+			</names>
+			<width>100</width>
+			<helper type="catalog">partners</helper>
+		</field>
+		<field name="paydate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Payment date</en>
+				<ru>Дата платежа</ru>
+			</names>
+			<width>100</width>
+		</field>
+		<field name="summ" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Payment summ</en>
+				<ru>Сумма платежа</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="currency" type="DT_CURRENCY">
+			<default>RUR</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="descr" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Comments</en>
+				<ru>Комментарий</ru>
+			</names>
+			<width>250</width>
+		</field>
+
+	</fields>
 </struct>

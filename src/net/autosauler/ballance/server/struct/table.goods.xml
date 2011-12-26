@@ -1,72 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|DOCUMENTS|FINANCES|MANAGER|GUEST">
-    <fields>
-        <field name="partner" type="DT_CATALOGRECORD">
-            <default>0</default>
-            <names>
-                <en>Receiver</en>
-                <ru>Получатель</ru>
-            </names>
-            <width>100</width>
-            <helper type="catalog">partners</helper>
-        </field>
-        <field name="weight" type="DT_DOUBLE">
-            <default>0.0</default>
-            <names>
-                <en>Weight</en>
-                <ru>Вес</ru>
-            </names>
-            <width>50</width>
-        </field>
-         <field name="tarif" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>Tarif</en>
-                <ru>Тариф</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="summ" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>Price</en>
-                <ru>Сумма</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="currency" type="DT_CURRENCY">
-            <default>RUR</default>
-            <names>
-                <en>Currency</en>
-                <ru>Валюта</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="boxesnum" type="DT_INT">
-            <default>0</default>
-            <names>
-                <en>Number of boxes</en>
-                <ru>Количество мест</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="paydate" type="DT_DATE">
-            <default></default>
-            <names>
-                <en>Pay date</en>
-                <ru>Дата платежа</ru>
-            </names>
-            <width>100</width>
-        </field>
-         <field name="paysumm" type="DT_MONEY">
-            <default>0.0</default>
-            <names>
-                <en>Pay summ</en>
-                <ru>Сумма платежа</ru>
-            </names>
-            <width>50</width>
-        </field>
-        <field name="comments" type="DT_STRING">
+	<names>
+		<en>Goods</en>
+		<ru>Груз</ru>
+	</names>
+	<fields>
+		<field name="partner" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Receiver</en>
+				<ru>Получатель</ru>
+			</names>
+			<width>100</width>
+			<helper type="catalog">partners</helper>
+		</field>
+		<field name="weight" type="DT_DOUBLE">
+			<default>0.0</default>
+			<names>
+				<en>Weight</en>
+				<ru>Вес</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="tarif" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Tarif</en>
+				<ru>Тариф</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="summ" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Price</en>
+				<ru>Сумма</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="currency" type="DT_CURRENCY">
+			<default>RUR</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="boxesnum" type="DT_INT">
+			<default>0</default>
+			<names>
+				<en>Number of boxes</en>
+				<ru>Количество мест</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="paydate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Pay date</en>
+				<ru>Дата платежа</ru>
+			</names>
+			<width>100</width>
+		</field>
+		<field name="paysumm" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Pay summ</en>
+				<ru>Сумма платежа</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="comments" type="DT_STRING">
 			<default></default>
 			<names>
 				<en>Comments</en>
@@ -74,5 +78,5 @@
 			</names>
 			<width>70</width>
 		</field>
-    </fields>
+	</fields>
 </struct>

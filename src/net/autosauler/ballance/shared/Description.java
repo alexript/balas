@@ -31,6 +31,8 @@ public class Description implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4249956404428572162L;
 
+	private Name name;
+
 	/** The fields. */
 	private List<Field> fields = new ArrayList<Field>();
 
@@ -77,6 +79,15 @@ public class Description implements Serializable {
 	}
 
 	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
+	 */
+	public Name getName() {
+		return name;
+	}
+
+	/**
 	 * Gets the role.
 	 * 
 	 * @return the role
@@ -102,6 +113,16 @@ public class Description implements Serializable {
 	 */
 	public void set(List<Field> fields) {
 		this.fields = fields;
+	}
+
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(Name name) {
+		this.name = name;
 	}
 
 	/**
@@ -133,6 +154,9 @@ public class Description implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Role=" + role + "\n");
+		sb.append("Names: \n");
+		sb.append(name.toString());
+		sb.append("\n");
 		sb.append("Fields:\n");
 		Iterator<Field> i = fields.iterator();
 		while (i.hasNext()) {

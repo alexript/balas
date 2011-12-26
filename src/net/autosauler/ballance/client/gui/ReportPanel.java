@@ -208,7 +208,8 @@ public class ReportPanel extends ContentPanel implements IPaneWithMenu,
 							ReportFormField field = i.next();
 							Object helper = null;
 							if (field.getType() == DataTypes.DT_CATALOGRECORD) {
-								helper = new CatalogPanel(field.getName());
+								helper = new CatalogPanel("catalog."
+										+ field.getName());
 							}
 
 							HeaderField hf = DataTypeFactory.addField(

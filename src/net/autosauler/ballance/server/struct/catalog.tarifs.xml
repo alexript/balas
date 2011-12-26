@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struct access="ADMIN|FINANCES|MANAGER">
+	<names>
+		<en>Tarifs</en>
+		<ru>Тарифы</ru>
+	</names>
 	<fields>
 		<field name="perkg" type="DT_MONEY">
 			<default>0.0</default>
