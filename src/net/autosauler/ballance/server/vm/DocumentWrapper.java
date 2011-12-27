@@ -73,6 +73,11 @@ public class DocumentWrapper {
 		return new DoctableWrapper(impl.getPart(tablename));
 	}
 
+	public Array getTableRecords(String tablename) {
+		DoctableWrapper dt = getTable(tablename);
+		return dt.getRecords();
+	}
+
 	/**
 	 * Sets the.
 	 * 

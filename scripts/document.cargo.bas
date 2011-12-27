@@ -18,7 +18,23 @@ function OnUpdate(document)
 end
 
 function OnActivate(document)
- Log.error('method OnActivate not defined')
+ incomingdocuments = document.getTableRecords('ingoods')
+ i=0
+ while i<incomingdocuments.size()
+ 	record = incomingdocuments.get(i)
+  
+ 	indoc = Documents.get("ingoods", record.get('ingoods'))
+ 	goodstable = indoc.getTableRecords('goods')
+ 	
+ 	j = 0
+ 	while j<goodstable.size()
+ 		grecord = goodstable.get(j)
+ 		partner = grecord.get('partner')
+ 		Log.error(partner.toString())
+         j+=1
+ 	end
+ 	i+=1
+ end
 end
 
 function OnUnactivate(document)

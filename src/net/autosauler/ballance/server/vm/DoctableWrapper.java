@@ -16,6 +16,9 @@
 
 package net.autosauler.ballance.server.vm;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import net.autosauler.ballance.server.model.DocumentTablePart;
 
 /**
@@ -23,10 +26,16 @@ import net.autosauler.ballance.server.model.DocumentTablePart;
  * 
  */
 public class DoctableWrapper {
-	@SuppressWarnings("unused")
 	private final DocumentTablePart impl;
 
 	public DoctableWrapper(final DocumentTablePart doctab) {
 		impl = doctab;
+	}
+
+	public Array getRecords() {
+		Set<HashMap<String, Object>> s = impl.getRecords();
+		Array cajuarray = new Array(s);
+
+		return cajuarray;
 	}
 }

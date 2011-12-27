@@ -159,7 +159,6 @@ public class VM {
 			sb.append("import net.autosauler.ballance.server.vm.Constants\n");
 			sb.append("import net.autosauler.ballance.server.vm.CatalogWrapper\n");
 			sb.append("import net.autosauler.ballance.server.vm.CurrencyWrapper\n");
-			sb.append("import net.autosauler.ballance.server.vm.Documents\n");
 			sb.append("import net.autosauler.ballance.server.vm.DocumentWrapper\n");
 			sb.append("import net.autosauler.ballance.server.vm.DoctableWrapper\n");
 			sb.append("import net.autosauler.ballance.server.vm.ReportForm\n");

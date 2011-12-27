@@ -73,11 +73,16 @@ public class CatalogModel extends BaseModelData {
 					@Override
 					public void onSuccess(final HashMap<String, Object> result) {
 						MainPanel.setCommInfo(false);
-						Set<String> keys = result.keySet();
-						for (String key : keys) {
-							set(key, result.get(key));
+
+						if (result == null) {
+							new AlertDialog("Server exchange error").show();
+						} else {
+							Set<String> keys = result.keySet();
+							for (String key : keys) {
+								set(key, result.get(key));
+							}
+							store.update(CatalogModel.this);
 						}
-						store.update(CatalogModel.this);
 					}
 				});
 	}
