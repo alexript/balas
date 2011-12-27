@@ -33,6 +33,7 @@ import com.extjs.gxt.ui.client.widget.form.SimpleComboValue;
 import com.extjs.gxt.ui.client.widget.form.TextArea;
 import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * The Class HeaderField.
@@ -96,6 +97,8 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_DATE) {
 			w = new DateField();
 			((DateField) w).setFormatValue(true);
+			((DateField) w).getPropertyEditor().setFormat(
+					DateTimeFormat.getFormat("yyyy/MM/dd"));
 
 		} else if (t == DataTypes.DT_MONEY) {
 			w = new TextField<Double>();
@@ -174,6 +177,7 @@ public class HeaderField implements Listener<FieldEvent> {
 		}
 
 		w.setFieldLabel(name);
+		w.setAutoValidate(true);
 
 	}
 
