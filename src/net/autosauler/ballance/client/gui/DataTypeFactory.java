@@ -123,9 +123,15 @@ public class DataTypeFactory {
 				public Object render(BaseModelData model, String property,
 						ColumnData config, int rowIndex, int colIndex,
 						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
-
-					return ((CatalogPanel) helper).getName((Long) DataTypes
-							.fromMapping(type, model.get(fieldname)));
+					Object o = DataTypes
+							.fromMapping(type, model.get(fieldname));
+					Long v = null;
+					try {
+						v = (Long) o;
+					} catch (java.lang.ClassCastException e) {
+						return null;
+					}
+					return ((CatalogPanel) helper).getName(v);
 
 				}
 			};
@@ -140,8 +146,15 @@ public class DataTypeFactory {
 						ColumnData config, int rowIndex, int colIndex,
 						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
 
-					return ((DocumentPanel) helper).getName((Long) DataTypes
-							.fromMapping(type, model.get(fieldname)));
+					Object o = DataTypes
+							.fromMapping(type, model.get(fieldname));
+					Long v = null;
+					try {
+						v = (Long) o;
+					} catch (java.lang.ClassCastException e) {
+						return null;
+					}
+					return ((DocumentPanel) helper).getName(v);
 
 				}
 			};

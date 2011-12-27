@@ -814,7 +814,8 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 	 * (java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void handleFieldChange(String tag, String newvalueasstring) {
+	public void handleFieldChange(final String tag,
+			final String newvalueasstring) {
 		HashMap<String, String> map = new HashMap<String, String>();
 
 		Set<String> names = fields.keySet();
@@ -849,14 +850,18 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 					@Override
 					public void onSuccess(HashMap<String, String> result) {
 						MainPanel.setCommInfo(false);
+						if (result == null) {
+							new AlertDialog("Server exchange error").show();
+						} else {
 
-						Set<String> names = fields.keySet();
-						Iterator<String> i = names.iterator();
-						while (i.hasNext()) {
-							String name = i.next();
-							if (result.containsKey(name)) {
-								HeaderField hf = fields.get(name);
-								hf.setValue(result.get(name), true);
+							Set<String> names = fields.keySet();
+							Iterator<String> i = names.iterator();
+							while (i.hasNext()) {
+								String name = i.next();
+								if (result.containsKey(name)) {
+									HeaderField hf = fields.get(name);
+									hf.setValue(result.get(name), true);
+								}
 							}
 						}
 

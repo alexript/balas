@@ -89,6 +89,10 @@ public class StructureFactory {
 				menuicons.put(name, Images.menu.icoMan());
 			} else if (name.equals("catalog.paymethod")) {
 				menuicons.put(name, Images.menu.icoPaymethod());
+			} else if (name.startsWith("document.")) {
+				menuicons.put(name, Images.menu.Document());
+			} else if (name.startsWith("catalog.")) {
+				menuicons.put(name, Images.menu.Cube());
 			}
 
 			if (name.startsWith("document.")) {

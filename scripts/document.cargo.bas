@@ -27,6 +27,9 @@ end
 
 // must return HashTable
 function OnChange(fieldname, hashTable)
+ if fieldname = 'status'
+      hashTable.put('statusgdate', Date())
+ end
  return hashTable
 end
 

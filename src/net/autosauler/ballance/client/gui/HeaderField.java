@@ -462,9 +462,22 @@ public class HeaderField implements Listener<FieldEvent> {
 		} else if (t == DataTypes.DT_CURRENCY) {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
-			((CatalogSelector) w).select((Long) mval);
+			Long v = null;
+			try {
+				v = (Long) mval;
+				((CatalogSelector) w).select(v);
+			} catch (java.lang.ClassCastException e) {
+				((CatalogSelector) w).reset();
+			}
 		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
-			((DocumentSelector) w).select((Long) mval);
+			Long v = null;
+			try {
+				v = (Long) mval;
+				((DocumentSelector) w).select(v);
+			} catch (java.lang.ClassCastException e) {
+				((DocumentSelector) w).reset();
+			}
+
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {

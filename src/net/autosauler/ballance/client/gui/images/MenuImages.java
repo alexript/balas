@@ -38,6 +38,10 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	ImageResource Cancel();
 
+	ImageResource Cube();
+
+	ImageResource Document();
+
 	/**
 	 * Documents panel.
 	 * 

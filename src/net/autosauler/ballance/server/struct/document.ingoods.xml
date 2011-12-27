@@ -24,6 +24,16 @@
 			<inlist>true</inlist>
 			<width>70</width>
 		</field>
+		<field name="shiptarget" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Shiping to</en>
+				<ru>Доставка в</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+			<helper type="catalog">shiptarget</helper>
+		</field>
 		<field name="invoice" type="DT_STRING">
 			<default></default>
 			<names>
@@ -106,7 +116,7 @@
 			</names>
 			<width>50</width>
 		</field>
-		<field name="status" type="DT_STRING">
+		<field name="status" type="DT_CATALOGRECORD">
 			<default></default>
 			<names>
 				<en>State</en>
@@ -114,7 +124,19 @@
 			</names>
 			<inlist>true</inlist>
 			<width>70</width>
+			<helper type="catalog">shipstatus</helper>
 		</field>
+		<field name="statusgdate" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Status date</en>
+				<ru>Дата статуса</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+		</field>
+		
+		
 
 	</fields>
 	<tables>

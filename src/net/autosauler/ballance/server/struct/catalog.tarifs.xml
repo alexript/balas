@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct access="ADMIN|FINANCES|MANAGER">
+<struct access="ADMIN|FINANCES|MANAGER|DOCUMENTS">
 	<names>
 		<en>Tarifs</en>
 		<ru>Тарифы</ru>
