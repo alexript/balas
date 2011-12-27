@@ -377,10 +377,13 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				String helper = f.getHelper();
 				String helpertype = f.getHelpertype();
 
-				CatalogPanel h = null;
+				IFieldChangeHandler h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
 					h = new CatalogPanel("catalog." + helper);
+				} else if (helpertype.equals("document") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new DocumentPanel("document." + helper);
 				}
 
 				columns.add(DataTypeFactory.addCell(f, h));
@@ -615,10 +618,13 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 				String helper = f.getHelper();
 				String helpertype = f.getHelpertype();
 
-				CatalogPanel h = null;
+				IFieldChangeHandler h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
 					h = new CatalogPanel("catalog." + helper);
+				} else if (helpertype.equals("document") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new DocumentPanel("document." + helper);
 				}
 				// Log.error(f.getFieldname());
 				addField(
@@ -717,6 +723,21 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		return map;
 	}
 
+	/**
+	 * Gets the name.
+	 * 
+	 * @param number
+	 *            the number
+	 * @return the name
+	 */
+	public String getName(Long number) {
+		DocumentModel model = store.findModel("number", number);
+		if (model != null) {
+			return model.get("documentnamevalue");
+		}
+		return "UNCKNOWN. TRY RELOAD PAGE.";
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -766,6 +787,10 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		menubar.add(new MenuBarItem(M.menu.menubarDocument(), menu));
 		return menubar;
 
+	}
+
+	public DocumentSelector getSelectBox(Long selectednumber) {
+		return new DocumentSelector(documentname, selectednumber);
 	}
 
 	/**

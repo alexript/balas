@@ -133,7 +133,20 @@ public class DataTypeFactory {
 			column.setRenderer(gridCatalog);
 
 		} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-			// TODO: add cell (docname, number, date)
+			GridCellRenderer<BaseModelData> gridDocument = new GridCellRenderer<BaseModelData>() {
+
+				@Override
+				public Object render(BaseModelData model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
+
+					return ((DocumentPanel) helper).getName((Long) DataTypes
+							.fromMapping(type, model.get(fieldname)));
+
+				}
+			};
+
+			column.setRenderer(gridDocument);
 
 		} else {
 			// default renderer
@@ -215,7 +228,20 @@ public class DataTypeFactory {
 			column.setRenderer(gridCatalog);
 
 		} else if (type == DataTypes.DT_DOCUMENTRECORD) {
-			// TODO: add cell (docname, number, date)
+			GridCellRenderer<BaseModelData> gridDocument = new GridCellRenderer<BaseModelData>() {
+
+				@Override
+				public Object render(BaseModelData model, String property,
+						ColumnData config, int rowIndex, int colIndex,
+						ListStore<BaseModelData> store, Grid<BaseModelData> grid) {
+
+					return ((DocumentPanel) helper).getName((Long) model
+							.get(fieldname));
+
+				}
+			};
+
+			column.setRenderer(gridDocument);
 
 		} else {
 			// default renderer

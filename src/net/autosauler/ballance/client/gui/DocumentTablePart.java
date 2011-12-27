@@ -198,10 +198,13 @@ public class DocumentTablePart implements ITableFieldChangeHandler {
 				String helper = f.getHelper();
 				String helpertype = f.getHelpertype();
 
-				CatalogPanel h = null;
+				IFieldChangeHandler h = null;
 				if (helpertype.equals("catalog") && (helper != null)
 						&& !helper.isEmpty()) {
 					h = new CatalogPanel("catalog." + helper);
+				} else if (helpertype.equals("document") && (helper != null)
+						&& !helper.isEmpty()) {
+					h = new DocumentPanel("document." + helper);
 				}
 
 				String field = f.getFieldname();

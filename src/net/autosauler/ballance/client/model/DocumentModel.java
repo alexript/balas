@@ -1,12 +1,14 @@
 package net.autosauler.ballance.client.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.client.Services;
 import net.autosauler.ballance.client.gui.AlertDialog;
+import net.autosauler.ballance.client.gui.DataTypeFactory;
 import net.autosauler.ballance.client.gui.MainPanel;
 
 import com.extjs.gxt.ui.client.data.BaseModelData;
@@ -62,6 +64,12 @@ public class DocumentModel extends BaseModelData {
 		for (String key : keys) {
 			set(key, document.get(key));
 		}
+
+		set("documentnamevalue",
+				((Long) get("number")).toString()
+						+ " ["
+						+ DataTypeFactory.formatter.format(new Date(
+								(Long) get("createdate"))) + "]");
 	}
 
 }

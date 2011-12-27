@@ -19,6 +19,7 @@ package net.autosauler.ballance.client.gui;
 import java.util.Date;
 
 import net.autosauler.ballance.client.model.CatalogModel;
+import net.autosauler.ballance.client.model.DocumentModel;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
 import com.extjs.gxt.ui.client.event.Events;
@@ -90,6 +91,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			w = new CurrencySelector((String) defval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			w = ((CatalogPanel) helper).getSelectBox((Long) defval);
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			w = ((DocumentPanel) helper).getSelectBox((Long) defval);
 		} else if (t == DataTypes.DT_DATE) {
 			w = new DateField();
 			((DateField) w).setFormatValue(true);
@@ -215,6 +218,29 @@ public class HeaderField implements Listener<FieldEvent> {
 				}
 			};
 			return e;
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			CellEditor e = new CellEditor(w) {
+
+				@Override
+				public Object postProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					DocumentModel model = (DocumentModel) value;
+					Long number = model.get("number");
+
+					return number;
+				}
+
+				@Override
+				public Object preProcessValue(Object value) {
+					if (value == null) {
+						return value;
+					}
+					return ((DocumentSelector) w).find((Long) value);
+				}
+			};
+			return e;
 		}
 		return new CellEditor(w);
 	}
@@ -245,6 +271,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			o = ((CatalogSelector) w).getLongValue();
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			o = ((DocumentSelector) w).getLongValue();
 		} else if (t == DataTypes.DT_DATE) {
 			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
@@ -280,6 +308,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			o = ((CurrencySelector) w).getStrValue();
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			o = ((CatalogSelector) w).getLongValue();
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			o = ((DocumentSelector) w).getLongValue();
 		} else if (t == DataTypes.DT_DATE) {
 			o = ((DateField) w).getValue();
 		} else if (t == DataTypes.DT_INT) {
@@ -304,6 +334,9 @@ public class HeaderField implements Listener<FieldEvent> {
 			if (t == DataTypes.DT_CATALOGRECORD) {
 				ch.handleFieldChange(mytag,
 						((CatalogModel) be.getValue()).get("number"));
+			} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+				ch.handleFieldChange(mytag,
+						((DocumentModel) be.getValue()).get("number"));
 			} else if (t == DataTypes.DT_CURRENCY) {
 				ch.handleFieldChange(mytag,
 						((SimpleComboValue) be.getValue()).get("value"));
@@ -341,6 +374,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			((CurrencySelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			((CatalogSelector) w).addChangeHandler(this);
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			((DocumentSelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).addListener(Events.Change, this);
 		} else if (t == DataTypes.DT_INT) {
@@ -380,6 +415,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			((CurrencySelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			((CatalogSelector) w).addChangeHandler(this);
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			((DocumentSelector) w).addChangeHandler(this);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).addListener(Events.Change, this);
 		} else if (t == DataTypes.DT_INT) {
@@ -422,6 +459,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			((CatalogSelector) w).select((Long) mval);
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			((DocumentSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
@@ -459,6 +498,8 @@ public class HeaderField implements Listener<FieldEvent> {
 			((CurrencySelector) w).select((String) mval);
 		} else if (t == DataTypes.DT_CATALOGRECORD) {
 			((CatalogSelector) w).select((Long) mval);
+		} else if (t == DataTypes.DT_DOCUMENTRECORD) {
+			((DocumentSelector) w).select((Long) mval);
 		} else if (t == DataTypes.DT_DATE) {
 			((DateField) w).setValue((Date) mval);
 		} else if (t == DataTypes.DT_INT) {
