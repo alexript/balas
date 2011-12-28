@@ -103,11 +103,13 @@ public interface DocumentServiceAsync {
 	 * 
 	 * @param docname
 	 *            the docname
+	 * @param withunactive
 	 * @param callback
 	 *            the callback
 	 * @see net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */
-	void getAll(String docname, AsyncCallback<Set<Long>> callback);
+	void getAll(String docname, boolean withunactive,
+			AsyncCallback<Set<Long>> callback);
 
 	/**
 	 * Gets the table.

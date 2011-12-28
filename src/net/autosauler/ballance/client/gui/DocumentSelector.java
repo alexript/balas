@@ -46,7 +46,7 @@ public class DocumentSelector extends ComboBox<DocumentModel> {
 		super();
 		documentname = docname;
 		ListStore<DocumentModel> records = new ListStore<DocumentModel>();
-		DocumentModel.load(records, documentname);
+		DocumentModel.load(records, documentname, false);
 
 		setEmptyText("Select a document...");
 		// String name = number.toString()

@@ -939,7 +939,7 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 		// Log.error("reload list");
 		store.removeAll();
 		formstateEmpty();
-		DocumentModel.load(store, documentname);
+		DocumentModel.load(store, documentname, true);
 	}
 
 	protected void traceTableValues(

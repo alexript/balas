@@ -94,7 +94,7 @@ public interface DocumentService extends RemoteService {
 	 *            the docname
 	 * @return the all
 	 */
-	public Set<Long> getAll(String docname);
+	public Set<Long> getAll(String docname, boolean withunactive);
 
 	/**
 	 * Gets the table.

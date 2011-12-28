@@ -20,42 +20,47 @@ public class DocumentModel extends BaseModelData {
 	private static final long serialVersionUID = 6199977210462780219L;
 
 	public static void load(final ListStore<DocumentModel> store,
-			final String documentname) {
+			final String documentname, boolean withunactive) {
 		final List<DocumentModel> records = new ArrayList<DocumentModel>();
 		MainPanel.setCommInfo(true);
-		Services.documents.getAll(documentname, new AsyncCallback<Set<Long>>() {
+		Services.documents.getAll(documentname, withunactive,
+				new AsyncCallback<Set<Long>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				MainPanel.setCommInfo(false);
-				new AlertDialog(caught).show();
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(caught).show();
+					}
 
-			@Override
-			public void onSuccess(Set<Long> result) {
-				Services.documents.get(documentname, result,
-						new AsyncCallback<Set<HashMap<String, Object>>>() {
+					@Override
+					public void onSuccess(Set<Long> result) {
+						Services.documents
+								.get(documentname,
+										result,
+										new AsyncCallback<Set<HashMap<String, Object>>>() {
 
-							@Override
-							public void onFailure(Throwable caught) {
-								MainPanel.setCommInfo(false);
-								new AlertDialog(caught).show();
-							}
+											@Override
+											public void onFailure(
+													Throwable caught) {
+												MainPanel.setCommInfo(false);
+												new AlertDialog(caught).show();
+											}
 
-							@Override
-							public void onSuccess(
-									Set<HashMap<String, Object>> result) {
+											@Override
+											public void onSuccess(
+													Set<HashMap<String, Object>> result) {
 
-								MainPanel.setCommInfo(false);
-								for (HashMap<String, Object> document : result) {
-									records.add(new DocumentModel(document));
-								}
-								store.add(records);
-							}
+												MainPanel.setCommInfo(false);
+												for (HashMap<String, Object> document : result) {
+													records.add(new DocumentModel(
+															document));
+												}
+												store.add(records);
+											}
 
-						});
-			}
-		});
+										});
+					}
+				});
 
 	}
 

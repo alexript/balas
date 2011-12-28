@@ -100,6 +100,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 		return null;
 	}
 
+	private boolean useunactive = true;
+
 	/** The tables. */
 	private HashMap<String, DocumentTablePart> tables;
 
@@ -196,6 +198,9 @@ public class AbstractDocument extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void addFindAllQueryParameters(BasicDBObject q) {
+		if (!useunactive) {
+			q.put(fieldname_active, true);
+		}
 		return;
 
 	}
@@ -222,6 +227,11 @@ public class AbstractDocument extends AbstractStructuredData implements
 	protected void addGetRecordParams(BasicDBObject query) {
 		return;
 
+	}
+
+	public Set<Long> findAll(boolean withunactive) {
+		useunactive = withunactive;
+		return findAll();
 	}
 
 	/**

@@ -165,7 +165,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 	 * net.autosauler.ballance.client.DocumentService#getAll(java.lang.String)
 	 */
 	@Override
-	public Set<Long> getAll(String docname) {
+	public Set<Long> getAll(String docname, boolean withunactive) {
 		Set<Long> set = null;
 		UserRole role = getRole();
 		String domain = getDomain();
@@ -174,7 +174,7 @@ public class DocumentServiceImpl extends RemoteServiceServlet implements
 				domain, login);
 
 		if (d != null) {
-			set = d.findAll();
+			set = d.findAll(withunactive);
 		}
 		return set;
 	}
