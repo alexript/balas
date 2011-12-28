@@ -55,13 +55,12 @@
 				<ru>Валюта</ru>
 			</names>
 		</field>
-		<field name="tarif" type="DT_CATALOGRECORD">
-			<default>0</default>
+		<field name="perkg" type="DT_MONEY">
+			<default>0.0</default>
 			<names>
-				<en>Tarif</en>
-				<ru>Тариф</ru>
+				<en>Price per kg</en>
+				<ru>Цена 1 кг.</ru>
 			</names>
-			<helper type="catalog">tarifs</helper>
 		</field>
 		<field name="comments" type="DT_STRING">
 			<default></default>

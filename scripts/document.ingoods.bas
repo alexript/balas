@@ -44,8 +44,8 @@ function OnChangeTable(tablename, fieldname, hashTable)
    elseif fieldname = 'partner'
      rec = Catalogs.get("partners", hashTable.get("partner"))
      hashTable.put("currency", rec.get("currency"))
-     rec2 = Catalogs.get("tarifs", rec.get("tarif"))
-     hashTable.put("tarif", rec2.get("perkg"))
+     
+     hashTable.put("tarif", rec.get("perkg"))
      hashTable.put("summ", hashTable.get("weight") * hashTable.get("tarif"))
    end
      
