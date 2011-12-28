@@ -49,8 +49,9 @@ public class ReportsServiceImpl extends RemoteServiceServlet implements
 			HashMap<String, String> params) {
 		UserRole role = getRole();
 		String domain = getDomain();
+		String login = getLogin();
 		if (!role.isGuest()) {
-			Query q = new Query(domain, reportname, params);
+			Query q = new Query(domain, login, reportname, params);
 			return q.getResult();
 		}
 		return null;
@@ -77,12 +78,24 @@ public class ReportsServiceImpl extends RemoteServiceServlet implements
 	public List<ReportFormField> getFields(String reportname) {
 		UserRole role = getRole();
 		String domain = getDomain();
+		String login = getLogin();
 		if (!role.isGuest()) {
-			Query q = new Query(domain, reportname);
+			Query q = new Query(domain, login, reportname);
 
 			return q.getFormDescription().getFields();
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the login.
+	 * 
+	 * @return the login
+	 */
+	private String getLogin() {
+		HttpSession httpSession = getSession();
+		String login = HttpUtilities.getUserLogo(httpSession);
+		return login;
 	}
 
 	/**

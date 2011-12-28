@@ -346,7 +346,7 @@ public class Database {
 							GlobalSettings s = new GlobalSettings(domain);
 							s.restore(val);
 						} else if (val.getNodeName().equals("scripts")) {
-							Scripts s = new Scripts(domain);
+							Scripts s = new Scripts(domain, username);
 							s.restore(val);
 						} else if (val.getNodeName().equals("users")) {
 							UserList.restore(domain, val);

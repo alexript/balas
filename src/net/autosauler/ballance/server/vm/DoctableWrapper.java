@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server.vm;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Set;
 
 import net.autosauler.ballance.server.model.DocumentTablePart;
@@ -30,6 +31,12 @@ public class DoctableWrapper {
 
 	public DoctableWrapper(final DocumentTablePart doctab) {
 		impl = doctab;
+
+	}
+
+	public void addRecord(Hashtable<String, Object> values) {
+		impl.addRecord(values);
+
 	}
 
 	public Array getRecords() {

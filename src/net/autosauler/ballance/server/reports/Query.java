@@ -85,6 +85,8 @@ public class Query extends DataQuery implements IScriptableObject {
 	/** The form. */
 	private ReportForm form;
 
+	private final String username;
+
 	/** The Constant formatter. */
 	private static final SimpleDateFormat formatter = new SimpleDateFormat(
 			"yyyy/MM/dd");
@@ -97,7 +99,8 @@ public class Query extends DataQuery implements IScriptableObject {
 	 * @param reportscriptname
 	 *            the reportscriptname
 	 */
-	public Query(String domain, String reportscriptname) {
+	public Query(String domain, String username, String reportscriptname) {
+		this.username = username;
 		initMembers(domain, reportscriptname);
 		params = new HashMap<String, String>();
 	}
@@ -112,8 +115,9 @@ public class Query extends DataQuery implements IScriptableObject {
 	 * @param params
 	 *            the params
 	 */
-	public Query(String domain, String reportscriptname,
+	public Query(String domain, String username, String reportscriptname,
 			HashMap<String, String> params) {
+		this.username = username;
 		initMembers(domain, reportscriptname);
 		this.params = params;
 	}
@@ -286,7 +290,7 @@ public class Query extends DataQuery implements IScriptableObject {
 		set = new DataSet();
 		currentrow = new ArrayList<Object>();
 
-		script = new Scripts(this, this.domain, scriptname);
+		script = new Scripts(this, this.domain, username, scriptname);
 
 		counter = 0;
 

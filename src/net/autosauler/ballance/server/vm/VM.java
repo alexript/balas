@@ -36,6 +36,7 @@ public class VM {
 
 	/** The mydomain. */
 	private String mydomain;
+	private String username;
 
 	/** The catalogs. */
 	private Catalogs catalogs;
@@ -58,15 +59,16 @@ public class VM {
 	 * @param domain
 	 *            the domain
 	 */
-	public VM(String domain) {
+	public VM(String domain, String username) {
 		if (vm == null) {
 			try {
 				mydomain = domain;
+				this.username = username;
 				catalogs = new Catalogs(mydomain);
 				currency = new CurrencyWrapper();
 				constants = new Constants(mydomain);
 				evaluator = new Evaluator(this);
-				documents = new Documents(mydomain);
+				documents = new Documents(mydomain, this.username);
 
 				vm = new CajuScriptEngine();
 			} catch (Exception e) {
@@ -153,7 +155,7 @@ public class VM {
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("import java.lang\n");
-			sb.append("import java.util.Date\n");
+			sb.append("import java.util\n");
 			sb.append("import com.allen_sauer.gwt.log.client.Log\n");
 			sb.append("import net.autosauler.ballance.server.vm.Evaluator\n");
 			sb.append("import net.autosauler.ballance.server.vm.Constants\n");

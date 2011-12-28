@@ -34,18 +34,18 @@ public class Generator {
 	 *            the reportname
 	 * @return the string
 	 */
-	public static String generate(String reportname) {
+	public static String generate(String reportname, String username) {
 		if (reportname.equals("test")) {
 
 			HashMap<String, String> p = new HashMap<String, String>();
 			p.put("currency", "USD");
 			p.put("startd",
 					DataTypes.toString(DataTypes.DT_DATE,
-							new Date(new Date().getTime() - 3 * 1000 * 60 * 60
-									* 24)));
+							new Date(new Date().getTime()
+									- (3 * 1000 * 60 * 60 * 24))));
 			p.put("endd", DataTypes.toString(DataTypes.DT_DATE, new Date()));
 
-			Query q = new Query("127.0.0.1", "crrvalues", p);
+			Query q = new Query("127.0.0.1", username, "crrvalues", p);
 			System.out.println(q.getFormDescription().toString());
 			return q.getResult();
 		}

@@ -107,6 +107,8 @@ public class Scripts {
 	/** The caller. */
 	private final IScriptableObject caller;
 
+	private final String username;
+
 	/**
 	 * Instantiates a new scripts.
 	 * 
@@ -117,9 +119,11 @@ public class Scripts {
 	 * @param name
 	 *            the name
 	 */
-	public Scripts(IScriptableObject obj, String domain, String name) {
+	public Scripts(IScriptableObject obj, String domain, String username,
+			String name) {
 		this.name = name;
 		this.domain = domain;
+		this.username = username;
 		caller = obj;
 		initVM();
 
@@ -157,9 +161,10 @@ public class Scripts {
 	 * @param domain
 	 *            the domain
 	 */
-	public Scripts(String domain) {
+	public Scripts(String domain, String username) {
 		name = "";
 		this.domain = domain;
+		this.username = username;
 		caller = null;
 		initStruct();
 	}
@@ -172,9 +177,10 @@ public class Scripts {
 	 * @param name
 	 *            the name
 	 */
-	public Scripts(String domain, String name) {
+	public Scripts(String domain, String username, String name) {
 		this.name = name;
 		this.domain = domain;
+		this.username = username;
 		caller = null;
 		initVM();
 		initStruct();
@@ -470,10 +476,10 @@ public class Scripts {
 		}
 		if (!vms.containsKey(domain)) {
 			Log.trace("Add vm per domain " + domain);
-			vms.put(domain, new VM(domain));
+			vms.put(domain, new VM(domain, username));
 			Log.trace(vms.toString());
 
-			Scripts global = new Scripts(domain, "global");
+			Scripts global = new Scripts(domain, username, "global");
 			global.nop();
 		}
 
@@ -503,7 +509,7 @@ public class Scripts {
 
 		if ((txt == null) || txt.isEmpty()) {
 			if (!domain.equals("127.0.0.1")) {
-				Scripts s = new Scripts(caller, "127.0.0.1", name);
+				Scripts s = new Scripts(caller, "127.0.0.1", username, name);
 				txt = s.getText();
 			}
 

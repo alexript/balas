@@ -17,6 +17,7 @@ package net.autosauler.ballance.server.model;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -104,6 +105,27 @@ public class DocumentTablePart extends AbstractStructuredData {
 	@Override
 	protected void addGetRecordParams(final BasicDBObject query) {
 		query.put(fieldname_document, getDocnum());
+	}
+
+	public void addRecord(Hashtable<String, Object> values) {
+
+		Set<String> names = struct.getNames();
+		Iterator<String> i = names.iterator();
+		while (i.hasNext()) {
+			String name = i.next();
+			if (!name.equals(fieldname_createdate)
+					&& !name.equals(fieldname_domain)
+					&& !name.equals(fieldname_number)
+					&& !name.equals(fieldname_username)) {
+				if (values.containsKey(name)) {
+					this.values.setObject(name, values.get(name));
+				}
+			}
+		}
+
+		setDocnum(getDocnum());
+		setUsername("");
+		save();
 	}
 
 	/**

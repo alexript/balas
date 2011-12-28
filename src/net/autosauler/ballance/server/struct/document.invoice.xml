@@ -26,7 +26,12 @@
 		</field>
 	</fields>
 	<tables>
-		
+		<table name="invoicerecords">
+			<names>
+				<en>Records</en>
+				<ru>Записи доставки</ru>
+			</names>
+		</table>
 	</tables>
 
 </struct>

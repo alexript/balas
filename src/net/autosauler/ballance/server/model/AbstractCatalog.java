@@ -306,8 +306,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void onCreate() {
-		Scripts script = new Scripts(this, getDomain(), "catalog."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"catalog." + getSuffix());
 		try {
 			script.call("OnCreate", new CatalogWrapper(this));
 		} catch (ScriptException e) {
@@ -376,8 +376,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void onUpdate() {
-		Scripts script = new Scripts(this, getDomain(), "catalog."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"catalog." + getSuffix());
 
 		try {
 			script.call("OnUpdate", new CatalogWrapper(this));
@@ -397,8 +397,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	@Override
 	public void restore() {
 		super.restore();
-		Scripts script = new Scripts(this, getDomain(), "catalog."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"catalog." + getSuffix());
 
 		try {
 			script.call("OnRestore", new CatalogWrapper(this));
@@ -428,8 +428,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	@Override
 	public void trash() {
 		super.trash();
-		Scripts script = new Scripts(this, getDomain(), "catalog."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"catalog." + getSuffix());
 
 		try {
 			script.call("OnTrash", new CatalogWrapper(this));

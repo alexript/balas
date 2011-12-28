@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|DOCUMENTS|FINANCES|MANAGER">
+	<names>
+		<en>Invoice records</en>
+		<ru>Записи доставки</ru>
+	</names>
+	<fields>
+		
+		<field name="summ" type="DT_MONEY">
+			<default>0.0</default>
+			<names>
+				<en>Price</en>
+				<ru>Сумма</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="currency" type="DT_CURRENCY">
+			<default>RUR</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<width>50</width>
+		</field>
+		<field name="ingoods" type="DT_DOCUMENTRECORD">
+			<default>0</default>
+			<names>
+				<en>Sipment document</en>
+				<ru>Груз</ru>
+			</names>
+			<width>100</width>
+			<helper type="document">ingoods</helper>
+		</field>
+	
+		<field name="comment" type="DT_STRING">
+			<default></default>
+			<names>
+				<en>Comments</en>
+				<ru>Комментарий</ru>
+			</names>
+			<width>70</width>
+		</field>
+	</fields>
+</struct>

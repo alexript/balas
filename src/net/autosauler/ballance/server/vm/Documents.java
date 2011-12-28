@@ -15,7 +15,6 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.vm;
 
-
 /**
  * The Class Documents.
  * 
@@ -25,6 +24,7 @@ public class Documents {
 
 	/** The domain. */
 	private final String domain;
+	private final String username;
 
 	/**
 	 * Instantiates a new documents.
@@ -32,8 +32,13 @@ public class Documents {
 	 * @param domain
 	 *            the domain
 	 */
-	public Documents(String domain) {
+	public Documents(String domain, String username) {
 		this.domain = domain;
+		this.username = username;
+	}
+
+	public DocumentWrapper create(String docname) {
+		return new DocumentWrapper(domain, docname, username);
 	}
 
 	/**

@@ -158,8 +158,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 		if (!isActive()) {
 			if (onActivation()) {
 
-				Scripts script = new Scripts(this, getDomain(), "document."
-						+ getSuffix());
+				Scripts script = new Scripts(this, getDomain(), getUsername(),
+						"document." + getSuffix());
 
 				try {
 					script.call("OnActivate", new DocumentWrapper(this));
@@ -447,6 +447,7 @@ public class AbstractDocument extends AbstractStructuredData implements
 
 			DocumentTablePart part = new DocumentTablePart(t.getName(),
 					getDomain());
+			part.setDocnum(getNumber());
 			tables.put(t.getName(), part);
 		}
 	}
@@ -477,8 +478,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void onCreate() {
-		Scripts script = new Scripts(this, getDomain(), "document."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"document." + getSuffix());
 
 		try {
 			script.call("OnCreate", new DocumentWrapper(this));
@@ -593,8 +594,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void onUpdate() {
-		Scripts script = new Scripts(this, getDomain(), "document."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"document." + getSuffix());
 
 		try {
 			script.call("OnUpdate", new DocumentWrapper(this));
@@ -614,8 +615,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	public void restore() {
 		super.restore();
-		Scripts script = new Scripts(this, getDomain(), "document."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"document." + getSuffix());
 
 		try {
 			script.call("OnRestore", new DocumentWrapper(this));
@@ -733,8 +734,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	public void trash() {
 		super.trash();
-		Scripts script = new Scripts(this, getDomain(), "document."
-				+ getSuffix());
+		Scripts script = new Scripts(this, getDomain(), getUsername(),
+				"document." + getSuffix());
 
 		try {
 			script.call("OnTrash", new DocumentWrapper(this));
@@ -752,8 +753,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	public void unactivation() {
 		if (isActive()) {
 			if (onUnActivation()) {
-				Scripts script = new Scripts(this, getDomain(), "document."
-						+ getSuffix());
+				Scripts script = new Scripts(this, getDomain(), getUsername(),
+						"document." + getSuffix());
 
 				try {
 					script.call("OnUnactivate", new DocumentWrapper(this));

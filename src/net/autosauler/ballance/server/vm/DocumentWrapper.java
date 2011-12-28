@@ -15,6 +15,9 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.vm;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import net.autosauler.ballance.server.model.AbstractDocument;
 
 /**
@@ -51,6 +54,25 @@ public class DocumentWrapper {
 		impl = new AbstractDocument(docname, domain, number);
 	}
 
+	public DocumentWrapper(String domain, String docname, String username) {
+		impl = new AbstractDocument(docname, domain, username);
+	}
+
+	public void deleteChilds(String childdocname) {
+		String domain = impl.getDomain();
+		Set<Long> childs = impl.findAllChilds(childdocname);
+		Iterator<Long> i = childs.iterator();
+		while (i.hasNext()) {
+			Long childid = i.next();
+			AbstractDocument doc = new AbstractDocument(childdocname, domain,
+					childid);
+			doc.unactivation();
+			doc.trash();
+			doc.save();
+		}
+
+	}
+
 	/**
 	 * Gets the.
 	 * 
@@ -78,6 +100,10 @@ public class DocumentWrapper {
 		return dt.getRecords();
 	}
 
+	public void save() {
+		impl.save();
+	}
+
 	/**
 	 * Sets the.
 	 * 
@@ -88,6 +114,10 @@ public class DocumentWrapper {
 	 */
 	public void set(String fieldname, Object val) {
 		impl.setFieldValue(fieldname, val);
+	}
+
+	public void setParent(DocumentWrapper dw) {
+		impl.setParent(dw.impl);
 	}
 
 }

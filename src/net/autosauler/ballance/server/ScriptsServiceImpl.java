@@ -49,7 +49,7 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	public HashMap<String, String> eval(String scriptname, String evalstring,
 			HashMap<String, String> params, HashMap<String, Integer> types) {
 
-		Scripts script = new Scripts(getDomain(), scriptname);
+		Scripts script = new Scripts(getDomain(), getLogin(), scriptname);
 
 		HashMap<String, String> map = null;
 		try {
@@ -77,7 +77,7 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	public HashMap<String, String> evalOnChange(String scriptname,
 			String evalstring, String changedfield,
 			HashMap<String, String> params, HashMap<String, Integer> types) {
-		Scripts script = new Scripts(getDomain(), scriptname);
+		Scripts script = new Scripts(getDomain(), getLogin(), scriptname);
 
 		HashMap<String, String> map = null;
 		try {
@@ -106,7 +106,7 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	public HashMap<String, String> evalOnChangeTable(String scriptname,
 			String evalstring, String tablename, String changedfield,
 			HashMap<String, String> params, HashMap<String, Integer> types) {
-		Scripts script = new Scripts(getDomain(), scriptname);
+		Scripts script = new Scripts(getDomain(), getLogin(), scriptname);
 
 		HashMap<String, String> map = null;
 		try {
@@ -135,6 +135,17 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	}
 
 	/**
+	 * Gets the login.
+	 * 
+	 * @return the login
+	 */
+	private String getLogin() {
+		HttpSession httpSession = getSession();
+		String login = HttpUtilities.getUserLogo(httpSession);
+		return login;
+	}
+
+	/**
 	 * Gets the role.
 	 * 
 	 * @return the role
@@ -155,7 +166,7 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	public String getScript(String scriptname) {
 		UserRole role = getRole();
 		if (role.isAdmin()) {
-			Scripts scr = new Scripts(getDomain(), scriptname);
+			Scripts scr = new Scripts(getDomain(), getLogin(), scriptname);
 			String text = scr.getText();
 			return text;
 		}
@@ -183,7 +194,7 @@ public class ScriptsServiceImpl extends RemoteServiceServlet implements
 	public Boolean saveScript(String scriptname, String script) {
 		UserRole role = getRole();
 		if (role.isAdmin()) {
-			Scripts scr = new Scripts(getDomain(), scriptname);
+			Scripts scr = new Scripts(getDomain(), getLogin(), scriptname);
 			scr.setText(script, true);
 			return true;
 		}

@@ -690,6 +690,7 @@ public abstract class AbstractStructuredData {
 			String name = i.next();
 			doc.put(name, values.get(name));
 		}
+		doc.put(fieldname_trash, isTrash());
 		return doc;
 	}
 

@@ -18,6 +18,7 @@ function OnUpdate(document)
 end
 
 function OnActivate(document)
+ invoices = Hashtable()
  incomingdocuments = document.getTableRecords('ingoods')
  i=0
  while i<incomingdocuments.size()
@@ -30,15 +31,42 @@ function OnActivate(document)
  	while j<goodstable.size()
  		grecord = goodstable.get(j)
  		partner = grecord.get('partner')
- 		Log.error(partner.toString())
-         j+=1
+         	
+         invoice = 0
+ 		if invoices.containsKey(partner)
+            
+ 			invoicenum = invoices.get(partner)
+             invoice = Documents.get("invoice", invoicenum)
+ 		else
+           
+ 		    invoice = Documents.create("invoice")
+ 		    invoice.setParent(document)
+ 		    invoice.set("partner", partner)
+ 		    invoice.set("cargo", document.get("number"))
+ 		    invoice.save()
+             invoicenum = invoice.get("number")
+ 		    invoices.put(partner, invoicenum)
+ 		end
+        
+        
+        recordstable = invoice.getTable("invoicerecords")
+        values = Hashtable()
+        values.put("summ", grecord.get('summ'))
+        values.put("currency", grecord.get('currency'))
+        values.put("ingoods", indoc.get("number"))
+        values.put("comment", "Оплата доставки в Россию")
+        
+        recordstable.addRecord(values) 
+        
+        j+=1
  	end
  	i+=1
  end
+ 
 end
 
-function OnUnactivate(document)
- Log.error('method OnUnactivate not defined')
+function OnUnactivate(document) 
+ document.deleteChilds("invoice")
 end
 
 // must return HashTable
@@ -53,4 +81,3 @@ end
 function OnChangeTable(tablename, fieldname, hashTable)
  return hashTable
 end
-
