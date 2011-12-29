@@ -5,14 +5,14 @@
 		<ru>Дополнительные платежи</ru>
 	</names>
 	<fields>
-		<field name="partner" type="DT_CATALOGRECORD">
+		<field name="addpay" type="DT_CATALOGRECORD">
 			<default>0</default>
 			<names>
-				<en>Partner</en>
-				<ru>Контрагент</ru>
+				<en>Type</en>
+				<ru>Вид расходов</ru>
 			</names>
 			<width>100</width>
-			<helper type="catalog">partners</helper>
+			<helper type="catalog">addpay</helper>
 		</field>
 		<field name="paydate" type="DT_DATE">
 			<default></default>
