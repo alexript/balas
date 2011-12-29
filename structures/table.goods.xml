@@ -22,6 +22,14 @@
 			</names>
 			<width>50</width>
 		</field>
+		<field name="boxesnum" type="DT_INT">
+			<default>0</default>
+			<names>
+				<en>Number of boxes</en>
+				<ru>Количество мест</ru>
+			</names>
+			<width>50</width>
+		</field>
 		<field name="tarif" type="DT_MONEY">
 			<default>0.0</default>
 			<names>
@@ -46,30 +54,8 @@
 			</names>
 			<width>50</width>
 		</field>
-		<field name="boxesnum" type="DT_INT">
-			<default>0</default>
-			<names>
-				<en>Number of boxes</en>
-				<ru>Количество мест</ru>
-			</names>
-			<width>50</width>
-		</field>
-		<field name="paydate" type="DT_DATE">
-			<default></default>
-			<names>
-				<en>Pay date</en>
-				<ru>Дата платежа</ru>
-			</names>
-			<width>100</width>
-		</field>
-		<field name="paysumm" type="DT_MONEY">
-			<default>0.0</default>
-			<names>
-				<en>Pay summ</en>
-				<ru>Сумма платежа</ru>
-			</names>
-			<width>50</width>
-		</field>
+		
+		
 		<field name="comments" type="DT_STRING">
 			<default></default>
 			<names>
