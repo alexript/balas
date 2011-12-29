@@ -59,4 +59,6 @@ public interface StructureServiceAsync {
 	void getStructureDescription(String name,
 			AsyncCallback<Description> callback);
 
+	void save(String name, String text, AsyncCallback<Void> callback);
+
 }

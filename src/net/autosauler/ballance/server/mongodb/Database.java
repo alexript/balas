@@ -33,6 +33,7 @@ import net.autosauler.ballance.server.model.AbstractDocument;
 import net.autosauler.ballance.server.model.Currency;
 import net.autosauler.ballance.server.model.GlobalSettings;
 import net.autosauler.ballance.server.model.Scripts;
+import net.autosauler.ballance.server.model.Structures;
 import net.autosauler.ballance.server.model.UserList;
 
 import org.w3c.dom.Document;
@@ -142,6 +143,8 @@ public class Database {
 		sb.append("</documents>\n");
 
 		sb.append(Scripts.dump(domain));
+
+		sb.append(Structures.dump(domain));
 
 		sb.append("</dump>\n");
 
@@ -347,6 +350,9 @@ public class Database {
 							s.restore(val);
 						} else if (val.getNodeName().equals("scripts")) {
 							Scripts s = new Scripts(domain, username);
+							s.restore(val);
+						} else if (val.getNodeName().equals("structures")) {
+							Structures s = new Structures(domain);
 							s.restore(val);
 						} else if (val.getNodeName().equals("users")) {
 							UserList.restore(domain, val);

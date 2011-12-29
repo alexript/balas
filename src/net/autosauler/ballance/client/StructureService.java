@@ -53,4 +53,6 @@ public interface StructureService extends RemoteService {
 	 * @return the structure description
 	 */
 	public Description getStructureDescription(String name);
+
+	public void save(String name, String text);
 }

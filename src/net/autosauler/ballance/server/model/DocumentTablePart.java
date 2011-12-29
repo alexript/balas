@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
-import net.autosauler.ballance.server.struct.StructureFactory;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -193,8 +192,9 @@ public class DocumentTablePart extends AbstractStructuredData {
 	 */
 	@Override
 	protected void initStructure() {
-		Description d = StructureFactory
-				.loadDescription("table." + getSuffix());
+		Structures s = new Structures(getDomain());
+		Description d = s.getDescription("table." + getSuffix());
+
 		List<Field> fields = d.get();
 		Iterator<Field> i = fields.iterator();
 		while (i.hasNext()) {

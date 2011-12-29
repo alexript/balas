@@ -18,8 +18,10 @@ package net.autosauler.ballance.server;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import net.autosauler.ballance.client.StructureService;
-import net.autosauler.ballance.server.struct.StructureFactory;
+import net.autosauler.ballance.server.model.Structures;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
 
@@ -43,9 +45,20 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public HashMap<String, Description> getAll() {
-		HashMap<String, Description> map = StructureFactory.getDescriptions();
+		HashMap<String, Description> map = Structures.getAll(getDomain());
 
 		return map;
+	}
+
+	/**
+	 * Gets the domain.
+	 * 
+	 * @return the domain
+	 */
+	private String getDomain() {
+		HttpSession httpSession = getSession();
+		String domain = HttpUtilities.getUserDomain(httpSession);
+		return domain;
 	}
 
 	/*
@@ -59,6 +72,16 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 		return new Dummy();
 	}
 
+	/**
+	 * Gets the session.
+	 * 
+	 * @return the session
+	 */
+	private HttpSession getSession() {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		return httpSession;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -68,8 +91,15 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Description getStructureDescription(String name) {
+		Structures s = new Structures(getDomain());
+		return s.getDescription(name);
+	}
 
-		return StructureFactory.loadDescription(name);
+	@Override
+	public void save(String name, String text) {
+		Structures s = new Structures(getDomain());
+		s.save(name, text);
+
 	}
 
 }

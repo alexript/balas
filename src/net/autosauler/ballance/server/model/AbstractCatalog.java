@@ -23,7 +23,6 @@ import java.util.List;
 import javax.script.ScriptException;
 
 import net.autosauler.ballance.server.mongodb.Database;
-import net.autosauler.ballance.server.struct.StructureFactory;
 import net.autosauler.ballance.server.vm.CatalogWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
@@ -64,7 +63,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	public static AbstractCatalog getInstance(String catalogname,
 			String domain, Long number, UserRole role) {
 		if (catalogname.startsWith("catalog.")) {
-			Description d = StructureFactory.loadDescription(catalogname);
+			Structures s = new Structures(domain);
+			Description d = s.getDescription(catalogname);
 			if (role.hasAccess(new UserRole(d.getRole()))) {
 				String name = catalogname.replace("catalog.", "");
 				return new AbstractCatalog(name, domain, number);
@@ -76,7 +76,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	public static AbstractCatalog getInstance(String catalogname,
 			UserRole role, String domain, String login) {
 		if (catalogname.startsWith("catalog.")) {
-			Description d = StructureFactory.loadDescription(catalogname);
+			Structures s = new Structures(domain);
+			Description d = s.getDescription(catalogname);
 			if (role.hasAccess(new UserRole(d.getRole()))) {
 				String name = catalogname.replace("catalog.", "");
 				return new AbstractCatalog(name, domain, login);
@@ -288,8 +289,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	 */
 	@Override
 	protected void initStructure() {
-		Description d = StructureFactory.loadDescription("catalog."
-				+ getSuffix());
+		Structures s = new Structures(getDomain());
+		Description d = s.getDescription("catalog." + getSuffix());
 		List<Field> fields = d.get();
 		Iterator<Field> i = fields.iterator();
 		while (i.hasNext()) {

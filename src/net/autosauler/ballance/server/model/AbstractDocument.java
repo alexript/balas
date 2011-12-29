@@ -26,7 +26,6 @@ import java.util.Set;
 import javax.script.ScriptException;
 
 import net.autosauler.ballance.server.mongodb.Database;
-import net.autosauler.ballance.server.struct.StructureFactory;
 import net.autosauler.ballance.server.vm.DocumentWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
@@ -67,7 +66,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	public static AbstractDocument getInstance(String docname, UserRole role,
 			String domain) {
 		if (docname.startsWith("document.")) {
-			Description d = StructureFactory.loadDescription(docname);
+			Structures s = new Structures(domain);
+			Description d = s.getDescription(docname);
 			if (role.hasAccess(new UserRole(d.getRole()))) {
 				String name = docname.replace("document.", "");
 				return new AbstractDocument(name, domain);
@@ -79,7 +79,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	public static AbstractDocument getInstance(String docname, UserRole role,
 			String domain, Long number) {
 		if (docname.startsWith("document.")) {
-			Description d = StructureFactory.loadDescription(docname);
+			Structures s = new Structures(domain);
+			Description d = s.getDescription(docname);
 			if (role.hasAccess(new UserRole(d.getRole()))) {
 				String name = docname.replace("document.", "");
 				return new AbstractDocument(name, domain, number);
@@ -91,7 +92,8 @@ public class AbstractDocument extends AbstractStructuredData implements
 	public static AbstractDocument getInstance(String docname, UserRole role,
 			String domain, String login) {
 		if (docname.startsWith("document.")) {
-			Description d = StructureFactory.loadDescription(docname);
+			Structures s = new Structures(domain);
+			Description d = s.getDescription(docname);
 			if (role.hasAccess(new UserRole(d.getRole()))) {
 				String name = docname.replace("document.", "");
 				return new AbstractDocument(name, domain, login);
@@ -435,8 +437,9 @@ public class AbstractDocument extends AbstractStructuredData implements
 	@Override
 	protected void initStructure() {
 
-		structuredescription = StructureFactory.loadDescription("document."
-				+ getSuffix());
+		Structures s = new Structures(getDomain());
+		structuredescription = s.getDescription("document." + getSuffix());
+
 		tables = new HashMap<String, DocumentTablePart>();
 
 		List<Field> fields = structuredescription.get();
