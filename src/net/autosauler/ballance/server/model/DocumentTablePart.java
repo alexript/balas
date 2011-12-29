@@ -127,6 +127,35 @@ public class DocumentTablePart extends AbstractStructuredData {
 		save();
 	}
 
+	public Set<Long> findDocuments(String fieldname, Long value) {
+		Set<Long> ids = new HashSet<Long>();
+		DB db = Database.get(getDomain());
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(getTableName());
+			BasicDBObject q = new BasicDBObject();
+			BasicDBObject w = new BasicDBObject();
+			q.put(fieldname_domain, getDomain());
+			q.put(fieldname, value);
+			q.put(fieldname_trash, false);
+			w.put("$query", q);
+
+			DBCursor cur = coll.find(w);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+				if (myDoc != null) {
+					Long docid = (Long) myDoc.get(fieldname_document);
+					if (!ids.contains(docid)) {
+						ids.add(docid);
+					}
+				}
+			}
+			Database.release();
+		}
+		return ids;
+
+	}
+
 	/**
 	 * Gets the docnum.
 	 * 
@@ -134,6 +163,18 @@ public class DocumentTablePart extends AbstractStructuredData {
 	 */
 	public Long getDocnum() {
 		return (Long) values.get(fieldname_document);
+	}
+
+	public String getHelperName(String domain, String fieldname) {
+		Structures s = new Structures(domain);
+		Description d = s.getDescription("table." + getSuffix());
+		List<Field> fields = d.get();
+		for (Field field : fields) {
+			if (field.getFieldname().equals(fieldname)) {
+				return field.getHelper();
+			}
+		}
+		return null;
 	}
 
 	/**

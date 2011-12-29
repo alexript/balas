@@ -16,8 +16,10 @@
 
 package net.autosauler.ballance.server.vm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Set;
 
 import net.autosauler.ballance.server.model.DocumentTablePart;
@@ -28,15 +30,33 @@ import net.autosauler.ballance.server.model.DocumentTablePart;
  */
 public class DoctableWrapper {
 	private final DocumentTablePart impl;
+	private final String docname;
 
-	public DoctableWrapper(final DocumentTablePart doctab) {
+	public DoctableWrapper(final DocumentTablePart doctab, String docname) {
 		impl = doctab;
+		this.docname = docname;
 
 	}
 
 	public void addRecord(Hashtable<String, Object> values) {
 		impl.addRecord(values);
 
+	}
+
+	public List<DocumentWrapper> findContainers(String fieldname,
+			DocumentWrapper document) {
+		List<DocumentWrapper> lst = new ArrayList<DocumentWrapper>();
+
+		if ((docname != null) && !docname.isEmpty()) {
+			Set<Long> ids = impl.findDocuments(fieldname,
+					(Long) document.get("number"));
+			for (Long docid : ids) {
+				DocumentWrapper doc = new DocumentWrapper(impl.getDomain(),
+						docname, docid);
+				lst.add(doc);
+			}
+		}
+		return lst;
 	}
 
 	public Array getRecords() {

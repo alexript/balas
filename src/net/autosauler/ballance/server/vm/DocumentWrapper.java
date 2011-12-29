@@ -92,7 +92,7 @@ public class DocumentWrapper {
 	 * @return the table
 	 */
 	public DoctableWrapper getTable(String tablename) {
-		return new DoctableWrapper(impl.getPart(tablename));
+		return new DoctableWrapper(impl.getPart(tablename), impl.getDocname());
 	}
 
 	public Array getTableRecords(String tablename) {
@@ -118,6 +118,11 @@ public class DocumentWrapper {
 
 	public void setParent(DocumentWrapper dw) {
 		impl.setParent(dw.impl);
+	}
+
+	public void unactivate() {
+		impl.unactivation();
+		impl.save();
 	}
 
 }

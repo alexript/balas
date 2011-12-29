@@ -371,6 +371,10 @@ public class AbstractDocument extends AbstractStructuredData implements
 		return (Date) values.get(fieldname_activationdate);
 	}
 
+	public String getDocname() {
+		return getSuffix();
+	}
+
 	/**
 	 * Gets the part.
 	 * 

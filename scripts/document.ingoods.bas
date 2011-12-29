@@ -22,10 +22,18 @@ function OnActivate(document)
 end
 
 function OnUnactivate(document)
- Log.error('method OnUnactivate not defined')
+ cargo = Documents.get("cargo")
+ table = cargo.getTable("ingoods")
+ childs = table.findContainers("ingoods", document)
+ i = 0
+ while i < childs.size()
+    cargodoc = childs.get(i)
+    cargodoc.unactivate()
+    i+=1
+ end
 end
 
-// must return HashTable
+
 // must return HashTable
 function OnChange(fieldname, hashTable)
   if fieldname = 'status'

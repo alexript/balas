@@ -41,6 +41,10 @@ public class Documents {
 		return new DocumentWrapper(domain, docname, username);
 	}
 
+	public DocumentWrapper get(String docname) {
+		return new DocumentWrapper(domain, docname, username);
+	}
+
 	/**
 	 * Gets the.
 	 * 
