@@ -59,4 +59,7 @@ public class M {
 
 	/** The Constant users. */
 	public static final UsersMessages users = GWT.create(UsersMessages.class);
+
+	public static final StructureMessages structure = GWT
+			.create(StructureMessages.class);
 }

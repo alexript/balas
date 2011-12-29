@@ -29,6 +29,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface StructureServiceAsync {
 
+	void get(String name, AsyncCallback<String> callback);
+
 	/**
 	 * Gets the all.
 	 * 

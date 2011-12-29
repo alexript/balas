@@ -31,6 +31,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("structure")
 public interface StructureService extends RemoteService {
 
+	public String get(String name);
+
 	/**
 	 * Gets the all.
 	 * 

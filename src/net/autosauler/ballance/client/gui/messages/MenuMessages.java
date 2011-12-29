@@ -141,6 +141,8 @@ public interface MenuMessages extends Messages {
 	 */
 	String itemReportCurrval();
 
+	String itemStructure();
+
 	/**
 	 * Item tarif.
 	 * 

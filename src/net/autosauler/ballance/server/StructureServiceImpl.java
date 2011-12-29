@@ -38,6 +38,12 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8046719189550180499L;
 
+	@Override
+	public String get(String name) {
+		Structures s = new Structures(getDomain());
+		return s.get(name);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

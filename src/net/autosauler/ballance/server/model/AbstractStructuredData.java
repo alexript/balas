@@ -90,9 +90,10 @@ public abstract class AbstractStructuredData {
 		tableprefix = prefix;
 		tablesuffix = suffix;
 		tablename = prefix + "_" + suffix;
-		initMetaStructure();
+
+		initMetaStructure(domain);
 		initDBStruct();
-		setDomain(domain);
+
 		setTrash(false);
 	}
 
@@ -436,7 +437,7 @@ public abstract class AbstractStructuredData {
 	/**
 	 * Inits the document structure.
 	 */
-	private void initMetaStructure() {
+	private void initMetaStructure(String domain) {
 		struct = new Structure();
 
 		struct.add(fieldname_domain, DataTypes.DT_DOMAIN, "127.0.0.1");
@@ -447,15 +448,16 @@ public abstract class AbstractStructuredData {
 
 		initGlobalStructure();
 
-		initStructure();
+		initStructure(domain);
 
 		values = new StructValues(struct);
+		setDomain(domain);
 	}
 
 	/**
 	 * Inits the structure for The class.
 	 */
-	protected abstract void initStructure();
+	protected abstract void initStructure(String domain);
 
 	/**
 	 * Checks if is trash.

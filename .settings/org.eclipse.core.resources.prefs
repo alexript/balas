@@ -1,4 +1,4 @@
-#Tue Oct 25 17:08:19 MSD 2011
+#Thu Dec 29 15:45:06 MSK 2011
 eclipse.preferences.version=1
 encoding//src/net/autosauler/ballance/client/gui/messages/AuthMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/messages/CatalogMessages_ru.properties=UTF-8
@@ -7,6 +7,7 @@ encoding//src/net/autosauler/ballance/client/gui/messages/DatabaseMessages_ru.pr
 encoding//src/net/autosauler/ballance/client/gui/messages/DialogMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/messages/DocumentMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/messages/MenuMessages_ru.properties=UTF-8
+encoding//src/net/autosauler/ballance/client/gui/messages/StructureMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/messages/ToolsMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/messages/UsersMessages_ru.properties=UTF-8
 encoding//src/net/autosauler/ballance/client/gui/resources/hello_ru.html=UTF-8

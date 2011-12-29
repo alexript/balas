@@ -143,6 +143,9 @@ public class MainPanel implements ValueChangeHandler<String> {
 			} else if (name.equals("editusers") && role.isAdmin()) {
 				constructTabPaneContent(UsersPanel.get(), M.menu.itemUsers(),
 						Images.menu.icoUser(), name);
+			} else if (name.equals("editstruct") && role.isAdmin()) {
+				constructTabPaneContent(StructurePanel.get(),
+						M.menu.itemStructure(), Images.menu.Structure(), name);
 			} else if (name.equals("license")) {
 				constructTabPaneContent(LicensePanel.get(),
 						M.menu.itemLicense(), Images.menu.icoCopyright(), name);

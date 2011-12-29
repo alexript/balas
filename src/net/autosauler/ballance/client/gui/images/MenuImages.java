@@ -221,6 +221,8 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	ImageResource spinner();
 
+	ImageResource Structure();
+
 	/**
 	 * Trash.
 	 * 

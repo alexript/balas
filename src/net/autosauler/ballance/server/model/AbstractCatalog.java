@@ -288,8 +288,8 @@ public class AbstractCatalog extends AbstractStructuredData implements
 	 * Inits the structure.
 	 */
 	@Override
-	protected void initStructure() {
-		Structures s = new Structures(getDomain());
+	protected void initStructure(String domain) {
+		Structures s = new Structures(domain);
 		Description d = s.getDescription("catalog." + getSuffix());
 		List<Field> fields = d.get();
 		Iterator<Field> i = fields.iterator();

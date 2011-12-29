@@ -191,8 +191,8 @@ public class DocumentTablePart extends AbstractStructuredData {
 	 * ()
 	 */
 	@Override
-	protected void initStructure() {
-		Structures s = new Structures(getDomain());
+	protected void initStructure(String domain) {
+		Structures s = new Structures(domain);
 		Description d = s.getDescription("table." + getSuffix());
 
 		List<Field> fields = d.get();

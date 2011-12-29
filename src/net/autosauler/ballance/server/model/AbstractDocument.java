@@ -435,9 +435,9 @@ public class AbstractDocument extends AbstractStructuredData implements
 	 * ()
 	 */
 	@Override
-	protected void initStructure() {
+	protected void initStructure(String domain) {
 
-		Structures s = new Structures(getDomain());
+		Structures s = new Structures(domain);
 		structuredescription = s.getDescription("document." + getSuffix());
 
 		tables = new HashMap<String, DocumentTablePart>();

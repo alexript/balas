@@ -1,6 +1,8 @@
 package net.autosauler.ballance.server.model;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -135,9 +137,12 @@ public class Structures {
 	private static Description txtToDescription(String text) {
 		Description d = new Description();
 		try {
+			byte[] bytes = text.getBytes("UTF-8");
+			InputStream is = new ByteArrayInputStream(bytes);
+
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
-			Document doc = builder.parse(text);
+			Document doc = builder.parse(is);
 
 			NodeList rootnodes = doc.getElementsByTagName("struct");
 			for (int i = 0; i < rootnodes.getLength(); i++) {
