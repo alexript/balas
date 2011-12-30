@@ -52,6 +52,19 @@ public class RegestryWrapper {
 		return result;
 	}
 
+	public void minus(DocumentWrapper doc, Double summ, String currency,
+			Hashtable<String, Object> values) {
+		if (reg != null) {
+			reg.add(doc.impl, -summ, currency, values);
+		}
+	}
+
+	public void minus(DocumentWrapper doc, String summ, String currency,
+			Hashtable<String, Object> values) {
+		Double s = Double.parseDouble(summ);
+		minus(doc, s, currency, values);
+	}
+
 	public void remove(DocumentWrapper doc) {
 		if (reg != null) {
 			reg.remove(doc.impl);

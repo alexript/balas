@@ -18,16 +18,28 @@ function OnUpdate(document)
 end
 
 function OnActivate(document)
- // set currency value for pay date
- curr = document.get("currency")
- date = document.get("paydate")
- value = Currency.get(curr, date)
- document.set("currvalue", value)
+ reg = Regestry.get("balance")
+ partner = document.get("partner")
+ s = document.get("payvalue")
+ c = document.get("currency")
+ values = Hashtable()
+  values.put("partner", partner)
+ reg.add(document, s, c, values)
 end
 
 function OnUnactivate(document)
- Log.error('method OnUnactivate not defined')
+ reg = Regestry.get("balance")
+ reg.remove(document)
 end
+
+//function OnActivate(document)
+// // set currency value for pay date
+// curr = document.get("currency")
+// date = document.get("paydate")
+// value = Currency.get(curr, date)
+// document.set("currvalue", value)
+//end
+
 
 // must return HashTable
 function OnChange(fieldname, hashTable)

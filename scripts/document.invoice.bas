@@ -31,7 +31,7 @@ function OnActivate(document)
  	values.put("partner", partner)
  	values.put("ingoods", ingoods)
  	
- 	reg.add(document, s, c, values)
+ 	reg.minus(document, s, c, values)
  	i+=1
  end
 end
