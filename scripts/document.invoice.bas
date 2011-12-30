@@ -18,11 +18,27 @@ function OnUpdate(document)
 end
 
 function OnActivate(document)
- Log.error('method OnActivate not defined')
+ reg = Regestry.get("balance")
+ partner = document.get("partner")
+ records = document.getTableRecords("invoicerecords")
+ i = 0
+ while i < records.size()
+ 	record = records.get(i)
+ 	s = record.get("summ")
+ 	c = record.get("currency")
+ 	ingoods = record.get("ingoods")
+ 	values = Hashtable()
+ 	values.put("partner", partner)
+ 	values.put("ingoods", ingoods)
+ 	
+ 	reg.add(document, s, c, values)
+ 	i+=1
+ end
 end
 
 function OnUnactivate(document)
- Log.error('method OnUnactivate not defined')
+ reg = Regestry.get("balance")
+ reg.remove(document)
 end
 
 // must return HashTable

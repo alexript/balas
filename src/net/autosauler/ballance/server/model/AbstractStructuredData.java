@@ -44,8 +44,6 @@ import com.mongodb.DBObject;
  * @author alexript
  */
 public abstract class AbstractStructuredData {
-	// TODO: store structure per domain
-	// TODO: edit structure per domain
 
 	/** The tableprefix. */
 	private final String tableprefix;

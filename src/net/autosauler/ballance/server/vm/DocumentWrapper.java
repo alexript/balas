@@ -28,7 +28,7 @@ import net.autosauler.ballance.server.model.AbstractDocument;
 public class DocumentWrapper {
 
 	/** The impl. */
-	private final AbstractDocument impl;
+	protected final AbstractDocument impl;
 
 	/**
 	 * Instantiates a new document wrapper.

@@ -68,6 +68,26 @@ public class Currency {
 		}
 	}
 
+	public static Double convert(Double summ, String fromcurr, String tocurr,
+			Date valuedate) {
+		Double result = summ;
+
+		if (!fromcurr.equals(tocurr)) {
+			Double from = summ;
+			if (!fromcurr.equals(defaultcurrency)) {
+				from = Currency.get(fromcurr, valuedate);
+			}
+			if (tocurr.equals(defaultcurrency)) {
+				result = summ * from;
+			} else {
+				Double to = Currency.get(tocurr, valuedate);
+				result = (summ * from) / to;
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * Creates the default records.
 	 * 
@@ -240,7 +260,7 @@ public class Currency {
 			Double val = Currency.get(mnemo, i);
 			CurrValue cv = new CurrValue(i, val);
 			values.add(cv);
-			i = new Date(i.getTime() + 1000 * 60 * 60 * 24);
+			i = new Date(i.getTime() + (1000 * 60 * 60 * 24));
 		}
 
 		return values;

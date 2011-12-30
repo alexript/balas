@@ -53,6 +53,8 @@ public class VM {
 	/** The documents. */
 	private Documents documents;
 
+	private RegestryWrapper regestry;
+
 	/**
 	 * Instantiates a new vM.
 	 * 
@@ -69,6 +71,7 @@ public class VM {
 				constants = new Constants(mydomain);
 				evaluator = new Evaluator(this);
 				documents = new Documents(mydomain, this.username);
+				regestry = new RegestryWrapper(mydomain);
 
 				vm = new CajuScriptEngine();
 			} catch (Exception e) {
@@ -152,6 +155,7 @@ public class VM {
 			vm.put("Currency", currency);
 			vm.put("Catalogs", catalogs);
 			vm.put("Documents", documents);
+			vm.put("Regestry", regestry);
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("import java.lang\n");
@@ -164,6 +168,8 @@ public class VM {
 			sb.append("import net.autosauler.ballance.server.vm.DocumentWrapper\n");
 			sb.append("import net.autosauler.ballance.server.vm.DoctableWrapper\n");
 			sb.append("import net.autosauler.ballance.server.vm.ReportForm\n");
+			sb.append("import net.autosauler.ballance.server.vm.RegestryWrapper\n");
+			sb.append("import net.autosauler.ballance.server.vm.RegRec\n");
 
 			try {
 				eval(sb.toString());
