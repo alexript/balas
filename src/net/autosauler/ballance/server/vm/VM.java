@@ -159,7 +159,11 @@ public class VM {
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("import java.lang\n");
-			sb.append("import java.util\n");
+			sb.append("import java.util.ArrayList\n");
+			sb.append("import java.util.HashMap\n");
+			sb.append("import java.util.Hashtable\n");
+			sb.append("import java.util.List\n");
+			sb.append("import java.util.Set\n");
 			sb.append("import com.allen_sauer.gwt.log.client.Log\n");
 			sb.append("import net.autosauler.ballance.server.vm.Evaluator\n");
 			sb.append("import net.autosauler.ballance.server.vm.Constants\n");

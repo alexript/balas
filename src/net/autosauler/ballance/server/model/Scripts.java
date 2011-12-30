@@ -102,12 +102,17 @@ public class Scripts {
 	private String text;
 
 	/** The vm. */
-	private static HashMap<String, VM> vms = null;
+	private VM vm = null;
 
 	/** The caller. */
 	private final IScriptableObject caller;
 
 	private final String username;
+
+	public Scripts(IScriptableObject obj, String domain, String username,
+			String name) {
+		this(obj, domain, username, name, null);
+	}
 
 	/**
 	 * Instantiates a new scripts.
@@ -120,39 +125,32 @@ public class Scripts {
 	 *            the name
 	 */
 	public Scripts(IScriptableObject obj, String domain, String username,
-			String name) {
+			String name, VM vm2) {
 		this.name = name;
 		this.domain = domain;
 		this.username = username;
 		caller = obj;
-		initVM();
+		initVM(vm2);
 
 		initStruct();
 
 		loadText();
 
-		if (vms.containsKey(this.domain)) {
-			VM vm = vms.get(this.domain);
-			if (vm != null) {
-				if (text != null) {
-					try {
-						vm.eval(text);
-					} catch (Exception e) {
-						Log.error(e.getMessage());
-					}
-
-				} else {
-					Log.error("There is no text for script " + name);
+		if (vm != null) {
+			if (text != null) {
+				try {
+					vm.eval(text);
+				} catch (Exception e) {
+					Log.error(e.getMessage());
 				}
-			} else {
-				Log.error("My vm is null!!!!");
-				Log.error(vms.toString());
-			}
 
+			} else {
+				Log.error("There is no text for script " + name);
+			}
 		} else {
-			Log.error("where is my vm????");
-			Log.error(vms.toString());
+			Log.error("My vm is null!!!!");
 		}
+
 	}
 
 	/**
@@ -169,6 +167,10 @@ public class Scripts {
 		initStruct();
 	}
 
+	public Scripts(String domain, String username, String name) {
+		this(domain, username, name, null);
+	}
+
 	/**
 	 * Instantiates a new scripts.
 	 * 
@@ -177,33 +179,30 @@ public class Scripts {
 	 * @param name
 	 *            the name
 	 */
-	public Scripts(String domain, String username, String name) {
+	public Scripts(String domain, String username, String name, VM vm2) {
 		this.name = name;
 		this.domain = domain;
 		this.username = username;
 		caller = null;
-		initVM();
+		initVM(vm2);
 		initStruct();
 		loadText();
 
-		if (vms.containsKey(this.domain)) {
-			VM vm = vms.get(this.domain);
-			if (vm != null) {
+		if (vm != null) {
 
-				if (text != null) {
-					try {
+			if (text != null) {
+				try {
 
-						vm.eval(text);
-					} catch (Exception e) {
-						Log.error(e.getMessage());
-					}
-
-				} else {
-					Log.error("There is no text for script " + name);
+					vm.eval(text);
+				} catch (Exception e) {
+					Log.error(e.getMessage());
 				}
-			}
 
+			} else {
+				Log.error("There is no text for script " + name);
+			}
 		}
+
 	}
 
 	/**
@@ -222,7 +221,7 @@ public class Scripts {
 	public Object call(String funcname, final Object... args)
 			throws ScriptException, NoSuchMethodException {
 		Object result = null;
-		VM vm = vms.get(domain);
+
 		if (vm != null) {
 			result = vm.call(funcname, args);
 		}
@@ -238,7 +237,6 @@ public class Scripts {
 	 */
 	public Object eval(String cmd) {
 
-		VM vm = vms.get(domain);
 		if (vm != null) {
 			try {
 				return vm.eval(cmd);
@@ -280,7 +278,6 @@ public class Scripts {
 		}
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		VM vm = vms.get(domain);
 		Object eval = null;
 		if (vm != null) {
 
@@ -332,7 +329,6 @@ public class Scripts {
 		}
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		VM vm = vms.get(domain);
 		Object eval = null;
 		if (vm != null) {
 
@@ -396,7 +392,6 @@ public class Scripts {
 		}
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		VM vm = vms.get(domain);
 		Object eval = null;
 		if (vm != null) {
 
@@ -467,19 +462,15 @@ public class Scripts {
 	/**
 	 * Inits the vm.
 	 */
-	private void initVM() {
+	private void initVM(VM parentvm) {
 		Log.trace("init vm");
-		if (vms == null) {
-			Log.trace("Create hashmap");
-			vms = new HashMap<String, VM>();
-			Log.trace(vms.toString());
+		if (parentvm == null) {
+			vm = new VM(domain, username);
+		} else {
+			vm = parentvm;
 		}
-		if (!vms.containsKey(domain)) {
-			Log.trace("Add vm per domain " + domain);
-			vms.put(domain, new VM(domain, username));
-			Log.trace(vms.toString());
-
-			Scripts global = new Scripts(domain, username, "global");
+		if (!name.equals("global")) {
+			Scripts global = new Scripts(domain, username, "global", vm);
 			global.nop();
 		}
 
@@ -509,7 +500,7 @@ public class Scripts {
 
 		if ((txt == null) || txt.isEmpty()) {
 			if (!domain.equals("127.0.0.1")) {
-				Scripts s = new Scripts(caller, "127.0.0.1", username, name);
+				Scripts s = new Scripts(caller, "127.0.0.1", username, name, vm);
 				txt = s.getText();
 			}
 
@@ -608,10 +599,9 @@ public class Scripts {
 				}
 
 				Database.release();
-				if (vms != null) {
-					vms.remove(domain);
-					initVM();
-				}
+
+				initVM(null);
+
 			}
 		}
 	}

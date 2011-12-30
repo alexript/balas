@@ -29,6 +29,10 @@ import net.autosauler.ballance.shared.CurrValue;
  */
 public class CurrencyWrapper {
 
+	public CurrencyWrapper() {
+		// Log.error("Wrapper inited");
+	}
+
 	/**
 	 * Gets the.
 	 * 
