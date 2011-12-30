@@ -157,7 +157,7 @@ public class MainPanel implements ValueChangeHandler<String> {
 				constructTabPaneContent(new ReportPanel("currvalues"),
 						M.menu.itemReportCurrval(), Images.menu.icoCurrval(),
 						name);
-
+				// TODO: generate reports items
 			} else {
 				Description d = StructureFactory.getDescription(name);
 				if (d != null) {

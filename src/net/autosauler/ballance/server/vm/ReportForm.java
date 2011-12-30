@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.autosauler.ballance.server.model.Structures;
+import net.autosauler.ballance.shared.Description;
+import net.autosauler.ballance.shared.Field;
 import net.autosauler.ballance.shared.ReportFormField;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -31,12 +34,24 @@ public class ReportForm {
 
 	/** The fields. */
 	private final List<ReportFormField> fields;
+	private final String reportname;
 
 	/**
 	 * Instantiates a new report form.
 	 */
-	public ReportForm() {
+	public ReportForm(String name, String domain) {
+		reportname = name;
 		fields = new ArrayList<ReportFormField>();
+		Structures s = new Structures(domain);
+
+		Description d = s.getDescription(reportname);
+
+		List<Field> fields = d.get();
+		for (Field field : fields) {
+			// TODO: send all names. client-side selection is.
+			add(field.getFieldname(), field.getName().getName("ru"),
+					field.getType(), field.getDefval());
+		}
 	}
 
 	/**

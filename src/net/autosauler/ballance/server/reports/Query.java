@@ -205,11 +205,6 @@ public class Query extends DataQuery implements IScriptableObject {
 	public String generateDefaultScript() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("function CreateForm(form)\n");
-		sb.append("form.add('currency', 'Currency', DT_CURRENCY, 'USD')\n");
-		sb.append("form.add('startd', 'Start date', 'DT_DATE')\n");
-		sb.append("form.add('endd', 'End date', 'DT_DATE')\n");
-		sb.append("end\n\n");
 		sb.append("function ExecuteReport(report)\n");
 		sb.append("report.addLabel('Currency values (' + report.get('currency') + ')')\n");
 		sb.append("report.addDescription('Currency values per date')\n");
@@ -294,15 +289,7 @@ public class Query extends DataQuery implements IScriptableObject {
 
 		counter = 0;
 
-		form = new ReportForm();
-
-		try {
-			script.call("CreateForm", form);
-		} catch (ScriptException e) {
-			Log.error(e.getMessage());
-		} catch (NoSuchMethodException e) {
-			Log.error(e.getMessage());
-		}
+		form = new ReportForm(scriptname, domain);
 
 	}
 

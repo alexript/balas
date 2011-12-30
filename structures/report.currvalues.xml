@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN">
+	<names>
+		<en>Currency values</en>
+		<ru>Курсы валют</ru>
+	</names>
+	<fields>
+		<field name="currency" type="DT_CURRENCY">
+			<default>RUR</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>70</width>
+		</field>
+		
+		<field name="startd" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Start date</en>
+				<ru>С</ru>
+			</names>
+		</field>
+		<field name="endd" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>End date</en>
+				<ru>По</ru>
+			</names>
+		</field>
+		
+	</fields>
+</struct>

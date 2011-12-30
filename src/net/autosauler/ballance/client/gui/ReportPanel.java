@@ -182,6 +182,7 @@ public class ReportPanel extends ContentPanel implements IPaneWithMenu,
 	 * Reload form.
 	 */
 	private void reloadForm() {
+		// TODO: get fields from loaded description
 		btnExec.setEnabled(false);
 		report.setVisible(false);
 		MainPanel.setCommInfo(true);
