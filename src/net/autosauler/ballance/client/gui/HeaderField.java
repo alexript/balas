@@ -177,7 +177,7 @@ public class HeaderField implements Listener<FieldEvent> {
 		}
 
 		w.setFieldLabel(name);
-		w.setAutoValidate(true);
+		w.setAutoValidate(false);
 
 	}
 
@@ -331,10 +331,12 @@ public class HeaderField implements Listener<FieldEvent> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleEvent(FieldEvent be) {
+
 		if (h != null) {
 			h.handleFieldChange(mytag, getValueAsString());
 		}
 		if (ch != null) {
+
 			if (t == DataTypes.DT_CATALOGRECORD) {
 				ch.handleFieldChange(mytag,
 						((CatalogModel) be.getValue()).get("number"));
