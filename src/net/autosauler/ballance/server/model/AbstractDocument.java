@@ -29,6 +29,7 @@ import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.vm.DocumentWrapper;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Field;
+import net.autosauler.ballance.shared.Name;
 import net.autosauler.ballance.shared.Table;
 import net.autosauler.ballance.shared.UserRole;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
@@ -369,6 +370,13 @@ public class AbstractDocument extends AbstractStructuredData implements
 	 */
 	public Date getActivationdate() {
 		return (Date) values.get(fieldname_activationdate);
+	}
+
+	public String getDocDescription(String lang) {
+		Structures s = new Structures(getDomain());
+		Description d = s.getDescription("document." + getDocname());
+		Name n = d.getName();
+		return n.getName(lang);
 	}
 
 	public String getDocname() {

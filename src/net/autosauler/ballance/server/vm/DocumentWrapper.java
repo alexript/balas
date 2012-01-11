@@ -15,10 +15,14 @@
  ******************************************************************************/
 package net.autosauler.ballance.server.vm;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 
 import net.autosauler.ballance.server.model.AbstractDocument;
+
+import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * The Class DocumentWrapper.
@@ -29,6 +33,8 @@ public class DocumentWrapper {
 
 	/** The impl. */
 	protected final AbstractDocument impl;
+	private static final SimpleDateFormat formatter = new SimpleDateFormat(
+			"yyyy/MM/dd");
 
 	/**
 	 * Instantiates a new document wrapper.
@@ -84,6 +90,20 @@ public class DocumentWrapper {
 		return impl.getFieldValue(fieldname);
 	}
 
+	public String getName() {
+		Log.error("get name");
+		if (impl == null) {
+			Log.error("null doc");
+			return "null document";
+		}
+
+		String name = impl.getDocDescription("ru") + " "
+				+ ((Long) get("number")).toString() + " ["
+				+ formatter.format((Date) get("createdate")) + "]";
+
+		return name;
+	}
+
 	/**
 	 * Gets the table.
 	 * 
@@ -118,6 +138,11 @@ public class DocumentWrapper {
 
 	public void setParent(DocumentWrapper dw) {
 		impl.setParent(dw.impl);
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 	public void unactivate() {
