@@ -43,6 +43,7 @@ public class StructureFactory {
 
 	// 0 -- catalog
 	// 1 -- document
+	// 2 -- report
 	private static final HashMap<String, Integer> types = new HashMap<String, Integer>();
 
 	private static void addMenuItem(int role, String itemname) {
@@ -93,6 +94,8 @@ public class StructureFactory {
 				menuicons.put(name, Images.menu.Document());
 			} else if (name.startsWith("catalog.")) {
 				menuicons.put(name, Images.menu.Cube());
+			} else if (name.startsWith("report.")) {
+				menuicons.put(name, Images.menu.Poll());
 			}
 
 			if (name.startsWith("document.")) {
@@ -108,6 +111,12 @@ public class StructureFactory {
 				int role = descr.getRole();
 				addMenuItem(role, name);
 				types.put(name, 0);
+			} else if (name.startsWith("report.")) {
+				// String itemname = name.replace("report.", "");
+				Description descr = d.get(name);
+				int role = descr.getRole();
+				addMenuItem(role, name);
+				types.put(name, 2);
 			}
 		}
 
@@ -169,13 +178,7 @@ public class StructureFactory {
 
 	public static void loadData() {
 		loadAll();
-		// load("catalog.paymethod");
-		// load("catalog.tarifs");
-		// load("catalog.partners");
-		// load("table.goods");
-		// load("table.goodsaddpay");
-		// load("document.inpay");
-		// load("document.ingoods");
+
 	}
 
 	private static void trace(Description description) {

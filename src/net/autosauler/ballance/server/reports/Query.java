@@ -278,7 +278,7 @@ public class Query extends DataQuery implements IScriptableObject {
 		report = new ReportDefinition();
 		report.setName(reportscriptname);
 		setName(reportscriptname);
-		scriptname = "report." + reportscriptname;
+		scriptname = reportscriptname;
 		table = new DataTable();
 		tableHeader = new GridRow();
 		tableBody = new GridRow();

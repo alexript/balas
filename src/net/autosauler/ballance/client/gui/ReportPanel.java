@@ -169,8 +169,7 @@ public class ReportPanel extends ContentPanel implements IPaneWithMenu,
 					new SelectionListener<MenuEvent>() {
 						@Override
 						public void componentSelected(MenuEvent ce) {
-							new ScriptEditor("report." + scriptname,
-									ReportPanel.this);
+							new ScriptEditor(scriptname, ReportPanel.this);
 						}
 					}));
 		}

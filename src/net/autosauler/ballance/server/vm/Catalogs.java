@@ -16,6 +16,11 @@
 
 package net.autosauler.ballance.server.vm;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.autosauler.ballance.server.model.AbstractCatalog;
+
 /**
  * The Class Catalogs.
  * 
@@ -47,5 +52,11 @@ public class Catalogs {
 	 */
 	public CatalogWrapper get(String catalogname, Long number) {
 		return new CatalogWrapper(domain, catalogname, number);
+	}
+
+	public List<Long> getRecords(String catalogname) {
+		AbstractCatalog c = new AbstractCatalog(catalogname, domain, "");
+		List<Long> ids = new ArrayList<Long>(c.findAll());
+		return ids;
 	}
 }

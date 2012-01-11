@@ -1,27 +1,19 @@
-function CreateForm(form)
- form.add('currency', 'Валюта', DT_CURRENCY, 'USD')
- form.add('startd', 'Начальная дата', 'DT_DATE')
- form.add('endd', 'Конечная дата', 'DT_DATE')
-end
-
 function ExecuteReport(report)
-	report.addLabel('Курс валюты (' + report.get('currency') + ')')
-	report.addDescription('Курсы валюты на интервал дат')
-	report.addColumn('Дата')
-	report.addColumn('Курс')
-	report.addColumn('Конв.Проц.')
-	report.addColumn('Итого')
-	values = Currency.get(report.get('currency'), report.get('startd'), report.get('endd'))
-	i = values.iterator()
-	while i.hasNext()
-	 v = i.next()
-	 realval = v.getValue()
-	 percent = globalCalcPercent(realval)
-	 summ = realval + percent
-	 report.putValue(v.getDate())
-	 report.putValue(realval)
-	 report.putValue(percent)
-	 report.putValue(summ)
-	 report.drawRow()
-	end
+
+report.addLabel('Currency values (' + report.get('currency') + ')')
+report.addDescription('Currency values per date')
+report.addColumn('Date')
+report.addColumn('Value')
+ c = report.get('currency')
+ s = report.get('startd')
+ e = report.get('endd')
+  
+values = Currency.get(c, s, e)
+i = values.iterator()
+while i.hasNext()
+ v = i.next()
+ report.putValue(v.getDate())
+ report.putValue(round(v.getValue(), 4))
+ report.drawRow()
+end
 end

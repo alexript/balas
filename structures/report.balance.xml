@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|FINANCES|MANAGER">
+	<names>
+		<en>Partners balance</en>
+		<ru>Баланс</ru>
+	</names>
+	<fields>
+		<field name="currency" type="DT_CURRENCY">
+			<default>USD</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>70</width>
+		</field>
+		
+		<field name="endd" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>Balance date</en>
+				<ru>Дата баланса</ru>
+			</names>
+		</field>
+		
+	</fields>
+</struct>

@@ -154,10 +154,10 @@ public class MainPanel implements ValueChangeHandler<String> {
 						M.menu.itemChangelog(), Images.menu.icoChangelog(),
 						name);
 			} else if (name.equals("currval") && !role.isGuest()) {
-				constructTabPaneContent(new ReportPanel("currvalues"),
+				constructTabPaneContent(new ReportPanel("report.currvalues"),
 						M.menu.itemReportCurrval(), Images.menu.icoCurrval(),
 						name);
-				// TODO: generate reports items
+
 			} else {
 				Description d = StructureFactory.getDescription(name);
 				if (d != null) {
@@ -172,6 +172,10 @@ public class MainPanel implements ValueChangeHandler<String> {
 									StructureFactory.getMenuIcon(name), name);
 						} else if (type == 1) {
 							constructTabPaneContent(new DocumentPanel(name),
+									itemname,
+									StructureFactory.getMenuIcon(name), name);
+						} else if (type == 2) {
+							constructTabPaneContent(new ReportPanel(name),
 									itemname,
 									StructureFactory.getMenuIcon(name), name);
 						}

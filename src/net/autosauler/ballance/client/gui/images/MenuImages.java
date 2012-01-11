@@ -200,6 +200,8 @@ public interface MenuImages extends Tree.Resources {
 	 */
 	ImageResource Ok();
 
+	ImageResource Poll();
+
 	/**
 	 * Progress.
 	 * 
