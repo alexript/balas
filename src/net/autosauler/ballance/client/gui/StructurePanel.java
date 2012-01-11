@@ -22,6 +22,8 @@ import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 
 public class StructurePanel extends ContentPanel implements IPaneWithMenu,
 		IReloadMsgReceiver {
@@ -122,6 +124,18 @@ public class StructurePanel extends ContentPanel implements IPaneWithMenu,
 				}));
 
 		menubar.add(new MenuBarItem(M.menu.itemStructure(), menu));
+
+		menu = new Menu();
+		menu.add(new MenuItem("Download", new SelectionListener<MenuEvent>() {
+
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				Window.open(GWT.getModuleBaseURL()
+						+ "configuration?cmd=download", "_blank", "");
+
+			}
+		}));
+		menubar.add(new MenuBarItem("Configuration", menu));
 		return menubar;
 	}
 

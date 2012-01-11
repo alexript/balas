@@ -11,7 +11,8 @@
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name="com.google.gwt.i18n.I18N" />
-	
+	<inherits name="com.google.gwt.http.HTTP" />
+
 
 	<extend-property name="locale" values="ru,en" />
 
@@ -25,8 +26,8 @@
 	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
 	<!-- Other module inherits -->
-	
-	<inherits name='com.extjs.gxt.ui.GXT'/>
+
+	<inherits name='com.extjs.gxt.ui.GXT' />
 
 	<!-- For production, most teams prefer to set the default log level to `OFF` -->
 	<!-- <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" /> -->
@@ -48,7 +49,7 @@
 		<meta name="gwt:property" content="log_level=DEBUG"> </head> -->
 	<!-- <inherits name="com.allen_sauer.gwt.log.gwt-log-ERROR" /> <extend-property 
 		name="log_level" values="DEBUG"/> -->
-		
+
 	<!-- Specify the app entry point class. -->
 	<entry-point class='net.autosauler.ballance.client.Ballance_autosauler_net' />
 
