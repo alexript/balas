@@ -62,9 +62,11 @@ public class StructurePanel extends ContentPanel implements IPaneWithMenu,
 
 				StructureModel record = se.getSelectedItem();
 
-				new StructureEditor((String) record.get("name"),
-						StructurePanel.this);
-				sm.deselectAll();
+				if ((record != null) && (record.get("name") != null)) {
+					new StructureEditor((String) record.get("name"),
+							StructurePanel.this);
+					sm.deselectAll();
+				}
 
 			}
 		});

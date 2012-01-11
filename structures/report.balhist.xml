@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struct access="ADMIN|FINANCES|MANAGER">
+	<names>
+		<en>Partner pays</en>
+		<ru>История платежей</ru>
+	</names>
+	<fields>
+        <field name="partners" type="DT_CATALOGRECORD">
+			<default>0</default>
+			<names>
+				<en>Partner</en>
+				<ru>Контрагент</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>100</width>
+			<helper type="catalog">partners</helper>
+		</field>
+		<field name="currency" type="DT_CURRENCY">
+			<default>USD</default>
+			<names>
+				<en>Currency</en>
+				<ru>Валюта</ru>
+			</names>
+			<inlist>true</inlist>
+			<width>70</width>
+		</field>
+		<field name="startd" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>From</en>
+				<ru>С</ru>
+			</names>
+		</field>
+		<field name="endd" type="DT_DATE">
+			<default></default>
+			<names>
+				<en>To</en>
+				<ru>По</ru>
+			</names>
+		</field>
+		
+	</fields>
+</struct>
