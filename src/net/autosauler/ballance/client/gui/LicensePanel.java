@@ -16,8 +16,11 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.List;
+
 import net.autosauler.ballance.client.gui.resources.BalasResources;
 
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -52,6 +55,12 @@ public class LicensePanel extends Composite implements IPaneWithMenu {
 		HTML w = new HTML(BalasResources.INSTANCE.licensePane().getText());
 		d.setWidget(w);
 		initWidget(d);
+	}
+
+	@Override
+	public List<MenuItem> getHelpItems() {
+
+		return null;
 	}
 
 	/*

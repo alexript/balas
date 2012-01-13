@@ -18,6 +18,7 @@ package net.autosauler.ballance.client.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
@@ -29,6 +30,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.extjs.gxt.ui.client.widget.ContentPanel;
 import com.extjs.gxt.ui.client.widget.form.FieldSet;
 import com.extjs.gxt.ui.client.widget.layout.VBoxLayout;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -329,6 +331,11 @@ public class DatabasePanel extends ContentPanel implements ClickHandler,
 			queue : 'end'
 		});
 	}-*/;
+
+	@Override
+	public List<MenuItem> getHelpItems() {
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)

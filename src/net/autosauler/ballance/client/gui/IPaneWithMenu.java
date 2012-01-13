@@ -15,13 +15,18 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
+import java.util.List;
+
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 
 /**
  * @author alexript
  * 
  */
 public interface IPaneWithMenu {
+
+	public List<MenuItem> getHelpItems();
 
 	/**
 	 * Gets the pane menu.

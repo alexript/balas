@@ -528,6 +528,12 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 		return map;
 	}
 
+	@Override
+	public List<MenuItem> getHelpItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Gets the name.
 	 * 

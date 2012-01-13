@@ -16,6 +16,8 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.List;
+
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.images.Images;
@@ -37,6 +39,7 @@ import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
+import com.extjs.gxt.ui.client.widget.menu.SeparatorMenuItem;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -238,6 +241,27 @@ public class MainPanel implements ValueChangeHandler<String> {
 
 		menu.add(new MenuBarItem(M.menu.menuPanelmenu(), sysmenu));
 
+		List<MenuItem> helpitems = realpane.getHelpItems();
+		if ((helpitems != null) && (helpitems.size() > 0)) {
+			Menu helpmenu = new Menu();
+
+			for (MenuItem helpitem : helpitems) {
+				helpmenu.add(helpitem);
+			}
+
+			helpmenu.add(new SeparatorMenuItem());
+			helpmenu.add(new MenuItem(M.menu.helpIndex(),
+					new SelectionListener<MenuEvent>() {
+						@Override
+						public void componentSelected(MenuEvent ce) {
+							HelpDialog d = new HelpDialog(M.menu.helpIndex());
+							d.loadHelpText("doc", "index.html");
+
+						}
+					}));
+			menu.add(new MenuBarItem(M.menu.menuPanelHelpmenu(), helpmenu));
+
+		}
 		panel.add(menu, new BorderLayoutData(LayoutRegion.NORTH, 30));
 
 		BorderLayoutData center = new BorderLayoutData(LayoutRegion.CENTER);

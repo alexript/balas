@@ -16,7 +16,10 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.List;
+
 import com.allen_sauer.gwt.log.client.Log;
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -85,6 +88,12 @@ public class ChangeLogPanel extends Composite implements IPaneWithMenu {
 		d.setWidth("100%");
 
 		initWidget(d);
+	}
+
+	@Override
+	public List<MenuItem> getHelpItems() {
+
+		return null;
 	}
 
 	/*

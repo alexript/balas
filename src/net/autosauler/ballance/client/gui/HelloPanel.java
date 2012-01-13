@@ -16,8 +16,11 @@
 
 package net.autosauler.ballance.client.gui;
 
+import java.util.List;
+
 import net.autosauler.ballance.client.gui.resources.BalasResources;
 
+import com.extjs.gxt.ui.client.widget.menu.MenuItem;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -48,6 +51,11 @@ public class HelloPanel extends Composite implements IPaneWithMenu {
 
 		HTML w = new HTML(BalasResources.INSTANCE.helloPane().getText());
 		initWidget(w);
+	}
+
+	@Override
+	public List<MenuItem> getHelpItems() {
+		return null;
 	}
 
 	/*

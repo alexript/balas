@@ -98,6 +98,11 @@ public class StructurePanel extends ContentPanel implements IPaneWithMenu,
 	}
 
 	@Override
+	public List<MenuItem> getHelpItems() {
+		return null;
+	}
+
+	@Override
 	public MenuBar getPaneMenu() {
 		MenuBar menubar = new MenuBar();
 		Menu menu = new Menu();

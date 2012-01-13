@@ -44,4 +44,5 @@ public interface BalasResources extends ClientBundle {
 	 */
 	@Source("license.html")
 	public TextResource licensePane();
+
 }

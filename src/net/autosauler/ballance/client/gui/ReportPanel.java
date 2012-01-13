@@ -15,13 +15,16 @@
  ******************************************************************************/
 package net.autosauler.ballance.client.gui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import net.autosauler.ballance.client.Ballance_autosauler_net;
 import net.autosauler.ballance.client.Services;
+import net.autosauler.ballance.client.databases.StructureFactory;
 import net.autosauler.ballance.client.gui.messages.M;
+import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.ReportFormField;
 import net.autosauler.ballance.shared.datatypes.DataTypes;
 
@@ -40,6 +43,7 @@ import com.extjs.gxt.ui.client.widget.menu.Menu;
 import com.extjs.gxt.ui.client.widget.menu.MenuBar;
 import com.extjs.gxt.ui.client.widget.menu.MenuBarItem;
 import com.extjs.gxt.ui.client.widget.menu.MenuItem;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -143,6 +147,47 @@ public class ReportPanel extends ContentPanel implements IPaneWithMenu,
 					}
 				});
 
+	}
+
+	@Override
+	public List<MenuItem> getHelpItems() {
+		List<MenuItem> items = new ArrayList<MenuItem>();
+		Description d = StructureFactory.getDescription(scriptname);
+		final String itemname = d.getName().getName(
+				LocaleInfo.getCurrentLocale().getLocaleName());
+
+		items.add(new MenuItem(M.report.helpWhereami() + " " + itemname,
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpWhereami()
+								+ " " + itemname);
+						d.loadStructureHelp(scriptname);
+
+					}
+				}));
+
+		items.add(new MenuItem(M.report.helpReport(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpReport());
+						d.loadHelpText("doc", "help_report.html");
+
+					}
+				}));
+
+		items.add(new MenuItem(M.report.helpScript(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpScript());
+						d.loadHelpText("doc", "help_report_script.html");
+
+					}
+				}));
+
+		return items;
 	}
 
 	/*

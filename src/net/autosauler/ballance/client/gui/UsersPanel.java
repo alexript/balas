@@ -224,6 +224,12 @@ public class UsersPanel extends ContentPanel implements IPaneWithMenu,
 
 	}
 
+	@Override
+	public List<MenuItem> getHelpItems() {
+
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

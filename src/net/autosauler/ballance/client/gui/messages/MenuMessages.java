@@ -58,6 +58,8 @@ public interface MenuMessages extends Messages {
 	 */
 	String guestPanel();
 
+	String helpIndex();
+
 	/**
 	 * Ico close pane.
 	 * 
@@ -169,6 +171,8 @@ public interface MenuMessages extends Messages {
 	String menubarDocument();
 
 	String menubarReport();
+
+	String menuPanelHelpmenu();
 
 	/**
 	 * Menu panelmenu.
