@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar" sourcepath="/Users/alexript/src/g2-report-engine-read-only/g2-report-engine/src/main/java"/>
 	<classpathentry exported="true" kind="lib" path="C:/src/balas/war/WEB-INF/lib/gwt-log-3.1.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/src/balas/war/WEB-INF/lib/gxt-2.2.5-gwt22.jar"/>
+	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

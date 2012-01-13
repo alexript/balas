@@ -135,6 +135,15 @@ public class StructurePanel extends ContentPanel implements IPaneWithMenu,
 
 			}
 		}));
+		menu.add(new MenuItem("Upload", new SelectionListener<MenuEvent>() {
+
+			@Override
+			public void componentSelected(MenuEvent ce) {
+				FileUploadDialog d = new FileUploadDialog(GWT
+						.getModuleBaseURL() + "configuration", "upload");
+				d.show();
+			}
+		}));
 		menubar.add(new MenuBarItem("Configuration", menu));
 		return menubar;
 	}
