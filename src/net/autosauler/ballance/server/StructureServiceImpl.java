@@ -21,6 +21,7 @@ import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
 import net.autosauler.ballance.client.StructureService;
+import net.autosauler.ballance.server.model.Helps;
 import net.autosauler.ballance.server.model.Structures;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
@@ -76,6 +77,12 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	public Dummy getDummy() {
 
 		return new Dummy();
+	}
+
+	@Override
+	public String getHelp(String locale, String name) {
+		Helps h = new Helps(getDomain(), locale);
+		return h.get(name);
 	}
 
 	/**

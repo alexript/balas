@@ -1,5 +1,7 @@
 package net.autosauler.ballance.client.gui;
 
+import net.autosauler.ballance.client.Services;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.extjs.gxt.ui.client.GXT;
 import com.extjs.gxt.ui.client.Style.Scroll;
@@ -14,6 +16,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class HelpDialog extends Window {
 	/**
@@ -164,9 +167,24 @@ public class HelpDialog extends Window {
 	}
 
 	public void loadStructureHelp(String structname) {
-		// TODO Auto-generated method stub
 		String locale = LocaleInfo.getCurrentLocale().getLocaleName();
 
+		MainPanel.setCommInfo(true);
+		Services.structure.getHelp(locale, structname,
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						MainPanel.setCommInfo(false);
+						new AlertDialog(caught).show();
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						MainPanel.setCommInfo(false);
+						setHelpText(result);
+					}
+				});
 	}
 
 	/**

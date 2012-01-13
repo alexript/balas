@@ -47,6 +47,8 @@ public interface StructureService extends RemoteService {
 	 */
 	public Dummy getDummy();
 
+	public String getHelp(String locale, String name);
+
 	/**
 	 * Gets the structure description.
 	 * 

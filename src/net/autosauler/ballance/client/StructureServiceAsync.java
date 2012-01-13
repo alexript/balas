@@ -49,6 +49,8 @@ public interface StructureServiceAsync {
 	 */
 	void getDummy(AsyncCallback<Dummy> callback);
 
+	void getHelp(String locale, String name, AsyncCallback<String> callback);
+
 	/**
 	 * Gets the structure description.
 	 * 

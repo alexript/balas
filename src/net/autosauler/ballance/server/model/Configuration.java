@@ -72,6 +72,20 @@ public class Configuration {
 
 				}
 
+				coll = db.getCollection("structhelps");
+				cur = coll.find(q);
+				while (cur.hasNext()) {
+					DBObject myDoc = cur.next();
+
+					String txt = (String) myDoc.get("text");
+					String name = (String) myDoc.get("name");
+					String locale = (String) myDoc.get("loc");
+					entry = new ZipEntry("docs/" + locale + "/" + name);
+					zip.putNextEntry(entry);
+					zip.write(txt.getBytes("UTF-8"));
+
+				}
+
 				Database.release();
 			}
 			zip.flush();
@@ -174,6 +188,38 @@ public class Configuration {
 								doc.put("name", name);
 								doc.put("text", text);
 								coll.insert(doc);
+							}
+						}
+
+						else if (entryname.startsWith("docs/")) {
+							String tmpname = entryname.replace("docs/", "");
+							String[] arr = tmpname.split("/");
+							if (arr.length == 2) {
+								String locale = arr[0];
+								String name = arr[1];
+
+								DBObject doc = null;
+
+								DBCollection coll = db
+										.getCollection("structhelps");
+								BasicDBObject query = new BasicDBObject();
+								query.put("domain", domain);
+								query.put("name", name);
+								query.put("loc", locale);
+
+								doc = coll.findOne(query);
+
+								if (doc != null) {
+									doc.put("text", text);
+									coll.save(doc);
+								} else {
+									doc = new BasicDBObject();
+									doc.put("domain", domain);
+									doc.put("name", name);
+									doc.put("loc", locale);
+									doc.put("text", text);
+									coll.insert(doc);
+								}
 							}
 						}
 					}
