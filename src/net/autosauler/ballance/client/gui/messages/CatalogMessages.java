@@ -60,6 +60,10 @@ public interface CatalogMessages extends Messages {
 	 */
 	public String errEmptyFullname();
 
+	public String helpCatalog();
+
+	public String helpScript();
+
 	/**
 	 * Label author.
 	 * 

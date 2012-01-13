@@ -530,8 +530,43 @@ public class CatalogPanel extends ContentPanel implements IPaneWithMenu,
 
 	@Override
 	public List<MenuItem> getHelpItems() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MenuItem> items = new ArrayList<MenuItem>();
+
+		final String itemname = structuredescription.getName().getName(
+				LocaleInfo.getCurrentLocale().getLocaleName());
+
+		items.add(new MenuItem(M.report.helpWhereami() + " " + itemname,
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpWhereami()
+								+ " " + itemname);
+						d.loadStructureHelp(catalogname);
+
+					}
+				}));
+
+		items.add(new MenuItem(M.catalog.helpCatalog(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.catalog.helpCatalog());
+						d.loadHelpText("doc", "help_catalog.html");
+
+					}
+				}));
+
+		items.add(new MenuItem(M.report.helpScript(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpScript());
+						d.loadHelpText("doc", "help_catalog_script.html");
+
+					}
+				}));
+
+		return items;
 	}
 
 	/**

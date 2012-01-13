@@ -725,8 +725,43 @@ public class DocumentPanel extends ContentPanel implements IPaneWithMenu,
 
 	@Override
 	public List<MenuItem> getHelpItems() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MenuItem> items = new ArrayList<MenuItem>();
+
+		final String itemname = structuredescription.getName().getName(
+				LocaleInfo.getCurrentLocale().getLocaleName());
+
+		items.add(new MenuItem(M.report.helpWhereami() + " " + itemname,
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpWhereami()
+								+ " " + itemname);
+						d.loadStructureHelp(documentname);
+
+					}
+				}));
+
+		items.add(new MenuItem(M.document.helpDocument(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.document.helpDocument());
+						d.loadHelpText("doc", "help_document.html");
+
+					}
+				}));
+
+		items.add(new MenuItem(M.report.helpScript(),
+				new SelectionListener<MenuEvent>() {
+					@Override
+					public void componentSelected(MenuEvent ce) {
+						HelpDialog d = new HelpDialog(M.report.helpScript());
+						d.loadHelpText("doc", "help_document_script.html");
+
+					}
+				}));
+
+		return items;
 	}
 
 	/**

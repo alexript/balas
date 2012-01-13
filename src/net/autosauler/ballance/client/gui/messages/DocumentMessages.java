@@ -80,6 +80,8 @@ public interface DocumentMessages extends Messages {
 	 */
 	public String colNumber();
 
+	public String helpDocument();
+
 	public String labelDocumentsList();
 
 	/**
