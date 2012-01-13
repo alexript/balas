@@ -16,6 +16,7 @@
 package net.autosauler.ballance.client;
 
 import java.util.HashMap;
+import java.util.List;
 
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
@@ -51,6 +52,8 @@ public interface StructureServiceAsync {
 
 	void getHelp(String locale, String name, AsyncCallback<String> callback);
 
+	void getHelpNames(AsyncCallback<List<String>> callback);
+
 	/**
 	 * Gets the structure description.
 	 * 
@@ -64,5 +67,8 @@ public interface StructureServiceAsync {
 			AsyncCallback<Description> callback);
 
 	void save(String name, String text, AsyncCallback<Void> callback);
+
+	void saveHelp(String name, HashMap<String, String> texts,
+			AsyncCallback<Void> callback);
 
 }

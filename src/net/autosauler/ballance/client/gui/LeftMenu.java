@@ -80,6 +80,8 @@ public class LeftMenu {
 					Images.menu.icoUser()));
 			adminpanel.add(getMenuItem(M.menu.itemStructure(), "editstruct",
 					Images.menu.Structure()));
+			adminpanel.add(getMenuItem(M.menu.itemDocumentation(), "editdoc",
+					Images.menu.Structure()));
 			cp.add(adminpanel);
 
 			panel.add(cp);

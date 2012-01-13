@@ -1,7 +1,10 @@
 package net.autosauler.ballance.server.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import net.autosauler.ballance.server.mongodb.Database;
 import net.autosauler.ballance.server.util.Base64;
@@ -65,8 +68,71 @@ public class Helps {
 		return sb.toString();
 	}
 
+	public static List<String> getNames(String domain) {
+		List<String> names = new ArrayList<String>();
+		DB db = Database.get(domain);
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(TABLENAME);
+			BasicDBObject q = new BasicDBObject();
+
+			q.put("domain", domain);
+
+			DBCursor cur = coll.find(q);
+			while (cur.hasNext()) {
+				DBObject myDoc = cur.next();
+
+				String name = (String) myDoc.get("name");
+				if (!names.contains(name)) {
+					names.add(name);
+				}
+			}
+			Database.release();
+		}
+		return names;
+	}
+
+	public static void updateHelps(String domain, String name,
+			HashMap<String, String> texts) {
+
+		DBObject doc = null;
+		DB db = Database.get(domain);
+		if (db != null) {
+			Database.retain();
+			DBCollection coll = db.getCollection(TABLENAME);
+			Set<String> locales = texts.keySet();
+			for (String locale : locales) {
+				String text = texts.get(locale);
+
+				BasicDBObject query = new BasicDBObject();
+				query.put("domain", domain);
+				query.put("name", name);
+				query.put("loc", locale);
+
+				doc = coll.findOne(query);
+
+				if (doc != null) {
+					doc.put("text", text);
+					coll.save(doc);
+				} else {
+					doc = new BasicDBObject();
+					doc.put("domain", domain);
+					doc.put("name", name);
+					doc.put("loc", locale);
+					doc.put("text", text);
+					coll.insert(doc);
+				}
+
+			}
+			Database.release();
+
+		}
+
+	}
+
 	/** The domain. */
 	private final String domain;
+
 	private final String locale;
 
 	public Helps(String domain, String locale) {
@@ -96,7 +162,9 @@ public class Helps {
 		sb.append("</html>");
 
 		String result = sb.toString().trim();
-		save(name, result);
+		if (!name.isEmpty()) {
+			save(name, result);
+		}
 		return result;
 	}
 

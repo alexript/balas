@@ -92,6 +92,8 @@ public interface MenuMessages extends Messages {
 	 */
 	String itemDatabase();
 
+	String itemDocumentation();
+
 	String itemDrivers();
 
 	/**

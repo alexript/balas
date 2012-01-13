@@ -17,6 +17,7 @@
 package net.autosauler.ballance.server;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +26,7 @@ import net.autosauler.ballance.server.model.Helps;
 import net.autosauler.ballance.server.model.Structures;
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
+import net.autosauler.ballance.shared.UserRole;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -85,6 +87,11 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 		return h.get(name);
 	}
 
+	@Override
+	public List<String> getHelpNames() {
+		return Helps.getNames(getDomain());
+	}
+
 	/**
 	 * Gets the session.
 	 * 
@@ -112,6 +119,17 @@ public class StructureServiceImpl extends RemoteServiceServlet implements
 	public void save(String name, String text) {
 		Structures s = new Structures(getDomain());
 		s.save(name, text);
+
+	}
+
+	@Override
+	public void saveHelp(String name, HashMap<String, String> texts) {
+		HttpSession httpSession = getThreadLocalRequest().getSession(false);
+		String domain = HttpUtilities.getUserDomain(httpSession);
+		UserRole role = HttpUtilities.getUserRole(httpSession);
+		if (role.isAdmin()) {
+			Helps.updateHelps(domain, name, texts);
+		}
 
 	}
 

@@ -16,6 +16,7 @@
 package net.autosauler.ballance.client;
 
 import java.util.HashMap;
+import java.util.List;
 
 import net.autosauler.ballance.shared.Description;
 import net.autosauler.ballance.shared.Dummy;
@@ -49,6 +50,8 @@ public interface StructureService extends RemoteService {
 
 	public String getHelp(String locale, String name);
 
+	public List<String> getHelpNames();
+
 	/**
 	 * Gets the structure description.
 	 * 
@@ -59,4 +62,6 @@ public interface StructureService extends RemoteService {
 	public Description getStructureDescription(String name);
 
 	public void save(String name, String text);
+
+	public void saveHelp(String name, HashMap<String, String> texts);
 }
