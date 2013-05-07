@@ -20,7 +20,7 @@
 
 	<servlet-mapping>
 		<servlet-name>authServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/auth</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/auth</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -30,7 +30,7 @@
 
 	<servlet-mapping>
 		<servlet-name>dbServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/database</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/database</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -40,7 +40,7 @@
 
 	<servlet-mapping>
 		<servlet-name>usersServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/users</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/users</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -50,7 +50,7 @@
 
 	<servlet-mapping>
 		<servlet-name>currencyServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/currency</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/currency</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -60,7 +60,7 @@
 
 	<servlet-mapping>
 		<servlet-name>catalogServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/catalog</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/catalog</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -70,7 +70,7 @@
 
 	<servlet-mapping>
 		<servlet-name>documentServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/document</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/document</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -80,7 +80,7 @@
 
 	<servlet-mapping>
 		<servlet-name>scriptsServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/scripts</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/scripts</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -90,7 +90,7 @@
 
 	<servlet-mapping>
 		<servlet-name>structureServlet</servlet-name>
-		<url-pattern>/ballance_autosauler_net/structure</url-pattern>
+		<url-pattern>/Ballance_autosauler_net/structure</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -100,7 +100,7 @@
 
     <servlet-mapping>
         <servlet-name>reportsServlet</servlet-name>
-        <url-pattern>/ballance_autosauler_net/reports</url-pattern>
+        <url-pattern>/Ballance_autosauler_net/reports</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -109,7 +109,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>confservlet</servlet-name>
-        <url-pattern>/ballance_autosauler_net/configuration</url-pattern>
+        <url-pattern>/Ballance_autosauler_net/configuration</url-pattern>
     </servlet-mapping>
 
 	<!-- Default page to serve -->
