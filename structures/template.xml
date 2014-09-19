@@ -6,7 +6,7 @@
 	</names>
 	<fields>
 		<field name="<database field name>" type="DT_*">
-			<default>default vaue as string</default>
+ 			<default>default vaue as string</default>
 			<visible><!-- default is true -->
 			</visible>
 			<inlist><!-- show field in list of documents. default is false -->
