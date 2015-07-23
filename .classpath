@@ -10,6 +10,6 @@
 	<classpathentry kind="lib" path="/Users/alexript/workspace/balas/war/WEB-INF/lib/gwt-log-3.1.5.jar"/>
 	<classpathentry kind="lib" path="/Users/alexript/workspace/balas/war/WEB-INF/lib/gxt-2.2.5-gwt22.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

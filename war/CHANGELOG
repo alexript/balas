@@ -1,3 +1,76 @@
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2014-09-19 16:11:44 +0400): update GWT<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2013-05-07 17:06:41 +0400): ignore some unnecessary files<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2013-05-07 17:04:04 +0400): ignore some unnecessary files<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2013-05-07 17:02:58 +0400): switch to macos<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-13 20:22:08 +0300): Help menu for catalogs and documents<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-13 20:04:57 +0300): very simple documentation editor<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-13 19:13:13 +0300): help storage<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-13 18:43:49 +0300): simple help<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-13 17:20:00 +0300): configuration upload<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-11 19:21:33 +0300): download configuration<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-11 17:29:05 +0300): partner pay history report<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-11 16:21:47 +0300): balans reports<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2012-01-11 16:00:53 +0300): balance report<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-30 19:24:29 +0300): report form as structure<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-30 18:54:26 +0300): remove autovalidate<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-30 17:47:25 +0300): fix Currency import in VM<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-30 16:34:34 +0300): regestry minus<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-30 16:22:37 +0300): add Regestry<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-29 19:27:19 +0300): unactivate cargo by ingoods unactivate<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-29 18:13:15 +0300): additional pays types catalog<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-29 17:38:45 +0300): fix document table<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-29 17:11:50 +0300): simple structure editor<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-29 15:26:25 +0300): Structure storage<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-28 19:52:55 +0300): editor: user can select only active documents<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-28 19:35:00 +0300): remove catalog "tarifs"<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-28 19:16:17 +0300): create invoices by cargo activation trash invoices by cargo unactivation<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-27 20:58:08 +0300): new document invoice fix document's get in scripts get records of document's table part as cajuscript compatible array<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-27 18:23:03 +0300): new catalogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-27 17:21:50 +0300): autovalidate fields<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-27 17:05:01 +0300): DocumentSelector<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 20:51:48 +0300): autoload structure descriptions from filesystem<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 20:21:21 +0300): catch some error<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 20:11:13 +0300): auto check access for catalog and document on server side<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 19:42:18 +0300): autogenerate left menu<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 18:07:34 +0300): new document cargo remove unused icons for document and catalog panels<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-26 16:56:51 +0300): fix fields order in editor of document head<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-23 18:51:46 +0300): EXTGwt adoptation complete<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-23 17:50:34 +0300): successfuly save document.<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-23 17:32:51 +0300): succesfule catch table part cell change<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-21 21:51:37 +0300): document table mostly<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-21 18:26:34 +0300): report panel adopted<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-21 18:01:13 +0300): HeaderField adopted<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-20 20:32:13 +0300): catalog editor and document head without catalog selectors<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-20 16:32:10 +0300): document with table part have head in separate tab<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-19 19:06:02 +0300): ready for DataTypes adopting<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-19 18:17:34 +0300): document panel adopted partly<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-19 16:55:05 +0300): fix ForAll menu item<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-19 16:47:29 +0300): catalog panel adopted<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-16 20:48:39 +0300): adopt users panel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-16 18:12:26 +0300): adopt database panel cool ScriptEditor<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 19:43:44 +0300): some little tweaks<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 19:31:12 +0300): some scroll fixes (document panel is cracked now)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 19:15:04 +0300): optimize mainpanel<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 19:04:27 +0300): statusbar<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 18:42:45 +0300): adopt dialogs<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-13 18:20:03 +0300): adopt auth form<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-12 21:03:06 +0300): left menu adopted for ext gwt<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-12 19:49:20 +0300): use Ext GWT adopted tabpane, tab's menu<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-12 16:46:52 +0300): update gwt-log<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-12-12 16:39:44 +0300): update gwt update codemirror replace codemirror style with lua (was javascript)<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-11-02 16:21:03 +0300): refactor catalog and document default script functions<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-10-25 18:57:20 +0400): fix deployment for windowz<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-10-25 17:52:38 +0400): little bugfix document script<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-10-25 17:32:19 +0400): fix scroll in Documents list and editor additional fields in ingoods tablepart<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-10-25 17:12:36 +0400): cars and drivers catalogs additional fields in ingoods<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-10-25 16:18:57 +0400): partners catalog accesible for documents new fields for partners<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-09-23 15:49:54 +0400): gwt 2.4 fixes<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-09-23 15:30:48 +0400): gwt 2.4<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-07-18 15:29:49 +0400): gwt 2.3.0<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-06-09 15:56:44 +0400): replace EditTextCell with TextInputCell for tableparts<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-06-09 15:45:06 +0400): fix comments for mozilla fix language flags borders<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-06-09 15:03:34 +0400): update codemirror try to clean comments for mozilla replace decorator panel with panel for reports<br/>
+* Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-06-01 19:09:12 +0400): changelog generation<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-30 20:47:28 +0400): report panel (and currency values report)<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-30 18:55:50 +0400): basic report logic (currency values test script)<br/>
 * Alex 'Ript' Malyshev &lt;alexript@gmail.com&gt; (2011-05-26 19:35:06 +0400): reports rpc<br/>

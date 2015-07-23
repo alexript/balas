@@ -7,7 +7,7 @@
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
 	<property name="gwt.args" value="" />
-	<property name="gwt.sdk" location="${ECLIPSE_HOME}/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201112160242-rel-r37/gwt-2.4.0/" />
+	<property name="gwt.sdk" location="/Users/alexript/workspace/_workspace/gwt/gwt-2.4.0" />
 
 
 	<path id="GWT SDK.libraryclasspath">
@@ -118,7 +118,7 @@
 		<javadoc access="public" 
 			additionalparam=" -encoding &quot;UTF-8&quot; -charset &quot;UTF-8&quot; -docencoding &quot;UTF-8&quot;" 
 			author="true" 
-			classpath="war/WEB-INF/lib/commons-fileupload-1.2.2.jar:war/WEB-INF/lib/gwt-log-3.1.5.jar:test-classes:/Users/alexript/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar:war/WEB-INF/lib/mongo-2.4.jar:war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar:war/WEB-INF/lib/cajuscript-0.4.jar:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/gwt-user.jar:/Users/alexript/eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201104261928/gwt-2.3.0/gwt-dev.jar" 
+			classpath="war/WEB-INF/lib/commons-fileupload-1.2.2.jar:war/WEB-INF/lib/gwt-log-3.1.5.jar:test-classes:/Users/alexript/eclipse/plugins/org.junit_3.8.2.v3_8_2_v20100427-1100/junit.jar:war/WEB-INF/lib/mongo-2.4.jar:war/WEB-INF/lib/g2-report-engine-1.0-SNAPSHOT.jar:war/WEB-INF/lib/cajuscript-0.4.jar:/Users/alexript/workspace/_workspace/gwt/gwt-2.4.0/gwt-user.jar:/Users/alexript/workspace/_workspace/gwt/gwt-2.4.0/gwt-dev.jar" 
 			destdir="doc" 
 			doctitle="BalAS API" 
 			nodeprecated="false" 
